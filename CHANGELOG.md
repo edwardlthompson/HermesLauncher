@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-* **security:** bump `examples/web` overrides — `js-yaml` >=5.2.2 (DoS in flow collections) and `brace-expansion` >=5.0.8 (DoS via unbounded expansion)
+* **security:** bump npm overrides — `examples/web` `js-yaml` >=5.2.2 and `brace-expansion` >=5.0.8; `examples/node` `postcss` >=8.5.18 (source map path traversal)
 
 ### Changed
 
