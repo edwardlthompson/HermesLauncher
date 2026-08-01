@@ -7,11 +7,26 @@
 | Mode | When | Artifact | Do not use for |
 |------|------|----------|----------------|
 | **Ask** | Read-only exploration, architecture questions, index lookup | [`TEMPLATE_INDEX.json`](../TEMPLATE_INDEX.json), [`KNOWLEDGE_BASE.md`](../KNOWLEDGE_BASE.md) | Editing files |
-| **Plan** | Non-trivial work: features, ADRs, parallel scope, schema changes | BUILD_PLAN row + mandatory `### Critique` + `### Parallelization` | Mechanical lint fixes |
+| **Plan** | Non-trivial work: features, ADRs, parallel scope, schema changes | BUILD_PLAN row + resolved `### Critique` (Issue→Resolution) + `### Parallelization` | Mechanical lint fixes |
 | **Agent** | Approved plan execution, `[AGENT]` BUILD_PLAN rows, gate autofix | [`watch-agent-gates.sh`](../scripts/watch-agent-gates.sh) | Unapproved architecture |
 | **Debug** | Unknown root cause: CI red, flaky tests, 3-strike failures | Runtime logs + KB + [`FOR_AGENTS.md`](FOR_AGENTS.md) Failure Playbook | Pre-release checklists |
 
 Full BUILD_PLAN owner labels (`AGENT`/`HUMAN`/`ADB`/`AUTO`) are orthogonal — see [`BUILD_PLAN.md`](../BUILD_PLAN.md).
+
+## Resolved Critique
+
+Every plan (Cursor Plan Mode, `/plan`, CreatePlan, BUILD_PLAN sprint drafts) must include `### Critique` as an **Issue → Resolution** table. Do this proactively — do not wait for the human to ask about risks.
+
+| Rule | Requirement |
+|------|-------------|
+| Resolution shape | Verb + artifact (file, test, gate, BUILD_PLAN step, or `[HUMAN]` destructive-ops item) |
+| Plan body | Resolutions appear in todos/steps, not critique-only footnotes |
+| Decisions | Pick a single best approach; no open questions or unresolved option dumps |
+| Deferral | Bare “defer” / “monitor” forbidden unless a tracked follow-up and safety rationale are named |
+| Checklist minimum | Null/empty, timeouts, races, unhandled exceptions — each **Resolved** or **N/A** with why |
+| When to ask | Only `[HUMAN]` destructive-ops or facts undiscoverable from the codebase |
+
+See [`.cursor/commands/plan.md`](../.cursor/commands/plan.md) and [`.cursor/rules/read-before-write.mdc`](../.cursor/rules/read-before-write.mdc).
 
 ## Trivial vs non-trivial
 

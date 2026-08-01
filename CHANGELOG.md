@@ -15,6 +15,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+
+* **security:** bump `examples/web` overrides — `js-yaml` >=5.2.2 (DoS in flow collections) and `brace-expansion` >=5.0.8 (DoS via unbounded expansion)
+
+### Changed
+
+* **plan:** require resolved `### Critique` as Issue->Resolution in every plan; single best approach (no unresolved option dumps)
+
 ## [0.15.1](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.15.0...v0.15.1) (2026-07-22)
 
 
@@ -52,28 +62,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * **release:** archive v0.14.1 and update memory after /push ([4cf495b](https://github.com/edwardlthompson/agent-project-bootstrap/commit/4cf495b99f9a3f4a99ccf8a65eb8faf7c63e15df))
 * restore DECISION_LOG seed line order after v0.14.1 archive ([22cada9](https://github.com/edwardlthompson/agent-project-bootstrap/commit/22cada93c8105712e2f9286c05424e642268f044))
-
-## [Unreleased]
-
-### Fixed
-
-* **security:** resolve Dependabot High/Moderate npm alerts — merge `@hono/node-server` 2.0.10; override `js-yaml` ≥4.3.0 and `brace-expansion` ≥1.1.16 in `examples/web`
-
-### Added
-
-* **cursor:** worktrees.json, Auto-review permissions, 7 skills, FOSS plugin pack, CLI workflow example (M33)
-* **cursor:** local-compute rule — prefer This Computer parallel Task/worktrees/`/best-of-n` over Cloud
-* **gates:** multi-core `validate-bootstrap` via `run_checks_parallel.py` (`BOOTSTRAP_CHECK_JOBS`)
-* **python:** pytest-xdist `-n auto` for local CPU parallelism
-
-### Fixed
-
-* **web:** Vitest jsdom `localStorage` on Node 25+ (KB-011 setup polyfill)
-
-### Changed
-
-* **android:** feature-gate runs Gradle tests with `--parallel`
-* **commercial:** Automations recipes, Bugbot Autofix map, cloud conversation hooks example
 
 ## [0.14.1](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.14.0...v0.14.1) (2026-07-12)
 

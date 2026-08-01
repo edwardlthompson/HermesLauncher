@@ -35,7 +35,7 @@
 | `/docs` | README health + markdown tables + encoding | verify | 5 |
 | `/upgrade` | Template upgrade sim | maintain | 16 |
 | `/setup` | GitHub repo settings | bootstrap | 11 |
-| `/plan` | Feature/ADR plan + Critique | build | 19 |
+| `/plan` | Feature/ADR plan + resolved Critique (Issue→Resolution) | build | 19 |
 | `/restore` | Restore from `.cursor-session-state.json` | — | 13 |
 | `/compact` | Save session state before clearing chat | — | 13 |
 | `/scope` | Parallel manifest + auto Task dispatch | — | 14 |

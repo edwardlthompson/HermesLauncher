@@ -207,7 +207,8 @@ Explain [topic]. Do not edit files.
 ```
 Read @docs/CURSOR_MODES.md and the active BUILD_PLAN row.
 If the trivial rubric says Agent, skip planning and execute directly.
-Otherwise propose 1–3 approaches with mandatory ### Critique and ### Parallelization before coding.
+Otherwise pick the single best approach with mandatory resolved ### Critique (Issue→Resolution table) and ### Parallelization before coding.
+Bake every critique resolution into the plan body; do not leave open risks or ask the human to address them.
 For BUILD_PLAN sprints: maximize agent_count; run check-build-plan-parallel.sh before approval.
 ```
 
@@ -371,7 +372,7 @@ Execute @.cursor/commands/setup.md — setup-github-repo.sh; HUMAN on API 422.
 **Prompt:**
 
 ```
-Execute @.cursor/commands/plan.md — propose approaches + ### Critique; no code until approved.
+Execute @.cursor/commands/plan.md — single best approach + resolved ### Critique (Issue→Resolution); no code until approved.
 ```
 
 ## Entry 36 — Session restore (`/restore`)

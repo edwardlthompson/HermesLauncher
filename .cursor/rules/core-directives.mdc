@@ -11,7 +11,11 @@ On session start, read docs/START_HERE.md, pick Cursor mode via docs/CURSOR_MODE
 
 - Cursor mode routing: see cursor-modes.mdc and docs/CURSOR_MODES.md
 - Plan Mode for non-trivial tasks; Ask for read-only exploration
-- Include mandatory ### Critique subsection in every plan
+- Include mandatory `### Critique` in every plan as an **Issue → Resolution** table
+- Every critique must have a concrete resolution (file, test, gate, BUILD_PLAN step, or `[HUMAN]` destructive-ops item) baked into the plan body — not open risks or “ask later”
+- Pick a single best approach; do not dump unresolved alternatives on the human
+- Bare “defer” / “monitor” / “optional later” is forbidden unless the resolution names a tracked follow-up and why shipping without it is safe now
+- Ask the human only for `[HUMAN]` destructive-ops or facts undiscoverable from the codebase
 
 ## Read-Before-Write
 

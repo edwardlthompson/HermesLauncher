@@ -8,7 +8,7 @@ alwaysApply: true
 Pick the correct Cursor mode before editing. Full router: [`docs/CURSOR_MODES.md`](../../docs/CURSOR_MODES.md).
 
 - **Ask** — read-only exploration; no file edits
-- **Plan** — non-trivial work; include mandatory `### Critique`; get approval before coding
+- **Plan** — non-trivial work; include mandatory `### Critique` as Issue→Resolution (each risk resolved in the plan body); get approval before coding
 - **Agent** — approved execution, `[AGENT]` BUILD_PLAN rows, mechanical gate autofix
 - **Debug** — evidence-first triage (logs, repro steps, KB lookup); not pre-release audits
 

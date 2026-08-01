@@ -2,7 +2,7 @@
 
 > Slow lego assembly: one feature container at a time, smoke-tested before the next. Read when implementing BUILD_PLAN Sprint 2+.
 
-**Cursor modes:** Plan new features (BUILD_PLAN row + `### Critique`); Agent Mode for approved scaffold/tests/wire steps; Debug Mode when gates fail after autofix. See [`docs/CURSOR_MODES.md`](CURSOR_MODES.md).
+**Cursor modes:** Plan new features (BUILD_PLAN row + resolved `### Critique` Issue→Resolution); Agent Mode for approved scaffold/tests/wire steps; Debug Mode when gates fail after autofix. See [`docs/CURSOR_MODES.md`](CURSOR_MODES.md).
 
 ## Industry alignment
 

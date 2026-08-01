@@ -14,10 +14,23 @@ Before modifying any file:
 
 ## Critique Checklist
 
+In every plan’s `### Critique` table, cover each item below as **Resolved** (mitigation + artifact) or **N/A** (one-line why). Do not leave open risks.
+
 - Null/empty values
 - Network timeouts
 - Race conditions
 - Unhandled exceptions
+
+Format:
+
+```markdown
+### Critique
+
+| Issue | Resolution |
+|-------|------------|
+| Null/empty at boundary | Validate with schema X; typed error Y; test Z |
+| Network timeout | N/A — no network I/O in this change |
+```
 
 ## UTF-8 & Verification
 
