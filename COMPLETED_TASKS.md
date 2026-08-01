@@ -2,6 +2,11 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## v0.15.2 release (2026-08-01)
+
+- ✅ [AUTO] Merge Release Please PR #50 — [v0.15.2](https://github.com/edwardlthompson/agent-project-bootstrap/releases/tag/v0.15.2) published @ `634d06d`
+- ✅ [AGENT] `/ship`: resolved Critique contract; clear Dependabot High (`js-yaml`, `brace-expansion`, `postcss`)
+
 ## v0.15.0 release (2026-07-22)
 
 - ✅ [AUTO] Merge Release Please PR #37 — [v0.15.0](https://github.com/edwardlthompson/agent-project-bootstrap/releases/tag/v0.15.0) published @ `2e010ae`

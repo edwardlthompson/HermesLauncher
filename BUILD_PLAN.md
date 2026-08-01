@@ -72,7 +72,7 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 ## Template Maintainer — Active Board
 
-> **v0.15.0** archived in `COMPLETED_TASKS.md` @ `2e010ae`. **M33** archived in `COMPLETED_TASKS.md` @ `5d2d129`. **v0.14.1** archived in `COMPLETED_TASKS.md` @ `a6c6be1`. **M32** archived in `COMPLETED_TASKS.md` @ `e532c20`. **M31** archived in `COMPLETED_TASKS.md` @ `cd21e5a`. **v0.14.0** @ `4b94298`. **v0.13.2** @ `ff8e4e6`. **M19–M30** archived in `COMPLETED_TASKS.md`. **M18** @ `d6b92a2`. **M30** @ `508a541`.
+> **v0.15.2** archived in `COMPLETED_TASKS.md` @ `634d06d`. **v0.15.0** archived in `COMPLETED_TASKS.md` @ `2e010ae`. **M33** archived in `COMPLETED_TASKS.md` @ `5d2d129`. **v0.14.1** archived in `COMPLETED_TASKS.md` @ `a6c6be1`. **M32** archived in `COMPLETED_TASKS.md` @ `e532c20`. **M31** archived in `COMPLETED_TASKS.md` @ `cd21e5a`. **v0.14.0** @ `4b94298`. **v0.13.2** @ `ff8e4e6`. **M19–M30** archived in `COMPLETED_TASKS.md`. **M18** @ `d6b92a2`. **M30** @ `508a541`.
 
 ### Open (human judgment only)
 
@@ -227,6 +227,7 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 | Sprint                                                            | Status   | Archive                          |
 | ----------------------------------------------------------------- | -------- | -------------------------------- |
+| v0.15.2 release                                                   | Complete | `COMPLETED_TASKS.md` @ `634d06d` |
 | v0.15.0 release                                                   | Complete | `COMPLETED_TASKS.md` @ `2e010ae` |
 | M33 — Cursor 3.9–3.11 + local-first compute                       | Complete | `COMPLETED_TASKS.md` @ `5d2d129` |
 | v0.14.1 release                                                   | Complete | `COMPLETED_TASKS.md` @ `a6c6be1` |
