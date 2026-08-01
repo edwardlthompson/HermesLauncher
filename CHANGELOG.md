@@ -15,6 +15,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.15.2](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.15.1...v0.15.2) (2026-08-01)
+
+
+### Fixed
+
+* **security:** clear High npm alerts and harden plan critiques ([2b119a7](https://github.com/edwardlthompson/agent-project-bootstrap/commit/2b119a78f088f91077ff96f3657c622bc9755395))
+* **security:** override postcss &gt;=8.5.18 in examples/node ([981ee64](https://github.com/edwardlthompson/agent-project-bootstrap/commit/981ee64ae64560394f4cb8e0614ab6589610e60b))
+
+
+### Documentation
+
+* **changelog:** note postcss override in Unreleased security fix ([96c8fd0](https://github.com/edwardlthompson/agent-project-bootstrap/commit/96c8fd07892051df0e8ccff0ebcb7932b59c9ba3))
+
 ## [Unreleased]
 
 ### Fixed
