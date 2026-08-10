@@ -1,7 +1,7 @@
-import { handleRestartGuard, checkForUpdates } from "./about/aboutSession";
+import { type AppShellState, createAppShell } from "./AppShell";
+import { checkForUpdates, handleRestartGuard } from "./about/aboutSession";
 import { applyPwaUpdate } from "./about/applyUpdate";
 import { loadDonations } from "./about/donations";
-import { createAppShell, type AppShellState } from "./AppShell";
 import { assetUrl } from "./assetUrl";
 import { t } from "./i18n";
 import { initTheme, subscribeThemeChange } from "./theme";

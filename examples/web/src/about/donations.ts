@@ -1,5 +1,5 @@
-import type { DonationConfig, DonationLink } from "./types";
 import { assetUrl } from "../assetUrl";
+import type { DonationConfig, DonationLink } from "./types";
 
 function isLink(value: unknown): value is DonationLink {
   if (!value || typeof value !== "object") return false;

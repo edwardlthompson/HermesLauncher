@@ -59,7 +59,13 @@ import shutil
 web = Path("examples/web/src")
 e2e = Path("examples/web/e2e")
 
-web.joinpath("main.ts").write_text(
+def write_lf(path: Path, text: str) -> None:
+    # Biome format:check fails on CRLF stubs on Windows — always write LF.
+    path.write_text(text, encoding="utf-8", newline="\n")
+
+
+write_lf(
+    web.joinpath("main.ts"),
     """import "./style.css";
 import { createThemeToggle } from "./components/ThemeToggle";
 import { isOnline } from "./greet";
@@ -92,10 +98,10 @@ render();
 window.addEventListener("online", render);
 window.addEventListener("offline", render);
 """,
-    encoding="utf-8",
 )
 
-web.joinpath("settings/preferences.ts").write_text(
+write_lf(
+    web.joinpath("settings/preferences.ts"),
     """import { getThemeMode, setThemeMode, type ThemeMode } from "../theme";
 
 const INTERVAL_KEY = "gp-app-update-interval";
@@ -116,7 +122,6 @@ export function applySettingsThemeMode(mode: ThemeMode): void {
   setThemeMode(mode);
 }
 """,
-    encoding="utf-8",
 )
 
 for path in (
@@ -131,8 +136,9 @@ for path in (
     elif path.exists():
         path.unlink()
 
-e2e.joinpath("app.spec.ts").write_text(
-    """import { test, expect } from "@playwright/test";
+write_lf(
+    e2e.joinpath("app.spec.ts"),
+    """import { expect, test } from "@playwright/test";
 
 test("renders golden path heading without About slice", async ({ page }) => {
   await page.goto("/");
@@ -140,11 +146,23 @@ test("renders golden path heading without About slice", async ({ page }) => {
   await expect(page.getByTestId("status")).toBeVisible();
 });
 """,
-    encoding="utf-8",
 )
 PY
 
+# Normalize stub formatting for Biome format:check (import order, etc.)
+if command -v npm >/dev/null 2>&1 && [ -f examples/web/package.json ]; then
+  (cd examples/web && npm run format >/dev/null 2>&1) || true
+fi
+
 echo "2/2 Gate after About removal (in-place, restored on exit)..."
-bash scripts/feature-gate.sh --stack web --step about-without
+set +e
+ABOUT_WITHOUT_JSON="$(bash scripts/feature-gate.sh --stack web --step about-without --json 2>/dev/null)"
+ABOUT_WITHOUT_EXIT=$?
+set -e
+if [ "$ABOUT_WITHOUT_EXIT" -ne 0 ]; then
+  echo "$ABOUT_WITHOUT_JSON"
+  echo "FAIL: about-without feature-gate (exit $ABOUT_WITHOUT_EXIT)"
+  exit "$ABOUT_WITHOUT_EXIT"
+fi
 
 echo "About add/remove verification passed"

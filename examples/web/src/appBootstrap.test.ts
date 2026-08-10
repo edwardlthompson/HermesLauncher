@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import en from "./locales/en.json";
-import { bootstrapApp } from "./appBootstrap";
-import { checkForUpdates, handleRestartGuard } from "./about/aboutSession";
 import type { AppShellCallbacks } from "./AppShell";
+import { checkForUpdates, handleRestartGuard } from "./about/aboutSession";
+import { bootstrapApp } from "./appBootstrap";
+import en from "./locales/en.json";
 
 const messages = en as Record<string, string>;
 
@@ -12,15 +12,11 @@ vi.mock("./AppShell", () => ({
 
 vi.mock("./about/aboutSession", () => ({
   handleRestartGuard: vi.fn(() => false),
-  checkForUpdates: vi.fn(() =>
-    Promise.resolve(messages["about.update.current"]),
-  ),
+  checkForUpdates: vi.fn(() => Promise.resolve(messages["about.update.current"])),
 }));
 
 vi.mock("./about/donations", () => ({
-  loadDonations: vi.fn(() =>
-    Promise.resolve({ enabled: true, message: "thanks", links: [] }),
-  ),
+  loadDonations: vi.fn(() => Promise.resolve({ enabled: true, message: "thanks", links: [] })),
 }));
 
 vi.mock("./theme", () => ({
@@ -36,8 +32,8 @@ vi.mock("./about/applyUpdate", () => ({
   applyPwaUpdate: vi.fn(() => Promise.resolve(true)),
 }));
 
-import { applyPwaUpdate } from "./about/applyUpdate";
 import { createAppShell } from "./AppShell";
+import { applyPwaUpdate } from "./about/applyUpdate";
 
 const mockedCreateAppShell = vi.mocked(createAppShell);
 const mockedCheckForUpdates = vi.mocked(checkForUpdates);
@@ -81,9 +77,7 @@ describe("bootstrapApp", () => {
 
   it("renders immediately before donations load completes", async () => {
     const donationsMod = await import("./about/donations");
-    vi.mocked(donationsMod.loadDonations).mockImplementation(
-      () => new Promise(() => {}),
-    );
+    vi.mocked(donationsMod.loadDonations).mockImplementation(() => new Promise(() => {}));
     const root = document.createElement("div");
     mockedCreateAppShell.mockClear();
     bootstrapApp(root);
@@ -156,9 +150,7 @@ describe("bootstrapApp", () => {
     const callsBefore = mockedCreateAppShell.mock.calls.length;
     resolveCheck(messages["about.update.available"]);
     await vi.waitFor(() =>
-      expect(mockedCreateAppShell.mock.calls.length).toBeGreaterThan(
-        callsBefore,
-      ),
+      expect(mockedCreateAppShell.mock.calls.length).toBeGreaterThan(callsBefore),
     );
   });
 
@@ -176,14 +168,11 @@ describe("bootstrapApp", () => {
     const callsBefore = mockedCreateAppShell.mock.calls.length;
     resolveCheck(`${messages["about.update.available"]}: 99.0.0`);
     await vi.waitFor(() =>
-      expect(mockedCreateAppShell.mock.calls.length).toBeGreaterThan(
-        callsBefore,
-      ),
+      expect(mockedCreateAppShell.mock.calls.length).toBeGreaterThan(callsBefore),
     );
     expect(
       mockedCreateAppShell.mock.calls.some(
-        ([, state]) =>
-          state.updateStatus === `${messages["about.update.available"]}: 99.0.0`,
+        ([, state]) => state.updateStatus === `${messages["about.update.available"]}: 99.0.0`,
       ),
     ).toBe(true);
   });
@@ -192,9 +181,7 @@ describe("bootstrapApp", () => {
     const root = document.createElement("div");
     bootstrapApp(root);
     await vi.waitFor(() => expect(handlers).toBeDefined());
-    mockedCheckForUpdates.mockResolvedValueOnce(
-      `${messages["about.update.available"]}: 99.0.0`,
-    );
+    mockedCheckForUpdates.mockResolvedValueOnce(`${messages["about.update.available"]}: 99.0.0`);
     requireHandlers().onUpdateCheckChange?.(true);
     await vi.waitFor(() => expect(handlers?.canApplyUpdate).toBe(true));
   });
@@ -212,9 +199,7 @@ describe("bootstrapApp", () => {
     bootstrapApp(root);
     await vi.waitFor(() => expect(handlers).toBeDefined());
     requireHandlers().onApplyUpdate?.();
-    await vi.waitFor(() =>
-      expect(mockedApplyPwaUpdate).toHaveBeenCalledWith(registration),
-    );
+    await vi.waitFor(() => expect(mockedApplyPwaUpdate).toHaveBeenCalledWith(registration));
   });
 
   it("shows restarting status after apply succeeds", async () => {
@@ -234,8 +219,7 @@ describe("bootstrapApp", () => {
     await vi.waitFor(() =>
       expect(
         mockedCreateAppShell.mock.calls.some(
-          ([, state]) =>
-            state.updateStatus === messages["about.update.restarting"],
+          ([, state]) => state.updateStatus === messages["about.update.restarting"],
         ),
       ).toBe(true),
     );

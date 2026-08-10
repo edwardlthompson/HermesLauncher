@@ -2,6 +2,8 @@
 
 > Ephemeral audit output. Copy from this example; do not commit `CODE_REVIEW.md` (gitignored).
 
+**Source:** `audit` | `codex-local` | `codex-ci`
+
 ## Summary
 
 One paragraph: overall health, top risks, recommended sprint focus.

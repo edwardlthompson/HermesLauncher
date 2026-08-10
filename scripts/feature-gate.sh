@@ -85,11 +85,15 @@ fail_gate() {
   FAILED_STAGE="$stage"
   LOG_TAIL="$log_msg"
   case "$stage" in
-    web-lint) SUGGESTED=("fix TypeScript errors in feature scope" "run npm run lint in examples/web") ;;
+    web-lint) SUGGESTED=("fix TypeScript errors in feature scope" "run npm run lint in examples/web" "run npm run format in examples/web if format script exists") ;;
+    web-format) SUGGESTED=("run npm run format in examples/web") ;;
     web-test) SUGGESTED=("fix failing vitest in src/{feature}/" "run npm test in examples/web") ;;
     web-build) SUGGESTED=("fix build errors" "run npm run build in examples/web") ;;
     python-lint) SUGGESTED=("run uv run ruff check --fix in examples/python") ;;
+    python-format) SUGGESTED=("run uv run ruff format in examples/python") ;;
     python-type) SUGGESTED=("fix mypy/pyright errors in examples/python") ;;
+    python-type-mypy) SUGGESTED=("fix mypy errors in examples/python") ;;
+    python-type-pyright) SUGGESTED=("fix pyright errors in examples/python") ;;
     python-test) SUGGESTED=("fix pytest failures in examples/python") ;;
     file-limits) SUGGESTED=("split oversized static-data/logic files per AGENTS.md limits") ;;
     android-test) SUGGESTED=("fix JUnit failures" "run ./gradlew test in examples/android") ;;
@@ -97,11 +101,12 @@ fail_gate() {
     about-feature-gate) SUGGESTED=("run scripts/verify-about-feature-gate.sh" "fix About slice regressions") ;;
     rust-fmt) SUGGESTED=("run cargo fmt in examples/rust") ;;
     rust-clippy) SUGGESTED=("fix clippy warnings in examples/rust") ;;
-    rust-test) SUGGESTED=("fix cargo test in examples/rust") ;;
+    rust-test) SUGGESTED=("run cargo test in examples/rust") ;;
     go-vet) SUGGESTED=("run go vet in examples/go") ;;
-    go-fmt) SUGGESTED=("run gofmt -l in examples/go") ;;
+    go-fmt) SUGGESTED=("run gofmt -w in examples/go") ;;
     go-test) SUGGESTED=("run go test in examples/go") ;;
-    node-lint) SUGGESTED=("fix lint in examples/node") ;;
+    node-lint) SUGGESTED=("fix lint in examples/node" "run npm run format in examples/node if format script exists") ;;
+    node-format) SUGGESTED=("run npm run format in examples/node") ;;
     node-test) SUGGESTED=("fix tests in examples/node") ;;
     *) SUGGESTED=("run scripts/feature-autofix.sh" "fix errors in active feature scope") ;;
   esac
@@ -185,6 +190,9 @@ if should_run web && [ -f examples/web/package.json ]; then
     fi
   else
     run_in_dir examples/web web-lint npm run lint
+    if grep -q '"format:check"' examples/web/package.json 2>/dev/null; then
+      run_in_dir examples/web web-format npm run format:check
+    fi
     run_in_dir examples/web web-test npm test
     run_in_dir examples/web web-build npm run build
   fi
@@ -227,6 +235,9 @@ if should_run node && [ -f examples/node/package.json ]; then
     fi
   else
     run_in_dir examples/node node-lint npm run lint
+    if grep -q '"format:check"' examples/node/package.json 2>/dev/null; then
+      run_in_dir examples/node node-format npm run format:check
+    fi
     run_in_dir examples/node node-test npm test
   fi
 fi

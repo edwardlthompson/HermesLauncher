@@ -1,4 +1,5 @@
 import { assetUrl } from "../assetUrl";
+import { t } from "../i18n";
 import { clearRestartGuard, getRestartGuardKey, isRestartPending } from "./applyUpdate";
 import type { AppUpdateConfig, CheckInterval } from "./types";
 import {
@@ -7,7 +8,6 @@ import {
   parseReleaseVersion,
   shouldCheck,
 } from "./updateChecker";
-import { t } from "../i18n";
 
 export const APP_VERSION = __APP_VERSION__;
 const INTERVAL_KEY = "gp-app-update-interval";
@@ -48,9 +48,7 @@ export async function checkForUpdates(): Promise<string> {
   }
 
   try {
-    const res = await fetch(
-      `https://api.github.com/repos/${config.release_repo}/releases/latest`,
-    );
+    const res = await fetch(`https://api.github.com/repos/${config.release_repo}/releases/latest`);
     if (!res.ok) return t("about.update.current");
     localStorage.setItem(LAST_CHECKED_KEY, String(now));
     const body = (await res.json()) as { tag_name?: string };

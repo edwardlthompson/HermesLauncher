@@ -115,6 +115,10 @@ while [ "$attempt" -lt "$MAX_ATTEMPTS" ]; do
   fi
 
   if [ "$AUTOFIX" = true ]; then
+    # Allowlisted stage → mechanical command (never free-text suggested_fixes)
+    echo "$GATE_JSON" >.cursor/last-feature-gate.json 2>/dev/null || true
+    bash scripts/apply-suggested-gate-fixes.sh --json .cursor/last-feature-gate.json || true
+
     PATHS="$(feature_autofix_paths)"
     if [ -n "$PATHS" ]; then
       bash scripts/feature-autofix.sh --paths "$PATHS" || true

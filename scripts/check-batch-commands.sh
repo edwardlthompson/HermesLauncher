@@ -10,6 +10,7 @@ ERRORS=0
 ATOMIC=(
   audit cleanup debug gates triage dependabot push prerelease regress
   feature fix init prune ci docs upgrade setup plan restore compact scope
+  codex-review
 )
 
 SUPER=(

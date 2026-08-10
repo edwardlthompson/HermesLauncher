@@ -41,7 +41,11 @@ describe("normalizeDonations", () => {
       "fetch",
       vi.fn().mockResolvedValue({
         ok: true,
-        json: async () => ({ enabled: true, message: "hi", links: [{ label: "A", url: "https://a" }] }),
+        json: async () => ({
+          enabled: true,
+          message: "hi",
+          links: [{ label: "A", url: "https://a" }],
+        }),
       }),
     );
     const result = await loadDonations("/donations.json");

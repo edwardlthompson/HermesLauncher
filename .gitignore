@@ -26,6 +26,7 @@ Thumbs.db
 *.swp
 .cursor-session-state
 .cursor/agent-progress.json
+.cursor/last-feature-gate.json
 .cursor/parallel-scope-lock.json
 .cursor/worktrees/
 .cursor/mcp.json

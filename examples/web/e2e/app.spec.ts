@@ -1,5 +1,5 @@
-import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { expect, test } from "@playwright/test";
 
 test("renders golden path heading", async ({ page }) => {
   await page.goto("/");
@@ -73,44 +73,44 @@ test.describe("update status", () => {
   test.use({ serviceWorkers: "block" });
 
   test("shows update status in about after enabling update check", async ({ page }) => {
-  await page.route("**/*", async (route) => {
-    const url = route.request().url();
-    if (url.includes("/app-update.json")) {
-      await route.fulfill({
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify({
-          release_repo: "test-owner/test-repo",
-          installed_artifact_format: "pwa",
-        }),
-      });
-      return;
-    }
-    if (url.includes("api.github.com/repos/test-owner/test-repo/releases/latest")) {
-      await route.fulfill({
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify({ tag_name: "v99.0.0" }),
-      });
-      return;
-    }
-    await route.continue();
-  });
+    await page.route("**/*", async (route) => {
+      const url = route.request().url();
+      if (url.includes("/app-update.json")) {
+        await route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            release_repo: "test-owner/test-repo",
+            installed_artifact_format: "pwa",
+          }),
+        });
+        return;
+      }
+      if (url.includes("api.github.com/repos/test-owner/test-repo/releases/latest")) {
+        await route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({ tag_name: "v99.0.0" }),
+        });
+        return;
+      }
+      await route.continue();
+    });
 
-  await page.goto("/");
-  await page.locator("[data-about-open]").click();
-  await expect(page.getByTestId("about-status")).toContainText("latest version");
+    await page.goto("/");
+    await page.locator("[data-about-open]").click();
+    await expect(page.getByTestId("about-status")).toContainText("latest version");
 
-  await page.getByRole("button", { name: "Close about" }).click();
-  await page.getByRole("button", { name: "Settings" }).click();
-  await page.locator("[data-settings-update]").check();
-  await page.waitForResponse(/releases\/latest/);
-  await page.locator("[data-about-open]").click();
-  const status = page.getByTestId("about-status");
-  await expect(status).toBeVisible();
-  await expect(status).toContainText("Update available");
-  await expect(status).toContainText("99.0.0");
-  await expect(status).not.toContainText("latest version");
+    await page.getByRole("button", { name: "Close about" }).click();
+    await page.getByRole("button", { name: "Settings" }).click();
+    await page.locator("[data-settings-update]").check();
+    await page.waitForResponse(/releases\/latest/);
+    await page.locator("[data-about-open]").click();
+    const status = page.getByTestId("about-status");
+    await expect(status).toBeVisible();
+    await expect(status).toContainText("Update available");
+    await expect(status).toContainText("99.0.0");
+    await expect(status).not.toContainText("latest version");
   });
 });
 
@@ -156,9 +156,7 @@ test.describe("PWA apply update", () => {
       localStorage.setItem("gp-update-restart-pending", "true");
     });
     await page.goto("/");
-    const pending = await page.evaluate(() =>
-      localStorage.getItem("gp-update-restart-pending"),
-    );
+    const pending = await page.evaluate(() => localStorage.getItem("gp-update-restart-pending"));
     expect(pending).toBeNull();
   });
 });

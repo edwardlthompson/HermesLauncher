@@ -30,13 +30,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+* **codex:** opt-in third-party Codex review (`/codex-review`, workflow example, `docs/CODEX_REVIEW.md`) folded into expanded `/prerelease` / `/ship`
+* **autofix:** multi-stack `feature-autofix` (Biome, ruff, cargo fmt, gofmt) + allowlisted `apply-suggested-gate-fixes`
+* **tests:** Hypothesis (Python) and fast-check (web/node) Golden Path property tests
+
 ### Fixed
 
-* **security:** bump npm overrides — `examples/web` `js-yaml` >=5.2.2 and `brace-expansion` >=5.0.8; `examples/node` `postcss` >=8.5.18 (source map path traversal)
+* **security:** bump `examples/web` npm overrides — `undici` >=7.29.0, `ip-address` >=10.3.1, `nanoid` >=3.3.17 (plus prior `js-yaml` / `brace-expansion`); `examples/node` `postcss` >=8.5.18
+* **gates:** About-without stubs write LF + Biome-normalized imports so `format:check` passes on Windows
 
 ### Changed
 
 * **plan:** require resolved `### Critique` as Issue->Resolution in every plan; single best approach (no unresolved option dumps)
+* **prerelease:** autofix → optional Codex → hard `pre-release-gate` before `/push`
 
 ## [0.15.1](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.15.0...v0.15.1) (2026-07-22)
 

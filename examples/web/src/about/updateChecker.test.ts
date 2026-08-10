@@ -67,6 +67,8 @@ describe("selectReleaseAsset", () => {
     expect(selectReleaseAsset(assets, "msi")?.url).toContain(".msi");
     expect(selectReleaseAsset(assets, "exe")?.url).toContain(".exe");
     expect(selectReleaseAsset(assets, "deb")).toBeNull();
-    expect(selectReleaseAsset([{ format: ".msi", url: "https://x.msi" }], "msi")?.format).toBe(".msi");
+    expect(selectReleaseAsset([{ format: ".msi", url: "https://x.msi" }], "msi")?.format).toBe(
+      ".msi",
+    );
   });
 });

@@ -52,6 +52,7 @@ Shipped in template (see `docs/CURSOR_INTEGRATIONS.md`):
 - **Auto-review** — `.cursor/permissions.json` dual layer with hooks
 - **Plugin pack** — `.cursor-plugin/plugin.json` + `scripts/pack-cursor-plugin.*` → `dist/cursor-plugin/`
 - **CLI (opt-in)** — `docs/CURSOR_CLI.md` + `.github/workflow-examples/cursor-agent.yml`
+- **Codex review (opt-in)** — `docs/CODEX_REVIEW.md` + `/codex-review` + `.github/workflow-examples/codex-review.yml` (used by expanded `/prerelease` / `/ship`)
 - **Optional MCP** — copy `.cursor/mcp.foss.example` → gitignored `.cursor/mcp.json`
 
 Validate: `python3 scripts/agent-run.py check-cursor-hooks -- --smoke`, `python3 scripts/agent-run.py check-cursor-integrations -- --tier foss`

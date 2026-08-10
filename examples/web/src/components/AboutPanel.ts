@@ -1,5 +1,5 @@
-import { t } from "../i18n";
 import type { DonationConfig } from "../about/types";
+import { t } from "../i18n";
 
 export interface AboutPanelState {
   version: string;

@@ -20,7 +20,6 @@ Bookmark this page for when you come back after a break.
 | `/build` | Run BUILD_PLAN end-to-end — automates HUMAN/ADB via scripts, backlogs failures, chains sprints until done |
 | `/ship` | Publish a release to GitHub (runs checks, push, post-release) |
 | `/maintain` | Weekly health pass — security, dependencies, full review |
-
 **Worked example — new project:** clone your repo → open Cursor Agent → type `/bootstrap` → follow prompts. The agent walks through init, stack setup, GitHub settings, and validation gates.
 
 ## When you need one step
@@ -33,9 +32,11 @@ Grouped by life moment (not every command — use `/` menu for the full list).
 
 **Docs & checks:** `/docs` · `/ci` (CI poll only) · `/gates` (full local validation)
 
-**Publishing:** `/prerelease` (checks before publish) · `/push` (commit + push + release) · `/regress` (after release)
+**Publishing:** `/prerelease` (autofix + optional Codex + hard gate) · `/push` (commit + push + release) · `/regress` (after release) · `/codex-review` (third-party review alone)
 
 **Maintenance:** `/triage` · `/dependabot` · `/audit` (full repo review)
+
+`/ship` runs `/prerelease` first — one command for autofix, optional Codex, gates, push, and regress.
 
 **Long sessions:** `/compact` (save checkpoint before clearing chat) · `/restore` (load checkpoint)
 

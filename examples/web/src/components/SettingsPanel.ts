@@ -1,11 +1,11 @@
 import { t } from "../i18n";
-import type { ThemeMode } from "../theme";
 import {
   applySettingsThemeMode,
   getSettingsThemeMode,
   isUpdateCheckEnabled,
   setUpdateCheckEnabled,
 } from "../settings/preferences";
+import type { ThemeMode } from "../theme";
 
 export type SettingsPanelCallbacks = {
   onClose: () => void;
@@ -48,11 +48,13 @@ export function createSettingsPanel(callbacks: SettingsPanelCallbacks): HTMLElem
     });
   }
 
-  panel.querySelector<HTMLInputElement>("[data-settings-update]")?.addEventListener("change", (e) => {
-    const checked = (e.target as HTMLInputElement).checked;
-    setUpdateCheckEnabled(checked);
-    callbacks.onUpdateCheckChange?.(checked);
-  });
+  panel
+    .querySelector<HTMLInputElement>("[data-settings-update]")
+    ?.addEventListener("change", (e) => {
+      const checked = (e.target as HTMLInputElement).checked;
+      setUpdateCheckEnabled(checked);
+      callbacks.onUpdateCheckChange?.(checked);
+    });
 
   panel.querySelector(".gp-settings-close")?.addEventListener("click", callbacks.onClose);
   return panel;

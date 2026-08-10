@@ -1,10 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import {
-  checkForUpdates,
-  getInterval,
-  handleRestartGuard,
-  setIntervalPref,
-} from "./aboutSession";
+import { checkForUpdates, getInterval, handleRestartGuard, setIntervalPref } from "./aboutSession";
 
 describe("aboutSession interval prefs", () => {
   beforeEach(() => {

@@ -1,5 +1,5 @@
-import type { CheckInterval } from "../about/types";
 import { getInterval, setIntervalPref } from "../about/aboutSession";
+import type { CheckInterval } from "../about/types";
 import { getThemeMode, setThemeMode, type ThemeMode } from "../theme";
 
 const DEFAULT_INTERVAL: CheckInterval = "weekly";

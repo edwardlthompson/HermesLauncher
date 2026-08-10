@@ -14,6 +14,7 @@
     "feature_radar",
     "plugin_pack",
     "cli_example",
+    "codex_review_example",
     "mcp_foss_example"
   ],
   "hidden": [
@@ -24,5 +25,5 @@
     "mcp_commercial_example",
     "android_commercial_patterns"
   ],
-  "generated_at": "2026-07-21T14:13:48+00:00"
+  "generated_at": "2026-08-10T04:01:29+00:00"
 }

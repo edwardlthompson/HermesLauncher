@@ -1,5 +1,4 @@
-const FOCUSABLE =
-  'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+const FOCUSABLE = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
 export function bindPanelDialog(panel: HTMLElement, onClose: () => void): () => void {
   panel.setAttribute("role", "dialog");

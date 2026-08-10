@@ -53,9 +53,37 @@
     },
     {
       "path": "CODE_REVIEW.md.example",
-      "purpose": "Ephemeral audit output structure for /audit command",
+      "purpose": "Ephemeral audit/Codex review output structure (Source: audit|codex-local|codex-ci)",
       "read_when": "audit",
       "update_when": "never",
+      "owner": "maintainer"
+    },
+    {
+      "path": "docs/CODEX_REVIEW.md",
+      "purpose": "Codex third-party review enablement and /prerelease handoff",
+      "read_when": "cursor_setup",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": ".github/workflow-examples/codex-review.yml",
+      "purpose": "Opt-in Codex PR review workflow (not auto-run by GHA)",
+      "read_when": "cursor_setup",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": ".github/codex/prompts/review.md",
+      "purpose": "Codex read-only review prompt",
+      "read_when": "cursor_setup",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": ".github/codex/schemas/findings.json",
+      "purpose": "Structured Codex findings JSON schema",
+      "read_when": "cursor_setup",
+      "update_when": "milestone_boundary",
       "owner": "maintainer"
     },
     {
@@ -998,7 +1026,7 @@
     },
     {
       "path": "scripts/feature-autofix.sh",
-      "purpose": "Mechanical lint/format auto-fix within feature scope",
+      "purpose": "Mechanical multi-stack lint/format auto-fix (ruff, Biome, cargo fmt, gofmt)",
       "read_when": "milestone_boundary",
       "update_when": "milestone_boundary",
       "owner": "maintainer"
@@ -1007,6 +1035,34 @@
       "path": "scripts/feature-autofix.ps1",
       "purpose": "Windows wrapper for feature-autofix.sh",
       "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/apply-suggested-gate-fixes.sh",
+      "purpose": "Allowlisted feature-gate failed_stage mechanical fixers",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/prerelease-autofix.sh",
+      "purpose": "Pre-release mechanical autofix + one watch-agent-gates pass",
+      "read_when": "release",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/run-codex-review.sh",
+      "purpose": "Local Codex CLI review → CODE_REVIEW.md",
+      "read_when": "audit",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/codex-findings-to-markdown.py",
+      "purpose": "Validate Codex findings JSON and render CODE_REVIEW.md",
+      "read_when": "audit",
       "update_when": "milestone_boundary",
       "owner": "maintainer"
     },

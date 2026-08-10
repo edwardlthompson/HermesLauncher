@@ -108,6 +108,22 @@
       "last_seen": "2026-07-21"
     },
     {
+      "id": "skills.codex-review",
+      "category": "skills",
+      "distribution_tier": "both",
+      "doc_url": "https://cursor.com/docs/context/skills",
+      "template_status": "shipped",
+      "last_seen": "2026-08-09"
+    },
+    {
+      "id": "codex.review",
+      "category": "integrations",
+      "distribution_tier": "both",
+      "doc_url": "https://developers.openai.com/codex/github-action",
+      "template_status": "example",
+      "last_seen": "2026-08-09"
+    },
+    {
       "id": "subagents.custom",
       "category": "subagents",
       "distribution_tier": "both",

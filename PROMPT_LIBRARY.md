@@ -12,6 +12,7 @@
 Read @docs/START_HERE.md, @docs/CURSOR_MODES.md, and @docs/INITIALIZATION_PROMPT.md.
 Pick Cursor mode per CURSOR_MODES.md. Follow Section 8 Startup Sequence.
 Use BUILD_PLAN.md Sequential lane first; respect AGENT/HUMAN/ADB/AUTO labels.
+
 ```
 
 ## Entry 2 — Reference Mode (Existing Project)
@@ -22,6 +23,7 @@ Use BUILD_PLAN.md Sequential lane first; respect AGENT/HUMAN/ADB/AUTO labels.
 Read @docs/CURSOR_MODES.md, @docs/FOR_AGENTS.md, and @TEMPLATE_INDEX.json.
 Pick Cursor mode per CURSOR_MODES.md. Apply matching modules and rules.
 Do not scaffold examples/ unless missing.
+
 ```
 
 ## Entry 3 — Pre-release audit (Agent Mode)
@@ -31,6 +33,7 @@ Do not scaffold examples/ unless missing.
 ```
 Run pre-release audit per INITIALIZATION_PROMPT.md Section 7a (Agent Mode).
 Verify all quality gates pass. Only then update CHANGELOG.md and create a GitHub Release.
+
 ```
 
 ## Entry 4 — Build Verification Gate
@@ -44,6 +47,7 @@ validate-workflow-actions, check-license-compliance, pre-commit run --all-files.
 After pushing to main, run scripts/check-github-ci.sh --wait 300
 (or scripts/check-github-ci.ps1 -WaitSeconds 300 on Windows).
 Report pass/fail per script. Do not mark BUILD_PLAN items complete until all pass.
+
 ```
 
 ## Entry 5 — Bootstrap Verification
@@ -54,6 +58,7 @@ Report pass/fail per script. Do not mark BUILD_PLAN items complete until all pas
 Run scripts/validate-bootstrap.sh and scripts/validate-template-index.sh.
 Confirm .env.example, LICENSE, lockfiles, and TEMPLATE_INDEX.json completeness.
 Fix any failures before Sprint 0 sign-off.
+
 ```
 
 ## Entry 6 — Security Triage
@@ -65,6 +70,7 @@ Follow docs/SECURITY_TRIAGE.md weekly triage pass.
 Review Dependabot alerts (Critical/High first), triage open PRs.
 Confirm all three required workflows are green on main: CI, Security Scan, CodeQL.
 Run scripts/check-github-ci.sh after any workflow or dependency change.
+
 ```
 
 ## Entry 7 — Pre-Release SBOM Audit
@@ -74,6 +80,7 @@ Run scripts/check-github-ci.sh after any workflow or dependency change.
 ```
 Before tagging a release, verify release workflow attaches SBOM and provenance.
 Review THIRD_PARTY_LICENSES.md and run check-license-compliance.sh after locked installs.
+
 ```
 
 ## Entry 8 — Workflow Action Validation
@@ -85,6 +92,7 @@ Before committing changes to .github/workflows/, run scripts/validate-workflow-a
 If gh is unavailable locally, rely on scripts/check-workflow-action-ref-format.sh
 (pre-commit) and the CI workflow-actions job. Fix any invalid or bare-semver refs
 before push. SHA-pin third-party actions per docs/SECURITY_TRIAGE.md.
+
 ```
 
 ## Entry 9 — Post-Push GitHub Gate
@@ -97,6 +105,7 @@ After pushing to main, poll required GitHub workflows until green:
   # Windows: scripts/check-github-ci.ps1 -WaitSeconds 300
 Required workflows: CI, Security Scan, CodeQL.
 Do not mark release or Sprint 0 complete while any are failing.
+
 ```
 
 ## Entry 10 — Pre-release gate
@@ -108,6 +117,7 @@ Run scripts/pre-release-gate.sh (or scripts/pre-release-gate.ps1 on Windows).
 Confirm CI + Security Scan + CodeQL green, zero Critical/High Dependabot alerts,
 .template-version present, then trigger Release workflow_dispatch per reminder output.
 Do not tag until the gate passes and CHANGELOG matches .template-version.
+
 ```
 
 ## Entry 11 — GitHub repo setup
@@ -119,6 +129,7 @@ Run scripts/setup-github-repo.sh (or scripts/setup-github-repo.ps1 on Windows)
 with gh authenticated as repo admin. If API returns 422, follow the printed manual
 checklist in Settings. Re-run until Dependabot alerts, private vulnerability reporting,
 and branch protection (CI, Security Scan, CodeQL) are enabled on main.
+
 ```
 
 ## Entry 12 - Stack prune complete
@@ -130,6 +141,7 @@ Init stack selection is in .cursor/stack-selection.json.
 Read AGENT_MEMORY.md active modules (checkboxes synced by init-project).
 Prune examples/ only via init script; never delete LICENSE, CI, or scripts/.
 Confirm TEMPLATE_INDEX modules match checked boxes before Parallel lane.
+
 ```
 
 ## Entry 13 - Session state restore
@@ -140,6 +152,7 @@ Confirm TEMPLATE_INDEX modules match checked boxes before Parallel lane.
 Read .cursor-session-state.json if present (schema: .cursor-session-state.example.json).
 Restore repo mode, stack, sprint, and sequential_step. Pick Cursor mode via @docs/CURSOR_MODES.md.
 Cross-check .cursor/stack-selection.json. Delete session state file after restore.
+
 ```
 
 ## Entry 14 - Parallel agent dispatch
@@ -151,6 +164,7 @@ Run bash scripts/plan-parallel-dispatch.sh --json for agent_count.
 Write .cursor/parallel-scope-lock.json; run check-parallel-scope.sh.
 When agent_count >= 2, launch Task subagents in one message (see .cursor/commands/scope.md).
 Shared schema stays Sequential; Parallel agents never edit BUILD_PLAN.md.
+
 ```
 
 ## Entry 15 — Post-release regression
@@ -164,6 +178,7 @@ After merging a Release Please release PR or tagging vX.Y.Z:
 3. Confirm GitHub Pages demo deployed (examples/web) with no tracking scripts.
 4. Run scripts/simulate-template-upgrade.sh locally or check CI upgrade-simulation job.
 5. Append any regressions to KNOWLEDGE_BASE.md and BUILD_PLAN [AUTO] items.
+
 ```
 
 ## Entry 16 — Template upgrade simulation
@@ -176,6 +191,7 @@ If it fails, follow docs/UPGRADING_FROM_TEMPLATE.md cherry-pick table and fix
 validate-bootstrap or validate-template-index gaps before bumping .template-version.
 Use action.yml in downstream repos: uses: owner/agent-project-bootstrap/.github/actions/validate-bootstrap@main
 (or path: ./ with action.yml at repo root for this template).
+
 ```
 
 ## Entry 17 — Autonomous feature step
@@ -189,6 +205,7 @@ If exit 1: read .cursor/agent-progress.json and gate JSON; fix lint/tests in fea
 Loop with --interval 60 --max-attempts 10 for extended sessions.
 On exit 2 (3-strike), halt and escalate to human.
 Push to remote still requires human approval.
+
 ```
 
 ## Entry 18 — Explore / architecture question (Ask Mode)
@@ -198,6 +215,7 @@ Push to remote still requires human approval.
 ```
 Read @docs/CURSOR_MODES.md and @TEMPLATE_INDEX.json.
 Explain [topic]. Do not edit files.
+
 ```
 
 ## Entry 19 — Feature or ADR plan (Plan Mode)
@@ -210,6 +228,7 @@ If the trivial rubric says Agent, skip planning and execute directly.
 Otherwise pick the single best approach with mandatory resolved ### Critique (Issue→Resolution table) and ### Parallelization before coding.
 Bake every critique resolution into the plan body; do not leave open risks or ask the human to address them.
 For BUILD_PLAN sprints: maximize agent_count; run check-build-plan-parallel.sh before approval.
+
 ```
 
 ## Entry 20 — Defect investigation (Debug Mode)
@@ -221,6 +240,7 @@ Read @docs/CURSOR_MODES.md and INITIALIZATION_PROMPT.md Section 7b.
 Collect runtime evidence first (command output, CI log URL, repro steps).
 Check KNOWLEDGE_BASE.md and docs/FOR_AGENTS.md Failure Playbook.
 Confirm repro locally before editing code. Switch to Agent Mode to apply fix.
+
 ```
 
 ## Entry 21 — Approved BUILD_PLAN execution (Agent Mode)
@@ -232,6 +252,7 @@ Plan approved. Execute the active [AGENT] BUILD_PLAN step in Agent Mode.
 After each step: bash scripts/watch-agent-gates.sh --once --autofix
 On exit 2 (3-strike), switch to Debug Mode or escalate to human.
 Push to remote still requires human approval.
+
 ```
 
 ## Entry 22 — Full repo audit (`/audit`)
@@ -243,6 +264,7 @@ Push to remote still requires human approval.
 ```
 Execute the /audit batch command: read @.cursor/commands/audit.md and follow all steps.
 Write CODE_REVIEW.md from CODE_REVIEW.md.example; add BUILD_PLAN sprint; execute [AGENT] rows; archive when done.
+
 ```
 
 ## Entry 23 — Dependabot batch (`/dependabot`)
@@ -253,16 +275,29 @@ Write CODE_REVIEW.md from CODE_REVIEW.md.example; add BUILD_PLAN sprint; execute
 
 ```
 Execute @.cursor/commands/dependabot.md — triage alerts/PRs; KB-007 npm overrides when needed.
+
 ```
 
 ## Entry 24 — Pre-release batch (`/prerelease`)
 
-**Slash command:** `.cursor/commands/prerelease.md` · See also Entries 3, 10.
+**Slash command:** `.cursor/commands/prerelease.md` · See also Entries 3, 10, Codex review.
 
 **Prompt:**
 
 ```
-Execute @.cursor/commands/prerelease.md — pre-release-gate.sh; zero Critical/High before /push.
+Execute @.cursor/commands/prerelease.md — prerelease-autofix, optional Codex (/codex-review), hard pre-release-gate; zero Critical/High before /push. Used by /ship.
+
+```
+
+## Entry 24b — Codex review (`/codex-review`)
+
+**Slash command:** `.cursor/commands/codex-review.md` · Docs: `docs/CODEX_REVIEW.md`
+
+**Prompt:**
+
+```
+Execute @.cursor/commands/codex-review.md — optional Codex read-only review → CODE_REVIEW.md → BUILD_PLAN Critical/High → /fix. Skip if no OPENAI_API_KEY/CLI.
+
 ```
 
 ## Entry 25 — Post-release regress (`/regress`)
@@ -273,6 +308,7 @@ Execute @.cursor/commands/prerelease.md — pre-release-gate.sh; zero Critical/H
 
 ```
 Execute @.cursor/commands/regress.md — SBOM, Pages, upgrade sim after release.
+
 ```
 
 ## Entry 26 — Release push (`/push`)
@@ -283,6 +319,7 @@ Execute @.cursor/commands/regress.md — SBOM, Pages, upgrade sim after release.
 
 ```
 Execute @.cursor/commands/push.md — explicit git push approval granted by user invoking /push.
+
 ```
 
 ## Entry 27 — Feature slice (`/feature`)
@@ -293,6 +330,7 @@ Execute @.cursor/commands/push.md — explicit git push approval granted by user
 
 ```
 Execute @.cursor/commands/feature.md — one BUILD_PLAN feature row; watch-agent-gates after each step.
+
 ```
 
 ## Entry 28 — Gate autofix (`/fix`)
@@ -303,6 +341,7 @@ Execute @.cursor/commands/feature.md — one BUILD_PLAN feature row; watch-agent
 
 ```
 Execute @.cursor/commands/fix.md — watch-agent-gates --once --autofix in active feature scope.
+
 ```
 
 ## Entry 29 — Sprint 0 init (`/init`)
@@ -313,6 +352,7 @@ Execute @.cursor/commands/fix.md — watch-agent-gates --once --autofix in activ
 
 ```
 Execute @.cursor/commands/init.md — Sprint 0 bootstrap per BUILD_PLAN Child Playbook.
+
 ```
 
 ## Entry 30 — Stack prune verify (`/prune`)
@@ -323,6 +363,7 @@ Execute @.cursor/commands/init.md — Sprint 0 bootstrap per BUILD_PLAN Child Pl
 
 ```
 Execute @.cursor/commands/prune.md — verify stack-selection.json and pruned examples.
+
 ```
 
 ## Entry 31 — CI poll (`/ci`)
@@ -333,6 +374,7 @@ Execute @.cursor/commands/prune.md — verify stack-selection.json and pruned ex
 
 ```
 Execute @.cursor/commands/ci.md — check-github-ci.sh --wait 300 only.
+
 ```
 
 ## Entry 32 — Docs checks (`/docs`)
@@ -343,6 +385,7 @@ Execute @.cursor/commands/ci.md — check-github-ci.sh --wait 300 only.
 
 ```
 Execute @.cursor/commands/docs.md — readme health, markdown tables, file encoding.
+
 ```
 
 ## Entry 33 — Upgrade sim (`/upgrade`)
@@ -353,6 +396,7 @@ Execute @.cursor/commands/docs.md — readme health, markdown tables, file encod
 
 ```
 Execute @.cursor/commands/upgrade.md — simulate-template-upgrade.sh.
+
 ```
 
 ## Entry 34 — GitHub setup (`/setup`)
@@ -363,6 +407,7 @@ Execute @.cursor/commands/upgrade.md — simulate-template-upgrade.sh.
 
 ```
 Execute @.cursor/commands/setup.md — setup-github-repo.sh; HUMAN on API 422.
+
 ```
 
 ## Entry 35 — Feature plan (`/plan`)
@@ -373,6 +418,7 @@ Execute @.cursor/commands/setup.md — setup-github-repo.sh; HUMAN on API 422.
 
 ```
 Execute @.cursor/commands/plan.md — single best approach + resolved ### Critique (Issue→Resolution); no code until approved.
+
 ```
 
 ## Entry 36 — Session restore (`/restore`)
@@ -383,6 +429,7 @@ Execute @.cursor/commands/plan.md — single best approach + resolved ### Critiq
 
 ```
 Execute @.cursor/commands/restore.md — load .cursor-session-state.json; delete after restore.
+
 ```
 
 ## Entry 37 — Session compact (`/compact`)
@@ -393,6 +440,7 @@ Execute @.cursor/commands/restore.md — load .cursor-session-state.json; delete
 
 ```
 Execute @.cursor/commands/compact.md — write .cursor-session-state.json before clearing chat.
+
 ```
 
 ## Entry 38 — Parallel scope (`/scope`)
@@ -403,6 +451,7 @@ Execute @.cursor/commands/compact.md — write .cursor-session-state.json before
 
 ```
 Execute @.cursor/commands/scope.md — plan-parallel-dispatch.sh manifest + auto Task dispatch.
+
 ```
 
 ## Entry 39 — Local gates (`/gates`)
@@ -413,6 +462,7 @@ Execute @.cursor/commands/scope.md — plan-parallel-dispatch.sh manifest + auto
 
 ```
 Execute @.cursor/commands/gates.md — validate-bootstrap --quick, feature-gate, repo hygiene.
+
 ```
 
 ## Entry 40 — Security triage batch (`/triage`)
@@ -423,6 +473,7 @@ Execute @.cursor/commands/gates.md — validate-bootstrap --quick, feature-gate,
 
 ```
 Execute @.cursor/commands/triage.md — weekly SECURITY_TRIAGE pass.
+
 ```
 
 ## Entry 41 — Debug batch (`/debug`)
@@ -433,6 +484,7 @@ Execute @.cursor/commands/triage.md — weekly SECURITY_TRIAGE pass.
 
 ```
 Execute @.cursor/commands/debug.md — defect investigation; not the same as /audit.
+
 ```
 
 ## Entry 42 — Bootstrap super (`/bootstrap`)
@@ -443,6 +495,7 @@ Execute @.cursor/commands/debug.md — defect investigation; not the same as /au
 
 ```
 Execute @.cursor/commands/bootstrap.md — init → prune → setup → gates.
+
 ```
 
 ## Entry 43 — Verify super (`/verify`)
@@ -453,6 +506,7 @@ Execute @.cursor/commands/bootstrap.md — init → prune → setup → gates.
 
 ```
 Execute @.cursor/commands/verify.md — docs → gates → ci.
+
 ```
 
 ## Entry 44 — Build super (`/build`)
@@ -463,6 +517,7 @@ Execute @.cursor/commands/verify.md — docs → gates → ci.
 
 ```
 Execute @.cursor/commands/build.md — autonomous BUILD_PLAN sprint chain; no user approval; chains until HUMAN/ADB block or all AGENT/AUTO complete.
+
 ```
 
 ## Entry 45 — Ship super (`/ship`)
@@ -473,6 +528,7 @@ Execute @.cursor/commands/build.md — autonomous BUILD_PLAN sprint chain; no us
 
 ```
 Execute @.cursor/commands/ship.md — prerelease → push → regress; grants git push approval.
+
 ```
 
 ## Entry 46 — Maintain super (`/maintain`)
@@ -483,6 +539,7 @@ Execute @.cursor/commands/ship.md — prerelease → push → regress; grants gi
 
 ```
 Execute @.cursor/commands/maintain.md — radar → triage → dependabot → audit.
+
 ```
 
 ## Entry 47 — Sprint cleanup (`/cleanup`)
@@ -493,4 +550,5 @@ Execute @.cursor/commands/maintain.md — radar → triage → dependabot → au
 
 ```
 Execute @.cursor/commands/cleanup.md — archive completed BUILD_PLAN rows and sync COMPLETED_TASKS when sprint is fully ✅.
+
 ```

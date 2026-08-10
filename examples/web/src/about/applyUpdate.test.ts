@@ -1,8 +1,8 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
+  applyPwaUpdate,
   clearRestartGuard,
   getRestartGuardKey,
-  applyPwaUpdate,
   isRestartPending,
   scheduleSingleReload,
   setRestartPending,

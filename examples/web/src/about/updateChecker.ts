@@ -42,10 +42,7 @@ export function selectReleaseAsset(
   installedFormat: string,
 ): ReleaseAsset | null {
   const normalized = installedFormat.toLowerCase().replace(/^\./, "");
-  return (
-    assets.find((a) => a.format.toLowerCase().replace(/^\./, "") === normalized) ??
-    null
-  );
+  return assets.find((a) => a.format.toLowerCase().replace(/^\./, "") === normalized) ?? null;
 }
 
 export function detectInstalledFormat(): "pwa" {

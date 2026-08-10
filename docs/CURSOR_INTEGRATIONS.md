@@ -9,9 +9,9 @@ After `scripts/init-project.sh --distribution-tier foss`:
 | Layer | Artifact | Status |
 |-------|----------|--------|
 | Rules | `.cursor/rules/*.mdc` | Shipped (15) |
-| Commands | `.cursor/commands/*.md` | Shipped (26) |
+| Commands | `.cursor/commands/*.md` | Shipped (27) |
 | Hooks | `.cursor/hooks.json` + `.cursor/hooks/` | Shipped |
-| Skills | `.cursor/skills/` (7) | Shipped |
+| Skills | `.cursor/skills/` (8) | Shipped |
 | Subagents | `.cursor/agents/` (3) | Shipped |
 | Modes | `docs/CURSOR_MODES.md` | Shipped |
 | Worktrees | `.cursor/worktrees.json` + OS setup scripts | Shipped |
@@ -22,8 +22,8 @@ After `scripts/init-project.sh --distribution-tier foss`:
 | Agent script runner | `scripts/agent-run.py` | Shipped |
 | Plugin pack | `.cursor-plugin/plugin.json` + `scripts/pack-cursor-plugin.*` | Example |
 | CLI (opt-in) | `.github/workflow-examples/cursor-agent.yml` + `docs/CURSOR_CLI.md` | Example |
+| Codex review (opt-in) | `.github/workflow-examples/codex-review.yml` + `docs/CODEX_REVIEW.md` + `/codex-review` | Example |
 | GitHub MCP (optional) | Copy `.cursor/mcp.foss.example` → `.cursor/mcp.json` | Example |
-
 Validation: `python3 scripts/agent-run.py check-cursor-integrations -- --tier foss`
 
 ## Commercial quick start
@@ -45,7 +45,6 @@ Enforcement complement to rules (M27 — no `beforeSubmitPrompt`):
 | `afterFileEdit` | `after_edit_encoding.py` | UTF-8 check, fail-open |
 | `subagentStart` | `subagent_scope_inject.py` | Parallel lock scope |
 | `beforeMCPExecution` | `mcp_audit.py` | Append audit log only |
-
 Hooks are Python modules (not `.sh`) so Cursor Agent shell execution does not open hook scripts in the editor.
 
 **Quiet agent shell:** Agents should invoke gates via `python3 scripts/agent-run.py <name> [args]` instead of `bash scripts/<name>.sh`. Workspace `.vscode/settings.json` disables editor auto-reveal when files open in the background.
@@ -76,7 +75,6 @@ Native Cursor worktrees (Agents Window, `/worktree`, `/best-of-n`, CLI) use:
 | `.cursor/worktrees.json` | Points at OS setup scripts |
 | `.cursor/setup-worktree-unix.sh` | Fail-soft Unix/macOS setup |
 | `.cursor/setup-worktree-windows.ps1` | Fail-soft Windows setup |
-
 Setup copies only `*.env.example` (never `.env`). Missing stack or package managers → `SKIP` and exit **0**. Corrupt `stack-selection.json` → exit **1**.
 
 Parallel-lock isolation remains `scripts/setup-agent-worktrees.sh` (see [`PARALLEL_AGENT_SCOPES.md`](PARALLEL_AGENT_SCOPES.md)).
@@ -107,7 +105,6 @@ Commands remain canonical UX. Skills wrap high-churn flows:
 | `sprint0-signoff` | Sprint 0 Child Repo Playbook |
 | `feature-vertical-slice` | `/feature` |
 | `canvas-bootstrap-status` | `/gates` (Canvas; markdown fallback) |
-
 ## Subagents
 
 | Agent | Role |
@@ -115,7 +112,6 @@ Commands remain canonical UX. Skills wrap high-churn flows:
 | `verifier` | Readonly post-row gate check |
 | `gate-fixer` | Scoped autofix for Parallel dispatch |
 | `explorer` | Readonly codebase search (Plan Mode) |
-
 ## MCP activation (FOSS)
 
 1. Copy `.cursor/mcp.foss.example` → `.cursor/mcp.json` (gitignored)
@@ -130,6 +126,7 @@ Do **not** symlink the repo root into `~/.cursor/plugins/local` (double-loads ru
 ```bash
 python3 scripts/agent-run.py pack-cursor-plugin
 # or: bash scripts/pack-cursor-plugin.sh / pwsh scripts/pack-cursor-plugin.ps1
+
 ```
 
 Then symlink **`dist/cursor-plugin`** → `~/.cursor/plugins/local/agent-project-bootstrap` and Reload Window. Manifest: [`.cursor-plugin/plugin.json`](../.cursor-plugin/plugin.json). No marketplace publish in-template.
@@ -149,6 +146,7 @@ See [`CURSOR_CLI.md`](CURSOR_CLI.md). Example workflow lives under `.github/work
 
 ```bash
 python3 scripts/sync-cursor-features.py --tier foss|commercial
+
 ```
 
 Requires `[HUMAN]` approval when swapping compliance rules.
