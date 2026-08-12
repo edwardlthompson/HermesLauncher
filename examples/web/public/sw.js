@@ -1,5 +1,12 @@
 const CACHE_NAME = "golden-path-v__APP_VERSION__";
-const PRECACHE = ["./", "./index.html", "./manifest.webmanifest", "./icon.svg"];
+const PRECACHE = [
+  "./",
+  "./index.html",
+  "./manifest.webmanifest",
+  "./icon.svg",
+  "./favicon.svg",
+  "./logo.svg",
+];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(PRECACHE)));

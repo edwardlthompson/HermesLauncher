@@ -1,6 +1,10 @@
+<p align="center">
+  <img src="../../branding/assets/logo-mark.svg" alt="Golden Path" width="64" />
+</p>
+
 # Golden Path Web (PWA)
 
-Vite + TypeScript PWA stub demonstrating offline service worker, Vitest, Playwright, and Lighthouse CI budgets.
+FOSS apps with a clear path from idea to release — Vite + TypeScript PWA stub (offline service worker, Vitest, Playwright, Lighthouse CI). Brand kit: [`branding/BRANDING.md`](../../branding/BRANDING.md).
 
 ## Repository layout
 
@@ -15,6 +19,7 @@ examples/web/
     components/         # ThemeToggle, etc. — labels via t()
   public/               # manifest, service worker, static assets
   dist/                 # npm run build output → GitHub Pages (do not edit or commit)
+
 ```
 
 **`docs/` is agent documentation, not this app.** The live site is built from `examples/web/dist/` via `.github/workflows/pages.yml`. See [`docs/WEB_PROJECT_LAYOUT.md`](../../docs/WEB_PROJECT_LAYOUT.md).
@@ -28,6 +33,7 @@ npm run build     # Production build → dist/
 npm run preview   # Preview server
 npx playwright test  # E2E + axe + visual snapshots
 npm run lighthouse   # Lighthouse CI budgets
+
 ```
 
 ## PWA features

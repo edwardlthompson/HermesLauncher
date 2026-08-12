@@ -1,6 +1,10 @@
+<p align="center">
+  <img src="../../branding/assets/logo-mark.svg" alt="Golden Path" width="64" />
+</p>
+
 # Golden Path Node (Hono API)
 
-Minimal typed HTTP API using Hono, TypeScript strict mode, and Vitest.
+FOSS apps with a clear path from idea to release — minimal typed HTTP API (Hono, TypeScript, Vitest). Brand kit: [`branding/BRANDING.md`](../../branding/BRANDING.md).
 
 ## Commands
 
@@ -9,6 +13,7 @@ npm ci
 npm run lint
 npm test
 npm run dev
+
 ```
 
 ## Routes

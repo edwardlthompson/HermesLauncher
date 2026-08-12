@@ -1,6 +1,10 @@
+<p align="center">
+  <img src="../../branding/assets/logo-mark.svg" alt="Golden Path" width="64" />
+</p>
+
 # Golden Path Android (FOSS)
 
-FOSS-only Gradle/Kotlin skeleton for agent-project-bootstrap. No Google Play Services or Firebase.
+FOSS apps with a clear path from idea to release — FOSS-only Gradle/Kotlin skeleton (no Google Play Services or Firebase). Brand kit: [`branding/BRANDING.md`](../../branding/BRANDING.md).
 
 ## Repository layout
 
@@ -13,6 +17,7 @@ examples/android/
       theme/                     # GoldenPathTheme, generated Color.kt / Type.kt / Dimens.kt
       components/                # ThemeToggle, etc. — labels via stringResource()
       screens/                   # GoldenPathScreen, etc.
+
 ```
 
 **Styles and strings are separate:** theme colors and spacing live in `ui/theme/` (from `design-tokens/`). All copy lives in `strings.xml`, consumed via `stringResource(R.string.*)` in Compose — never `Text("literal")`.
@@ -29,6 +34,7 @@ CI validates Gradle file structure and FOSS compliance markers only. Full APK bu
 export SOURCE_DATE_EPOCH=1700000000
 cd examples/android
 ./gradlew assembleDebug
+
 ```
 
 ## Emulator checklist

@@ -17,7 +17,6 @@ Read [`docs/WEB_PROJECT_LAYOUT.md`](../../docs/WEB_PROJECT_LAYOUT.md) before mov
 | `examples/web/` | PWA source (Vite, TypeScript, tests) |
 | `examples/web/dist/` | Build output published via GitHub Actions |
 | `site/` or `website/` | Optional non-PWA static site only |
-
 ## GitHub Pages hosting
 
 - Source: `examples/web/` — edit and test here
@@ -37,11 +36,12 @@ Strings are separate from styles. See [`docs/DESIGN_GUIDE.md`](../../docs/DESIGN
 | Strings | `src/locales/en.json` | `t(key)` from `src/i18n/index.ts` |
 | Styles | `style.css`, `design-tokens.css` | `var(--gp-*)` only — no user copy |
 | Theme | `theme.ts` | Preference only; labels from `t()` |
-
+| Brand | `branding/` → synced `public/icon.svg`, `favicon.svg` | See `branding/BRANDING.md` |
 Default locale: English only. Add `src/locales/{lang}.json` when shipping translations.
 
 ## Activation Checklist
 
+- 🔲 Review `branding/` kit; run `scripts/sync-design-tokens.py` after logo/token edits
 - 🔲 Add `manifest.webmanifest` with required fields
 - 🔲 Implement offline-first service worker
 - 🔲 Configure Lighthouse CI budgets (`.lighthouserc.json`) with `numberOfRuns: 3` and median assertion; keep `minScore: 0.9` for performance (do not lower budget for CI flake)
@@ -73,7 +73,6 @@ After each feature step, `scripts/feature-gate.sh` runs (via `watch-agent-gates.
 | Lint | `npm run lint` in `examples/web/` |
 | Unit | `npm test` |
 | Build smoke | `npm run build` |
-
 E2E (`npx playwright test`) remains a milestone gate, not every feature row.
 
 ## Owner Labels for This Module

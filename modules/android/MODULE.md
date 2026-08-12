@@ -25,12 +25,12 @@
 - 🔲 Rollback procedure documented in docs/RUNBOOK.md
 - 🔲 F-Droid submission checklist reviewed before release
 
-
 ## Design system
 
 - 🔲 Read docs/DESIGN_GUIDE.md before UI work
 - 🔲 Use Jetpack Compose Material 3 via GoldenPathTheme (see examples/android/)
 - 🔲 Edit tokens in design-tokens/design-tokens.json; run scripts/sync-design-tokens.py
+- 🔲 Branding: `branding/assets/` + generated `res/drawable/ic_brand_mark.xml` (store PNGs still `[ADB]`/`[HUMAN]`)
 - 🔲 Theme toggle: system / light / dark (DataStore persistence)
 - 🔲 Edge-to-edge: `GoldenPathScaffold`, `bottomInsetPadding()`, inset-aware `SnackbarHost`
 - 🔲 FOSS only: androidx.compose.* and androidx.datastore (no Play Services / Firebase)
@@ -44,7 +44,6 @@ Strings are separate from styles. Theme colors and spacing live in `ui/theme/`; 
 | Strings | `res/values/strings.xml` | `stringResource(R.string.*)` in Compose |
 | Styles | `ui/theme/` (generated `Color.kt`, `Type.kt`, `Dimens.kt`) | `MaterialTheme.colorScheme`, `Dimens.kt` |
 | Forbidden | Kotlin string literals in composables | Use `stringResource`, not `Text("...")` |
-
 Default locale: English only (`res/values/strings.xml`). Add `res/values-{lang}/strings.xml` when shipping translations. Plurals: `res/values/plurals.xml` when needed.
 
 Shared key naming with web: `app.title`, `theme.toggle.label`, `theme.mode.*` — see [`docs/DESIGN_GUIDE.md`](../../docs/DESIGN_GUIDE.md). For website folder conventions in multi-stack repos, see [`docs/WEB_PROJECT_LAYOUT.md`](../../docs/WEB_PROJECT_LAYOUT.md).
@@ -61,6 +60,7 @@ Optional emulator job **Android - connectedDebugAndroidTest** in `.github/workfl
 ```bash
 cd examples/android
 ./gradlew connectedDebugAndroidTest
+
 ```
 
 Requires an AVD or USB device (`[ADB]`). Robolectric unit tests remain the default fast path in `feature-gate.sh`.
@@ -74,7 +74,6 @@ After each feature step, `scripts/feature-gate.sh` runs (via `watch-agent-gates.
 | Stage | Command |
 |-------|---------|
 | Unit + compile | `./gradlew test` in `examples/android/` |
-
 Requires `JAVA_HOME` locally; gate exits `2` when Java is missing.
 
 ## Owner Labels for This Module
@@ -85,7 +84,6 @@ Requires `JAVA_HOME` locally; gate exits `2` when Java is missing.
 | Emulator/device testing, F-Droid submit | ADB |
 | FOSS dependency audit approval | HUMAN |
 | CI Gradle compile / structure validation | AUTO |
-
 ## F-Droid Submission Dry-Run Checklist
 
 `[ADB]` dry-run before first F-Droid release. Full metadata lives under `examples/android/metadata/` when present.

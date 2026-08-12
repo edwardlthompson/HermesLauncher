@@ -9,8 +9,7 @@
 | Source, tests, docs, CI | `node_modules/`, `.venv/`, caches |
 | Lockfiles (`package-lock.json`, `uv.lock`) | `dist/`, `build/`, `target/`, `coverage/` |
 | `*.example` configs | `.env`, live `.app-update.json`, `donations.json` |
-| Design tokens source JSON | APK/AAB binaries, Playwright/Lighthouse reports |
-
+| Design tokens source JSON + `branding/` SVGs / product.json | APK/AAB binaries, Playwright/Lighthouse reports, store PNG exports (unless intentionally committed) |
 ## Industry standards — automation map
 
 | Practice | Automated where |
@@ -25,7 +24,6 @@
 | Merge conflicts / private keys | Pre-commit hooks |
 | Lockfile presence | `validate-bootstrap.sh` |
 | Ephemeral purge | `scripts/purge-ephemeral.sh` (`git clean -fdX`) |
-
 ## Commands
 
 ```bash
@@ -39,6 +37,7 @@ bash scripts/purge-ephemeral.sh --apply   # ignored untracked only
 # Install local hooks
 pip install pre-commit && pre-commit install
 pre-commit run --all-files
+
 ```
 
 Windows: use `scripts/purge-ephemeral.ps1` and `scripts/check-repo-hygiene.ps1`.
@@ -62,7 +61,6 @@ Windows: use `scripts/purge-ephemeral.ps1` and `scripts/check-repo-hygiene.ps1`.
 | `git add -A` without review | Accidental artifact commits |
 | `git clean -fd` without human review | Deletes non-ignored untracked work |
 | Enable Git LFS for source code | FOSS template avoids LFS by default |
-
 ## Related
 
 - [`docs/WEB_PROJECT_LAYOUT.md`](WEB_PROJECT_LAYOUT.md) — dist/ not in git

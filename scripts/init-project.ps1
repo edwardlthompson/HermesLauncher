@@ -196,6 +196,7 @@ $CopyComm = @()
 if ($DistributionTier -eq "commercial") { $CopyComm = @("--copy-commercial") }
 python3 scripts/sync-cursor-features.py --root $Root --tier $DistributionTier --patch-init @CopyComm
 python3 scripts/sync-design-tokens.py 2>$null
+python3 scripts/generate-project-readme.py 2>$null
 Write-Host "Wrote .cursor/stack-selection.json (tier=$DistributionTier) and synced AGENT_MEMORY active modules."
 
 Write-Host ""

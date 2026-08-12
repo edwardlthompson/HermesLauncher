@@ -264,6 +264,7 @@ if [ "$DISTRIBUTION_TIER" = "commercial" ]; then
 fi
 python3 scripts/sync-cursor-features.py --root "$ROOT" --tier "$DISTRIBUTION_TIER" --patch-init $COPY_COMM
 python3 scripts/sync-design-tokens.py || true
+python3 scripts/generate-project-readme.py || true
 echo "Wrote .cursor/stack-selection.json (tier=$DISTRIBUTION_TIER) and synced AGENT_MEMORY active modules."
 
 echo ""

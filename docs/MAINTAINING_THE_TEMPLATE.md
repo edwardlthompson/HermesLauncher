@@ -37,7 +37,6 @@ Playbook for template maintainers optimizing agent-project-bootstrap over time.
 | `.github/workflows/` | Medium | Document in CHANGELOG |
 | `TEMPLATE_INDEX.json` schema | High | Requires migration notes |
 | `INITIALIZATION_PROMPT.md` structure | High | MAJOR version bump |
-
 ## Feedback Loop
 
 Encourage `template_improvement` issues. Triage labels:
@@ -50,6 +49,12 @@ Encourage `template_improvement` issues. Triage labels:
 ## Regression
 
 Template CI must pass before every release. The template eats its own dogfood.
+
+## Branding pack vs template README
+
+- Upstream template keeps `branding/product.json` `"mode": "template"`. `scripts/generate-project-readme.py` writes **only** `branding/generated/README.preview.md` — never overwrite the template [README.md](../README.md) with the product pitch template.
+- Child repos set `"mode": "product"` during Sprint 0 after filling name/tagline/pitch.
+- Logos and official colors: [`branding/BRANDING.md`](../branding/BRANDING.md). After token or asset edits: `python3 scripts/sync-design-tokens.py`.
 
 ## README Badges
 

@@ -44,6 +44,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+* **branding:** comprehensive branding kit (randing/) — logo suite, favicon, heroes, official-colors.css, voice/pitch product.json
+* **branding:** mode-gated pitch README generator (scripts/generate-project-readme.py); template preview vs child product README
+* **branding:** sync distributes web icons + Android ic_brand_mark.xml; gates require branding pack
+
 * **codex:** opt-in third-party Codex review (`/codex-review`, workflow example, `docs/CODEX_REVIEW.md`) folded into expanded `/prerelease` / `/ship`
 * **autofix:** multi-stack `feature-autofix` (Biome, ruff, cargo fmt, gofmt) + allowlisted `apply-suggested-gate-fixes`
 * **tests:** Hypothesis (Python) and fast-check (web/node) Golden Path property tests

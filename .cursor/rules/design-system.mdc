@@ -4,6 +4,7 @@ globs:
   - examples/web/**
   - examples/android/**
   - design-tokens/**
+  - branding/**
   - docs/DESIGN_GUIDE.md
   - docs/WEB_PROJECT_LAYOUT.md
 ---
@@ -13,8 +14,9 @@ globs:
 Before editing UI in `examples/web/` or `examples/android/`:
 
 1. Read @docs/WEB_PROJECT_LAYOUT.md before moving site files or choosing publish paths (web stack)
-2. Read @docs/DESIGN_GUIDE.md
+2. Read @docs/DESIGN_GUIDE.md and @branding/BRANDING.md
 3. Read generated tokens in `design-tokens/design-tokens.json` (source) — not hand-edit outputs
+4. Logos and pitch copy live under `branding/` — run sync + `generate-project-readme.py` after edits
 
 ## Repository layout (web)
 
@@ -25,7 +27,8 @@ Before editing UI in `examples/web/` or `examples/android/`:
 ## Mandatory rules
 
 - **Tokens:** Change `design-tokens/design-tokens.json` only; run `python3 scripts/sync-design-tokens.py`
-- **No raw hex** in UI Kotlin/TS/CSS (except `design-tokens.css` and generated `Color.kt`)
+- **Branding:** Edit `branding/assets/` and `branding/product.json`; sync distributes icons; README overwrite only when `product.json` `mode` is `product`
+- **No raw hex** in UI Kotlin/TS/CSS (except `design-tokens.css`, generated `Color.kt`, and `branding/assets/*.svg`)
 - **No UI string literals** in Compose (`Text("...")`) or web `main.ts` innerHTML — use `stringResource` / `t()`
 - **No copy in CSS** — no `content:` text, no user-facing strings in stylesheets
 - **Theme toggle:** Preserve system / light / dark cycle; default `system`

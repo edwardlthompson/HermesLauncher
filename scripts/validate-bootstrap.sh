@@ -37,6 +37,11 @@ REQUIRED=(
   THIRD_PARTY_LICENSES.md
   .env.example
   design-tokens/design-tokens.json
+  branding/BRANDING.md
+  branding/product.json
+  branding/assets/logo-mark.svg
+  branding/official-colors.css
+  branding/generated/README.preview.md
   docs/help/BATCH_COMMANDS.md
   docs/BATCH_COMMANDS.md
   .cursor/rules/batch-commands.mdc

@@ -1,6 +1,10 @@
+<p align="center">
+  <img src="../../branding/assets/logo-mark.svg" alt="Golden Path" width="64" />
+</p>
+
 # Golden Path Python
 
-uv + ruff + mypy + pytest CLI stub for agent-project-bootstrap.
+FOSS apps with a clear path from idea to release — uv + ruff + mypy + pytest CLI stub. Brand kit: [`branding/BRANDING.md`](../../branding/BRANDING.md).
 
 ## Commands
 
@@ -12,6 +16,7 @@ uv run ruff check .
 uv run ruff format --check .
 uv run mypy src
 uv run hello FOSS
+
 ```
 
 ## Features

@@ -1,13 +1,29 @@
 #!/usr/bin/env python3
-"""Generate platform design outputs from design-tokens/design-tokens.json."""
+"""Generate platform design outputs from design-tokens/design-tokens.json.
+
+Also distributes branding assets and writes branding/official-colors.css.
+"""
 from __future__ import annotations
 
 import hashlib
 import json
+import re
+import shutil
 import sys
 from pathlib import Path
 
 HEADER = "GENERATED — do not edit; run scripts/sync-design-tokens.py"
+
+REQUIRED_BRAND_ASSETS = (
+    "logo-mark.svg",
+    "logo-mark-mono.svg",
+    "logo-wordmark.svg",
+    "logo-lockup.svg",
+    "favicon.svg",
+    "app-icon-512.svg",
+    "readme-hero.svg",
+    "social-preview.svg",
+)
 
 
 def repo_root() -> Path:
@@ -221,10 +237,211 @@ def generate_theme_meta(tokens: dict) -> str:
     return json.dumps(payload, indent=2) + "\n"
 
 
+def generate_official_colors_css(tokens: dict, digest: str) -> str:
+    """Human-facing brand aliases generated from design tokens."""
+    colors = tokens["color"]
+    meta = tokens["meta"]
+    primary = colors["primary"]["light"]
+    secondary = colors["secondary"]["light"]
+    surface = colors["surface"]["light"]
+    background = colors["background"]["light"]
+    on_surface = colors["onSurface"]["light"]
+    lines = [
+        f"/* {HEADER} */",
+        f"/* source-hash: {digest} */",
+        "/* Official brand colors — prefer --gp-* in app UI; use --brand-* in docs/marketing */",
+        "",
+        ":root {",
+        f"  --brand-name: \"{meta['name']}\";",
+        f"  --brand-theme-light: {meta['themeColorLight']};",
+        f"  --brand-theme-dark: {meta['themeColorDark']};",
+    ]
+    for key, value in colors.items():
+        kebab = _kebab(key)
+        lines.append(f"  --brand-{kebab}: {value['light']};")
+        lines.append(f"  --brand-{kebab}-dark: {value['dark']};")
+    lines.extend(
+        [
+            "",
+            "  /* Convenience aliases (light) */",
+            f"  --brand-accent: {primary};",
+            f"  --brand-accent-secondary: {secondary};",
+            f"  --brand-canvas: {background};",
+            f"  --brand-panel: {surface};",
+            f"  --brand-ink: {on_surface};",
+            "}",
+            "",
+            "@media (prefers-color-scheme: dark) {",
+            "  :root {",
+            f"    --brand-accent: {colors['primary']['dark']};",
+            f"    --brand-accent-secondary: {colors['secondary']['dark']};",
+            f"    --brand-canvas: {colors['background']['dark']};",
+            f"    --brand-panel: {colors['surface']['dark']};",
+            f"    --brand-ink: {colors['onSurface']['dark']};",
+            "  }",
+            "}",
+            "",
+        ]
+    )
+    return "\n".join(lines)
+
+
+def require_brand_assets(root: Path) -> Path:
+    assets = root / "branding" / "assets"
+    if not assets.is_dir():
+        raise FileNotFoundError("missing branding/assets/")
+    missing = [name for name in REQUIRED_BRAND_ASSETS if not (assets / name).is_file()]
+    if missing:
+        raise FileNotFoundError(
+            "missing branding assets: " + ", ".join(missing)
+        )
+    return assets
+
+
+def _svg_fill_to_android_vector(mark_svg: str) -> str:
+    """Best-effort conversion of logo-mark.svg to a VectorDrawable."""
+    surface = "#1a1a2e"
+    primary = "#e94560"
+    rect = re.search(
+        r'<rect[^>]*fill="(#[0-9A-Fa-f]{6})"',
+        mark_svg,
+    )
+    path = re.search(
+        r'<path[^>]*d="([^"]+)"[^>]*fill="(#[0-9A-Fa-f]{6})"',
+        mark_svg,
+    )
+    if not path:
+        path = re.search(
+            r'<path[^>]*fill="(#[0-9A-Fa-f]{6})"[^>]*d="([^"]+)"',
+            mark_svg,
+        )
+        if path:
+            primary = path.group(1)
+            d = path.group(2)
+        else:
+            d = "M16 40 L32 16 L48 40 Z"
+    else:
+        d = path.group(1)
+        primary = path.group(2)
+    if rect:
+        surface = rect.group(1)
+    # Scale 64→24 viewport for Android convention
+    return "\n".join(
+        [
+            f"<!-- {HEADER} -->",
+            '<vector xmlns:android="http://schemas.android.com/apk/res/android"',
+            '    android:width="24dp"',
+            '    android:height="24dp"',
+            '    android:viewportWidth="64"',
+            '    android:viewportHeight="64">',
+            f'    <path android:fillColor="{surface}"',
+            '        android:pathData="M12,0 L52,0 A12,12 0 0 1 64,12 L64,52 A12,12 0 0 1 52,64 L12,64 A12,12 0 0 1 0,52 L0,12 A12,12 0 0 1 12,0 Z"/>',
+            f'    <path android:fillColor="{primary}"',
+            f'        android:pathData="{d}"/>',
+            "</vector>",
+            "",
+        ]
+    )
+
+
+def distribute_web_branding(web_root: Path, assets: Path, tokens: dict) -> None:
+    public = web_root / "public"
+    public.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(assets / "logo-mark.svg", public / "icon.svg")
+    shutil.copyfile(assets / "logo-mark.svg", public / "logo.svg")
+    shutil.copyfile(assets / "favicon.svg", public / "favicon.svg")
+    shutil.copyfile(assets / "readme-hero.svg", public / "readme-hero.svg")
+    shutil.copyfile(assets / "social-preview.svg", public / "social-preview.svg")
+
+    meta = tokens["meta"]
+    theme_dark = meta["themeColorDark"]
+    surface_dark = tokens["color"]["surface"]["dark"]
+    manifest_path = public / "manifest.webmanifest"
+    if manifest_path.is_file():
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        manifest["theme_color"] = theme_dark
+        manifest["background_color"] = surface_dark
+        icons = manifest.get("icons") or []
+        # Ensure favicon + icon entries
+        srcs = {i.get("src") for i in icons if isinstance(i, dict)}
+        if "/icon.svg" not in srcs:
+            icons.append(
+                {
+                    "src": "/icon.svg",
+                    "sizes": "any",
+                    "type": "image/svg+xml",
+                    "purpose": "any",
+                }
+            )
+        if "/favicon.svg" not in srcs:
+            icons.append(
+                {
+                    "src": "/favicon.svg",
+                    "sizes": "any",
+                    "type": "image/svg+xml",
+                    "purpose": "any",
+                }
+            )
+        manifest["icons"] = icons
+        manifest_path.write_text(
+            json.dumps(manifest, indent=2) + "\n", encoding="utf-8"
+        )
+
+    index_path = web_root / "index.html"
+    if index_path.is_file():
+        html = index_path.read_text(encoding="utf-8")
+        html = re.sub(
+            r'(<meta name="theme-color" content=")[^"]*(")',
+            rf'\g<1>{meta["themeColorLight"]}\2',
+            html,
+            count=1,
+        )
+        if 'rel="icon"' in html and "/favicon.svg" not in html:
+            html = html.replace(
+                '<link rel="icon" href="/icon.svg" type="image/svg+xml" />',
+                '<link rel="icon" href="/favicon.svg" type="image/svg+xml" />\n'
+                '    <link rel="apple-touch-icon" href="/icon.svg" />',
+            )
+        elif 'href="/favicon.svg"' not in html and 'rel="icon"' in html:
+            pass
+        else:
+            if 'rel="icon"' not in html:
+                html = html.replace(
+                    "</head>",
+                    '    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />\n'
+                    '    <link rel="apple-touch-icon" href="/icon.svg" />\n'
+                    "  </head>",
+                )
+        index_path.write_text(html, encoding="utf-8", newline="\n")
+
+
+def distribute_android_branding(android_root: Path, assets: Path) -> None:
+    drawable = (
+        android_root
+        / "app"
+        / "src"
+        / "main"
+        / "res"
+        / "drawable"
+    )
+    drawable.mkdir(parents=True, exist_ok=True)
+    mark = (assets / "logo-mark.svg").read_text(encoding="utf-8")
+    (drawable / "ic_brand_mark.xml").write_text(
+        _svg_fill_to_android_vector(mark), encoding="utf-8", newline="\n"
+    )
+
+
 def write_outputs(root: Path) -> None:
     tokens = load_tokens(root)
     digest = token_hash(tokens)
     synced: list[str] = []
+
+    assets = require_brand_assets(root)
+    brand_css = root / "branding" / "official-colors.css"
+    brand_css.write_text(
+        generate_official_colors_css(tokens, digest), encoding="utf-8", newline="\n"
+    )
+    synced.append("branding")
 
     web_root = root / "examples" / "web"
     if web_root.is_dir():
@@ -233,6 +450,7 @@ def write_outputs(root: Path) -> None:
         web_css.parent.mkdir(parents=True, exist_ok=True)
         web_css.write_text(generate_css(tokens, digest), encoding="utf-8")
         theme_meta.write_text(generate_theme_meta(tokens), encoding="utf-8")
+        distribute_web_branding(web_root, assets, tokens)
         synced.append("web")
 
     android_root = root / "examples" / "android"
@@ -253,11 +471,8 @@ def write_outputs(root: Path) -> None:
         (android_theme / "Color.kt").write_text(generate_color_kt(tokens, digest), encoding="utf-8")
         (android_theme / "Type.kt").write_text(generate_type_kt(tokens, digest), encoding="utf-8")
         (android_theme / "Dimens.kt").write_text(generate_dimens_kt(tokens, digest), encoding="utf-8")
+        distribute_android_branding(android_root, assets)
         synced.append("android")
-
-    if not synced:
-        print("No active example stacks for design token sync; skipped")
-        return
 
     print(f"Synced design tokens for {', '.join(synced)} (hash {digest})")
 
@@ -267,7 +482,11 @@ def main() -> None:
     if not (root / "design-tokens" / "design-tokens.json").is_file():
         print("Missing design-tokens/design-tokens.json", file=sys.stderr)
         sys.exit(1)
-    write_outputs(root)
+    try:
+        write_outputs(root)
+    except FileNotFoundError as exc:
+        print(str(exc), file=sys.stderr)
+        sys.exit(1)
 
 
 if __name__ == "__main__":

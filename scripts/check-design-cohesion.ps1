@@ -14,6 +14,22 @@ if (-not (Test-Path "design-tokens/design-tokens.json")) {
     Fail "missing design-tokens/design-tokens.json"
 }
 
+$brandFiles = @(
+    "branding/BRANDING.md",
+    "branding/product.json",
+    "branding/product.schema.json",
+    "branding/voice.md",
+    "branding/assets/logo-mark.svg",
+    "branding/official-colors.css",
+    "branding/generated/README.preview.md",
+    "branding/templates/README.product.md"
+)
+foreach ($brandFile in $brandFiles) {
+    if (-not (Test-Path $brandFile)) {
+        Fail "missing $brandFile (run scripts/sync-design-tokens.py and scripts/generate-project-readme.py)"
+    }
+}
+
 $hexPattern = '#[0-9A-Fa-f]{6}\b'
 $contentPattern = 'content\s*:\s*[''"][^''"]{2,}'
 
@@ -79,15 +95,21 @@ if (Test-Path "examples/android/app/src/main/java") {
         }
 }
 
-$required = @()
+$required = @("branding/official-colors.css")
 if (Test-Path "examples/web") {
     $required += @(
         "examples/web/src/design-tokens.css",
-        "examples/web/src/theme-meta.json"
+        "examples/web/src/theme-meta.json",
+        "examples/web/public/icon.svg",
+        "examples/web/public/favicon.svg",
+        "examples/web/public/logo.svg"
     )
 }
 if (Test-Path "examples/android") {
-    $required += "examples/android/app/src/main/java/dev/foss/goldenpath/ui/theme/Color.kt"
+    $required += @(
+        "examples/android/app/src/main/java/dev/foss/goldenpath/ui/theme/Color.kt",
+        "examples/android/app/src/main/res/drawable/ic_brand_mark.xml"
+    )
 }
 foreach ($path in $required) {
     if (-not (Test-Path $path)) {

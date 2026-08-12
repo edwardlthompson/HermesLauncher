@@ -60,7 +60,6 @@ Initialize the repository with a professional, hermetic layout. Early in the lif
 - **`[AGENT]`** Every file in `scripts/validate-bootstrap.sh` REQUIRED list must be indexed (including `CONTRIBUTING.md`, `LICENSE`, `.env.example`, and security playbooks).
 - **`[AUTO]`** `validate-template-index.sh` must pass before Sprint 0 sign-off.
 
-
 **CI implementation discipline (prevent false greens):**
 
 - **`[AGENT]`** FOSS compliance grep in CI must scan **build manifests only** (`*.gradle`, `*.gradle.kts`, `*.toml`) — never README or docs that mention prohibited SDK names in compliance bullets.
@@ -92,7 +91,6 @@ Every task in `BUILD_PLAN.md` must carry an owner label so automated and human w
 | `HUMAN` | Human developer | Approvals, credentials, GitHub settings, product decisions |
 | `ADB` | Human (Android) | Android SDK, emulator/device testing, F-Droid submission |
 | `AUTO` | CI/scripts/bots | GitHub Actions, Dependabot, pre-commit, update checker |
-
 - **Status markers:** 🔲 open · ✅ done · ❌ blocked — use emoji on all checklists (not `- [ ]` checkboxes) for readable source and Preview
 - **Task format:** `🔲 [OWNER] Description` (done: swap 🔲 → ✅; blocked: swap 🔲 → ❌ and note reason)
 - **Sprint structure:** every sprint has two subsections:
@@ -122,6 +120,7 @@ Every task in `BUILD_PLAN.md` must carry an owner label so automated and human w
 |------|-------|----------------|
 | Web PWA tests | AGENT | `src/web/**` |
 | Python CLI suite | AGENT | `src/python/**` |
+
 ```
 
 ## 4. Target-Specific Ecosystem Modules (Activate Applicable Module)
@@ -230,6 +229,7 @@ Before claiming any sprint complete or requesting `[HUMAN]` approval:
 [AUTO] scripts/check-license-compliance.sh (after deps installed)
 [AUTO] pre-commit run --all-files
 [AUTO] CI-equivalent local run (stack test commands from examples/)
+
 ```
 
 **Stack-specific CI-equivalent commands (run before claiming Sprint 0 done):**
@@ -240,11 +240,11 @@ Before claiming any sprint complete or requesting `[HUMAN]` approval:
 | Python | `uv sync --locked --all-extras` → `uv run ruff check .` → `uv run ruff format --check .` → `uv run mypy src` → `uv run pytest` |
 | Android | Gradle structure + FOSS manifest grep (not README) per `examples/android/` CI pattern |
 | Node | `npm ci` → `npm run lint` → `npm test` in `examples/node/` |
-
 **Post-push GitHub gate (after first push to `main`):**
 
 ```text
 [AUTO] scripts/check-github-ci.sh --wait 300
+
 ```
 
 Polls **CI**, **Security Scan**, and **CodeQL** on the pushed commit. A green CI job alone does not satisfy Sprint 0 — Security Scan failures (e.g. invalid `trivy-action` version pins) must be fixed before sign-off.
@@ -275,6 +275,7 @@ scripts/init-project.sh \
   --purpose "Offline-first notes" \
   --interval weekly \
   --codeowner myuser
+
 ```
 
 PowerShell: `pwsh scripts/init-project.ps1 -NonInteractive -Stack web -ProjectName "My App" -ProjectPurpose "Offline-first notes"`. Add `-Prune` to remove unused stacks; `-KeepOptional` (default) retains rust/go/lightroom, `-PruneOptional` removes them too. See `scripts/init-project.sh --help`.
@@ -282,7 +283,7 @@ PowerShell: `pwsh scripts/init-project.ps1 -NonInteractive -Stack web -ProjectNa
 1. Confirm understanding of the specified Platform, Stack, Purpose, and FOSS distribution pipelines.
 1a. Pick Cursor mode per `docs/CURSOR_MODES.md` (Ask to explore, Plan for architecture, Agent for approved execution).
 1b. Bookmark `docs/help/BATCH_COMMANDS.md` — type `/` in Agent chat for shortcut workflows (`/bootstrap` on new projects).
-2. Initialize core repository architecture, root documentation (`README.md`, `LICENSE`, `CONTRIBUTING.md`, `SECURITY.md`, `CODE_OF_CONDUCT.md`), and the Workspace Memory files. `README.md` must include: project purpose and stack, quick start, BUILD_PLAN label + status-marker legend (🔲/✅/❌), template update checker table, in-app About + donation placeholder note (separate from template checker), security section (Dependabot alerts + weekly triage link to `docs/SECURITY_TRIAGE.md`), and links to `docs/START_HERE.md`, `docs/CURSOR_MODES.md`, `CONTRIBUTING.md`, and the active module guide.
+2. Initialize core repository architecture, root documentation (`README.md`, `LICENSE`, `CONTRIBUTING.md`, `SECURITY.md`, `CODE_OF_CONDUCT.md`), and the Workspace Memory files. Fill [`branding/product.json`](../branding/product.json) (name, tagline, pitch, features); set `"mode": "product"`; run `python3 scripts/sync-design-tokens.py` and `python3 scripts/generate-project-readme.py` so root `README.md` is the pitch README (hero, badges, features, quick start, install, usage, contributing, security, license). Keep BUILD_PLAN label + status-marker legend (🔲/✅/❌), template update checker pointer, in-app About + donation note, Dependabot / `docs/SECURITY_TRIAGE.md`, and links to `docs/START_HERE.md`, `docs/CURSOR_MODES.md`, `CONTRIBUTING.md`, `branding/BRANDING.md`, and the active module guide. See [`branding/BRANDING.md`](../branding/BRANDING.md).
 3. Configure a local development sandbox (e.g., Devcontainer configuration), scaffolding scripts for components/features, and local git hooks (Gitleaks/TruffleHog + Linter/Formatter pre-commit hooks). Add `.env.example` for documented environment variables.
 4. Establish a single, end-to-end "Golden Path" reference feature—including pure business logic, runtime type validation, a mocked data source, a layout matching text-based UI specs, and 100% unit/integration/visual test coverage—to serve as the structural template for all future development.
 5. Propose the complete initial directory structure, the first formal ADR (`docs/adr/0001-core-architecture.md` or `DECISION_LOG.md`) establishing state/persistence baselines, and the step-by-step `BUILD_PLAN.md` for approval. `BUILD_PLAN.md` must use status markers (🔲 open · ✅ done · ❌ blocked), owner labels, Sequential and Parallel lanes per sprint (≥ 2 AGENT Parallel rows per sprint unless `parallel_exception`), `agent_count_target` comments, `### Parallelization` in the planning proposal, and an Ongoing Maintenance section with weekly security triage. Run `bash scripts/check-build-plan-parallel.sh` before asking for approval.
