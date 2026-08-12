@@ -66,7 +66,6 @@ grep '\[AUTO\]' BUILD_PLAN.md
 ### Open (human judgment only)
 
 - 🔲 [HUMAN] Quarterly review of `CURSOR_RADAR_REPORT.md` / backlog (top items → BUILD_PLAN)
-- 🔲 [HUMAN] Visual review of `branding/generated/README.preview.md` and logo suite on GitHub
 
 *Recurring maintenance: see **Ongoing Maintenance** below.*
 

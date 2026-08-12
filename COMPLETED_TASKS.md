@@ -8,6 +8,7 @@
 - ✅ [AGENT] Extend `scripts/sync-design-tokens.py` + `scripts/generate-project-readme.py` (mode-gated pitch README)
 - ✅ [AGENT] Wire cohesion / validate-bootstrap / readme-health + DESIGN_GUIDE / init / MODULE docs
 - ✅ [AUTO] Merge Release Please PR #55 — [v0.17.0](https://github.com/edwardlthompson/agent-project-bootstrap/releases/tag/v0.17.0) published @ `701cd24`
+- ✅ [HUMAN] Visual review of `branding/generated/README.preview.md` and logo suite on GitHub
 
 ## v0.15.2 release (2026-08-01)
 
