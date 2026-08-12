@@ -16,6 +16,13 @@
 
 ## Entries
 
+### 2026-08-12 — Ship v0.17.0 branding kit (/ship)
+- **Status:** Accepted
+- **Context:** Child repos need replaceable logos/colors and pitch-quality READMEs without overwriting the template README
+- **Decision:** Ship `branding/` pack + mode-gated `generate-project-readme.py` (`template` preview only; `product` writes root README); extend token sync for official-colors and asset distribution; merge Release Please #55 to **v0.17.0**
+- **Alternatives considered:** Generate logos from tokens only (rejected: humans replace art files); always overwrite root README (rejected: clobbers template guide)
+- **Consequences:** Sprint 0 fills `product.json` then generate; upstream keeps `mode: template`; store PNGs remain human/ADB exports
+
 _Seed template ADR: `docs/adr/0000-template-baseline.md`. Child repos use `docs/adr/0001-core-architecture.md`._
 
 ### 2026-08-10 — Ship v0.16.0 (/ship)
