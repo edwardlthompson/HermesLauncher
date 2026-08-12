@@ -15,6 +15,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.17.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.16.0...v0.17.0) (2026-08-12)
+
+
+### Added
+
+* **branding:** add branding kit and pitch README generator ([2488b09](https://github.com/edwardlthompson/agent-project-bootstrap/commit/2488b0962f0921e855c0c5afe6ed5af15a1337a1))
+
+
+### Documentation
+
+* **release:** archive v0.16.0 ship memory and decisions ([90ce3db](https://github.com/edwardlthompson/agent-project-bootstrap/commit/90ce3db8b678ec43cf53701d0c81a31afbe3345a))
+
 ## [0.16.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.15.2...v0.16.0) (2026-08-10)
 
 
