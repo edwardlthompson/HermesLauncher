@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-15 — Ship v0.18.1 (/push)
+- **Status:** Accepted
+- **Context:** M35 Windows Store `python3` hang + About-gate restore ready; first `PY="py -3"` broke `"$PY"` in Dependabot count
+- **Decision:** Resolve `PY` to `sys.executable` from `py -3`; merge Release Please #62 to **v0.18.1** after CI green on `b4fca9c`
+- **Alternatives considered:** Leave `PY="py -3"` and unquote all callers (rejected: `"$PY"` is the safe pattern); wait for RP auto-merge (blocked: no checks on release-please branch)
+- **Consequences:** Template at 0.18.1; Scorecard SARIF and Dependabot PRs #58–#61 stay HUMAN
+
 ### 2026-08-15 — Audit M35 Windows Python resolver
 - **Status:** Accepted
 - **Context:** `/ship` autofix hung because `command -v python3` resolved to the Microsoft Store stub under `WindowsApps`

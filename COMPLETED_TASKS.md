@@ -2,6 +2,11 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## v0.18.1 Windows Python resolver release (2026-08-15)
+
+- ✅ [AUTO] Merge Release Please PR #62 — [v0.18.1](https://github.com/edwardlthompson/agent-project-bootstrap/releases/tag/v0.18.1) published @ `fe80fea`
+- ✅ [AGENT] `/push`: M35 resolver + About-gate restore; `PY` is a single executable so `"$PY"` works
+
 ## Sprint M35 — Audit 2026-08-15
 
 - ✅ [AGENT] F-001 — `scripts/lib/resolve-python.sh`; skip Windows Store `python3` stub; prefer `py -3`

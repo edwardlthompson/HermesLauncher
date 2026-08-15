@@ -6,7 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+### Fixed
+
+### Documentation
+
 ## [0.18.1](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.18.0...v0.18.1) (2026-08-15)
+
+
+### Fixed
+
+* **windows:** resolve Python via `scripts/lib/resolve-python.sh` (skip Store stub; `PY` is a single executable so `"$PY"` works)
+* **gates:** restore About slice from `git checkout HEAD` if `verify-about-feature-gate` backup is missing
 
 
 ### Changed
@@ -16,21 +30,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Documentation
 
+* **changelog:** slim `[Unreleased]` after v0.18.0 so Release Please does not re-list shipped notes
 * **kb:** record npm ci lockfile miss after browsers override ([33e961f](https://github.com/edwardlthompson/agent-project-bootstrap/commit/33e961f857764ffd8f0f78f0b7a7e44c8073ede5))
 * **release:** archive v0.18.0 ship memory and decisions ([54909bc](https://github.com/edwardlthompson/agent-project-bootstrap/commit/54909bc8447bc767de70c297361771eff50592d4))
-
-## [Unreleased]
-
-### Added
-
-### Fixed
-
-* **windows:** resolve Python via `scripts/lib/resolve-python.sh` (skip Store stub; `PY` is a single executable so `"$PY"` works)
-* **gates:** restore About slice from `git checkout HEAD` if `verify-about-feature-gate` backup is missing
-
-### Documentation
-
-* **changelog:** slim `[Unreleased]` after v0.18.0 so Release Please does not re-list shipped notes
 
 ## [0.18.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.17.0...v0.18.0) (2026-08-15)
 
