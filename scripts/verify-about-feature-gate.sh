@@ -6,32 +6,45 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
-if command -v python3 >/dev/null 2>&1; then PY=python3
-elif command -v python >/dev/null 2>&1; then PY=python
-else PY=python3; fi
+# shellcheck source=lib/resolve-python.sh
+. "$(cd "$(dirname "$0")" && pwd)/lib/resolve-python.sh"
 
 WEB_SRC="$ROOT/examples/web/src"
 WEB_E2E="$ROOT/examples/web/e2e"
 BACKUP="$(mktemp -d)"
 
+ABOUT_TRACKED=(
+  examples/web/src/about
+  examples/web/src/main.ts
+  examples/web/src/appBootstrap.ts
+  examples/web/src/appBootstrap.test.ts
+  examples/web/src/AppShell.ts
+  examples/web/src/components/AboutPanel.ts
+  examples/web/src/settings/preferences.ts
+  examples/web/e2e/app.spec.ts
+)
+
 restore() {
   if [ -d "$BACKUP/about" ]; then
     rm -rf "$WEB_SRC/about"
     cp -a "$BACKUP/about" "$WEB_SRC/about"
-  fi
-  for rel in main.ts appBootstrap.ts appBootstrap.test.ts AppShell.ts; do
-    if [ -f "$BACKUP/$rel" ]; then
-      cp -a "$BACKUP/$rel" "$WEB_SRC/$rel"
+    for rel in main.ts appBootstrap.ts appBootstrap.test.ts AppShell.ts; do
+      if [ -f "$BACKUP/$rel" ]; then
+        cp -a "$BACKUP/$rel" "$WEB_SRC/$rel"
+      fi
+    done
+    if [ -f "$BACKUP/components/AboutPanel.ts" ]; then
+      cp -a "$BACKUP/components/AboutPanel.ts" "$WEB_SRC/components/AboutPanel.ts"
     fi
-  done
-  if [ -f "$BACKUP/components/AboutPanel.ts" ]; then
-    cp -a "$BACKUP/components/AboutPanel.ts" "$WEB_SRC/components/AboutPanel.ts"
-  fi
-  if [ -f "$BACKUP/settings/preferences.ts" ]; then
-    cp -a "$BACKUP/settings/preferences.ts" "$WEB_SRC/settings/preferences.ts"
-  fi
-  if [ -f "$BACKUP/app.spec.ts" ]; then
-    cp -a "$BACKUP/app.spec.ts" "$WEB_E2E/app.spec.ts"
+    if [ -f "$BACKUP/settings/preferences.ts" ]; then
+      cp -a "$BACKUP/settings/preferences.ts" "$WEB_SRC/settings/preferences.ts"
+    fi
+    if [ -f "$BACKUP/app.spec.ts" ]; then
+      cp -a "$BACKUP/app.spec.ts" "$WEB_E2E/app.spec.ts"
+    fi
+  else
+    echo "WARN: About backup missing; restoring tracked slice from HEAD"
+    git checkout HEAD -- "${ABOUT_TRACKED[@]}" || true
   fi
   rm -rf "$BACKUP"
 }
@@ -42,6 +55,10 @@ echo "=== About feature gate verification ==="
 echo "1/2 Gate with About feature present..."
 bash scripts/feature-gate.sh --stack web --step about-with
 
+if [ ! -d "$WEB_SRC/about" ]; then
+  echo "WARN: About slice missing before backup; restoring from HEAD"
+  git checkout HEAD -- "${ABOUT_TRACKED[@]}"
+fi
 mkdir -p "$BACKUP/components" "$BACKUP/settings"
 cp -a "$WEB_SRC/about" "$BACKUP/about"
 cp -a "$WEB_SRC/main.ts" "$BACKUP/main.ts"

@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+### Fixed
+
+* **windows:** resolve Python via `scripts/lib/resolve-python.sh` (skip Store stub; `PY` is a single executable so `"$PY"` works)
+* **gates:** restore About slice from `git checkout HEAD` if `verify-about-feature-gate` backup is missing
+
+### Documentation
+
+* **changelog:** slim `[Unreleased]` after v0.18.0 so Release Please does not re-list shipped notes
+
 ## [0.18.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.17.0...v0.18.0) (2026-08-15)
 
 
@@ -54,33 +67,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Documentation
 
 * **changelog:** note postcss override in Unreleased security fix ([96c8fd0](https://github.com/edwardlthompson/agent-project-bootstrap/commit/96c8fd07892051df0e8ccff0ebcb7932b59c9ba3))
-
-## [Unreleased]
-
-### Added
-
-* **prior-art:** honesty labels (enforced vs instructed), parallel handoff stub, upgrade Canon/Mixed/Sacred column, OWASP LLM Top 10 walk, scratchpad reset, optional wshobson marketplace pointer, bootstrap-doctor alias
-* **branding:** comprehensive branding kit (randing/) — logo suite, favicon, heroes, official-colors.css, voice/pitch product.json
-* **branding:** mode-gated pitch README generator (scripts/generate-project-readme.py); template preview vs child product README
-* **branding:** sync distributes web icons + Android ic_brand_mark.xml; gates require branding pack
-
-* **codex:** opt-in third-party Codex review (`/codex-review`, workflow example, `docs/CODEX_REVIEW.md`) folded into expanded `/prerelease` / `/ship`
-* **autofix:** multi-stack `feature-autofix` (Biome, ruff, cargo fmt, gofmt) + allowlisted `apply-suggested-gate-fixes`
-* **tests:** Hypothesis (Python) and fast-check (web/node) Golden Path property tests
-
-### Fixed
-
-* **security:** bump `examples/web` npm overrides — `@puppeteer/browsers` >=3.2.0 (drops unpatched `extract-zip`), `postcss` >=8.5.23, `nanoid` >=3.3.18; `examples/node` `hono` >=4.12.34, `postcss` >=8.5.23, `nanoid` >=3.3.18
-* **gates:** About-without stubs write LF + Biome-normalized imports so `format:check` passes on Windows
-
-### Changed
-
-* **plan:** require resolved `### Critique` as Issue->Resolution in every plan; single best approach (no unresolved option dumps)
-* **prerelease:** autofix → optional Codex → hard `pre-release-gate` before `/push`
-
-### Documentation
-
-* **prior-art:** honesty labels (enforced vs instructed), parallel handoff stub, upgrade Canon/Mixed/Sacred, OWASP LLM walk, scratchpad reset, optional wshobson marketplace pointer, bootstrap-doctor alias (M34)
 
 ## [0.15.1](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.15.0...v0.15.1) (2026-07-22)
 

@@ -2,6 +2,13 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## Sprint M35 — Audit 2026-08-15
+
+- ✅ [AGENT] F-001 — `scripts/lib/resolve-python.sh`; skip Windows Store `python3` stub; prefer `py -3`
+- ✅ [AGENT] F-002 — Slim `CHANGELOG.md` `[Unreleased]` (drop already-shipped 0.16/0.17/0.18 bullets)
+- ✅ [AGENT] F-003 — `verify-about-feature-gate.sh` restore About slice from `git checkout HEAD` if backup missing
+- ✅ [AGENT] F-004 — Rewrite `foss-compliance.mdc` / `commercial-compliance.mdc` as UTF-8 LF
+
 ## v0.18.0 prior-art thin steals release (2026-08-15)
 
 - ✅ [AUTO] Merge Release Please PR #56 — [v0.18.0](https://github.com/edwardlthompson/agent-project-bootstrap/releases/tag/v0.18.0) published @ `3f0b5a3`

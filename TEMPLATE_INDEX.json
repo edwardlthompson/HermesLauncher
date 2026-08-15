@@ -1291,6 +1291,13 @@
       "owner": "maintainer"
     },
     {
+      "path": "scripts/lib/resolve-python.sh",
+      "purpose": "Resolve PY for bash gates; skip Windows Store python3 stub; prefer py -3",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": "scripts/init-project.sh",
       "purpose": "Post-template clone customization and stack picker",
       "read_when": "bootstrap_session_start",

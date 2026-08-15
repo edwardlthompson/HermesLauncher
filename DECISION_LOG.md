@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-15 — Audit M35 Windows Python resolver
+- **Status:** Accepted
+- **Context:** `/ship` autofix hung because `command -v python3` resolved to the Microsoft Store stub under `WindowsApps`
+- **Decision:** Add `scripts/lib/resolve-python.sh` (skip Store stub; prefer `py -3`) and source it from gate/autofix scripts; restore About slice from `git checkout HEAD` if the verify-about backup is missing
+- **Alternatives considered:** Document-only workaround (rejected: every Windows gate still hangs); require a `python3` symlink in PATH (rejected: Store alias still wins)
+- **Consequences:** Local gates on This Computer no longer stall on the stub; HUMAN still owns Scorecard SARIF and Dependabot PRs #58–#61
+
 ### 2026-08-15 — Ship v0.18.0 (/ship)
 - **Status:** Accepted
 - **Context:** M34 prior-art steals ready; pre-release gate blocked on High `extract-zip` (no upstream patch) via LHCI → puppeteer-core
