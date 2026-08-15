@@ -12,7 +12,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+* **ci:** move write `permissions` to the job that needs them (Scorecard TokenPermissions)
+
 ### Documentation
+
+* **security:** record M35 Scorecard SARIF triage (pin policy, stale hono/nanoid/postcss GHSAs)
 
 ## [0.18.1](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.18.0...v0.18.1) (2026-08-15)
 

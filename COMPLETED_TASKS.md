@@ -2,6 +2,12 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## Sprint M35 HUMAN — Scorecard + Dependabot + radar (2026-08-15)
+
+- ✅ [HUMAN] F-005 — Triage Scorecard SARIF (PinnedDependencies dismissed; TokenPermissions job-scoped; VulnerabilitiesID stale vs v0.18.0 patches)
+- ✅ [HUMAN] F-006 — Merged Dependabot PRs #58–#61 (android 9.3.1 / Gradle 9.7.0, web jsdom 30 + vite 8.2.1, actions stale v11 + scorecard 2.4.4, node hono-server 2.1.0)
+- ✅ [HUMAN] Quarterly `CURSOR_RADAR_REPORT.md` review — max new score 6 (Design Mode / Canvas); no BUILD_PLAN row; next due 2026-11-15
+
 ## v0.18.1 Windows Python resolver release (2026-08-15)
 
 - ✅ [AUTO] Merge Release Please PR #62 — [v0.18.1](https://github.com/edwardlthompson/agent-project-bootstrap/releases/tag/v0.18.1) published @ `fe80fea`

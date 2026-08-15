@@ -52,6 +52,16 @@ Recommended cadence: **Monday** (aligned with scheduled security scans and `heal
 - Pre-release: `pre-release-gate.sh` invokes `check-security-triage.sh --strict` (fails on missing/failed Scorecard)
 - SARIF: Scorecard uploads findings to **Security → Code scanning**; triage open items into BUILD_PLAN `[AGENT]` rows or dismiss with rationale in DECISION_LOG.md
 
+### SARIF triage (M35 / 2026-08-15)
+
+| Check | Decision | Rationale |
+|-------|----------|-----------|
+| PinnedDependencies (GitHub-owned `@vX`) | Dismiss | Allowed by the pin policy below (`@vX.Y.Z` or SHA + comment). Mass SHA-pin conflicts with `validate-workflow-actions.sh`. Third-party scanners stay SHA-pinned. |
+| TokenPermissions (workflow-level write) | Fix | Workflows default to `permissions: read-all`; write scopes live on the job that needs them. |
+| VulnerabilitiesID (hono / nanoid / postcss GHSAs) | Dismiss | Already patched in v0.18.0 (`hono` ≥4.12.34, `nanoid` ≥3.3.18, `postcss` ≥8.5.23). Re-run Scorecard after lockfile merges; alert is stale vs HEAD. |
+| CodeReview / Maintained / CIIBestPractices / Fuzzing | Defer | Process scores, not product CVEs. No BUILD_PLAN row. |
+| BinaryArtifacts | Defer | Gradle wrapper JAR is the expected Android wrapper binary (`examples/android/gradle/wrapper/`). |
+
 ## Triage Decisions
 
 | Decision | When | Action |
