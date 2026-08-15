@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.18.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.17.0...v0.18.0) (2026-08-15)
+
+
+### Added
+
+* **agent:** add prior-art thin steals and clear High Dependabot ([80dc2a6](https://github.com/edwardlthompson/agent-project-bootstrap/commit/80dc2a60caab73a9b1c097e97a5ee9dce4d54c20))
+
+
+### Fixed
+
+* **web:** lock proxy-agent 8 so npm ci matches browsers override ([be4333b](https://github.com/edwardlthompson/agent-project-bootstrap/commit/be4333baa5dcf65044d03bc365aead8b939172e6))
+
+
+### Documentation
+
+* **build-plan:** archive human branding visual review for v0.17.0 ([f3f7e00](https://github.com/edwardlthompson/agent-project-bootstrap/commit/f3f7e00a0726dce75bd989a5732bd40c1f059c31))
+* **release:** archive v0.17.0 branding kit ship memory and decisions ([7b5fa0d](https://github.com/edwardlthompson/agent-project-bootstrap/commit/7b5fa0dfce8893d86610f205e695ce6a62b587f7))
+
 ## [0.17.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.16.0...v0.17.0) (2026-08-12)
 
 ### Added
