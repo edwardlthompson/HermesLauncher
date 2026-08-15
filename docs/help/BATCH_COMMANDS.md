@@ -30,7 +30,7 @@ Grouped by life moment (not every command — use `/` menu for the full list).
 
 **Building:** `/plan` · `/feature` · `/fix` (gates failed after `/build`) · `/cleanup` (archive finished BUILD_PLAN rows) · `/scope` (parallel manifest + auto Task dispatch)
 
-**Docs & checks:** `/docs` · `/ci` (CI poll only) · `/gates` (full local validation)
+**Docs & checks:** `/docs` · `/ci` (CI poll only) · `/gates` (full local validation). **bootstrap-doctor** is an alias for the same maintainer/validate gates: `python3 scripts/agent-run.py validate-bootstrap --quick` or `python3 scripts/agent-run.py run-maintainer-gates`.
 
 **Publishing:** `/prerelease` (autofix + optional Codex + hard gate) · `/push` (commit + push + release) · `/regress` (after release) · `/codex-review` (third-party review alone)
 

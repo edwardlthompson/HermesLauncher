@@ -15,6 +15,7 @@ Weekly CVE triage playbook for Dependabot alerts and release security gates.
 bash scripts/setup-github-repo.sh
 # Windows:
 pwsh scripts/setup-github-repo.ps1
+
 ```
 
 Requires `gh` CLI authenticated with admin access. On API `422` (plan or permission limits), the script prints a manual UI checklist. Re-run after fixing permissions.
@@ -44,7 +45,6 @@ Recommended cadence: **Monday** (aligned with scheduled security scans and `heal
 | 5 | HUMAN | Merge PR or escalate deferred items |
 | 6 | AUTO | Review `weekly-health-check.yml` weekly run (Monday 07:00 UTC); confirm CI + Security Scan + CodeQL green on main |
 | 7 | AUTO | Run `bash scripts/check-security-triage.sh --wait-ci 300` (Dependabot + workflows + OpenSSF Scorecard) |
-
 ## OpenSSF Scorecard
 
 - Workflow: `.github/workflows/scorecard.yml` (`name: OpenSSF Scorecard`)
@@ -59,7 +59,6 @@ Recommended cadence: **Monday** (aligned with scheduled security scans and `heal
 | **Fix** | Patch available, low risk | Merge Dependabot PR or [AGENT] applies bump |
 | **Defer** | No fix yet, acceptable risk window | Open issue with expiry date; log in DECISION_LOG.md |
 | **Dismiss** | False positive or not applicable | Document rationale in issue or ADR |
-
 After triage, confirm Trivy and CodeQL workflows are green on `main`.
 
 ## GitHub Actions Pin Policy
@@ -75,7 +74,6 @@ Third-party workflow actions must use **immutable refs** to reduce supply-chain 
 | **Post-push** | `scripts/check-github-ci.sh --wait 300` - required workflows: **CI**, **Security Scan**, **CodeQL** |
 | **Missing runs** | `scripts/check-github-ci.sh --wait 600 --dispatch-if-missing` — `workflow_dispatch` CI/Security/CodeQL when HEAD has no run (covers Dependabot merges that used `GITHUB_TOKEN`) |
 | **Automerge token** | Optional repo secret `AUTOMERGE_TOKEN` (PAT with `contents` + `workflow`) so Dependabot auto-merge triggers `push` workflows; without it, weekly health dispatches missing runs. Set via `scripts/setup-automerge-token.sh` (uses `AUTOMERGE_TOKEN` env or `gh auth token`) |
-
 ## Release Gate (mandatory before tag)
 
 Before any version bump or GitHub Release:
@@ -93,13 +91,20 @@ Before any version bump or GitHub Release:
 | `workflow_dispatch` (with `tag` input) | SBOM upload only — backfill assets on an existing release |
 | `release` published | Polls full CI rollup (`check-github-ci.sh --wait 3600`) then SBOM + Winget stub upload |
 | Tag push `v*` | Lightweight gate only: tag must match `.template-version`; polls **Repo Hygiene** + **Feature Gate** via `check-github-ci.sh --skip-workflows` (does **not** wait on CI/CodeQL rollup or emulator jobs) |
-
 Release Please publishes the GitHub Release; the `release` published event attaches SBOM assets. Use `workflow_dispatch` (no tag input) for maintainer dry-runs before merging the Release Please PR.
 
 If a Critical/High alert has no upstream fix, release may proceed only when:
 
 1. A linked issue documents the advisory, impact, and mitigation
 2. [HUMAN] explicitly approves in the release notes or DECISION_LOG.md
+
+## OWASP LLM walk (agents / tools / MCP)
+
+When the product exposes agents, run the compact walk in [`THREAT_MODEL.md`](THREAT_MODEL.md) (prompt injection, insecure output, supply chain, over-agency). Map findings to BUILD_PLAN `[AGENT]` rows. No new scanner — Dependabot, CodeQL, Trivy, and Gitleaks remain the automated gates.
+
+1. **Prompt injection / insecure output** — untrusted content cannot become shell or system prompts (destructive-ops Prompt Injection Defense).
+2. **Supply chain** — no unsigned marketplace plugins on the default FOSS path.
+3. **Excessive agency** — honesty table; hooks fail-open is not a hard deny (KB-012).
 
 ## Related Files
 

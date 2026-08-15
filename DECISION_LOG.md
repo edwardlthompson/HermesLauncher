@@ -12,9 +12,17 @@
 - **Decision:** ...
 - **Alternatives considered:** ...
 - **Consequences:** ...
+
 ```
 
 ## Entries
+
+### 2026-08-14 — Prior-art thin steals (M34)
+- **Status:** Accepted
+- **Context:** Compared CopperDogma, Barony, Sciensoft, and wshobson/agents against this Cursor-first template. Need mechanisms without vendoring those trees or an 80k playbook.
+- **Decision:** Ship honesty labels, parallel handoff stub, Canon/Mixed/Sacred upgrade column, OWASP LLM walk, scratchpad reset, optional marketplace pointer, and bootstrap-doctor alias. Number as **M34** (plan draft said M30; that sprint is already archived).
+- **Alternatives considered:** Vendor Barony/`baron` (rejected: second product + PyPI dep); install wshobson catalog by default (rejected: token bloat); Sciensoft one-file playbook (rejected: 300/150 caps).
+- **Consequences:** Hooks stay fail-open and labeled; child `AGENTS.md` / init prompt stay Sacred; no new CI scanner or marketplace install on the FOSS default path.
 
 ### 2026-08-12 — Ship v0.17.0 branding kit (/ship)
 - **Status:** Accepted
@@ -136,4 +144,3 @@ _Seed template ADR: `docs/adr/0000-template-baseline.md`. Child repos use `docs/
 - **Decision:** Ship all three with Golden Path stubs, MODULE.md guides, and path-gated CI jobs (`lightroom`, `rust`, `go`) that skip when child repos remove the directories
 - **Alternatives considered:** Lightroom-only (rejected: Rust/Go stubs are low-cost and popular); defer all optional modules (rejected: COMPLETED_TASKS M3 work already landed)
 - **Consequences:** Template CI runs more jobs on `main`; child repos can delete unused `examples/` folders to skip jobs via `hashFiles` guards
-

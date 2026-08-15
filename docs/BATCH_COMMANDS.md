@@ -56,7 +56,7 @@ Long chat session?  → /compact before clear · /restore after
 
 | Command | Scope |
 |---------|-------|
-| `/gates` | Local scripts only — no CI poll |
+| `/gates` | Local scripts only — no CI poll. **bootstrap-doctor** alias: `validate-bootstrap --quick` or `run-maintainer-gates` |
 | `/verify` | docs + gates + CI (pre-merge) |
 | `/push` | Full release workflow with explicit push approval |
 | `/ship` | prerelease + push + regress (preferred publish path) |
@@ -69,5 +69,7 @@ Long chat session?  → /compact before clear · /restore after
 | `docs/help/BATCH_COMMANDS.md` | Human cheat sheet |
 | `CODE_REVIEW.md.example` | Audit output template |
 | `RELEASE_NOTES.md.example` | Release draft template |
+| `scratchpad.md.example` | Phase working memory (live `scratchpad.md` gitignored) |
+| `docs/features/_handoff.md` | Parallel-agent handoff stub |
 | `scripts/check-batch-commands.sh` | Registry ↔ filesystem sync |
 Validation: `bash scripts/check-batch-commands.sh` (also via `validate-bootstrap.sh --quick`).

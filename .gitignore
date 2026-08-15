@@ -87,3 +87,5 @@ examples/android/captures/
 # Ephemeral agent outputs (examples tracked)
 CODE_REVIEW.md
 RELEASE_NOTES.md
+scratchpad.md
+.cursor/handoff-*.md

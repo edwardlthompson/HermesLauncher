@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@hono/node-server": "^2.0.10",
-    "hono": "^4.12.30"
+    "hono": "^4.12.34"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.2.0",
@@ -27,6 +27,7 @@
     "vitest": "^4.1.8"
   },
   "overrides": {
-    "postcss": ">=8.5.18"
+    "postcss": ">=8.5.23",
+    "nanoid": ">=3.3.18"
   }
 }

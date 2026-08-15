@@ -74,7 +74,9 @@ for required in \
   docs/BATCH_COMMANDS.md \
   docs/help/BATCH_COMMANDS.md \
   CODE_REVIEW.md.example \
-  RELEASE_NOTES.md.example
+  RELEASE_NOTES.md.example \
+  scratchpad.md.example \
+  docs/features/_handoff.md
 do
   if [ ! -f "$required" ]; then
     echo "MISSING: $required"

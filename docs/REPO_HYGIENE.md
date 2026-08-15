@@ -8,7 +8,7 @@
 |--------------|--------------------------|
 | Source, tests, docs, CI | `node_modules/`, `.venv/`, caches |
 | Lockfiles (`package-lock.json`, `uv.lock`) | `dist/`, `build/`, `target/`, `coverage/` |
-| `*.example` configs | `.env`, live `.app-update.json`, `donations.json` |
+| `*.example` configs | `.env`, live `.app-update.json`, `donations.json`, `scratchpad.md`, `.cursor/handoff.md` |
 | Design tokens source JSON + `branding/` SVGs / product.json | APK/AAB binaries, Playwright/Lighthouse reports, store PNG exports (unless intentionally committed) |
 ## Industry standards — automation map
 

@@ -10,6 +10,7 @@
 4. Shared types/schemas: **Sequential agent only**
 5. Never edit `BUILD_PLAN.md` from parallel agents (sequential owner)
 6. **Forbidden paths:** `BUILD_PLAN.md`, `COMPLETED_TASKS.md`, `appBootstrap.ts`, `GoldenPathApp.kt`, `main.ts`
+7. Optional handoff: copy [`docs/features/_handoff.md`](features/_handoff.md) → gitignored `.cursor/handoff-<scope>.md` (from/to, scope prefix, acceptance). Do not replace the scope lock or invent a second task board.
 
 ## Automatic dispatch
 

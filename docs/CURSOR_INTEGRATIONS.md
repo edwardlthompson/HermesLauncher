@@ -55,6 +55,18 @@ Hooks are Python modules (not `.sh`) so Cursor Agent shell execution does not op
 
 **Session override:** `/push` and `/ship` set `destructive_ops_approved: ["git push"]` via `/compact`.
 
+### Honesty labels (enforced vs instructed)
+
+Hooks **fail-open** (KB-012). Label each control so agents do not over-claim enforcement. Canonical table: [`.cursor/rules/destructive-ops.mdc`](../.cursor/rules/destructive-ops.mdc).
+
+| Control | Label | Notes |
+|---------|-------|-------|
+| `git push` | Enforced (best-effort) | Denylist unless `/push` or `/ship` session override |
+| `git push --force` | Instructed + denylist | Override may match `git push` substring; not a hard deny |
+| `terraform apply`, `DROP TABLE`, `DELETE FROM`, `rm -rf /`, `rm -rf ~`, skip-hooks flags | Enforced (best-effort) | `shell-denylist.txt` + `before_shell_guard.py` |
+| Production deploys, disabling CI gates, committing secrets | Instructed | Auto-review steers; Gitleaks is pre-commit when installed |
+| UTF-8 `afterFileEdit` | Instructed + best-effort | Fail-open on parse/tool errors |
+| `<!-- cursor-hooks: off -->` | Instructed | Disables shell guards for the session |
 Validate: `python3 scripts/agent-run.py check-cursor-hooks -- --smoke`
 
 ## Local compute first
@@ -130,6 +142,19 @@ python3 scripts/agent-run.py pack-cursor-plugin
 ```
 
 Then symlink **`dist/cursor-plugin`** → `~/.cursor/plugins/local/agent-project-bootstrap` and Reload Window. Manifest: [`.cursor-plugin/plugin.json`](../.cursor-plugin/plugin.json). No marketplace publish in-template.
+
+## Optional marketplace (not default)
+
+Child repos **may** add [wshobson/agents](https://github.com/wshobson/agents) as a Cursor marketplace. Do **not** install it by default — 200+ agents would drown context and fight “one feature per agent” plus local-compute-first.
+
+FOSS default stays the local `.cursor/` pack above. If a child repo opts in, pick plugins that **complement** (not replace) shipped commands:
+
+| Marketplace plugin | Complements | Do not replace |
+|--------------------|-------------|----------------|
+| `debugging-toolkit` | `/debug` | Debug Mode router in `docs/CURSOR_MODES.md` |
+| `git-pr-workflows` | `/push` | Destructive-ops + hook denylist |
+| Language plugins | Active stack only | Golden Path examples / MODULE.md |
+Never vendor the catalog into `.cursor/`.
 
 ## CLI (opt-in)
 

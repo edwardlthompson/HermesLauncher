@@ -59,6 +59,13 @@
       "owner": "maintainer"
     },
     {
+      "path": "scratchpad.md.example",
+      "purpose": "Working-memory stub; copy to gitignored scratchpad.md; reset on phase change",
+      "read_when": "session_start",
+      "update_when": "never",
+      "owner": "maintainer"
+    },
+    {
       "path": "docs/CODEX_REVIEW.md",
       "purpose": "Codex third-party review enablement and /prerelease handoff",
       "read_when": "cursor_setup",
@@ -333,7 +340,7 @@
     },
     {
       "path": "docs/SECURITY_TRIAGE.md",
-      "purpose": "Dependabot alerts setup, weekly CVE triage, release security gate",
+      "purpose": "Dependabot alerts setup, weekly CVE triage, OWASP LLM walk, release security gate",
       "read_when": "security_triage",
       "update_when": "never",
       "owner": "maintainer"
@@ -342,6 +349,13 @@
       "path": "docs/MAINTAINING_THE_TEMPLATE.md",
       "purpose": "Template maintainer semver, release checklist, badge conventions",
       "read_when": "release",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "docs/UPGRADING_FROM_TEMPLATE.md",
+      "purpose": "Child-repo cherry-pick guide with Canon/Mixed/Sacred re-run policy",
+      "read_when": "template_upgrade",
       "update_when": "milestone_boundary",
       "owner": "maintainer"
     },
@@ -368,7 +382,7 @@
     },
     {
       "path": "docs/THREAT_MODEL.md",
-      "purpose": "STRIDE threat model, trust boundaries, abuse cases",
+      "purpose": "STRIDE threat model, trust boundaries, abuse cases, OWASP LLM Top 10 walk",
       "read_when": "architectural_decision",
       "update_when": "milestone_boundary",
       "owner": "agent+human"
@@ -1268,6 +1282,13 @@
       "read_when": "feature_work",
       "update_when": "feature_work",
       "owner": "human+agent"
+    },
+    {
+      "path": "docs/features/_handoff.md",
+      "purpose": "Parallel-agent handoff stub (from/to, scope, acceptance); live copies gitignored",
+      "read_when": "feature_work",
+      "update_when": "never",
+      "owner": "maintainer"
     },
     {
       "path": "scripts/init-project.sh",

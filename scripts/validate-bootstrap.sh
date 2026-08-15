@@ -47,6 +47,8 @@ REQUIRED=(
   .cursor/rules/batch-commands.mdc
   CODE_REVIEW.md.example
   RELEASE_NOTES.md.example
+  scratchpad.md.example
+  docs/features/_handoff.md
 )
 
 BATCH_COMMANDS=(

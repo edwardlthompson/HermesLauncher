@@ -2,6 +2,19 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## Sprint M34 — Prior-art thin steals (2026-08-14)
+
+> Plan draft called this M30; M30–M33 were already archived. Steal mechanisms only — no CopperDogma/Barony/Sciensoft/wshobson trees.
+
+- ✅ [AGENT] Honesty labels (enforced vs instructed) in `destructive-ops.mdc` + `CURSOR_INTEGRATIONS.md`; KB-012 fail-open
+- ✅ [AGENT] Parallel handoff stub `docs/features/_handoff.md` wired into `PARALLEL_AGENT_SCOPES.md` + `/scope`
+- ✅ [AGENT] Upgrade Canon/Mixed/Sacred re-run policy in `UPGRADING_FROM_TEMPLATE.md`
+- ✅ [AGENT] OWASP LLM Top 10 walk in `THREAT_MODEL.md` + `SECURITY_TRIAGE.md`
+- ✅ [AGENT] `scratchpad.md.example` + gitignore; phase-transition notes in `START_HERE.md` / Child Playbook / `CURSOR_MODES.md`
+- ✅ [AGENT] Optional wshobson/agents marketplace pointer (docs only, not default)
+- ✅ [AGENT] bootstrap-doctor alias for `validate-bootstrap` / `run-maintainer-gates`
+- ✅ [AGENT] TEMPLATE_INDEX + CHANGELOG `[Unreleased]` + this archive
+
 ## v0.17.0 branding kit release (2026-08-12)
 
 - ✅ [AGENT] Ship `branding/` kit (assets, product.json, voice, BRANDING.md) + `official-colors.css` via sync
@@ -711,4 +724,3 @@ Post-M19 review: close prompt/read-order gaps and enforce CURSOR_MODES in bootst
 - ✅ [AGENT] Android About parity: DonationsLoader, ReleaseTagFetcher, GoldenPathApp composition root
 - ✅ [AGENT] Opt-in update checks default `off`; About interval UI removed (Settings toggle only)
 - ✅ [AGENT] CI/release: CodeQL java-kotlin, node SBOM + health-check audit
-
