@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.18.1](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.18.0...v0.18.1) (2026-08-15)
+
+
+### Changed
+
+* **release:** prepare v0.18.1 release ([b4fca9c](https://github.com/edwardlthompson/agent-project-bootstrap/commit/b4fca9c1fb7014b96d95649e285916f23d9cd2e0))
+
+
+### Documentation
+
+* **kb:** record npm ci lockfile miss after browsers override ([33e961f](https://github.com/edwardlthompson/agent-project-bootstrap/commit/33e961f857764ffd8f0f78f0b7a7e44c8073ede5))
+* **release:** archive v0.18.0 ship memory and decisions ([54909bc](https://github.com/edwardlthompson/agent-project-bootstrap/commit/54909bc8447bc767de70c297361771eff50592d4))
+
 ## [Unreleased]
 
 ### Added
