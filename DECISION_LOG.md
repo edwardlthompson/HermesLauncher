@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-15 — Ship v0.18.0 (/ship)
+- **Status:** Accepted
+- **Context:** M34 prior-art steals ready; pre-release gate blocked on High `extract-zip` (no upstream patch) via LHCI → puppeteer-core
+- **Decision:** Override `@puppeteer/browsers` >=3.2.0 (uses `modern-tar`); lock optional peer `proxy-agent` >=8.0.2 so CI `npm ci` matches; bump `hono`/`postcss`/`nanoid`; merge Release Please #56 to **v0.18.0**
+- **Alternatives considered:** Dismiss extract-zip as dev-only (rejected: gate requires zero High); vendor a patched fork (rejected: no patch exists)
+- **Consequences:** Template at 0.18.0; honesty labels + scratchpad/handoff ship; Codex skipped (no key/CLI)
+
 ### 2026-08-14 — Prior-art thin steals (M34)
 - **Status:** Accepted
 - **Context:** Compared CopperDogma, Barony, Sciensoft, and wshobson/agents against this Cursor-first template. Need mechanisms without vendoring those trees or an 80k playbook.

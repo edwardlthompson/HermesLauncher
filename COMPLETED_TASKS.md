@@ -2,6 +2,11 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## v0.18.0 prior-art thin steals release (2026-08-15)
+
+- ✅ [AUTO] Merge Release Please PR #56 — [v0.18.0](https://github.com/edwardlthompson/agent-project-bootstrap/releases/tag/v0.18.0) published @ `3f0b5a3`
+- ✅ [AGENT] `/ship`: M34 honesty/handoff/Sacred/OWASP/scratchpad; clear High `extract-zip` via `@puppeteer/browsers` + `proxy-agent` lock
+
 ## Sprint M34 — Prior-art thin steals (2026-08-14)
 
 > Plan draft called this M30; M30–M33 were already archived. Steal mechanisms only — no CopperDogma/Barony/Sciensoft/wshobson trees.
