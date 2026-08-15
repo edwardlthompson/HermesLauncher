@@ -5,14 +5,15 @@ on:
     types: [opened, synchronize, reopened, ready_for_review]
     branches: [main]
 
-permissions:
-  contents: write
-  pull-requests: write
+permissions: read-all
 
 jobs:
   automerge:
     name: Queue Release Please merge
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     if: startsWith(github.head_ref, 'release-please--')
     steps:
       - name: Enable auto-merge when checks pass

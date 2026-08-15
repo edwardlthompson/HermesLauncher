@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-15 — M35 Scorecard SARIF + Dependabot + radar
+- **Status:** Accepted
+- **Context:** Open HUMAN items after v0.18.1: Scorecard PinnedDependencies / TokenPermissions / VulnerabilitiesID; Dependabot #58–#61; quarterly radar (last report 2026-06-30)
+- **Decision:** Job-scope write tokens (`permissions: read-all` at workflow level). Keep `@vX.Y.Z` for GitHub-owned actions. Treat VulnerabilitiesID as stale (hono/nanoid/postcss already patched in 0.18.0). Merge green Dependabot PRs after rebase; rebase #61 (stale web lockfile). Radar max new score is 6 — no BUILD_PLAN row.
+- **Alternatives considered:** SHA-pin every `actions/*` (rejected: conflicts with `validate-workflow-actions` + existing policy); add Design Mode / Canvas now (rejected: score 6, below ≥9 suggest threshold)
+- **Consequences:** TokenPermissions should clear on next Scorecard run; PinnedDependencies remain accepted; next quarterly radar due 2026-11-15
+
 ### 2026-08-15 — Ship v0.18.1 (/push)
 - **Status:** Accepted
 - **Context:** M35 Windows Store `python3` hang + About-gate restore ready; first `PY="py -3"` broke `"$PY"` in Dependabot count

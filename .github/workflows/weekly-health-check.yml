@@ -5,14 +5,14 @@ on:
     - cron: "0 7 * * 1"
   workflow_dispatch:
 
-permissions:
-  contents: read
-  actions: write
+permissions: read-all
 
 jobs:
   detect-stacks:
     name: Detect active stacks
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     outputs:
       android: ${{ steps.stacks.outputs.android }}
     steps:
@@ -28,6 +28,9 @@ jobs:
   health:
     name: Weekly Workflow Health
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: write
     steps:
       - uses: actions/checkout@v7
 
@@ -106,6 +109,8 @@ jobs:
   android-instrumented:
     name: Weekly Android Instrumented Smoke
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     needs: detect-stacks
     if: needs.detect-stacks.outputs.android == 'true'
     timeout-minutes: 45

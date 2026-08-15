@@ -13,16 +13,16 @@ on:
   release:
     types: [published]
 
-permissions:
-  contents: write
-  id-token: write
-  attestations: write
+permissions: read-all
 
 jobs:
   tag-gate:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
     name: Tag gate
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
     steps:
       - uses: actions/checkout@v7
 
@@ -44,6 +44,10 @@ jobs:
     if: github.event_name == 'release' || github.event_name == 'workflow_dispatch'
     name: SBOM and release assets
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
     steps:
       - name: Resolve release tag
         id: tag
