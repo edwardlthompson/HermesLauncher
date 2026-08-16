@@ -7,7 +7,7 @@
 
 | Layer | Technology | Version | Notes |
 |-------|-----------|---------|-------|
-| Platform | Multi-stack template (Web, Python, Android, Node, optional Lightroom/Rust/Go) | 0.18.2 | Template maintainer repo |
+| Platform | Multi-stack template (Web, Python, Android, Node, optional Lightroom/Rust/Go) | 0.18.3 | Template maintainer repo |
 | License | MIT | - | Pure FOSS |
 | Distribution | GitHub Releases + GitHub Pages demo | - | F-Droid/Winget stubs for child repos |
 ## Active Modules
@@ -64,5 +64,5 @@ FOSS Cursor agent bootstrap template: labeled BUILD_PLAN sprints, Golden Path ex
 ## Template Provenance
 
 - **Source template:** `edwardlthompson/agent-project-bootstrap` (self-maintained)
-- **Template version:** `0.18.2` (see `.template-version`)
+- **Template version:** `0.18.3` (see `.template-version`)
 - **Last update check:** See `.template-update.json`
