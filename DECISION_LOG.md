@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-16 — Ship v0.18.2 (/push)
+- **Status:** Accepted
+- **Context:** M35 HUMAN Scorecard/Dependabot/radar already on `main` @ `23254e8`; CI/Security/CodeQL green; RP #63 open
+- **Decision:** Merge Release Please #63 to **v0.18.2** after local maintainer + pre-release gates (no extra prepare commit)
+- **Alternatives considered:** Wait for RP auto-merge (blocked: no checks on release-please branch)
+- **Consequences:** Template at 0.18.2; next quarterly radar 2026-11-15; Dependabot #64 left open
+
 ### 2026-08-15 — M35 Scorecard SARIF + Dependabot + radar
 - **Status:** Accepted
 - **Context:** Open HUMAN items after v0.18.1: Scorecard PinnedDependencies / TokenPermissions / VulnerabilitiesID; Dependabot #58–#61; quarterly radar (last report 2026-06-30)

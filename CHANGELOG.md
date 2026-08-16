@@ -6,7 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.18.2](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.18.1...v0.18.2) (2026-08-15)
+## [Unreleased]
+
+### Added
+
+### Fixed
+
+### Documentation
+
+## [0.18.2](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.18.1...v0.18.2) (2026-08-16)
+
+
+### Fixed
+
+* **ci:** move write `permissions` to the job that needs them (Scorecard TokenPermissions)
 
 
 ### Changed
@@ -15,26 +28,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * **deps:** Bump the android-dependencies group across 1 directory with 2 updates ([cec8ce1](https://github.com/edwardlthompson/agent-project-bootstrap/commit/cec8ce1704a4fa7e235ebb02eb06ca2d9b32fcf2))
 * **deps:** Bump the github-actions group across 1 directory with 3 updates ([a1910d1](https://github.com/edwardlthompson/agent-project-bootstrap/commit/a1910d121b0839548902968c0bbacdb76ce19c8e))
 * **deps:** Bump the node-dependencies group across 1 directory with 4 updates ([dbba532](https://github.com/edwardlthompson/agent-project-bootstrap/commit/dbba532ac842ea5cccc9e9d93bdba3c621b7156a))
-* **deps:** Bump the node-dependencies group across 1 directory with 4 updates ([5196514](https://github.com/edwardlthompson/agent-project-bootstrap/commit/5196514daf41bc9bf56dcbac08ecf0a8cc6ff839))
-* **security:** triage Scorecard SARIF and archive M35 HUMAN items ([23254e8](https://github.com/edwardlthompson/agent-project-bootstrap/commit/23254e85c4b2ae9b4feff5daf6a08c0e6deec19e))
 * **security:** triage Scorecard SARIF and archive M35 HUMAN items ([132612d](https://github.com/edwardlthompson/agent-project-bootstrap/commit/132612d8b2005e0c80437695fccd868f48c2c861))
 
 
 ### Documentation
 
-* **release:** archive v0.18.1 ship memory and decisions ([83daf53](https://github.com/edwardlthompson/agent-project-bootstrap/commit/83daf53c2a403514f673d95f9fb30b2341dc73dd))
-
-## [Unreleased]
-
-### Added
-
-### Fixed
-
-* **ci:** move write `permissions` to the job that needs them (Scorecard TokenPermissions)
-
-### Documentation
-
 * **security:** record M35 Scorecard SARIF triage (pin policy, stale hono/nanoid/postcss GHSAs)
+* **release:** archive v0.18.1 ship memory and decisions ([83daf53](https://github.com/edwardlthompson/agent-project-bootstrap/commit/83daf53c2a403514f673d95f9fb30b2341dc73dd))
 
 ## [0.18.1](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.18.0...v0.18.1) (2026-08-15)
 

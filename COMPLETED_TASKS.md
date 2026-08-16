@@ -2,6 +2,11 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## v0.18.2 Scorecard + Dependabot release (2026-08-16)
+
+- ✅ [AUTO] Merge Release Please PR #63 — [v0.18.2](https://github.com/edwardlthompson/agent-project-bootstrap/releases/tag/v0.18.2) published @ `7d46e68`
+- ✅ [AGENT] `/push`: job-scoped workflow tokens; Dependabot #58–#61; quarterly radar (no new BUILD_PLAN row)
+
 ## Sprint M35 HUMAN — Scorecard + Dependabot + radar (2026-08-15)
 
 - ✅ [HUMAN] F-005 — Triage Scorecard SARIF (PinnedDependencies dismissed; TokenPermissions job-scoped; VulnerabilitiesID stale vs v0.18.0 patches)
