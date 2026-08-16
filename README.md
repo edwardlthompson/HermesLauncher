@@ -1,7 +1,7 @@
 # agent-project-bootstrap
 
 ![MIT](https://img.shields.io/badge/license-MIT-2ea043?style=flat-square)
-![Template](https://img.shields.io/badge/template-0.18.2-0969da?style=flat-square)
+![Template](https://img.shields.io/badge/template-0.18.3-0969da?style=flat-square)
 ![FOSS](https://img.shields.io/badge/FOSS-no_tracking-656d76?style=flat-square)
 
 GitHub Template Repository for bootstrapping FOSS projects with Cursor agents.
@@ -388,4 +388,4 @@ Repo description draft for the short About preview: [`docs/GITHUB_ABOUT.md`](doc
 
 ## Maintainer Release
 
-Current template version: **0.18.2** (see `.template-version`, Release Please, and `scripts/pre-release-gate.sh`).
+Current template version: **0.18.3** (see `.template-version`, Release Please, and `scripts/pre-release-gate.sh`).
