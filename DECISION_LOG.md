@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-16 — Ship v0.18.3 (/ship)
+- **Status:** Accepted
+- **Context:** Dependabot #64 Compose BOM bump on main; RP #66 already open
+- **Decision:** `/ship` autofix + pre-release gate, then merge Release Please #66 to **v0.18.3**. Codex skipped (no key/CLI).
+- **Alternatives considered:** Hold BOM for a later patch (rejected: CI including instrumented Android already green)
+- **Consequences:** Template at 0.18.3; SBOM attaches via `release` published workflow
+
 ### 2026-08-16 — Ship v0.18.2 (/push)
 - **Status:** Accepted
 - **Context:** M35 HUMAN Scorecard/Dependabot/radar already on `main` @ `23254e8`; CI/Security/CodeQL green; RP #63 open
