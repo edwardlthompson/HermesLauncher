@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.18.3](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.18.2...v0.18.3) (2026-08-16)
+
+
+### Changed
+
+* **deps:** Bump the android-dependencies group across 1 directory with 3 updates ([5ea63fd](https://github.com/edwardlthompson/agent-project-bootstrap/commit/5ea63fd32634365566d5b5b4460848c3ce8b512d))
+* **release:** prepare v0.18.3 release ([afbea39](https://github.com/edwardlthompson/agent-project-bootstrap/commit/afbea39e98346091d9524f04ba1ae0e85b8ed389))
+
+
+### Documentation
+
+* **release:** archive v0.18.2 ship memory and decisions ([9ce74d1](https://github.com/edwardlthompson/agent-project-bootstrap/commit/9ce74d177ab0dce65170df2ece370142907227e0))
+
 ## [Unreleased]
 
 ### Added
