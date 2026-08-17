@@ -42,6 +42,38 @@ check_static_data_paths "static-data" < <(find "$ROOT" -type f \( \
   ! -name "tsconfig.json" ! -name ".lighthouserc.json" \
   -print0 2>/dev/null)
 
+# Pre-existing lib modules over budget; new scripts/lib/*.py must stay <= 150.
+LIB_ALLOWLIST=(
+  "scripts/lib/human_task_automation.py"
+  "scripts/lib/parallel_scope.py"
+  "scripts/lib/cursor_feature_radar.py"
+  "scripts/lib/check_cursor_hooks.py"
+  "scripts/lib/check_cursor_integrations.py"
+)
+
+echo "Checking scripts/lib logic file limits (max $LOGIC_LIMIT lines)..."
+while IFS= read -r -d '' file; do
+  rel="${file#"$ROOT"/}"
+  rel="${rel//\\//}"
+  skip=false
+  for allowed in "${LIB_ALLOWLIST[@]}"; do
+    case "$rel" in
+      "$allowed"|*/"$allowed") skip=true ;;
+    esac
+    if [ "$skip" = true ]; then
+      break
+    fi
+  done
+  if [ "$skip" = true ]; then
+    continue
+  fi
+  lines=$(wc -l < "$file" | tr -d ' ')
+  if [ "$lines" -gt "$LOGIC_LIMIT" ]; then
+    echo "FAIL [logic] $file: $lines lines (max $LOGIC_LIMIT)"
+    ERRORS=$((ERRORS + 1))
+  fi
+done < <(find "$ROOT/scripts/lib" -type f -name "*.py" -print0 2>/dev/null)
+
 echo "Checking pure logic file limits (max $LOGIC_LIMIT lines)..."
 while IFS= read -r -d '' file; do
   lines=$(wc -l < "$file" | tr -d ' ')

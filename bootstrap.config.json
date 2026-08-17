@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "project_name": "agent-project-bootstrap",
-  "purpose": "GitHub Template for FOSS Cursor agent projects",
+  "purpose": "GitHub Template for FOSS coding-agent projects",
   "stack": "multi",
   "license": "MIT",
   "distribution_tier": "foss",
@@ -27,6 +27,7 @@
     "post_git_init": false,
     "post_git_commit": false,
     "post_install_deps": false,
-    "post_run_tests": false
+    "post_run_tests": false,
+    "post_welcome_issue": false
   }
 }

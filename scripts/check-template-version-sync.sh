@@ -26,4 +26,30 @@ if [ "$IDX" != "$VERSION" ]; then
   exit 1
 fi
 
+CFF="$(python3 -c "
+import re
+from pathlib import Path
+text = Path('CITATION.cff').read_text(encoding='utf-8')
+m = re.search(r'(?m)^version:\\s*([\\d.]+)', text)
+print(m.group(1) if m else '')
+")"
+if [ -z "$CFF" ] || [ "$CFF" != "$VERSION" ]; then
+  echo "FAIL: CITATION.cff version ($CFF) != .template-version ($VERSION)"
+  echo "Fix: bash scripts/sync-template-version.sh"
+  exit 1
+fi
+
+CFF_DATE="$(python3 -c "
+import re
+from pathlib import Path
+text = Path('CITATION.cff').read_text(encoding='utf-8')
+m = re.search(r'(?m)^date-released:\\s*(\\d{4}-\\d{2}-\\d{2})', text)
+print(m.group(1) if m else '')
+")"
+if [ -z "$CFF_DATE" ]; then
+  echo "FAIL: CITATION.cff missing date-released: YYYY-MM-DD"
+  echo "Fix: bash scripts/sync-template-version.sh"
+  exit 1
+fi
+
 echo "Template version sync OK ($VERSION)"

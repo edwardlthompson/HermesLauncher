@@ -10,6 +10,7 @@ Read [`docs/START_HERE.md`](../START_HERE.md).
 
 - Pick **Bootstrap** (new project from this template) or **Reference** (rules only).
 - This repo works in Cursor, Windsurf, Antigravity, Claude Code, Copilot, Gemini CLI, Aider, and Cline. The shared contract is [`AGENTS.md`](../../AGENTS.md). See [`docs/AGENT_PORTABILITY.md`](../AGENT_PORTABILITY.md).
+- Word list: [`GLOSSARY.md`](GLOSSARY.md) (Sacred, Canon, AGENT / HUMAN / ADB / AUTO, 🔲 status).
 
 **Paste prompt:** `Read docs/START_HERE.md and tell me which repo mode I am in.`
 
@@ -35,4 +36,4 @@ That folder is the runnable slice you copy for the next feature.
 
 Read [`docs/FIRST_30_DAYS.md`](../FIRST_30_DAYS.md) **Week 1 only**. Check off what you have already done.
 
-Later sessions: in Cursor type `/coach`. In any other tool, ask: `Read docs/BEST_PRACTICES.md and docs/FIRST_30_DAYS.md and tell me the next open Week 1 row.`
+Later sessions: in Cursor type `/coach`. In any other tool, ask it to follow [`COACH.md`](COACH.md).

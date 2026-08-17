@@ -6,7 +6,7 @@ One project law: **[`AGENTS.md`](../AGENTS.md)**. Every supported tool either re
 
 | Your tool | What it reads | What you type |
 |-----------|---------------|---------------|
-| Cursor | `AGENTS.md` + `.cursor/rules/main.mdc` | `/tour` or `/bootstrap` |
+| Cursor | `AGENTS.md` + `.cursor/rules/main.mdc` | `/tour`, `/bootstrap`, or `/ideas` |
 | Windsurf | `AGENTS.md` + `.windsurf/rules/agents-pointer.md` | “Read `docs/help/TOUR.md` and walk me through it.” |
 | Antigravity / Gemini CLI | `AGENTS.md` + pointer-only `GEMINI.md` | Same `docs/help/TOUR.md` prompt |
 | Claude Code | `AGENTS.md` + `CLAUDE.md` | Same, or Claude’s `/` menu if you add a skill |
@@ -15,8 +15,7 @@ One project law: **[`AGENTS.md`](../AGENTS.md)**. Every supported tool either re
 | Cline / Roo | `AGENTS.md` + `.clinerules` | Same tour prompt |
 | Continue | `AGENTS.md` + `.continue/rules/agents.md` | Same tour prompt |
 | Codex / other AGENTS.md readers | `AGENTS.md` | Same tour prompt |
-
-Slash commands under `.cursor/commands/` are Cursor-native. The same recipes live in [`docs/help/`](help/) so any agent can follow them.
+Slash commands under `.cursor/commands/` are Cursor-native. The same recipes live in [`docs/help/`](help/) so any agent can follow them. Backlog: [`docs/help/IDEAS.md`](help/IDEAS.md).
 
 ## Edit once, re-sync
 
@@ -24,6 +23,7 @@ Slash commands under `.cursor/commands/` are Cursor-native. The same recipes liv
 # 1. Change project rules only in AGENTS.md
 # 2. Refresh pointers
 bash scripts/bootstrap-lifecycle.sh --sync-adapters
+
 ```
 
 Never hand-edit generated adapters. Never put real rules in `GEMINI.md` — Antigravity treats it as **higher priority** than `AGENTS.md`, so a long GEMINI file would silently override the Sacred spec. The adapter drift gate fails if that file grows past a pointer.

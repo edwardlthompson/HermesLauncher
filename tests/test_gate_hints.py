@@ -35,6 +35,16 @@ class GateHintTests(unittest.TestCase):
         self.assertIn("human_hint", data)
         self.assertIn("toolchain", data["means"])
 
+    def test_verify_stages(self) -> None:
+        env = hint_for("verify-env")
+        self.assertIn("check-env", env["run"])
+        boot = hint_for("verify-bootstrap")
+        self.assertIn("validate-bootstrap", boot["run"])
+        feat = hint_for("verify-feature-gate")
+        self.assertIn("feature-gate", feat["run"])
+        text = format_human("verify-env")
+        self.assertIn("What failed: verify-env", text)
+
 
 if __name__ == "__main__":
     unittest.main()

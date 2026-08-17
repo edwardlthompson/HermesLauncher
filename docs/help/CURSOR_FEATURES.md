@@ -7,7 +7,7 @@
 | Feature | Path | Tier |
 |---------|------|------|
 | Rules (`.mdc`) | `.cursor/rules/` | both |
-| Slash commands (29) | `.cursor/commands/` | both |
+| Slash commands (30) | `.cursor/commands/` | both |
 | Hooks | `.cursor/hooks.json` | both |
 | Skills (8) | `.cursor/skills/` | both |
 | Subagents (3) | `.cursor/agents/` | both |
@@ -19,7 +19,6 @@
 | Codex review (opt-in) | `.github/workflow-examples/codex-review.yml` | both |
 | GitHub MCP (optional) | `.cursor/mcp.foss.example` | foss |
 | Feature radar | `scripts/cursor-feature-radar.sh` | both |
-
 Commercial-only features stay as `*.commercial.example` — see [CURSOR_INTEGRATIONS.md](../CURSOR_INTEGRATIONS.md).
 
 Full matrix: [CURSOR_INTEGRATIONS.md](../CURSOR_INTEGRATIONS.md).

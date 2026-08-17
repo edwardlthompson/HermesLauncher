@@ -55,6 +55,10 @@ REQUIRED=(
   docs/FIRST_30_DAYS.md
   docs/AGENT_PORTABILITY.md
   docs/help/TOUR.md
+  docs/help/IDEAS.md
+  docs/help/GLOSSARY.md
+  docs/help/COACH.md
+  scripts/check-doc-links.sh
   bootstrap.config.json.example
   PROJECT_CHECKLIST.md
   CLAUDE.md
@@ -83,7 +87,7 @@ REQUIRED=(
 BATCH_COMMANDS=(
   audit cleanup debug gates triage dependabot push prerelease regress
   feature fix init prune ci docs upgrade setup plan restore compact scope
-  bootstrap verify build ship maintain coach tour
+  bootstrap verify build ship maintain coach tour ideas
 )
 
 for cmd in "${BATCH_COMMANDS[@]}"; do
@@ -149,7 +153,8 @@ if ! python3 scripts/lib/run_checks_parallel.py \
   validate-template-index.sh \
   check-bootstrap-engine.sh \
   check-agent-adapters.sh \
-  check-env.sh
+  check-env.sh \
+  check-doc-links.sh
 then
   ERRORS=$((ERRORS + 1))
 fi

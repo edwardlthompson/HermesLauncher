@@ -5,7 +5,7 @@
 
 <!-- bootstrap-project-card -->
 **Product:** agent-project-bootstrap
-**Purpose:** GitHub Template for FOSS Cursor agent projects
+**Purpose:** GitHub Template for FOSS coding-agent projects
 **Stack:** multi
 <!-- /bootstrap-project-card -->
 
@@ -42,4 +42,4 @@
 
 ## Next recommended action
 
-If you are unsure, type **`/coach`** (or ask any agent to read this file and `docs/BEST_PRACTICES.md`). It reads BUILD_PLAN + AGENT_MEMORY and explains the industry reason for the next row. First session: `/tour` or `docs/help/TOUR.md`.
+If you are unsure, type **`/coach`** (or ask any agent to read this file and `docs/BEST_PRACTICES.md`). It reads BUILD_PLAN + AGENT_MEMORY and explains the industry reason for the next row. First session: `/tour` or `docs/help/TOUR.md`. For a ranked backlog of possible next features: `/ideas` or `docs/help/IDEAS.md`.

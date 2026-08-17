@@ -57,7 +57,7 @@ fi
 if [ "$QUICK" = true ]; then
   run_step "security-triage" bash scripts/check-security-triage.sh
   if command -v gh >/dev/null 2>&1; then
-    run_step "ci-jobs" bash scripts/check-github-ci.sh HEAD --skip-workflows --jobs "Repo Hygiene,Feature Gate"
+    run_step "ci-jobs" bash scripts/check-github-ci.sh HEAD --skip-workflows --jobs "Repo Hygiene,Feature Gate,Template Upgrade Simulation (Windows)"
   fi
 else
   run_step "pre-release" bash scripts/pre-release-gate.sh
@@ -65,7 +65,7 @@ else
     run_step "reproducible-apk" bash scripts/verify-reproducible-apk.sh --strict
   fi
   if command -v gh >/dev/null 2>&1; then
-    run_step "ci-jobs" bash scripts/check-github-ci.sh HEAD --wait "$WAIT_CI" --skip-workflows --jobs "Repo Hygiene,Feature Gate"
+    run_step "ci-jobs" bash scripts/check-github-ci.sh HEAD --wait "$WAIT_CI" --skip-workflows --jobs "Repo Hygiene,Feature Gate,Template Upgrade Simulation (Windows)"
   fi
 fi
 

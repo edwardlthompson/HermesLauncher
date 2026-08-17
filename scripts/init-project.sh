@@ -13,6 +13,11 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
+# Python 3.14+ pyrepl on Windows can hang (WinError 123 getheightwidth). See KB-014.
+export PYTHON_BASIC_REPL="${PYTHON_BASIC_REPL:-1}"
+export PYTHONUNBUFFERED="${PYTHONUNBUFFERED:-1}"
+export PYTHONIOENCODING="${PYTHONIOENCODING:-utf-8}"
+
 usage() {
   cat <<'EOF'
 Usage: scripts/init-project.sh [options]

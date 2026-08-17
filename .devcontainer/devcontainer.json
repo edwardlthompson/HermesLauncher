@@ -14,7 +14,7 @@
     "ghcr.io/devcontainers/features/github-cli:1": {}
   },
   "postCreateCommand": "pip install pre-commit && cd examples/python && curl -LsSf https://astral.sh/uv/install.sh | sh && uv sync --all-extras && cd ../web && npm install",
-  "postStartCommand": "bash scripts/check-file-encoding.sh || true; bash scripts/check-template-updates.sh || true; echo 'Tip: pick Cursor mode via docs/CURSOR_MODES.md before editing'; echo 'Tip: after push to main, run scripts/check-github-ci.sh --wait 300'",
+  "postStartCommand": "bash scripts/check-file-encoding.sh || true; bash scripts/verify.sh || echo 'WARN: verify failed — run bash scripts/verify.sh'; bash scripts/check-template-updates.sh || true; echo 'Tip: pick Cursor mode via docs/CURSOR_MODES.md before editing'; echo 'Tip: after push to main, run scripts/check-github-ci.sh --wait 300'",
   "customizations": {
     "vscode": {
       "extensions": [

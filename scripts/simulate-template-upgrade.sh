@@ -7,6 +7,11 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 WORKDIR="$(mktemp -d)"
 trap 'rm -rf "$WORKDIR"' EXIT
 
+# Python 3.14+ pyrepl on Windows can hang during pwsh init (KB-014).
+export PYTHON_BASIC_REPL="${PYTHON_BASIC_REPL:-1}"
+export PYTHONUNBUFFERED="${PYTHONUNBUFFERED:-1}"
+export PYTHONIOENCODING="${PYTHONIOENCODING:-utf-8}"
+
 echo "==> Simulating template upgrade in $WORKDIR"
 
 git clone --quiet "file://$ROOT" "$WORKDIR/child"
@@ -110,18 +115,23 @@ bash scripts/validate-bootstrap.sh --quick
 echo "Prune-optional smoke passed"
 
 echo "==> Non-interactive init smoke (PowerShell)"
-git clone --quiet "file://$ROOT" "$WORKDIR/child-ps"
-cd "$WORKDIR/child-ps"
+if ! command -v pwsh >/dev/null 2>&1; then
+  echo "SKIP PowerShell init smoke (pwsh not on PATH)"
+else
+  git clone --quiet "file://$ROOT" "$WORKDIR/child-ps"
+  cd "$WORKDIR/child-ps"
 
-pwsh -NoProfile -File scripts/init-project.ps1 \
-  -NonInteractive \
-  -Stack web \
-  -ProjectName "Upgrade Sim PS" \
-  -ProjectPurpose "PS init smoke" \
-  -Prune \
-  -PruneOptional
+  PYTHON_BASIC_REPL=1 PYTHONUNBUFFERED=1 PYTHONIOENCODING=utf-8 \
+    pwsh -NoProfile -File scripts/init-project.ps1 \
+    -NonInteractive \
+    -Stack web \
+    -ProjectName "Upgrade Sim PS" \
+    -ProjectPurpose "PS init smoke" \
+    -Prune \
+    -PruneOptional
 
-bash scripts/validate-bootstrap.sh --quick
-echo "PowerShell init smoke passed"
+  bash scripts/validate-bootstrap.sh --quick
+  echo "PowerShell init smoke passed"
+fi
 
 echo "Upgrade simulation passed"

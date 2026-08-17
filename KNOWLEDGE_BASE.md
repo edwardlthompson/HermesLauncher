@@ -99,7 +99,6 @@
 | **Cause** | `before_shell_guard.py` and `after_edit_encoding.py` fail-open: parse errors, empty command, missing denylist, or `<!-- cursor-hooks: off -->` in `BUILD_PLAN.md` return allow. `/push` approval of `git push` also matches `git push --force` via substring |
 | **Fix** | Treat hooks as **instructed-with-best-effort**. Require `[HUMAN]` or `/push` / `/ship` for destructive-ops. Do not label fail-open hooks as hard denies |
 | **Prevention** | Honesty table in `.cursor/rules/destructive-ops.mdc` and `docs/CURSOR_INTEGRATIONS.md`; keep `shell-denylist.txt` in sync with the rule |
-
 ### KB-013 — `npm ci` fails after `@puppeteer/browsers` override
 
 | Field | Detail |
@@ -108,7 +107,14 @@
 | **Cause** | Browsers 3.2.0 optional peer `proxy-agent` >=8.0.1. Local `npm install` on Node 26 can omit that tree; Actions Node 22 `npm ci` requires it |
 | **Fix** | Add `"proxy-agent": ">=8.0.2"` to web overrides; run `npm ci` locally before push |
 | **Prevention** | After puppeteer/LHCI overrides, verify with `npm ci` (not only `npm install`) |
+### KB-014 — Windows PowerShell init hangs on Python 3.14 pyrepl
 
+| Field | Detail |
+|-------|--------|
+| **Symptom** | `scripts/simulate-template-upgrade.sh` PowerShell smoke (`pwsh … init-project.ps1`) hangs; Python reports `WinError 123` from `getheightwidth` / pyrepl |
+| **Cause** | CPython 3.14 enables the interactive `pyrepl` frontend. On Windows it queries console size even when stdin is not a TTY, then blocks |
+| **Fix** | Set `PYTHON_BASIC_REPL=1` (and `PYTHONUNBUFFERED=1`) in `scripts/init-project.ps1`, `scripts/init-project.sh`, and the upgrade-sim `pwsh` invocation |
+| **Prevention** | Keep those env vars on every Windows Python spawn used by init / `/ship` regress. Do not use the interactive REPL in non-interactive scripts |
 ### KB-011 — Vitest jsdom `localStorage` broken on Node 25+
 
 | Field | Detail |

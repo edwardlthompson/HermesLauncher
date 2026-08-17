@@ -8,6 +8,9 @@
     "batch_commands_help": "docs/help/BATCH_COMMANDS.md",
     "batch_commands_catalog": "docs/BATCH_COMMANDS.md",
     "tour": "docs/help/TOUR.md",
+    "ideas": "docs/help/IDEAS.md",
+    "glossary": "docs/help/GLOSSARY.md",
+    "coach": "docs/help/COACH.md",
     "agent_portability": "docs/AGENT_PORTABILITY.md"
   },
   "files": [
@@ -565,6 +568,13 @@
       "owner": "maintainer"
     },
     {
+      "path": "scripts/lib/gate_hints.json",
+      "purpose": "Stage hint table for feature-gate and verify.sh",
+      "read_when": "prompt_needed",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": "scripts/lib/gate_hints.py",
       "purpose": "Plain-English feature-gate failure hints",
       "read_when": "prompt_needed",
@@ -586,6 +596,20 @@
       "owner": "maintainer"
     },
     {
+      "path": "docs/help/COACH.md",
+      "purpose": "Tool-agnostic /coach recipe (next action and why)",
+      "read_when": "prompt_needed",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "docs/help/GLOSSARY.md",
+      "purpose": "First-timer glossary (Sacred, Canon, AGENT labels, status)",
+      "read_when": "bootstrap_session_start",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": "docs/help/TOUR.md",
       "purpose": "Tool-agnostic 10-minute first-run tour",
       "read_when": "bootstrap_session_start",
@@ -595,6 +619,20 @@
     {
       "path": ".cursor/commands/tour.md",
       "purpose": "Cursor /tour slash command (10-minute walk)",
+      "read_when": "prompt_needed",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "docs/help/IDEAS.md",
+      "purpose": "Tool-agnostic in-scope backlog recipe",
+      "read_when": "prompt_needed",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": ".cursor/commands/ideas.md",
+      "purpose": "Cursor /ideas slash command (ranked backlog, do not implement)",
       "read_when": "prompt_needed",
       "update_when": "milestone_boundary",
       "owner": "maintainer"
@@ -1554,6 +1592,20 @@
     {
       "path": "scripts/check-security-triage.ps1",
       "purpose": "Windows wrapper for check-security-triage.sh",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/lib/check_doc_links.py",
+      "purpose": "Relative-link checker for docs/** markdown",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-doc-links.sh",
+      "purpose": "Gate wrapper for docs/** and root markdown relative links",
       "read_when": "milestone_boundary",
       "update_when": "milestone_boundary",
       "owner": "maintainer"

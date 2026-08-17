@@ -2,7 +2,7 @@
 
 > Technical catalog for agents and maintainers. **Humans:** start with [docs/help/BATCH_COMMANDS.md](help/BATCH_COMMANDS.md).
 
-29 slash commands: **24 atomic** workflows + **5 super** orchestrators. Bare-word triggers: `.cursor/rules/batch-commands.mdc`. Other IDEs: paste the matching file under `docs/help/` (start with `docs/help/TOUR.md`).
+30 slash commands: **25 atomic** workflows + **5 super** orchestrators. Bare-word triggers: `.cursor/rules/batch-commands.mdc`. Other IDEs: paste the matching file under `docs/help/` (start with `docs/help/TOUR.md` or `docs/help/IDEAS.md`).
 
 ## Super commands
 
@@ -41,11 +41,14 @@
 | `/scope` | Parallel manifest + auto Task dispatch | — | 14 |
 | `/coach` | Project health + next action + industry why (BEST_PRACTICES) | bootstrap | — |
 | `/tour` | 10-minute first-run walk (START_HERE → why → Golden Path → Week 1) | bootstrap | — |
+| `/ideas` | Ranked in-scope backlog (do not implement; offer BUILD_PLAN rows) | — | — |
 ## Decision tree
 
 ```
 New repo?           → /bootstrap
 Changed code?       → /verify (or /docs if docs-only)
+What next (now)?    → /coach
+What could we add?  → /ideas
 New feature?        → /build  (or /fix if gates fail)
 Ready to publish?   → /ship   (or /prerelease then /push)
 Weekly maintenance? → /maintain (heavy) or /triage + /verify (light)

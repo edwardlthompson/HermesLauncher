@@ -23,6 +23,11 @@ param(
 $Root = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
 Set-Location $Root
 
+# Python 3.14+ pyrepl on Windows can hang (WinError 123 getheightwidth). See KB-014.
+$env:PYTHON_BASIC_REPL = "1"
+$env:PYTHONUNBUFFERED = "1"
+if (-not $env:PYTHONIOENCODING) { $env:PYTHONIOENCODING = "utf-8" }
+
 if ($PruneOptional) { $KeepOptional = $false }
 
 function Write-Utf8NoBom {

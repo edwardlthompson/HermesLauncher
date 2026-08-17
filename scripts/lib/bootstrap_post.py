@@ -61,3 +61,29 @@ def run_stack_tests(root: Path, stack: str) -> list[str]:
     if not notes:
         notes.append("no automated stack tests selected")
     return notes
+
+
+def create_welcome_issue(root: Path) -> str:
+    if not tool_present("gh"):
+        raise RuntimeError(
+            "gh is required for post_welcome_issue. Install GitHub CLI or disable the hook."
+        )
+    title = "Welcome: take the 10-minute tour"
+    body = (
+        "This issue is a first-run pointer, not a bug.\n\n"
+        "- Tour: `docs/help/TOUR.md` (Cursor: `/tour`)\n"
+        "- Glossary: `docs/help/GLOSSARY.md`\n"
+        "- Start here: `docs/START_HERE.md`\n\n"
+        "Close this issue after you finish the tour."
+    )
+    proc = subprocess.run(
+        ["gh", "issue", "create", "--title", title, "--body", body],
+        cwd=root,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if proc.returncode != 0:
+        raise RuntimeError(proc.stderr.strip() or "gh issue create failed")
+    url = (proc.stdout or "").strip()
+    return f"opened welcome issue: {url}" if url else "opened welcome issue"

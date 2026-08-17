@@ -2,7 +2,7 @@
 
 1. **First read:** `docs/START_HERE.md`
 2. **Cursor modes:** `docs/CURSOR_MODES.md` (Ask / Plan / Agent / Debug routing)
-3. **Why / coach:** `docs/BEST_PRACTICES.md` · 30-day playbook `docs/FIRST_30_DAYS.md` · `/coach` · first-run `/tour` (`docs/help/TOUR.md` in other IDEs) · portability `docs/AGENT_PORTABILITY.md`
+3. **Why / coach:** `docs/BEST_PRACTICES.md` · 30-day playbook `docs/FIRST_30_DAYS.md` · `/coach` · backlog `/ideas` (`docs/help/IDEAS.md`) · first-run `/tour` (`docs/help/TOUR.md` in other IDEs) · portability `docs/AGENT_PORTABILITY.md`
 4. **Bootstrap mode:** `docs/INITIALIZATION_PROMPT.md`
 5. **Reference mode:** `docs/FOR_AGENTS.md` + `TEMPLATE_INDEX.json`
 6. **Task board:** `BUILD_PLAN.md` (Sequential before Parallel) — status: 🔲 open · ✅ done · ❌ blocked
@@ -15,7 +15,7 @@
 
 <!-- bootstrap-project-card -->
 **Product:** agent-project-bootstrap
-**Purpose:** GitHub Template for FOSS Cursor agent projects
+**Purpose:** GitHub Template for FOSS coding-agent projects
 **Stack:** multi
 <!-- /bootstrap-project-card -->
 

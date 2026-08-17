@@ -17,6 +17,27 @@
 
 ## Entries
 
+### 2026-08-17 — Implement /ideas backlog (required Windows check, coach twin)
+- **Status:** Accepted
+- **Context:** Third `/ideas` pass. Windows upgrade-sim existed but `/ship` and branch protection did not name it.
+- **Decision:** Add the Windows job to required checks; ship `docs/help/COACH.md`; health notes dirty Unreleased; skip weekly AUTO rows after a green weekly-health run; Codespaces `verify.sh`; citation `date-released`; pin setup-python SHA; split `build_sprint` and gate new `scripts/lib` files at 150 lines (allowlist pre-existing oversize modules).
+- **Alternatives considered:** Split every lib file in one pass (rejected: too much risk for `/build`). Fail file-limits on allowlisted modules (rejected: would block unrelated work).
+- **Consequences:** `/ship` waits on Windows upgrade-sim once the job has run on HEAD. New `scripts/lib` modules must stay ≤150 lines.
+
+### 2026-08-17 — Implement /ideas backlog (health, Windows CI, links)
+- **Status:** Accepted
+- **Context:** Second `/ideas` pass after the first eight items shipped locally. Health still pointed at child Sprint 0 on this template.
+- **Decision:** Auto lane uses maintainer board when `bootstrap.config.json` still describes this template. Skip `pwsh` when missing; add `windows-latest` upgrade-sim. Split gate hints to JSON. Extend doc-link gate to root `*.md` + pre-commit. Best-effort Q&A category after Discussions enable.
+- **Alternatives considered:** Keep auto=child on the template (rejected: wrong next step). Fail upgrade-sim without `pwsh` (rejected: bash path already proved). Require Q&A API success (rejected: Settings fallback).
+- **Consequences:** `/coach` and `/ideas` on this repo name Ongoing Maintenance, not init-project. Child repos with their own purpose stay on the child playbook.
+
+### 2026-08-17 — Implement /ideas backlog (8 items)
+- **Status:** Accepted
+- **Context:** `/ideas` ranked eight in-scope template items after v0.19.0. User asked to implement all.
+- **Decision:** Ship Windows pyrepl env, CITATION.cff version sync, glossary, portable stamp copy, verify.sh hints, opt-in welcome issue, docs link gate, and Discussions enablement from `setup-github-repo`.
+- **Alternatives considered:** Cursor-only purpose (rejected: portability). Welcome issue on by default (rejected: matches other post hooks). Fail setup if Discussions API cannot toggle (rejected: [HUMAN] Settings fallback).
+- **Consequences:** `post_welcome_issue` stays false; `/ship` regress should finish on This Computer; glossary is REQUIRED.
+
 ### 2026-08-16 — Ship v0.19.0 (/ship)
 - **Status:** Accepted
 - **Context:** Coach layer (`2f77fb9`) plus portable first-run polish were unpushed; first pre-release CI wait failed because HEAD had no Actions run.

@@ -45,7 +45,7 @@ fi
 if [ -n "${GITHUB_REQUIRED_CHECKS:-}" ]; then
   EXPECTED_CSV="$GITHUB_REQUIRED_CHECKS"
 else
-  EXPECTED_CSV="CI,Security Scan,CodeQL,Repo Hygiene,Feature Gate"
+  EXPECTED_CSV="CI,Security Scan,CodeQL,Repo Hygiene,Feature Gate,Template Upgrade Simulation (Windows)"
 fi
 
 echo "Branch protection for ${REPO} @ ${BRANCH}"

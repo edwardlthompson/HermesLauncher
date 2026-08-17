@@ -420,6 +420,23 @@ jobs:
       - name: Simulate child-repo upgrade path
         run: bash scripts/simulate-template-upgrade.sh
 
+  upgrade-simulation-windows:
+    name: Template Upgrade Simulation (Windows)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: "3.12"
+      - name: Simulate child-repo upgrade path
+        shell: bash
+        env:
+          PYTHON_BASIC_REPL: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONIOENCODING: utf-8
+          PYTHONUTF8: "1"
+        run: bash scripts/simulate-template-upgrade.sh
+
   template-update-check:
     name: Template Update Check
     runs-on: ubuntu-latest

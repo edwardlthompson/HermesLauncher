@@ -22,6 +22,12 @@ repos:
         language: system
         pass_filenames: true
         files: (\.(md|json|yml|yaml|sh|ps1|mdc|ts|tsx|toml|html|css|properties|kts|kt|xml)$|^\.gitignore$|^\.gitattributes$|^\.editorconfig$|^\.cursorignore$)
+      - id: check-doc-links
+        name: Check markdown relative links
+        entry: bash scripts/check-doc-links.sh
+        language: system
+        pass_filenames: false
+        files: '\.md$'
       - id: workflow-action-refs
         name: Check workflow action ref format
         entry: bash scripts/check-workflow-action-ref-format.sh

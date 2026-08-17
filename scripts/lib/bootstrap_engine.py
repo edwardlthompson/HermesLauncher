@@ -61,6 +61,7 @@ def default_config(
             "post_git_commit": False,
             "post_install_deps": False,
             "post_run_tests": False,
+            "post_welcome_issue": False,
         },
     }
 

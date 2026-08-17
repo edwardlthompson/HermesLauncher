@@ -4,7 +4,7 @@
 
 ## What is this?
 
-`agent-project-bootstrap` is a **GitHub Template Repository** for bootstrapping FOSS projects with coding agents (Cursor, Windsurf, Antigravity, Claude Code, Copilot, and others). Shared contract: [`AGENTS.md`](../AGENTS.md). Tool map: [`AGENT_PORTABILITY.md`](AGENT_PORTABILITY.md).
+`agent-project-bootstrap` is a **GitHub Template Repository** for bootstrapping FOSS projects with coding agents (Cursor, Windsurf, Antigravity, Claude Code, Copilot, and others). Shared contract: [`AGENTS.md`](../AGENTS.md). Tool map: [`AGENT_PORTABILITY.md`](AGENT_PORTABILITY.md). Word list: [`help/GLOSSARY.md`](help/GLOSSARY.md).
 
 ## Which repo mode are you in?
 
@@ -19,7 +19,7 @@ See [`docs/CURSOR_MODES.md`](CURSOR_MODES.md) — pick the Cursor mode before ed
 
 In Cursor, type **`/`** in Agent chat. Start with **[docs/help/BATCH_COMMANDS.md](help/BATCH_COMMANDS.md)** — try `/tour` (10 minutes) or `/bootstrap` on a new project, `/verify` before merge.
 
-In Windsurf, Antigravity, or any other agent: ask it to read [`docs/help/TOUR.md`](help/TOUR.md) and walk you through it.
+In Windsurf, Antigravity, or any other agent: ask it to read [`docs/help/TOUR.md`](help/TOUR.md) (first run) or [`docs/help/COACH.md`](help/COACH.md) (what next).
 
 ## Bootstrap Read Order
 
@@ -67,12 +67,12 @@ flowchart TD
 ## Do Not Read Yet
 
 - Inactive `examples/` folders
-- `KNOWLEDGE_BASE.md` — reference when debugging (KB-001–KB-012)
+- `KNOWLEDGE_BASE.md` — reference when debugging (KB-001–KB-014)
 - `docs/MAINTAINING_THE_TEMPLATE.md` (maintainers only)
 
 ## BUILD_PLAN Labels
 
-`AGENT` | `HUMAN` | `ADB` | `AUTO` — filter with `grep '\[AGENT\]' BUILD_PLAN.md`
+`AGENT` | `HUMAN` | `ADB` | `AUTO` — filter with `grep '\[AGENT\]' BUILD_PLAN.md`. Definitions: [`help/GLOSSARY.md`](help/GLOSSARY.md).
 
 **Status markers:** 🔲 open · ✅ done · ❌ blocked — emoji only (not `- [ ]` checkboxes). Applies to all repo checklists; see legend in `BUILD_PLAN.md`.
 

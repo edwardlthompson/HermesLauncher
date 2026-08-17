@@ -22,11 +22,11 @@ if [ -z "$REPO" ]; then
 fi
 
 BRANCH="${GITHUB_DEFAULT_BRANCH:-main}"
-# Comma-separated override: GITHUB_REQUIRED_CHECKS="CI,Security Scan,CodeQL,Repo Hygiene,Feature Gate"
+# Comma-separated override: GITHUB_REQUIRED_CHECKS="CI,Security Scan,CodeQL,Repo Hygiene,Feature Gate,Template Upgrade Simulation (Windows)"
 if [ -n "${GITHUB_REQUIRED_CHECKS:-}" ]; then
   IFS=',' read -ra REQUIRED_CHECKS <<< "$GITHUB_REQUIRED_CHECKS"
 else
-  REQUIRED_CHECKS=("CI" "Security Scan" "CodeQL" "Repo Hygiene" "Feature Gate")
+  REQUIRED_CHECKS=("CI" "Security Scan" "CodeQL" "Repo Hygiene" "Feature Gate" "Template Upgrade Simulation (Windows)")
 fi
 TRANSIENT=0
 FAILED=0
@@ -38,12 +38,14 @@ MANUAL SETUP CHECKLIST (GitHub UI - API returned 422 or insufficient permissions
   2. Settings -> Code security and analysis -> Dependabot security updates: ON
   3. Settings -> Code security and analysis -> Private vulnerability reporting: ON
   4. Settings -> Branches -> Branch protection rules -> main:
-     - Require status checks: CI, Security Scan, CodeQL, Repo Hygiene, Feature Gate
+     - Require status checks: CI, Security Scan, CodeQL, Repo Hygiene, Feature Gate, Template Upgrade Simulation (Windows)
      - Require branches to be up to date before merging (recommended)
      - Leave "Do not allow bypassing the above settings" OFF so repo admins can merge via gh --admin
   4b. (Optional, org repos or Rulesets only) Settings -> Rules -> Rulesets -> Bypass list:
      - Add GitHub Actions app, mode "For pull requests only" — not available on classic personal-repo branch rules
-  5. Re-run: bash scripts/setup-github-repo.sh
+  5. Settings -> General -> Features -> Discussions: ON
+     Then add a Q&A category (answers enabled) if GitHub did not create one
+  6. Re-run: bash scripts/setup-github-repo.sh
 EOF
 }
 
@@ -134,7 +136,7 @@ export GITHUB_REQUIRED_CHECKS="$(IFS=,; echo "${REQUIRED_CHECKS[*]}")"
 
 protection_json="$(python3 - <<PY
 import json, os
-checks = os.environ.get("GITHUB_REQUIRED_CHECKS", "CI,Security Scan,CodeQL,Repo Hygiene,Feature Gate").split(",")
+checks = os.environ.get("GITHUB_REQUIRED_CHECKS", "CI,Security Scan,CodeQL,Repo Hygiene,Feature Gate,Template Upgrade Simulation (Windows)").split(",")
 checks = [c.strip() for c in checks if c.strip()]
 print(json.dumps({
     "required_status_checks": {"strict": True, "contexts": checks},
@@ -164,6 +166,29 @@ if ! gh_api_retry PUT "repos/${REPO}/branches/${BRANCH}/protection" "$protection
 else
   echo "OK   Branch protection on ${BRANCH} (required checks: ${REQUIRED_CHECKS[*]})"
 fi
+
+if gh repo edit "$REPO" --enable-discussions >/dev/null 2>&1; then
+  echo "OK   GitHub Discussions enabled (point Q&A at SUPPORT.md)"
+else
+  echo "SKIP Discussions (gh could not enable — [HUMAN] Settings → General → Features → Discussions)"
+fi
+
+ensure_discussions_qa() {
+  local names
+  names="$(gh api "repos/${REPO}/discussions/categories" --jq '.[].name' 2>/dev/null || true)"
+  if printf '%s\n' "$names" | grep -qiE '^Q&A$|^qa$'; then
+    echo "OK   Discussions Q&A category present"
+    return 0
+  fi
+  if gh api --method POST "repos/${REPO}/discussions/categories" \
+    -f name='Q&A' -f emoji=':question:' -F is_answerable=true >/dev/null 2>&1; then
+    echo "OK   Discussions Q&A category created"
+    return 0
+  fi
+  echo "SKIP Q&A category ([HUMAN] Discussions → New category → Q&A, answers enabled)"
+}
+
+ensure_discussions_qa
 
 if [ "$TRANSIENT" -gt 0 ]; then
   echo "Transient errors after retries ($TRANSIENT); re-run later"

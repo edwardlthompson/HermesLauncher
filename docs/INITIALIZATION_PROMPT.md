@@ -302,7 +302,7 @@ PowerShell: `pwsh scripts/init-project.ps1 -NonInteractive -Stack web -ProjectNa
 10a. `[AGENT]` Copy `.app-update.json.example` → `.app-update.json` and `donations.json.example` → `donations.json`; scaffold Golden Path in-app About stub per active UI stack (web and/or android).
 10b. `[HUMAN]` Fill `release_repo`, donation links in `donations.json`, and choose distribution channel (F-Droid vs sideload vs desktop installer).
 11. `[HUMAN]` Enable Dependabot alerts, security updates, and private vulnerability reporting in GitHub repo settings (see `docs/SECURITY_TRIAGE.md` § Setup).
-12. `[HUMAN]` Configure branch protection on `main` (required checks: CI, Security Scan, CodeQL, Repo Hygiene, Feature Gate; linear history, no force-push).
+12. `[HUMAN]` Configure branch protection on `main` (required checks: CI, Security Scan, CodeQL, Repo Hygiene, Feature Gate, Template Upgrade Simulation (Windows); linear history, no force-push).
 13. `[HUMAN]` Paste `docs/GITHUB_ABOUT.md` description and topics into **GitHub → Settings → General → About** (repo metadata only).
 14. `[AGENT]` Verify `.github/dependabot.yml` covers all active package ecosystems.
 15. `[AUTO]` Run `scripts/validate-bootstrap.sh` to confirm Sprint 0 artifacts exist.

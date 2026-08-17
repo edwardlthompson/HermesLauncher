@@ -6,7 +6,12 @@
       "changelog-path": "CHANGELOG.md",
       "extra-files": [
         ".template-version",
-        "TEMPLATE_INDEX.json"
+        "TEMPLATE_INDEX.json",
+        {
+          "type": "yaml",
+          "path": "CITATION.cff",
+          "jsonpath": "$.version"
+        }
       ],
       "include-component-in-tag": false,
       "include-v-in-tag": true

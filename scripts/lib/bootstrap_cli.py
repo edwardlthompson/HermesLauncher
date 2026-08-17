@@ -14,7 +14,7 @@ from bootstrap_engine import (
     save_config,
     validate_config,
 )
-from bootstrap_post import ensure_git_repo, install_deps, run_stack_tests
+from bootstrap_post import create_welcome_issue, ensure_git_repo, install_deps, run_stack_tests
 from project_checklist import write_checklist
 from stamp_project import stamp_agents_md, stamp_first_30_days
 
@@ -37,6 +37,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     p.add_argument("--git-init", action="store_true")
     p.add_argument("--install-deps", action="store_true")
     p.add_argument("--run-tests", action="store_true")
+    p.add_argument("--welcome-issue", action="store_true")
     return p.parse_args(argv)
 
 
@@ -72,6 +73,10 @@ def run(argv: list[str] | None = None) -> int:
             license_id=license_id,
             distribution_tier=tier,
         )
+        if isinstance(existing.get("hooks"), dict):
+            merged = dict(cfg.get("hooks") or {})
+            merged.update(existing["hooks"])
+            cfg["hooks"] = merged
         problems = validate_config(cfg)
         if problems:
             for e in problems:
@@ -98,6 +103,8 @@ def run(argv: list[str] | None = None) -> int:
             if args.run_tests or hooks.get("post_run_tests"):
                 for note in run_stack_tests(root, stack):
                     print(note)
+            if args.welcome_issue or hooks.get("post_welcome_issue"):
+                print(create_welcome_issue(root))
         except RuntimeError as exc:
             print(f"ERROR: {exc}", file=sys.stderr)
             return 1

@@ -10,23 +10,47 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+* **ideas:** `/ideas` and `docs/help/IDEAS.md` — ranked in-scope backlog on demand (does not implement)
+* **glossary:** first-timer `docs/help/GLOSSARY.md` (Sacred, Canon, AGENT labels, 🔲 status)
+* **welcome:** optional `post_welcome_issue` hook (off by default) pointing at `/tour`
+* **docs:** `scripts/check-doc-links.sh` relative-link gate for `docs/**` and root `*.md`
+* **ci:** Windows `upgrade-simulation` job (`windows-latest`) plus weekly twin
+* **pre-commit:** `check-doc-links` hook on markdown changes
+* **coach:** `docs/help/COACH.md` twin for `/coach`
+* **codespaces:** `postStart` runs `bash scripts/verify.sh`
+
 ### Changed
 
+* **stamp:** default purpose is coding-agent (not Cursor-only)
+* **citation:** `CITATION.cff` version stays in sync with `.template-version`
+* **verify:** `verify.sh` prints the same human hints as feature-gate
+* **github:** `setup-github-repo` enables Discussions and tries to create a Q&A category
+* **health:** `project-health` / `build-sprint-status --lane auto` uses maintainer board on this template
+* **hints:** `gate_hints.py` loads `gate_hints.json` (under the 150-line logic budget)
+* **github:** required checks include **Template Upgrade Simulation (Windows)**
+* **health:** dirty Unreleased / unpushed HEAD notes; skip weekly AUTO rows after a green weekly-health run
+* **limits:** `scripts/lib` new modules must stay ≤150 lines (`build_sprint` split)
+* **citation:** `CITATION.cff` `date-released` syncs with the version bump
+
 ### Fixed
+
+* **windows:** `PYTHON_BASIC_REPL=1` so PowerShell init / upgrade-sim does not hang on Python 3.14 pyrepl
+* **upgrade-sim:** skip PowerShell smoke when `pwsh` is missing
+* **health:** UTF-8 stdout so Windows consoles do not mojibake BUILD_PLAN punctuation
+* **ci:** pin `actions/setup-python` to v5.6.0 SHA on Windows upgrade-sim jobs
 
 ### Documentation
 
 * **readme:** pitch-first template README (tour, portability, coach, readable gates)
 * **release:** archive v0.19.0 ship memory and decisions
+* **support:** Q&A points at GitHub Discussions; KB-014 records the Windows pyrepl hang
 
 ## [0.19.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.18.3...v0.19.0) (2026-08-17)
-
 
 ### Added
 
 * add coach layer and complete bootstrap defaults ([2f77fb9](https://github.com/edwardlthompson/agent-project-bootstrap/commit/2f77fb9a65ad1f1f963e69e276d43972e57b54e5))
 * add portable first-run tour and multi-agent adapters ([7944f1b](https://github.com/edwardlthompson/agent-project-bootstrap/commit/7944f1b2a76322c5b96dc666922fa0c88d0ce628))
-
 
 ### Documentation
 

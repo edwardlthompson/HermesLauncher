@@ -19,7 +19,8 @@ Bookmark this page for when you come back after a break.
 |---------|-------------|
 | `/bootstrap` | Brand-new project — Sprint 0 setup, then a Welcome Tour (`/tour`) |
 | `/tour` | 10-minute first-run walk (any IDE: `docs/help/TOUR.md`) |
-| `/coach` | What to do next and why (health snapshot + 30-day playbook) |
+| `/coach` | What to do next and why (health snapshot + 30-day playbook). Other IDEs: [`COACH.md`](COACH.md) |
+| `/ideas` | Ranked backlog of in-scope next features (does not implement) |
 | `/verify` | After your changes, before opening a pull request |
 | `/build` | Run BUILD_PLAN end-to-end — automates HUMAN/ADB via scripts, backlogs failures, chains sprints until done |
 | `/ship` | Publish a release to GitHub (runs checks, push, post-release) |
@@ -30,7 +31,7 @@ Bookmark this page for when you come back after a break.
 
 Grouped by life moment (not every command — use `/` menu for the full list).
 
-**Getting started:** `/tour` · `/init` · `/setup` · `/prune` · `/gates` · `/coach`
+**Getting started:** `/tour` · `/init` · `/setup` · `/prune` · `/gates` · `/coach` · `/ideas`
 
 **Building:** `/plan` · `/feature` · `/fix` (gates failed after `/build`) · `/cleanup` (archive finished BUILD_PLAN rows) · `/scope` (parallel manifest + auto Task dispatch)
 

@@ -34,7 +34,7 @@ Start here, then [`CONTRIBUTING.md`](CONTRIBUTING.md) and [`SUPPORT.md`](SUPPORT
 
 ## For agents
 
-Read [`docs/START_HERE.md`](docs/START_HERE.md) and [`AGENTS.md`](AGENTS.md). Cursor: `/tour` or `/bootstrap`. Any other IDE: `Read docs/help/TOUR.md and walk me through it.` Later sessions: `/coach`.
+Read [`docs/START_HERE.md`](docs/START_HERE.md) and [`AGENTS.md`](AGENTS.md). Cursor: `/tour` or `/bootstrap`. Any other IDE: `Read docs/help/TOUR.md and walk me through it.` Later sessions: `/coach`. For a ranked backlog: `/ideas` or [`docs/help/IDEAS.md`](docs/help/IDEAS.md).
 
 ## Contents
 
@@ -132,7 +132,6 @@ flowchart LR
 | Governance | Issue + PR templates, `SUPPORT.md`, `CITATION.cff`, MIT / Apache-2.0 |
 | Lifecycle | Preflight, `bootstrap.config.json`, `PROJECT_CHECKLIST.md` |
 | Editor DX | `.vscode/tasks.json`, Codespaces / devcontainer, optional `justfile` |
-
 ## What gets generated
 
 After **Use this template** and `scripts/init-project.sh` (or `.ps1`):
@@ -149,7 +148,6 @@ After **Use this template** and `scripts/init-project.sh` (or `.ps1`):
 | `.windsurf/rules/agents-pointer.md` | Windsurf pointer |
 | `.clinerules`, `CONVENTIONS.md`, `.continue/rules/agents.md` | Cline, Aider, Continue pointers |
 | `LICENSE` | Rewritten only when `--license Apache-2.0` |
-
 Shipped in the template (not generated): `docs/spec.md`, `docs/plan.md`, `docs/BEST_PRACTICES.md`, `docs/FIRST_30_DAYS.md`, `docs/AGENT_PORTABILITY.md`, `docs/help/TOUR.md`, `SUPPORT.md`, `CITATION.cff`, `env.schema.json`, `.devcontainer/`, `.vscode/tasks.json`, `.agent/memory/`, `.pre-commit-config.yaml`, CI/security workflows, issue/PR templates. Optional `.github/FUNDING.yml` when a donation URL is set. Optional `just verify` if [just](https://github.com/casey/just) is installed — CI still calls `scripts/verify.sh` directly.
 
 ## Agent shortcuts (cheat sheet)
@@ -159,6 +157,7 @@ Shipped in the template (not generated): `docs/spec.md`, `docs/plan.md`, `docs/B
 - `/tour` — 10-minute first-run walk (`docs/help/TOUR.md`)
 - `/bootstrap` — new project Sprint 0, then the tour
 - `/coach` — next action and the industry why
+- `/ideas` — ranked in-scope backlog (does not implement)
 - `/build` — plan and implement a feature
 - `/verify` — checks before merge
 - `/ship` — publish a release to GitHub
@@ -357,7 +356,7 @@ pwsh scripts/check-github-ci.ps1 -WaitSeconds 300
 
 ```
 
-Required status checks (branch protection via `scripts/setup-github-repo.sh`): **CI**, **Security Scan**, **CodeQL**, **Repo Hygiene**, **Feature Gate**. `check-github-ci` polls the three workflow rollups; **Repo Hygiene** and **Feature Gate** are jobs inside the **CI** workflow.
+Required status checks (branch protection via `scripts/setup-github-repo.sh`): **CI**, **Security Scan**, **CodeQL**, **Repo Hygiene**, **Feature Gate**, **Template Upgrade Simulation (Windows)**. `check-github-ci` polls the three workflow rollups; **Repo Hygiene**, **Feature Gate**, and the Windows upgrade-sim are jobs inside the **CI** workflow.
 
 One-time repo security setup (Dependabot alerts, private reporting, branch protection):
 

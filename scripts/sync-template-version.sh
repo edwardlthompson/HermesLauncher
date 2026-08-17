@@ -59,6 +59,25 @@ mt = re.sub(
     mt,
 )
 mem.write_text(mt, encoding="utf-8")
+
+citation = Path("CITATION.cff")
+if citation.is_file():
+    from datetime import date
+    released = date.today().isoformat()
+    ct = citation.read_text(encoding="utf-8")
+    updated, n = re.subn(
+        r"(?m)^version:\s*[\d.]+",
+        f"version: {version}",
+        ct,
+        count=1,
+    )
+    if n:
+        ct = updated
+    if re.search(r"(?m)^date-released:\s*", ct):
+        ct = re.sub(r"(?m)^date-released:\s*\S+", f"date-released: {released}", ct, count=1)
+    else:
+        ct = ct.rstrip() + f"\ndate-released: {released}\n"
+    citation.write_text(ct, encoding="utf-8")
 PY
 
-echo "Synced template version to ${VERSION} (.template-version, TEMPLATE_INDEX.json, README.md, AGENT_MEMORY.md)"
+echo "Synced template version to ${VERSION} (.template-version, TEMPLATE_INDEX.json, README.md, AGENT_MEMORY.md, CITATION.cff)"

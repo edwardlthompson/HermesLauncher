@@ -11,7 +11,7 @@ Prefer slash commands (`/audit`) when bare words fail — they load the same fil
 
 Full registry: `docs/BATCH_COMMANDS.md` · Human cheat sheet: `docs/help/BATCH_COMMANDS.md`
 
-## Atomic commands (24)
+## Atomic commands (25)
 
 | Word | File |
 |------|------|
@@ -39,6 +39,7 @@ Full registry: `docs/BATCH_COMMANDS.md` · Human cheat sheet: `docs/help/BATCH_C
 | codex-review | `.cursor/commands/codex-review.md` |
 | coach | `.cursor/commands/coach.md` |
 | tour | `.cursor/commands/tour.md` |
+| ideas | `.cursor/commands/ideas.md` |
 
 ## Super commands (5)
 

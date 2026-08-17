@@ -7,7 +7,7 @@ Where to ask depends on what you need. Pick the smallest channel that fits.
 - Read [`docs/START_HERE.md`](docs/START_HERE.md) and the 10-minute tour: [`docs/help/TOUR.md`](docs/help/TOUR.md) (Cursor: `/tour`).
 - Why a file exists: [`docs/BEST_PRACTICES.md`](docs/BEST_PRACTICES.md).
 - Using Windsurf, Antigravity, or another agent: [`docs/AGENT_PORTABILITY.md`](docs/AGENT_PORTABILITY.md).
-- Still stuck? Open a GitHub Discussion if enabled, or a question issue with what you already tried (no secrets).
+- Still stuck? Open a **GitHub Discussion** in the Q&A category (no secrets). `scripts/setup-github-repo.sh` tries to enable Discussions and create Q&A; if either is missing, a human uses Settings → General → Features → Discussions, then New category → Q&A. A question issue is the fallback.
 
 ## Bugs
 
