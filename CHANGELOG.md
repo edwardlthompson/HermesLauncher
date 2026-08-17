@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.19.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.18.3...v0.19.0) (2026-08-17)
+
+
+### Added
+
+* add coach layer and complete bootstrap defaults ([2f77fb9](https://github.com/edwardlthompson/agent-project-bootstrap/commit/2f77fb9a65ad1f1f963e69e276d43972e57b54e5))
+* add portable first-run tour and multi-agent adapters ([7944f1b](https://github.com/edwardlthompson/agent-project-bootstrap/commit/7944f1b2a76322c5b96dc666922fa0c88d0ce628))
+
+
+### Documentation
+
+* **release:** archive v0.18.3 ship memory and decisions ([3b572d8](https://github.com/edwardlthompson/agent-project-bootstrap/commit/3b572d823820e4ed2bd0a4c6729da98ae925b573))
+
 ## [Unreleased]
 
 ### Added
