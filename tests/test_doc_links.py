@@ -49,3 +49,21 @@ class DocLinkTests(unittest.TestCase):
             path.parent.mkdir()
             path.write_text("[ext](https://example.com/x)\n", encoding="utf-8")
             self.assertEqual(check_file(path), [])
+
+    def test_pruned_module_link_ok(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            docs = root / "docs"
+            docs.mkdir()
+            (docs / "note.md").write_text(
+                "[android](../modules/android/COMMERCIAL.md)\n",
+                encoding="utf-8",
+            )
+            self.assertEqual(collect_errors(root), [])
+            (root / "modules" / "android").mkdir(parents=True)
+            errors = collect_errors(root)
+            self.assertTrue(any("COMMERCIAL.md" in e for e in errors))
+            (root / "modules" / "android" / "COMMERCIAL.md").write_text(
+                "x\n", encoding="utf-8"
+            )
+            self.assertEqual(collect_errors(root), [])

@@ -37,24 +37,40 @@ def _href_path(raw: str) -> str:
     return target.split("#", 1)[0].split("?", 1)[0]
 
 
-def check_file(path: Path) -> list[str]:
+def _is_pruned_stack_target(root: Path, dest: Path) -> bool:
+    """True when dest is under modules/<stack> or examples/<stack> that was removed."""
+    try:
+        rel = dest.relative_to(root.resolve())
+    except ValueError:
+        return False
+    parts = rel.parts
+    if len(parts) < 2 or parts[0] not in ("modules", "examples"):
+        return False
+    return not (root / parts[0] / parts[1]).exists()
+
+
+def check_file(path: Path, root: Path | None = None) -> list[str]:
     errors: list[str] = []
+    base = root.resolve() if root is not None else None
     text = path.read_text(encoding="utf-8")
     for match in LINK_RE.finditer(text):
         rel = _href_path(match.group(1))
         if not rel:
             continue
         dest = (path.parent / rel).resolve()
-        if not dest.exists():
-            shown = path.as_posix()
-            errors.append(f"{shown}: broken link {match.group(1).strip()}")
+        if dest.exists():
+            continue
+        if base is not None and _is_pruned_stack_target(base, dest):
+            continue
+        shown = path.as_posix()
+        errors.append(f"{shown}: broken link {match.group(1).strip()}")
     return errors
 
 
 def collect_errors(root: Path) -> list[str]:
     errors: list[str] = []
     for path in iter_docs(root):
-        errors.extend(check_file(path))
+        errors.extend(check_file(path, root))
     return errors
 
 

@@ -38,6 +38,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * **upgrade-sim:** skip PowerShell smoke when `pwsh` is missing
 * **health:** UTF-8 stdout so Windows consoles do not mojibake BUILD_PLAN punctuation
 * **ci:** pin `actions/setup-python` to v5.6.0 SHA on Windows upgrade-sim jobs
+* **docs:** `check-doc-links` ignores links into pruned `modules/` / `examples/` trees
+* **upgrade-sim:** portable-purpose assert only applies while this is still the template repo
 
 ### Documentation
 
