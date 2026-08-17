@@ -49,12 +49,29 @@ REQUIRED=(
   RELEASE_NOTES.md.example
   scratchpad.md.example
   docs/features/_handoff.md
+  docs/spec.md
+  docs/plan.md
+  docs/BEST_PRACTICES.md
+  docs/FIRST_30_DAYS.md
+  bootstrap.config.json.example
+  PROJECT_CHECKLIST.md
+  CLAUDE.md
+  .github/copilot-instructions.md
+  .cursor/rules/main.mdc
+  templates/licenses/Apache-2.0.txt
+  env.schema.json
+  .devcontainer/Dockerfile
+  .devcontainer/devcontainer.json
+  .agent/memory/decisions.md
+  .agent/memory/pitfalls.md
+  .agent/skills/README.md
+  scripts/verify.sh
 )
 
 BATCH_COMMANDS=(
   audit cleanup debug gates triage dependabot push prerelease regress
   feature fix init prune ci docs upgrade setup plan restore compact scope
-  bootstrap verify build ship maintain
+  bootstrap verify build ship maintain coach
 )
 
 for cmd in "${BATCH_COMMANDS[@]}"; do
@@ -117,7 +134,9 @@ if ! python3 scripts/lib/run_checks_parallel.py \
   check-cursor-hooks.sh \
   check-build-plan-parallel.sh \
   check-template-version-sync.sh \
-  validate-template-index.sh
+  validate-template-index.sh \
+  check-bootstrap-engine.sh \
+  check-env.sh
 then
   ERRORS=$((ERRORS + 1))
 fi

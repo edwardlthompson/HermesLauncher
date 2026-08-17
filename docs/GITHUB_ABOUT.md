@@ -8,6 +8,8 @@ Cursor agent bootstrap template for FOSS projects. Labeled BUILD_PLAN sprints, c
 
 cursor, agent, template-repository, foss, mit, github-actions, pwa, python, android
 
+Suggested for GitHub discoverability (Settings → About). Prefer 5–10 short topics that match how people search.
+
 ## Child Project Draft
 
 [PROJECT_NAME] — [ONE_LINE_PURPOSE]. Built with agent-project-bootstrap. FOSS MIT.

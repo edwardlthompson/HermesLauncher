@@ -12,6 +12,12 @@ You are a Senior Software Architect and Expert AI Coding Agent. Follow this temp
 
 **Distribution:** Pure FOSS under MIT license distributed via GitHub Releases and platform-appropriate channels (F-Droid, Winget, GitHub Pages, or package indexes).
 
+## 1a. Explain the Why
+
+Before customizing files, read [`docs/BEST_PRACTICES.md`](BEST_PRACTICES.md). For each convention you touch, state **what it is**, **why the industry uses it**, and **how this repo applies it**. The 30-day playbook is [`docs/FIRST_30_DAYS.md`](FIRST_30_DAYS.md). Type `/coach` anytime for the next recommended action.
+
+**Explain as you go:** when you create or significantly change a file, add one sentence of rationale (example: “I’m adding this pre-commit hook because catching style and security issues locally is cheaper than waiting for CI.”).
+
 ## 2. Repository & CI/CD Guardrails
 
 Initialize the repository with a professional, hermetic layout. Early in the lifecycle, establish a GitHub Actions CI/CD pipeline with matrix strategies enforcing:
@@ -278,11 +284,12 @@ scripts/init-project.sh \
 
 ```
 
-PowerShell: `pwsh scripts/init-project.ps1 -NonInteractive -Stack web -ProjectName "My App" -ProjectPurpose "Offline-first notes"`. Add `-Prune` to remove unused stacks; `-KeepOptional` (default) retains rust/go/lightroom, `-PruneOptional` removes them too. See `scripts/init-project.sh --help`.
+PowerShell: `pwsh scripts/init-project.ps1 -NonInteractive -Stack web -ProjectName "My App" -ProjectPurpose "Offline-first notes"`. Add `-Prune` to remove unused stacks; `-KeepOptional` (default) retains rust/go/lightroom, `-PruneOptional` removes them too. `--license MIT|Apache-2.0` selects the child LICENSE (template default MIT). Preflight requires `git` and Python; `--skip-preflight` skips, `--strict-preflight` fails if stack tools are missing. See `scripts/init-project.sh --help`.
 
-1. Confirm understanding of the specified Platform, Stack, Purpose, and FOSS distribution pipelines.
+1. Confirm understanding of the specified Platform, Stack, Purpose, and FOSS distribution pipelines. Explain the why as you go (Section 1a).
 1a. Pick Cursor mode per `docs/CURSOR_MODES.md` (Ask to explore, Plan for architecture, Agent for approved execution).
-1b. Bookmark `docs/help/BATCH_COMMANDS.md` — type `/` in Agent chat for shortcut workflows (`/bootstrap` on new projects).
+1b. Bookmark `docs/help/BATCH_COMMANDS.md` — type `/` in Agent chat for shortcut workflows (`/bootstrap` on new projects, `/coach` for the next recommended action).
+1c. Offer a Welcome Tour: read order, BUILD_PLAN labels, AGENT_MEMORY milestone rule, and the first items in `docs/BEST_PRACTICES.md`.
 2. Initialize core repository architecture, root documentation (`README.md`, `LICENSE`, `CONTRIBUTING.md`, `SECURITY.md`, `CODE_OF_CONDUCT.md`), and the Workspace Memory files. Fill [`branding/product.json`](../branding/product.json) (name, tagline, pitch, features); set `"mode": "product"`; run `python3 scripts/sync-design-tokens.py` and `python3 scripts/generate-project-readme.py` so root `README.md` is the pitch README (hero, badges, features, quick start, install, usage, contributing, security, license). Keep BUILD_PLAN label + status-marker legend (🔲/✅/❌), template update checker pointer, in-app About + donation note, Dependabot / `docs/SECURITY_TRIAGE.md`, and links to `docs/START_HERE.md`, `docs/CURSOR_MODES.md`, `CONTRIBUTING.md`, `branding/BRANDING.md`, and the active module guide. See [`branding/BRANDING.md`](../branding/BRANDING.md).
 3. Configure a local development sandbox (e.g., Devcontainer configuration), scaffolding scripts for components/features, and local git hooks (Gitleaks/TruffleHog + Linter/Formatter pre-commit hooks). Add `.env.example` for documented environment variables.
 4. Establish a single, end-to-end "Golden Path" reference feature—including pure business logic, runtime type validation, a mocked data source, a layout matching text-based UI specs, and 100% unit/integration/visual test coverage—to serve as the structural template for all future development.

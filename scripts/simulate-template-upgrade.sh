@@ -41,7 +41,35 @@ bash scripts/init-project.sh \
   --stack web \
   --project-name "Upgrade Sim" \
   --purpose "Cherry-pick validation" \
-  --no-prune
+  --no-prune \
+  --license MIT
+
+for path in \
+  bootstrap.config.json \
+  PROJECT_CHECKLIST.md \
+  CLAUDE.md \
+  .github/copilot-instructions.md \
+  .cursor/rules/main.mdc \
+  docs/spec.md \
+  docs/plan.md \
+  docs/BEST_PRACTICES.md \
+  docs/FIRST_30_DAYS.md \
+  env.schema.json \
+  .devcontainer/Dockerfile \
+  .agent/memory/decisions.md \
+  .agent/memory/pitfalls.md \
+  scripts/verify.sh
+do
+  if [ ! -e "$path" ]; then
+    echo "FAIL: missing after init: $path"
+    exit 1
+  fi
+done
+python3 -c "import json; json.load(open('bootstrap.config.json', encoding='utf-8'))"
+if ! grep -q 'Upgrade Sim' AGENTS.md; then
+  echo "FAIL: AGENTS.md was not stamped with project name"
+  exit 1
+fi
 
 bash scripts/validate-bootstrap.sh --quick
 

@@ -175,6 +175,11 @@ if ! bash scripts/check-file-encoding.sh >/dev/null 2>&1; then
 fi
 GATES_PASSED+=("encoding")
 
+if ! bash scripts/check-env.sh >/dev/null 2>&1; then
+  fail_gate "env" "$(bash scripts/check-env.sh 2>&1 | tail -n 20)"
+fi
+GATES_PASSED+=("env")
+
 if ! bash scripts/check-file-limits.sh >/dev/null 2>&1; then
   fail_gate "file-limits" "$(bash scripts/check-file-limits.sh 2>&1 | tail -n 20)"
 fi

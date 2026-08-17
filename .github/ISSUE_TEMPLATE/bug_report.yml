@@ -1,19 +1,23 @@
 name: Bug Report
-description: Report a bug in the template or a project bootstrapped from it
+description: Something broke — thank you for taking the time to report it
 title: "[bug]: "
 labels: ["bug"]
 body:
+  - type: markdown
+    attributes:
+      value: "Thanks for the report. Security issues belong in SECURITY.md (private advisory), not here."
   - type: textarea
     id: description
     attributes:
-      label: Bug Description
-      description: Clear description of the bug
+      label: What happened?
+      description: What you expected versus what you saw
     validations:
       required: true
   - type: textarea
     id: reproduction
     attributes:
-      label: Steps to Reproduce
+      label: Steps to reproduce
+      description: Numbered steps, commands, and any log snippet (no secrets)
     validations:
       required: true
   - type: dropdown
@@ -24,6 +28,7 @@ body:
         - Web/PWA
         - Python
         - Android
+        - Node
         - Lightroom
         - Template (general)
     validations:

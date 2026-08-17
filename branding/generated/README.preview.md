@@ -12,6 +12,8 @@
   <img src="https://img.shields.io/badge/license-MIT-2ea043?style=flat-square" alt="MIT" />
   <img src="https://img.shields.io/badge/FOSS-no_tracking-656d76?style=flat-square" alt="FOSS" />
   <img src="https://img.shields.io/badge/status-active-e94560?style=flat-square" alt="status" />
+  <img src="https://img.shields.io/github/actions/workflow/status/edwardlthompson/agent-project-bootstrap/ci.yml?style=flat-square&label=CI" alt="CI" />
+  <img src="https://api.securityscorecards.dev/projects/github.com/edwardlthompson/agent-project-bootstrap/badge" alt="OpenSSF Scorecard" />
 
   <img src="https://img.shields.io/badge/web-stack-e94560?style=flat-square" alt="web" />
   <img src="https://img.shields.io/badge/python-stack-4A5F82?style=flat-square" alt="python" />
@@ -43,6 +45,14 @@ Golden Path is the reference product identity shipped with agent-project-bootstr
 1. Clone the repo and run `./scripts/init-project.sh` (or `.\scripts\init-project.ps1` on Windows).
 2. Open Cursor and follow `docs/START_HERE.md` → Section 8 Startup Sequence.
 3. Set `branding/product.json` `mode` to `product`, fill name/tagline/pitch, then run `python3 scripts/generate-project-readme.py`.
+
+## For humans
+
+Start with this README, then [`CONTRIBUTING.md`](../../CONTRIBUTING.md) and [`docs/BEST_PRACTICES.md`](../../docs/BEST_PRACTICES.md). The first-month playbook is [`docs/FIRST_30_DAYS.md`](../../docs/FIRST_30_DAYS.md).
+
+## For agents
+
+Read [`docs/START_HERE.md`](../../docs/START_HERE.md) and [`AGENTS.md`](../../AGENTS.md). Type `/bootstrap` on a new clone and `/coach` for the next recommended action.
 
 ## Install
 

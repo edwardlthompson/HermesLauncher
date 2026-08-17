@@ -43,6 +43,11 @@ repos:
         entry: bash scripts/validate-bootstrap.sh --quick
         language: system
         pass_filenames: false
+      - id: conventional-commit
+        name: Conventional Commits
+        entry: bash scripts/check-conventional-commit.sh
+        language: system
+        stages: [commit-msg]
 
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.21.2

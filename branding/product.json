@@ -24,7 +24,8 @@
     "security": "SECURITY.md",
     "license": "LICENSE",
     "design": "docs/DESIGN_GUIDE.md",
-    "branding": "branding/BRANDING.md"
+    "branding": "branding/BRANDING.md",
+    "github_repo": "edwardlthompson/agent-project-bootstrap"
   },
   "badge": {
     "primary": "e94560",

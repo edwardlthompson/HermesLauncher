@@ -12,7 +12,9 @@
 | Ports & adapters | Pure logic; composition root wires adapters only |
 | Test pyramid | Unit (many) → smoke (one) → e2e (milestone) |
 | Trunk-based batches | One feature per BUILD_PLAN row / PR |
-| Definition of Done | Per-feature checklist in BUILD_PLAN |
+| Definition of Done | Per-feature checklist in BUILD_PLAN plus `PROJECT_CHECKLIST.md` after init |
+| Spec-driven | Product intent in `docs/spec.md`; milestone stub in `docs/plan.md` |
+| Test-first | Every feature ships tests, or a written fallback validation command |
 | Fast feedback | `scripts/feature-gate.sh` after every AGENT step |
 ## Feature container contract
 
@@ -48,7 +50,7 @@ Status markers: 🔲 open · ✅ done · ❌ blocked (see `BUILD_PLAN.md` legend
 
 - 🔲 `[HUMAN]` Acceptance criteria + one smoke scenario documented
 - 🔲 `[AGENT]` Feature container scaffolded (no unrelated edits)
-- 🔲 `[AGENT]` Unit tests for pure logic
+- 🔲 `[AGENT]` Unit tests for pure logic (or written fallback command in the feature spec)
 - 🔲 `[AGENT]` View wired; composition root (`appBootstrap.ts` / `GoldenPathApp.kt`) diff ≤10 lines
 - 🔲 `[AUTO]` `bash scripts/watch-agent-gates.sh --once --autofix`
 - 🔲 `[HUMAN]` Manual smoke happy path; approve before next feature

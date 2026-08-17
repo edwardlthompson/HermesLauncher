@@ -17,6 +17,27 @@
 
 ## Entries
 
+### 2026-08-16 — Template Excellence / Coach Layer
+- **Status:** Accepted
+- **Context:** The template already had gates, memory, and Golden Paths; new users still got files without the industry *why*.
+- **Decision:** Add `docs/BEST_PRACTICES.md` + `docs/FIRST_30_DAYS.md`, `/coach` + Welcome Tour, init what/why summary, optional FUNDING.yml/topics, and optional `justfile`s. Do not require `just` in CI. Do not register a second `/why` command.
+- **Alternatives considered:** Fold the 30-day list into BEST_PRACTICES (rejected: token bloat); husky instead of just (rejected: pre-commit already covers hooks).
+- **Consequences:** Batch-command count is 23 atomic + 5 super. `/bootstrap` ends with a tour. Child product READMEs gain For humans / For agents sections.
+
+### 2026-08-16 — M37 gap close (verify, env, hooks)
+- **Status:** Accepted
+- **Context:** Checklist audit found core governance/CI present; remaining gaps were docker preflight, unimplemented post-hook flags, no root verify command, no env schema, no commit-msg enforcement, no Dockerfile, and no `.agent/memory` indexes.
+- **Decision:** Extend the existing engine. `scripts/verify.sh` is the harness. Env validation is stack-agnostic JSON schema. Skills/memory under `.agent/` are indexes to `.cursor/skills/` and `DECISION_LOG.md` / `KNOWLEDGE_BASE.md`. Post install/test/git-init stay opt-in. Conventional Commits via pre-commit `commit-msg`, not Node-only commitlint.
+- **Alternatives considered:** Duplicate skills into `.github/skills/` (rejected); husky + lint-staged (rejected: pre-commit already covers all stacks); auto-commit after init (rejected: destructive-ops).
+- **Consequences:** `validate-bootstrap` requires env schema, Dockerfile, `.agent/` indexes, and `verify.sh`. Feature-gate fails if `.env.example` drifts from `env.schema.json`.
+
+### 2026-08-16 — M36 bootstrap standards (AGENTS.md + lifecycle)
+- **Status:** Accepted
+- **Context:** Audit asked for a generator-style AGENTS.md engine, SDD stubs, security-by-default, manifest, and pre/post hooks. The repo already shipped SECURITY.md, CONTRIBUTING.md, CI, Dependabot, issue/PR templates, and `init-project`.
+- **Decision:** Keep the GitHub Template + `init-project` model. Expand `AGENTS.md` as the canonical spec; generate thin Cursor/Claude/Copilot adapters; add `docs/spec.md` / `docs/plan.md`; add `bootstrap.config.json` plus preflight/post hooks and `PROJECT_CHECKLIST.md`. MIT remains default; Apache-2.0 is an init option for child repos. Do not auto-commit or auto-install deps.
+- **Alternatives considered:** Separate yeoman-style generator CLI (rejected: would fork the template model); GitHub `- [ ]` checkboxes on the new checklist (rejected: repo-wide 🔲/✅/❌ convention).
+- **Consequences:** `validate-bootstrap` requires SDD stubs, adapters, and engine unit tests. Child `AGENTS.md` stays Sacred on upgrade; adapters are Canon via `--sync-adapters`.
+
 ### 2026-08-16 — Ship v0.18.3 (/ship)
 - **Status:** Accepted
 - **Context:** Dependabot #64 Compose BOM bump on main; RP #66 already open

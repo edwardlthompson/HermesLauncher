@@ -1,6 +1,7 @@
 ## Summary
 
 > Checklist markers: 🔲 open · ✅ done · ❌ blocked (repo-wide convention; see `BUILD_PLAN.md`).
+> Why this change: _one sentence — catching issues here is cheaper than on `main`._
 
 ## Type
 

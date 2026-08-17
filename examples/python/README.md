@@ -19,6 +19,12 @@ uv run hello FOSS
 
 ```
 
+Optional task runner (not required for CI): install [just](https://github.com/casey/just), then `just qa`.
+
+## Why these tools?
+
+uv locks installs, ruff is fast lint/format, mypy catches type bugs before pytest, and xdist uses every core so the 90% coverage gate stays cheap. That is the same toolchain most 2025 Python FOSS packages ship.
+
 ## Features
 
 - Strict type hints validated by mypy

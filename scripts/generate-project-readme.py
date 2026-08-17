@@ -145,6 +145,15 @@ def render_readme(root: Path, product: dict, *, for_preview: bool = False) -> st
         "{{url_security_triage}}": _rel_url(
             "docs/SECURITY_TRIAGE.md", from_preview=for_preview
         ),
+        "{{url_best_practices}}": _rel_url(
+            "docs/BEST_PRACTICES.md", from_preview=for_preview
+        ),
+        "{{url_first_30_days}}": _rel_url(
+            "docs/FIRST_30_DAYS.md", from_preview=for_preview
+        ),
+        "{{url_start_here}}": _rel_url("docs/START_HERE.md", from_preview=for_preview),
+        "{{url_agents}}": _rel_url("AGENTS.md", from_preview=for_preview),
+        "{{ci_repo}}": str(urls.get("github_repo") or "OWNER/REPO"),
         "{{license_name}}": "MIT License",
     }
     out = template

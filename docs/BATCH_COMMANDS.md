@@ -2,7 +2,7 @@
 
 > Technical catalog for agents and maintainers. **Humans:** start with [docs/help/BATCH_COMMANDS.md](help/BATCH_COMMANDS.md).
 
-27 slash commands: **22 atomic** workflows + **5 super** orchestrators. Bare-word triggers: `.cursor/rules/batch-commands.mdc`.
+28 slash commands: **23 atomic** workflows + **5 super** orchestrators. Bare-word triggers: `.cursor/rules/batch-commands.mdc`.
 
 ## Super commands
 
@@ -39,6 +39,7 @@
 | `/restore` | Restore from `.cursor-session-state.json` | — | 13 |
 | `/compact` | Save session state before clearing chat | — | 13 |
 | `/scope` | Parallel manifest + auto Task dispatch | — | 14 |
+| `/coach` | Project health + next action + industry why (BEST_PRACTICES) | bootstrap | — |
 ## Decision tree
 
 ```

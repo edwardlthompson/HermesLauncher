@@ -36,6 +36,12 @@ npm run lighthouse   # Lighthouse CI budgets
 
 ```
 
+Optional task runner (not required for CI): install [just](https://github.com/casey/just), then `just test`.
+
+## Why these tools?
+
+Vite + TypeScript keep the PWA small and typed. Vitest covers units, Playwright covers the browser, and Lighthouse CI enforces a real performance budget so “it builds” is not the only bar.
+
 ## PWA features
 
 - `manifest.webmanifest` with required fields

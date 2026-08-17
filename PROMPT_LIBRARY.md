@@ -494,7 +494,7 @@ Execute @.cursor/commands/debug.md — defect investigation; not the same as /au
 **Prompt:**
 
 ```
-Execute @.cursor/commands/bootstrap.md — init → prune → setup → gates.
+Execute @.cursor/commands/bootstrap.md — init → prune → setup → gates, then Welcome Tour.
 
 ```
 
@@ -550,5 +550,16 @@ Execute @.cursor/commands/maintain.md — radar → triage → dependabot → au
 
 ```
 Execute @.cursor/commands/cleanup.md — archive completed BUILD_PLAN rows and sync COMPLETED_TASKS when sprint is fully ✅.
+
+```
+
+## Entry 48 — Coach (`/coach`)
+
+**Slash command:** `.cursor/commands/coach.md`
+
+**Prompt:**
+
+```
+Execute @.cursor/commands/coach.md — project health, next BUILD_PLAN action, and industry why.
 
 ```

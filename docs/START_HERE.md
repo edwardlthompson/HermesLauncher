@@ -24,15 +24,27 @@ Type **`/`** in Cursor Agent chat for shortcut workflows. Start with **[docs/hel
 1. `README.md`
 2. `docs/START_HERE.md`
 3. `docs/CURSOR_MODES.md`
-4. `docs/INITIALIZATION_PROMPT.md`
-5. `AGENTS.md`
-6. `BUILD_PLAN.md` Sequential lane
-7. Active `modules/{stack}/MODULE.md` only
-8. Active `examples/{stack}/` only
-9. `docs/WEB_PROJECT_LAYOUT.md` when stack includes web (folder roles, GitHub Pages)
-10. `docs/DESIGN_GUIDE.md` when stack includes web or Android UI (tokens, themes, i18n)
-11. `branding/BRANDING.md` for logos, official colors, and pitch README generation
-12. `docs/FEATURE_MODULES.md` when implementing Sprint 2+ incremental features (vertical slices)
+4. `docs/BEST_PRACTICES.md` (why each convention exists) + `docs/FIRST_30_DAYS.md`
+5. `docs/INITIALIZATION_PROMPT.md`
+6. `AGENTS.md` (adapters: `CLAUDE.md`, `.github/copilot-instructions.md`, `.cursor/rules/main.mdc`)
+7. `docs/spec.md` + `docs/plan.md` (product spec and milestone stub)
+8. `BUILD_PLAN.md` Sequential lane
+9. Active `modules/{stack}/MODULE.md` only
+10. Active `examples/{stack}/` only
+11. `docs/WEB_PROJECT_LAYOUT.md` when stack includes web (folder roles, GitHub Pages)
+12. `docs/DESIGN_GUIDE.md` when stack includes web or Android UI (tokens, themes, i18n)
+13. `branding/BRANDING.md` for logos, official colors, and pitch README generation
+14. `docs/FEATURE_MODULES.md` when implementing Sprint 2+ incremental features (vertical slices)
+
+```mermaid
+flowchart TD
+  Readme[README] --> Start[START_HERE]
+  Start --> Modes[CURSOR_MODES]
+  Modes --> Why[BEST_PRACTICES]
+  Why --> Init[INITIALIZATION_PROMPT]
+  Init --> Agents[AGENTS.md]
+  Agents --> Board[BUILD_PLAN]
+```
 
 ## Reference Read Order
 

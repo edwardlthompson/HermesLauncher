@@ -24,6 +24,12 @@ examples/android/
 
 See [`docs/DESIGN_GUIDE.md`](../../docs/DESIGN_GUIDE.md) and [`docs/WEB_PROJECT_LAYOUT.md`](../../docs/WEB_PROJECT_LAYOUT.md) for cross-stack conventions.
 
+Optional task runner (not required for CI): install [just](https://github.com/casey/just), then `just test` (needs Android SDK).
+
+## Why these tools?
+
+Gradle + Kotlin + Compose is the FOSS-friendly Android stack. We pin the wrapper hash and `SOURCE_DATE_EPOCH` so F-Droid-style reproducible builds are possible, and we ban Play Services so the Golden Path stays redistributable.
+
 ## Structure validation (CI)
 
 CI validates Gradle file structure and FOSS compliance markers only. Full APK builds require local Android SDK.

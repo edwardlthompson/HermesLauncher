@@ -10,13 +10,19 @@ GitHub Template Repository for bootstrapping FOSS projects with Cursor agents.
 
 You get:
 
+- Canonical `AGENTS.md` plus Cursor / Claude Code / Copilot adapters
+- Spec-driven stubs (`docs/spec.md`, `docs/plan.md`) and test-first guardrails
+- Security and CI **on by default** (Dependabot, CodeQL, secret scanning, issue/PR templates)
 - Labeled BUILD_PLAN sprints (`AGENT` / `HUMAN` / `ADB` / `AUTO`)
 - Golden Path stubs (Web, Python, Android, Lightroom)
-- CI guardrails + configurable template update checker
+- Init lifecycle hooks (`bootstrap.config.json`, preflight, `PROJECT_CHECKLIST.md`)
 
 ## Contents
 
 - [Quick Start](#quick-start)
+- [Architecture](#architecture)
+- [Feature summary](#feature-summary)
+- [What gets generated](#what-gets-generated)
 - [Agent shortcuts (cheat sheet)](#agent-shortcuts-cheat-sheet)
 - [Stack Selection](#stack-selection-sprint-0)
 - [What's Included](#whats-included)
@@ -58,6 +64,62 @@ You get:
    ```
 
 4. **Agent shortcuts:** bookmark **[docs/help/BATCH_COMMANDS.md](docs/help/BATCH_COMMANDS.md)** — type `/` in Agent chat (`/bootstrap` · `/verify` · `/build` · `/ship`). *Bookmark it for when you come back after a break.*
+
+Non-interactive (CI / scripts):
+
+```bash
+./scripts/init-project.sh \
+  --non-interactive \
+  --stack web \
+  --project-name "My App" \
+  --purpose "Offline-first notes" \
+  --license MIT
+```
+
+## Architecture
+
+This is a **GitHub Template Repository**, not a separate project-generator CLI. **Use this template** copies the tree; `scripts/init-project.sh` (or `.ps1`) customizes it.
+
+```mermaid
+flowchart LR
+  Template[Template repo] --> Clone[Use this template]
+  Clone --> Pre[Preflight: git + Python]
+  Pre --> Init[init-project]
+  Init --> Post[Post hooks]
+  Post --> Manifest[bootstrap.config.json]
+  Post --> Adapters[AGENTS.md adapters]
+  Post --> Check[PROJECT_CHECKLIST.md]
+```
+
+`AGENTS.md` is the agent source of truth. `scripts/bootstrap-lifecycle.sh --sync-adapters` writes `.cursor/rules/main.mdc`, `CLAUDE.md`, and `.github/copilot-instructions.md`. Product intent lives in `docs/spec.md`; task breakdown in `docs/plan.md` and `BUILD_PLAN.md`.
+
+## Feature summary
+
+| Capability | What ships |
+|------------|------------|
+| Agent spec | `AGENTS.md` — overview, env, gates, test-first, security |
+| Multi-agent adapters | Cursor rules, Claude Code, GitHub Copilot |
+| Spec-driven | `docs/spec.md`, `docs/plan.md`, `docs/features/_template.md` |
+| Security by default | `SECURITY.md`, Dependabot, CI, CodeQL, secret scanning |
+| Governance | Issue + PR templates, `CONTRIBUTING.md`, license prompt (MIT / Apache-2.0) |
+| Lifecycle | Preflight hooks, manifest, Definition of Done checklist |
+| Coach layer | [`docs/BEST_PRACTICES.md`](docs/BEST_PRACTICES.md), [`docs/FIRST_30_DAYS.md`](docs/FIRST_30_DAYS.md), `/coach` |
+
+## What gets generated
+
+After **Use this template** and `scripts/init-project.sh` (or `.ps1`):
+
+| File | When |
+|------|------|
+| `bootstrap.config.json` | Post-init manifest (name, stack, license, hooks) |
+| `PROJECT_CHECKLIST.md` | Definition of Done checklist |
+| `AGENTS.md` project card | Stamped product / purpose / stack |
+| `.cursor/rules/main.mdc` | Cursor adapter (from `AGENTS.md`) |
+| `CLAUDE.md` | Claude Code adapter |
+| `.github/copilot-instructions.md` | GitHub Copilot adapter |
+| `LICENSE` | Rewritten only when `--license Apache-2.0` |
+
+Shipped in the template (not generated): `docs/spec.md`, `docs/plan.md`, `docs/BEST_PRACTICES.md`, `docs/FIRST_30_DAYS.md`, `env.schema.json`, `.devcontainer/`, `.agent/memory/`, `.pre-commit-config.yaml`, CI/security workflows, issue/PR templates. Optional `.github/FUNDING.yml` when a donation URL is set.
 
 ## Agent shortcuts (cheat sheet)
 

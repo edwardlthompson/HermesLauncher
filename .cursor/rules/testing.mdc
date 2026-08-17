@@ -18,9 +18,10 @@ globs:
 
 ## When to Add Tests
 
+- **Test-first:** every `[AGENT]` feature task includes tests, or the feature spec states why tests are not feasible and names the fallback validation command
 - Golden Path features: unit + one integration/e2e path
 - Bug fixes: regression test required
-- Template-only doc changes: no new tests
+- Template-only doc changes: no new tests unless a gate/script changed
 
 ## Per-feature smoke gate (test pyramid)
 

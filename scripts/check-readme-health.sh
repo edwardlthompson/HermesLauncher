@@ -72,6 +72,8 @@ else:
             "## Pitch",
             "## Features",
             "## Quick start",
+            "## For humans",
+            "## For agents",
             "## Install",
             "## Usage",
             "## Contributing",
