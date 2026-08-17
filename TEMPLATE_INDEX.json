@@ -6,7 +6,9 @@
     "initialization_prompt": "docs/INITIALIZATION_PROMPT.md",
     "cursor_modes": "docs/CURSOR_MODES.md",
     "batch_commands_help": "docs/help/BATCH_COMMANDS.md",
-    "batch_commands_catalog": "docs/BATCH_COMMANDS.md"
+    "batch_commands_catalog": "docs/BATCH_COMMANDS.md",
+    "tour": "docs/help/TOUR.md",
+    "agent_portability": "docs/AGENT_PORTABILITY.md"
   },
   "files": [
     {
@@ -550,7 +552,91 @@
     },
     {
       "path": "scripts/lib/agent_adapters.py",
-      "purpose": "Generate Cursor/Claude/Copilot adapters from AGENTS.md",
+      "purpose": "Write and drift-check thin adapters from AGENTS.md",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/lib/adapter_templates.py",
+      "purpose": "Generated adapter bodies (pointer-only for non-Cursor tools)",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/lib/gate_hints.py",
+      "purpose": "Plain-English feature-gate failure hints",
+      "read_when": "prompt_needed",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-agent-adapters.sh",
+      "purpose": "Fail if generated adapters drifted from templates",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "docs/AGENT_PORTABILITY.md",
+      "purpose": "First-time map of agent IDEs to AGENTS.md adapters",
+      "read_when": "session_start",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "docs/help/TOUR.md",
+      "purpose": "Tool-agnostic 10-minute first-run tour",
+      "read_when": "bootstrap_session_start",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": ".cursor/commands/tour.md",
+      "purpose": "Cursor /tour slash command (10-minute walk)",
+      "read_when": "prompt_needed",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "SUPPORT.md",
+      "purpose": "Questions vs bugs vs vulns vs template improvements",
+      "read_when": "prompt_needed",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "CITATION.cff",
+      "purpose": "Software citation metadata for the template",
+      "read_when": "prompt_needed",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": ".vscode/tasks.json",
+      "purpose": "Verify, Feature gate, and Project health tasks",
+      "read_when": "prompt_needed",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": ".vscode/extensions.json",
+      "purpose": "Recommended VS Code / Cursor / Windsurf extensions",
+      "read_when": "prompt_needed",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "tests/test_agent_adapters.py",
+      "purpose": "Adapter write, disable-flag, and drift unit tests",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "tests/test_gate_hints.py",
+      "purpose": "Plain-English gate hint unit tests",
       "read_when": "milestone_boundary",
       "update_when": "milestone_boundary",
       "owner": "maintainer"

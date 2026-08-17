@@ -2,7 +2,7 @@
 
 1. **First read:** `docs/START_HERE.md`
 2. **Cursor modes:** `docs/CURSOR_MODES.md` (Ask / Plan / Agent / Debug routing)
-3. **Why / coach:** `docs/BEST_PRACTICES.md` · 30-day playbook `docs/FIRST_30_DAYS.md` · `/coach`
+3. **Why / coach:** `docs/BEST_PRACTICES.md` · 30-day playbook `docs/FIRST_30_DAYS.md` · `/coach` · first-run `/tour` (`docs/help/TOUR.md` in other IDEs) · portability `docs/AGENT_PORTABILITY.md`
 4. **Bootstrap mode:** `docs/INITIALIZATION_PROMPT.md`
 5. **Reference mode:** `docs/FOR_AGENTS.md` + `TEMPLATE_INDEX.json`
 6. **Task board:** `BUILD_PLAN.md` (Sequential before Parallel) — status: 🔲 open · ✅ done · ❌ blocked
@@ -19,7 +19,7 @@
 **Stack:** multi
 <!-- /bootstrap-project-card -->
 
-This repository is a **GitHub Template** for FOSS projects with Cursor agents. Child repos start from **Use this template**, then `scripts/init-project.sh` (or `.ps1`).
+This repository is a **GitHub Template** for FOSS projects with coding agents (Cursor, Windsurf, Antigravity, Claude Code, Copilot, Gemini CLI, Aider, Cline). Child repos start from **Use this template**, then `scripts/init-project.sh` (or `.ps1`). Edit `AGENTS.md`, then `bash scripts/bootstrap-lifecycle.sh --sync-adapters`.
 
 - **Composition:** stack modules (`modules/{stack}/`) + Golden Path examples (`examples/{stack}/`) + agent routing
 - **Lifecycle:** preflight → init (stack, branding, prune) → post hooks (adapters, checklist, manifest)
@@ -35,7 +35,6 @@ This repository is a **GitHub Template** for FOSS projects with Cursor agents. C
 | Node 22 + npm | Web / Node stacks |
 | uv | Python stack |
 | JDK 17+ | Android stack |
-
 Copy `.env.example` → `.env` (never commit `.env`). Lockfiles are required when a stack is present.
 
 ## Build, Test, and Validation Commands
@@ -46,6 +45,7 @@ Copy `.env.example` → `.env` (never commit `.env`). Lockfiles are required whe
 bash scripts/verify.sh
 # or
 python3 scripts/agent-run.py verify
+
 ```
 
 `--full` also runs `feature-gate` for the active stack. Do not mark the task complete if verify fails.
@@ -55,6 +55,7 @@ python3 scripts/agent-run.py validate-bootstrap --quick
 python3 scripts/agent-run.py feature-gate --stack <active>
 python3 scripts/agent-run.py watch-agent-gates --once --autofix
 python3 scripts/agent-run.py check-repo-hygiene
+
 ```
 
 Stack tests: web `npm test`; python `uv run pytest`; Android `./gradlew test`. After init: `PROJECT_CHECKLIST.md`.
@@ -92,7 +93,8 @@ Do not mark a BUILD_PLAN feature row ✅ without tests or that justification. Co
 
 ## Session Protocol
 
-- On session start: read `START_HERE.md`, pick mode via `docs/CURSOR_MODES.md`, then `BUILD_PLAN.md` Sequential lane
+- On session start: read `START_HERE.md`, pick mode via `docs/CURSOR_MODES.md` (roles if your IDE uses other names), then `BUILD_PLAN.md` Sequential lane
+- If your tool has no slash commands, use `docs/help/*.md` (start with `docs/help/TOUR.md`)
 - When creating or significantly changing a file, state one sentence of why (see `docs/BEST_PRACTICES.md` and `/coach`)
 - On milestone end: update `AGENT_MEMORY.md`, append to `DECISION_LOG.md` or `docs/adr/`
 - On 3-strike failure: halt and escalate to human
@@ -107,6 +109,7 @@ This file is the source of truth. After editing it, sync adapters:
 
 ```bash
 bash scripts/bootstrap-lifecycle.sh --sync-adapters
+
 ```
 
 | Target | File |
@@ -114,8 +117,12 @@ bash scripts/bootstrap-lifecycle.sh --sync-adapters
 | Cursor | `.cursor/rules/main.mdc` |
 | Claude Code | `CLAUDE.md` |
 | GitHub Copilot | `.github/copilot-instructions.md` |
-
-Do not hand-edit generated adapters.
+| Gemini / Antigravity | `GEMINI.md` (pointer only — never real rules) |
+| Windsurf | `.windsurf/rules/agents-pointer.md` |
+| Cline / Roo | `.clinerules` |
+| Aider | `CONVENTIONS.md` |
+| Continue | `.continue/rules/agents.md` |
+Do not hand-edit generated adapters. See `docs/AGENT_PORTABILITY.md`.
 
 ## Module Activation
 

@@ -53,11 +53,18 @@ REQUIRED=(
   docs/plan.md
   docs/BEST_PRACTICES.md
   docs/FIRST_30_DAYS.md
+  docs/AGENT_PORTABILITY.md
+  docs/help/TOUR.md
   bootstrap.config.json.example
   PROJECT_CHECKLIST.md
   CLAUDE.md
+  GEMINI.md
+  CONVENTIONS.md
+  .clinerules
   .github/copilot-instructions.md
   .cursor/rules/main.mdc
+  .windsurf/rules/agents-pointer.md
+  .continue/rules/agents.md
   templates/licenses/Apache-2.0.txt
   env.schema.json
   .devcontainer/Dockerfile
@@ -66,12 +73,17 @@ REQUIRED=(
   .agent/memory/pitfalls.md
   .agent/skills/README.md
   scripts/verify.sh
+  scripts/check-agent-adapters.sh
+  SUPPORT.md
+  CITATION.cff
+  .vscode/tasks.json
+  .vscode/extensions.json
 )
 
 BATCH_COMMANDS=(
   audit cleanup debug gates triage dependabot push prerelease regress
   feature fix init prune ci docs upgrade setup plan restore compact scope
-  bootstrap verify build ship maintain coach
+  bootstrap verify build ship maintain coach tour
 )
 
 for cmd in "${BATCH_COMMANDS[@]}"; do
@@ -136,6 +148,7 @@ if ! python3 scripts/lib/run_checks_parallel.py \
   check-template-version-sync.sh \
   validate-template-index.sh \
   check-bootstrap-engine.sh \
+  check-agent-adapters.sh \
   check-env.sh
 then
   ERRORS=$((ERRORS + 1))

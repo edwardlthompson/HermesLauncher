@@ -1,7 +1,7 @@
 # First 30 days
 
 > Playbook after `/bootstrap`. Status: 🔲 open · ✅ done · ❌ blocked.
-> Walk this with `/coach`. Industry **why** lives in [`BEST_PRACTICES.md`](BEST_PRACTICES.md).
+> Walk this with `/coach` or `/tour` (`docs/help/TOUR.md` in other IDEs). Industry **why** lives in [`BEST_PRACTICES.md`](BEST_PRACTICES.md).
 
 <!-- bootstrap-project-card -->
 **Product:** agent-project-bootstrap
@@ -42,4 +42,4 @@
 
 ## Next recommended action
 
-If you are unsure, type **`/coach`**. It reads BUILD_PLAN + AGENT_MEMORY and explains the industry reason for the next row.
+If you are unsure, type **`/coach`** (or ask any agent to read this file and `docs/BEST_PRACTICES.md`). It reads BUILD_PLAN + AGENT_MEMORY and explains the industry reason for the next row. First session: `/tour` or `docs/help/TOUR.md`.

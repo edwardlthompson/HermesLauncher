@@ -2,11 +2,13 @@
 
 Shortcut commands for Cursor Agent — type `/` in Agent chat to pick a recipe.
 
+**Any other IDE** (Windsurf, Antigravity, Claude Code, Copilot, Aider, Cline): paste `Read docs/help/TOUR.md and walk me through it.` Slash commands are Cursor-only; the same recipes live in this `docs/help/` folder. See [`docs/AGENT_PORTABILITY.md`](../AGENT_PORTABILITY.md).
+
 ## 30-second start
 
 1. Open **Agent** chat in Cursor.
 2. Type **`/`** to open the command menu.
-3. Pick a command (e.g. `/bootstrap`, `/verify`, `/build`).
+3. Pick a command (e.g. `/tour`, `/bootstrap`, `/verify`, `/build`).
 4. The agent runs the workflow step by step.
 
 Bookmark this page for when you come back after a break.
@@ -15,19 +17,20 @@ Bookmark this page for when you come back after a break.
 
 | Command | When to use |
 |---------|-------------|
-| `/bootstrap` | Brand-new project — Sprint 0 setup, then a Welcome Tour (`docs/BEST_PRACTICES.md`) |
+| `/bootstrap` | Brand-new project — Sprint 0 setup, then a Welcome Tour (`/tour`) |
+| `/tour` | 10-minute first-run walk (any IDE: `docs/help/TOUR.md`) |
 | `/coach` | What to do next and why (health snapshot + 30-day playbook) |
 | `/verify` | After your changes, before opening a pull request |
 | `/build` | Run BUILD_PLAN end-to-end — automates HUMAN/ADB via scripts, backlogs failures, chains sprints until done |
 | `/ship` | Publish a release to GitHub (runs checks, push, post-release) |
 | `/maintain` | Weekly health pass — security, dependencies, full review |
-**Worked example — new project:** clone your repo → open Cursor Agent → type `/bootstrap` → follow prompts. The agent walks through init, stack setup, GitHub settings, validation gates, and a short Welcome Tour (`docs/BEST_PRACTICES.md`, `docs/FIRST_30_DAYS.md`). Type `/coach` later for the next recommended action.
+**Worked example — new project:** clone your repo → open your agent → in Cursor type `/bootstrap` (elsewhere: ask it to follow `docs/help/TOUR.md` after init). The agent walks through init, stack setup, GitHub settings, validation gates, and `/tour`. Type `/coach` later for the next recommended action.
 
 ## When you need one step
 
 Grouped by life moment (not every command — use `/` menu for the full list).
 
-**Getting started:** `/init` · `/setup` · `/prune` · `/gates` · `/coach`
+**Getting started:** `/tour` · `/init` · `/setup` · `/prune` · `/gates` · `/coach`
 
 **Building:** `/plan` · `/feature` · `/fix` (gates failed after `/build`) · `/cleanup` (archive finished BUILD_PLAN rows) · `/scope` (parallel manifest + auto Task dispatch)
 

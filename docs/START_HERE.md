@@ -1,10 +1,10 @@
 # Start Here
 
-> **Read this file first** — whether you are a human or a Cursor agent.
+> **Read this file first** — whether you are a human or any coding agent.
 
 ## What is this?
 
-`agent-project-bootstrap` is a **GitHub Template Repository** for bootstrapping FOSS projects with Cursor agents.
+`agent-project-bootstrap` is a **GitHub Template Repository** for bootstrapping FOSS projects with coding agents (Cursor, Windsurf, Antigravity, Claude Code, Copilot, and others). Shared contract: [`AGENTS.md`](../AGENTS.md). Tool map: [`AGENT_PORTABILITY.md`](AGENT_PORTABILITY.md).
 
 ## Which repo mode are you in?
 
@@ -17,7 +17,9 @@ See [`docs/CURSOR_MODES.md`](CURSOR_MODES.md) — pick the Cursor mode before ed
 
 ## Agent shortcuts (Bootstrap)
 
-Type **`/`** in Cursor Agent chat for shortcut workflows. Start with **[docs/help/BATCH_COMMANDS.md](help/BATCH_COMMANDS.md)** — try `/bootstrap` on a new project or `/verify` before merge.
+In Cursor, type **`/`** in Agent chat. Start with **[docs/help/BATCH_COMMANDS.md](help/BATCH_COMMANDS.md)** — try `/tour` (10 minutes) or `/bootstrap` on a new project, `/verify` before merge.
+
+In Windsurf, Antigravity, or any other agent: ask it to read [`docs/help/TOUR.md`](help/TOUR.md) and walk you through it.
 
 ## Bootstrap Read Order
 
@@ -26,7 +28,7 @@ Type **`/`** in Cursor Agent chat for shortcut workflows. Start with **[docs/hel
 3. `docs/CURSOR_MODES.md`
 4. `docs/BEST_PRACTICES.md` (why each convention exists) + `docs/FIRST_30_DAYS.md`
 5. `docs/INITIALIZATION_PROMPT.md`
-6. `AGENTS.md` (adapters: `CLAUDE.md`, `.github/copilot-instructions.md`, `.cursor/rules/main.mdc`)
+6. `AGENTS.md` (thin adapters via `--sync-adapters`; see `docs/AGENT_PORTABILITY.md`)
 7. `docs/spec.md` + `docs/plan.md` (product spec and milestone stub)
 8. `BUILD_PLAN.md` Sequential lane
 9. Active `modules/{stack}/MODULE.md` only
@@ -44,6 +46,7 @@ flowchart TD
   Why --> Init[INITIALIZATION_PROMPT]
   Init --> Agents[AGENTS.md]
   Agents --> Board[BUILD_PLAN]
+
 ```
 
 ## Reference Read Order

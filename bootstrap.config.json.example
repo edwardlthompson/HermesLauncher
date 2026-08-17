@@ -8,7 +8,12 @@
   "agent_adapters": {
     "cursor_rules": true,
     "claude": true,
-    "copilot": true
+    "copilot": true,
+    "gemini": true,
+    "windsurf": true,
+    "cline": true,
+    "aider": true,
+    "continue": true
   },
   "security": {
     "dependabot": true,

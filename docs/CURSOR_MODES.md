@@ -2,6 +2,8 @@
 
 > Router for Cursor **Ask**, **Plan**, **Agent**, and **Debug** modes. Distinct from Bootstrap/Reference **repo mode** in [`START_HERE.md`](START_HERE.md).
 
+If you are not in Cursor, treat those four names as **roles**: explore / design / implement / diagnose. Your IDE may use different labels. Shared project law is still [`AGENTS.md`](../AGENTS.md) — see [`AGENT_PORTABILITY.md`](AGENT_PORTABILITY.md).
+
 ## Mode table
 
 | Mode | When | Artifact | Do not use for |

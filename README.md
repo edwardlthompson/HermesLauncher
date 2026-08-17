@@ -3,14 +3,17 @@
 ![MIT](https://img.shields.io/badge/license-MIT-2ea043?style=flat-square)
 ![Template](https://img.shields.io/badge/template-0.18.3-0969da?style=flat-square)
 ![FOSS](https://img.shields.io/badge/FOSS-no_tracking-656d76?style=flat-square)
+[![CI](https://img.shields.io/github/actions/workflow/status/edwardlthompson/agent-project-bootstrap/ci.yml?style=flat-square&label=CI)](https://github.com/edwardlthompson/agent-project-bootstrap/actions/workflows/ci.yml)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/edwardlthompson/agent-project-bootstrap/badge)](https://securityscorecards.dev/viewer/?uri=github.com/edwardlthompson/agent-project-bootstrap)
+[![Open in GitHub Codespaces](https://img.shields.io/badge/Codespaces-Open-181717?style=flat-square&logo=github)](https://codespaces.new/edwardlthompson/agent-project-bootstrap)
 
-GitHub Template Repository for bootstrapping FOSS projects with Cursor agents.
+GitHub Template Repository for bootstrapping FOSS projects with coding agents (Cursor, Windsurf, Antigravity, Claude Code, Copilot, and others).
 
 **Bootstrap a FOSS project with agent-ready scaffolding** — initialization prompts, labeled sprints, CI guardrails, and Golden Path examples.
 
 You get:
 
-- Canonical `AGENTS.md` plus Cursor / Claude Code / Copilot adapters
+- Canonical `AGENTS.md` plus thin adapters (edit once, `--sync-adapters`) — see [`docs/AGENT_PORTABILITY.md`](docs/AGENT_PORTABILITY.md)
 - Spec-driven stubs (`docs/spec.md`, `docs/plan.md`) and test-first guardrails
 - Security and CI **on by default** (Dependabot, CodeQL, secret scanning, issue/PR templates)
 - Labeled BUILD_PLAN sprints (`AGENT` / `HUMAN` / `ADB` / `AUTO`)
@@ -43,7 +46,7 @@ You get:
 
 ## Quick Start
 
-1. Click **Use this template** on GitHub to create your project repo.
+1. Click **Use this template** on GitHub to create your project repo. Or [open this template in GitHub Codespaces](https://codespaces.new/edwardlthompson/agent-project-bootstrap) (devcontainer included).
 
 2. Clone and run the init script:
 
@@ -55,7 +58,9 @@ You get:
    .\scripts\init-project.ps1
    ```
 
-3. Open Cursor and paste the bootstrap prompt from [`docs/START_HERE.md`](docs/START_HERE.md):
+3. Open your coding agent (Cursor, Windsurf, Antigravity, or another) and paste the bootstrap prompt from [`docs/START_HERE.md`](docs/START_HERE.md). First-time walk: [`docs/help/TOUR.md`](docs/help/TOUR.md) (Cursor: `/tour`).
+
+   Cursor prompt:
 
    ```
    Read @docs/START_HERE.md, @docs/CURSOR_MODES.md, and @docs/INITIALIZATION_PROMPT.md.
@@ -63,7 +68,7 @@ You get:
    Use BUILD_PLAN.md Sequential lane first; respect AGENT/HUMAN/ADB/AUTO labels.
    ```
 
-4. **Agent shortcuts:** bookmark **[docs/help/BATCH_COMMANDS.md](docs/help/BATCH_COMMANDS.md)** — type `/` in Agent chat (`/bootstrap` · `/verify` · `/build` · `/ship`). *Bookmark it for when you come back after a break.*
+4. **Agent shortcuts:** bookmark **[docs/help/BATCH_COMMANDS.md](docs/help/BATCH_COMMANDS.md)** — in Cursor type `/` (`/tour` · `/bootstrap` · `/verify` · `/build` · `/ship`). Other IDEs: paste the matching `docs/help/` file. *Bookmark it for when you come back after a break.*
 
 Non-interactive (CI / scripts):
 
@@ -74,6 +79,7 @@ Non-interactive (CI / scripts):
   --project-name "My App" \
   --purpose "Offline-first notes" \
   --license MIT
+
 ```
 
 ## Architecture
@@ -89,22 +95,22 @@ flowchart LR
   Post --> Manifest[bootstrap.config.json]
   Post --> Adapters[AGENTS.md adapters]
   Post --> Check[PROJECT_CHECKLIST.md]
+
 ```
 
-`AGENTS.md` is the agent source of truth. `scripts/bootstrap-lifecycle.sh --sync-adapters` writes `.cursor/rules/main.mdc`, `CLAUDE.md`, and `.github/copilot-instructions.md`. Product intent lives in `docs/spec.md`; task breakdown in `docs/plan.md` and `BUILD_PLAN.md`.
+`AGENTS.md` is the agent source of truth. `scripts/bootstrap-lifecycle.sh --sync-adapters` writes thin pointers for Cursor, Claude Code, Copilot, Windsurf, Antigravity/Gemini, Aider, Cline, and Continue. Product intent lives in `docs/spec.md`; task breakdown in `docs/plan.md` and `BUILD_PLAN.md`.
 
 ## Feature summary
 
 | Capability | What ships |
 |------------|------------|
 | Agent spec | `AGENTS.md` — overview, env, gates, test-first, security |
-| Multi-agent adapters | Cursor rules, Claude Code, GitHub Copilot |
+| Multi-agent adapters | Cursor, Claude, Copilot, Windsurf, Gemini/Antigravity, Aider, Cline, Continue |
 | Spec-driven | `docs/spec.md`, `docs/plan.md`, `docs/features/_template.md` |
 | Security by default | `SECURITY.md`, Dependabot, CI, CodeQL, secret scanning |
 | Governance | Issue + PR templates, `CONTRIBUTING.md`, license prompt (MIT / Apache-2.0) |
 | Lifecycle | Preflight hooks, manifest, Definition of Done checklist |
 | Coach layer | [`docs/BEST_PRACTICES.md`](docs/BEST_PRACTICES.md), [`docs/FIRST_30_DAYS.md`](docs/FIRST_30_DAYS.md), `/coach` |
-
 ## What gets generated
 
 After **Use this template** and `scripts/init-project.sh` (or `.ps1`):
@@ -118,7 +124,6 @@ After **Use this template** and `scripts/init-project.sh` (or `.ps1`):
 | `CLAUDE.md` | Claude Code adapter |
 | `.github/copilot-instructions.md` | GitHub Copilot adapter |
 | `LICENSE` | Rewritten only when `--license Apache-2.0` |
-
 Shipped in the template (not generated): `docs/spec.md`, `docs/plan.md`, `docs/BEST_PRACTICES.md`, `docs/FIRST_30_DAYS.md`, `env.schema.json`, `.devcontainer/`, `.agent/memory/`, `.pre-commit-config.yaml`, CI/security workflows, issue/PR templates. Optional `.github/FUNDING.yml` when a donation URL is set.
 
 ## Agent shortcuts (cheat sheet)
@@ -440,7 +445,7 @@ scripts/        Init, update checker, validation
 
 ## Contributing
 
-MIT licensed. See [`CONTRIBUTING.md`](CONTRIBUTING.md).
+MIT licensed. See [`CONTRIBUTING.md`](CONTRIBUTING.md). Questions vs bugs vs vulns: [`SUPPORT.md`](SUPPORT.md).
 
 Template maintainers: [`docs/MAINTAINING_THE_TEMPLATE.md`](docs/MAINTAINING_THE_TEMPLATE.md)
 

@@ -48,12 +48,21 @@ for path in \
   bootstrap.config.json \
   PROJECT_CHECKLIST.md \
   CLAUDE.md \
+  GEMINI.md \
+  CONVENTIONS.md \
+  .clinerules \
   .github/copilot-instructions.md \
   .cursor/rules/main.mdc \
+  .windsurf/rules/agents-pointer.md \
+  .continue/rules/agents.md \
   docs/spec.md \
   docs/plan.md \
   docs/BEST_PRACTICES.md \
   docs/FIRST_30_DAYS.md \
+  docs/help/TOUR.md \
+  docs/AGENT_PORTABILITY.md \
+  SUPPORT.md \
+  CITATION.cff \
   env.schema.json \
   .devcontainer/Dockerfile \
   .agent/memory/decisions.md \

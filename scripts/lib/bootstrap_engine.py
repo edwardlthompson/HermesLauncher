@@ -38,7 +38,16 @@ def default_config(
         "stack": stack,
         "license": license_id,
         "distribution_tier": distribution_tier,
-        "agent_adapters": {"cursor_rules": True, "claude": True, "copilot": True},
+        "agent_adapters": {
+            "cursor_rules": True,
+            "claude": True,
+            "copilot": True,
+            "gemini": True,
+            "windsurf": True,
+            "cline": True,
+            "aider": True,
+            "continue": True,
+        },
         "security": {
             "dependabot": True,
             "code_scanning": True,

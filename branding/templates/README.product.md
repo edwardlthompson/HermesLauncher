@@ -14,6 +14,7 @@
   <img src="https://img.shields.io/badge/status-active-{{badge_primary}}?style=flat-square" alt="status" />
   <img src="https://img.shields.io/github/actions/workflow/status/{{ci_repo}}/ci.yml?style=flat-square&label=CI" alt="CI" />
   <img src="https://api.securityscorecards.dev/projects/github.com/{{ci_repo}}/badge" alt="OpenSSF Scorecard" />
+  <a href="https://codespaces.new/{{ci_repo}}"><img src="https://img.shields.io/badge/Codespaces-Open-181717?style=flat-square&logo=github" alt="Open in GitHub Codespaces" /></a>
 {{stack_badges}}
 </p>
 
@@ -43,7 +44,7 @@ Start with this README, then [`CONTRIBUTING.md`]({{url_contributing}}) and [`doc
 
 ## For agents
 
-Read [`docs/START_HERE.md`]({{url_start_here}}) and [`AGENTS.md`]({{url_agents}}). Type `/bootstrap` on a new clone and `/coach` for the next recommended action.
+Read [`docs/START_HERE.md`]({{url_start_here}}) and [`AGENTS.md`]({{url_agents}}). In Cursor type `/tour` or `/bootstrap`. Any other IDE: ask the agent to read [`docs/help/TOUR.md`]({{url_tour}}). `/coach` is the next recommended action.
 
 ## Install
 

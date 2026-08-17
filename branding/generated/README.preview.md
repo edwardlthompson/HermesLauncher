@@ -14,6 +14,7 @@
   <img src="https://img.shields.io/badge/status-active-e94560?style=flat-square" alt="status" />
   <img src="https://img.shields.io/github/actions/workflow/status/edwardlthompson/agent-project-bootstrap/ci.yml?style=flat-square&label=CI" alt="CI" />
   <img src="https://api.securityscorecards.dev/projects/github.com/edwardlthompson/agent-project-bootstrap/badge" alt="OpenSSF Scorecard" />
+  <a href="https://codespaces.new/edwardlthompson/agent-project-bootstrap"><img src="https://img.shields.io/badge/Codespaces-Open-181717?style=flat-square&logo=github" alt="Open in GitHub Codespaces" /></a>
 
   <img src="https://img.shields.io/badge/web-stack-e94560?style=flat-square" alt="web" />
   <img src="https://img.shields.io/badge/python-stack-4A5F82?style=flat-square" alt="python" />
@@ -43,7 +44,7 @@ Golden Path is the reference product identity shipped with agent-project-bootstr
 ## Quick start
 
 1. Clone the repo and run `./scripts/init-project.sh` (or `.\scripts\init-project.ps1` on Windows).
-2. Open Cursor and follow `docs/START_HERE.md` → Section 8 Startup Sequence.
+2. Open your coding agent and follow `docs/START_HERE.md`. First-time walk: `docs/help/TOUR.md` (Cursor: `/tour`).
 3. Set `branding/product.json` `mode` to `product`, fill name/tagline/pitch, then run `python3 scripts/generate-project-readme.py`.
 
 ## For humans
@@ -52,7 +53,7 @@ Start with this README, then [`CONTRIBUTING.md`](../../CONTRIBUTING.md) and [`do
 
 ## For agents
 
-Read [`docs/START_HERE.md`](../../docs/START_HERE.md) and [`AGENTS.md`](../../AGENTS.md). Type `/bootstrap` on a new clone and `/coach` for the next recommended action.
+Read [`docs/START_HERE.md`](../../docs/START_HERE.md) and [`AGENTS.md`](../../AGENTS.md). In Cursor type `/tour` or `/bootstrap`. Any other IDE: ask the agent to read [`docs/help/TOUR.md`](../../docs/help/TOUR.md). `/coach` is the next recommended action.
 
 ## Install
 

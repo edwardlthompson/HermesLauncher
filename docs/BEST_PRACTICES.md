@@ -1,6 +1,6 @@
 # Why this template exists
 
-This template gives you an industry-standard start **and** teaches why the conventions matter. Read it during `/bootstrap` or anytime you type `/coach`. The 30-day playbook is [`FIRST_30_DAYS.md`](FIRST_30_DAYS.md).
+This template gives you an industry-standard start **and** teaches why the conventions matter. Read it during `/bootstrap`, `/tour`, or anytime you type `/coach`. The 30-day playbook is [`FIRST_30_DAYS.md`](FIRST_30_DAYS.md). Other IDEs: [`help/TOUR.md`](help/TOUR.md) and [`AGENT_PORTABILITY.md`](AGENT_PORTABILITY.md).
 
 ```mermaid
 flowchart LR
@@ -9,6 +9,7 @@ flowchart LR
   Why --> Agents[AGENTS.md]
   Agents --> Plan[BUILD_PLAN]
   Plan --> Path[Golden Path]
+
 ```
 
 ## How to use this page
@@ -56,6 +57,7 @@ flowchart TD
   Seq[Sequential lock] --> Par[Parallel slices]
   Par --> Merge[Owner merges]
   Merge --> Gates[verify.sh]
+
 ```
 
 ## AGENT_MEMORY.md
@@ -72,9 +74,9 @@ flowchart TD
 
 ## AGENTS.md and adapters
 
-- **What:** Canonical agent spec; thin copies for Cursor, Claude Code, Copilot.
-- **Why:** Each tool looks in a different file. One source of truth plus generated adapters prevents drift.
-- **How:** Edit `AGENTS.md`, then `bash scripts/bootstrap-lifecycle.sh --sync-adapters`. Do not hand-edit adapters.
+- **What:** Canonical agent spec; thin generated pointers for Cursor, Claude Code, Copilot, Windsurf, Antigravity/Gemini, Aider, Cline, and Continue.
+- **Why:** Each tool looks in a different file. One source of truth plus generated adapters prevents drift. `GEMINI.md` must stay a pointer — Antigravity treats it as higher priority than `AGENTS.md`.
+- **How:** Edit `AGENTS.md`, then `bash scripts/bootstrap-lifecycle.sh --sync-adapters`. Do not hand-edit adapters. See [`AGENT_PORTABILITY.md`](AGENT_PORTABILITY.md).
 
 ## verify.sh
 
@@ -91,6 +93,7 @@ flowchart LR
   Init --> Adapters[AGENTS adapters]
   Init --> Check[PROJECT_CHECKLIST]
   Init --> Coach[BEST_PRACTICES + FIRST_30_DAYS]
+
 ```
 
 ## First 30 days

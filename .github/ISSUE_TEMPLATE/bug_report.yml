@@ -5,7 +5,7 @@ labels: ["bug"]
 body:
   - type: markdown
     attributes:
-      value: "Thanks for the report. Security issues belong in SECURITY.md (private advisory), not here."
+      value: "Thanks for the report. Questions belong in SUPPORT.md. Security issues belong in SECURITY.md (private advisory), not here."
   - type: textarea
     id: description
     attributes:

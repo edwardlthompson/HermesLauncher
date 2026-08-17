@@ -2,7 +2,7 @@
 
 > Technical catalog for agents and maintainers. **Humans:** start with [docs/help/BATCH_COMMANDS.md](help/BATCH_COMMANDS.md).
 
-28 slash commands: **23 atomic** workflows + **5 super** orchestrators. Bare-word triggers: `.cursor/rules/batch-commands.mdc`.
+29 slash commands: **24 atomic** workflows + **5 super** orchestrators. Bare-word triggers: `.cursor/rules/batch-commands.mdc`. Other IDEs: paste the matching file under `docs/help/` (start with `docs/help/TOUR.md`).
 
 ## Super commands
 
@@ -40,6 +40,7 @@
 | `/compact` | Save session state before clearing chat | — | 13 |
 | `/scope` | Parallel manifest + auto Task dispatch | — | 14 |
 | `/coach` | Project health + next action + industry why (BEST_PRACTICES) | bootstrap | — |
+| `/tour` | 10-minute first-run walk (START_HERE → why → Golden Path → Week 1) | bootstrap | — |
 ## Decision tree
 
 ```

@@ -23,6 +23,8 @@ Thumbs.db
 .idea/
 .vscode/*
 !.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/extensions.json
 *.swp
 .cursor-session-state
 .cursor/agent-progress.json

@@ -51,6 +51,8 @@ log_tail = sys.argv[4] if len(sys.argv) > 4 else ""
 step = sys.argv[5] if len(sys.argv) > 5 else ""
 gp = json.loads(sys.argv[6]) if len(sys.argv) > 6 and sys.argv[6] else []
 fixes = sys.argv[7:] if len(sys.argv) > 7 else []
+sys.path.insert(0, "scripts/lib")
+from gate_hints import format_human
 print(json.dumps({
     "ok": ok == "true",
     "exit_code": code,
@@ -59,6 +61,7 @@ print(json.dumps({
     "log_tail": log_tail[:2000] if log_tail else None,
     "gates_passed": gp,
     "suggested_fixes": fixes,
+    "human_hint": format_human(failed, log_tail) if failed else None,
 }, indent=2))
 PY
   fi
@@ -109,14 +112,33 @@ fail_gate() {
     node-test) SUGGESTED=("fix tests in examples/node") ;;
     *) SUGGESTED=("run scripts/feature-autofix.sh" "fix errors in active feature scope") ;;
   esac
+  print_hint "$stage" "$log_msg"
   emit_json false 1
   record_progress 1
   exit 1
 }
 
+print_hint() {
+  local stage="$1"
+  local log_msg="${2:-}"
+  local hint
+  hint="$("$PY" "$ROOT/scripts/lib/gate_hints.py" "$stage" "$log_msg" 2>/dev/null || true)"
+  if [ -z "$hint" ]; then
+    return 0
+  fi
+  if [ "$JSON" = true ]; then
+    echo "$hint" >&2
+  else
+    echo ""
+    echo "$hint"
+    echo ""
+  fi
+}
+
 block_env() {
   FAILED_STAGE="environment"
   LOG_TAIL="$1"
+  print_hint "environment" "$1"
   emit_json false 2
   record_progress 2
   exit 2

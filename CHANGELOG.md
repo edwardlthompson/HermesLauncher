@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+* **tour:** `/tour` and `docs/help/TOUR.md` (10-minute first-run walk for any IDE)
+* **portability:** `docs/AGENT_PORTABILITY.md` plus thin adapters for Windsurf, Antigravity/Gemini, Aider, Cline, and Continue
+* **gates:** plain-English feature-gate hints (`What failed` / `What to run` / `Why`)
+* **dx:** `.vscode/tasks.json` (Verify, Feature gate, Project health) and `extensions.json`
+* **community:** `SUPPORT.md`, `CITATION.cff`, and a Good first issue template
 * **coach:** `docs/BEST_PRACTICES.md`, `docs/FIRST_30_DAYS.md`, `/coach`, and `scripts/project-health.sh`
 * **init:** what/why summary, optional GitHub topics, FUNDING.yml when a donation URL is set
 * **dx:** optional root and Golden Path `justfile`s (`just` is not required in CI)
@@ -19,7 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * **devcontainer:** `.devcontainer/Dockerfile` scaffold
 * **agent:** `.agent/memory/` and `.agent/skills/` indexes (pointers, not a second source of truth)
 * **bootstrap:** lifecycle hooks, `bootstrap.config.json`, and `PROJECT_CHECKLIST.md` after init
-* **agents:** Cursor / Claude Code / Copilot adapters synced from `AGENTS.md`
+* **agents:** Cursor / Claude Code / Copilot / Windsurf / Gemini / Aider / Cline / Continue adapters synced from `AGENTS.md`
 * **sdd:** `docs/spec.md` and `docs/plan.md` stubs with test-first rule
 * **init:** `--license MIT|Apache-2.0`, `--skip-preflight`, `--strict-preflight`
 
@@ -32,10 +37,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Documentation
 
 * **coach:** Welcome Tour on `/bootstrap`; GitHub Flow in CONTRIBUTING; warmer issue/PR templates
-* **readme:** architecture diagram and feature summary for the template bootstrapper
+* **readme:** live CI/Scorecard badges, Codespaces link, and architecture diagram for the template bootstrapper
 
 ## [0.18.3](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.18.2...v0.18.3) (2026-08-16)
-
 
 ### Changed
 
@@ -43,18 +47,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * **deps:** Bump the android-dependencies group across 1 directory with 3 updates ([5ea63fd](https://github.com/edwardlthompson/agent-project-bootstrap/commit/5ea63fd32634365566d5b5b4460848c3ce8b512d))
 * **release:** prepare v0.18.3 release ([afbea39](https://github.com/edwardlthompson/agent-project-bootstrap/commit/afbea39e98346091d9524f04ba1ae0e85b8ed389))
 
-
 ### Documentation
 
 * **release:** archive v0.18.2 ship memory and decisions ([9ce74d1](https://github.com/edwardlthompson/agent-project-bootstrap/commit/9ce74d177ab0dce65170df2ece370142907227e0))
 
 ## [0.18.2](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.18.1...v0.18.2) (2026-08-16)
 
-
 ### Fixed
 
 * **ci:** move write `permissions` to the job that needs them (Scorecard TokenPermissions)
-
 
 ### Changed
 
@@ -64,7 +65,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * **deps:** Bump the node-dependencies group across 1 directory with 4 updates ([dbba532](https://github.com/edwardlthompson/agent-project-bootstrap/commit/dbba532ac842ea5cccc9e9d93bdba3c621b7156a))
 * **security:** triage Scorecard SARIF and archive M35 HUMAN items ([132612d](https://github.com/edwardlthompson/agent-project-bootstrap/commit/132612d8b2005e0c80437695fccd868f48c2c861))
 
-
 ### Documentation
 
 * **security:** record M35 Scorecard SARIF triage (pin policy, stale hono/nanoid/postcss GHSAs)
@@ -72,17 +72,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.18.1](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.18.0...v0.18.1) (2026-08-15)
 
-
 ### Fixed
 
 * **windows:** resolve Python via `scripts/lib/resolve-python.sh` (skip Store stub; `PY` is a single executable so `"$PY"` works)
 * **gates:** restore About slice from `git checkout HEAD` if `verify-about-feature-gate` backup is missing
 
-
 ### Changed
 
 * **release:** prepare v0.18.1 release ([b4fca9c](https://github.com/edwardlthompson/agent-project-bootstrap/commit/b4fca9c1fb7014b96d95649e285916f23d9cd2e0))
-
 
 ### Documentation
 
@@ -92,16 +89,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.18.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.17.0...v0.18.0) (2026-08-15)
 
-
 ### Added
 
 * **agent:** add prior-art thin steals and clear High Dependabot ([80dc2a6](https://github.com/edwardlthompson/agent-project-bootstrap/commit/80dc2a60caab73a9b1c097e97a5ee9dce4d54c20))
 
-
 ### Fixed
 
 * **web:** lock proxy-agent 8 so npm ci matches browsers override ([be4333b](https://github.com/edwardlthompson/agent-project-bootstrap/commit/be4333baa5dcf65044d03bc365aead8b939172e6))
-
 
 ### Documentation
 
