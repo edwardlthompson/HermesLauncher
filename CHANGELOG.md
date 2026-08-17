@@ -6,6 +6,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.20.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.19.0...v0.20.0) (2026-08-17)
+
+
+### Added
+
+* add first-run backlog and Windows upgrade-sim gates ([14811be](https://github.com/edwardlthompson/agent-project-bootstrap/commit/14811be2f4290841e8bf99bbd002facc50ff8e6e))
+
+
+### Fixed
+
+* ignore pruned stack links in the docs gate ([d7a3ba0](https://github.com/edwardlthompson/agent-project-bootstrap/commit/d7a3ba099736f2194e08ec5d4d75ae6c4704935c))
+* keep portable-purpose test valid after child init stamp ([5084b4b](https://github.com/edwardlthompson/agent-project-bootstrap/commit/5084b4b07542c583371e2e4e0277ac81731f42c1))
+* strip CR from jq paths in template-index gate ([812a2db](https://github.com/edwardlthompson/agent-project-bootstrap/commit/812a2db71bca3929334d913848826bedffb4d80f))
+
+
+### Documentation
+
+* **release:** archive v0.19.0 ship memory and decisions ([3e55a0b](https://github.com/edwardlthompson/agent-project-bootstrap/commit/3e55a0b2b1a896cea8c699a4ba612274b91729d5))
+* rewrite template README as a first-run pitch ([01e21fc](https://github.com/edwardlthompson/agent-project-bootstrap/commit/01e21fc0f559a56e09b69172e0d06b763ed11d75))
+
 ## [Unreleased]
 
 ### Added
