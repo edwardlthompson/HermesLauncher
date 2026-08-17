@@ -40,6 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * **ci:** pin `actions/setup-python` to v5.6.0 SHA on Windows upgrade-sim jobs
 * **docs:** `check-doc-links` ignores links into pruned `modules/` / `examples/` trees
 * **upgrade-sim:** portable-purpose assert only applies while this is still the template repo
+* **windows:** `validate-template-index` strips CR from `jq` paths so Windows upgrade-sim can pass
 
 ### Documentation
 

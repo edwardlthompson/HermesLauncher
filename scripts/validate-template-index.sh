@@ -49,8 +49,10 @@ fi
 
 ERRORS=0
 check_path() {
-  if [ ! -e "$ROOT/$1" ]; then
-    echo "MISSING: $1"
+  # jq.exe on Windows Git Bash emits CRLF; a trailing CR makes -e fail for every path.
+  local rel="${1//$'\r'/}"
+  if [ ! -e "$ROOT/$rel" ]; then
+    echo "MISSING: $rel"
     ERRORS=$((ERRORS + 1))
   fi
 }
