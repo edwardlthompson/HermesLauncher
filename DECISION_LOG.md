@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-17 — Ship v0.20.0 (/ship)
+- **Status:** Accepted
+- **Context:** `/ship` after three `/ideas` implement-all rounds. First pre-release gate was green on `01e21fc`; feat `14811be` then failed upgrade-sim (stamped purpose, pruned Android link, Windows `jq` CRLF).
+- **Decision:** Keep portable-purpose assert on the template repo only; ignore doc links into pruned `modules/`/`examples/`; strip CR from `jq` paths in `validate-template-index`. Push fixes, wait for Ubuntu + Windows upgrade-sim, admin-merge Release Please #68 to **v0.20.0**. Codex skipped (no key/CLI).
+- **Alternatives considered:** Skip full validate after prune (rejected: hides real child-repo doc breaks). Drop Windows upgrade-sim from required checks (rejected: that was the point of the ideas pass).
+- **Consequences:** Template at 0.20.0; `/ship` must treat Windows `jq.exe` CRLF and post-prune links as first-class gates. SBOM attaches via `release` published workflow.
+
 ### 2026-08-17 — Implement /ideas backlog (required Windows check, coach twin)
 - **Status:** Accepted
 - **Context:** Third `/ideas` pass. Windows upgrade-sim existed but `/ship` and branch protection did not name it.

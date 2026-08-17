@@ -115,6 +115,14 @@
 | **Cause** | CPython 3.14 enables the interactive `pyrepl` frontend. On Windows it queries console size even when stdin is not a TTY, then blocks |
 | **Fix** | Set `PYTHON_BASIC_REPL=1` (and `PYTHONUNBUFFERED=1`) in `scripts/init-project.ps1`, `scripts/init-project.sh`, and the upgrade-sim `pwsh` invocation |
 | **Prevention** | Keep those env vars on every Windows Python spawn used by init / `/ship` regress. Do not use the interactive REPL in non-interactive scripts |
+### KB-015 — Windows upgrade-sim: `jq` CRLF and post-prune doc links
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | Required **Template Upgrade Simulation (Windows)** fails. Ubuntu may pass. Logs show `281 path(s) missing` including the running `validate-template-index.sh`, or `check-doc-links` breaks on `modules/android/COMMERCIAL.md` after `--prune` |
+| **Cause** | `jq.exe` under Git Bash emits CRLF, so `test -e "$ROOT/$path"` looks for `path\r`. After web prune, commercial docs still link into removed stack trees |
+| **Fix** | Strip CR in `scripts/validate-template-index.sh` `check_path`. `check-doc-links` skips missing `modules/<stack>` / `examples/<stack>` targets when that stack directory is gone. Portable-purpose tests must not require `coding-agent` after child init stamps a new purpose |
+| **Prevention** | Do not mark `/ship` done until both upgrade-sim jobs are green. Prefer Python path checks on Windows; keep Unreleased empty before Release Please |
 ### KB-011 — Vitest jsdom `localStorage` broken on Node 25+
 
 | Field | Detail |
