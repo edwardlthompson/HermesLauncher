@@ -7,21 +7,39 @@
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/edwardlthompson/agent-project-bootstrap/badge)](https://securityscorecards.dev/viewer/?uri=github.com/edwardlthompson/agent-project-bootstrap)
 [![Open in GitHub Codespaces](https://img.shields.io/badge/Codespaces-Open-181717?style=flat-square&logo=github)](https://codespaces.new/edwardlthompson/agent-project-bootstrap)
 
-GitHub Template Repository for bootstrapping FOSS projects with coding agents (Cursor, Windsurf, Antigravity, Claude Code, Copilot, and others).
+**Ship a FOSS app with an agent that already knows the rules.**
 
-**Bootstrap a FOSS project with agent-ready scaffolding** — initialization prompts, labeled sprints, CI guardrails, and Golden Path examples.
+Most templates hand you empty folders. This one hands you a working contract: one [`AGENTS.md`](AGENTS.md) that Cursor, Windsurf, Antigravity, Claude Code, Copilot, Aider, Cline, and Continue all follow — plus CI, security, and a 10-minute tour so a first-time human is not lost.
 
-You get:
+Click **Use this template**, run init, then type `/tour` (or ask any agent to read [`docs/help/TOUR.md`](docs/help/TOUR.md)). You leave Sprint 0 with a checklist, a Golden Path you can run, and gates that say *what failed* and *what to run*.
 
-- Canonical `AGENTS.md` plus thin adapters (edit once, `--sync-adapters`) — see [`docs/AGENT_PORTABILITY.md`](docs/AGENT_PORTABILITY.md)
-- Spec-driven stubs (`docs/spec.md`, `docs/plan.md`) and test-first guardrails
-- Security and CI **on by default** (Dependabot, CodeQL, secret scanning, issue/PR templates)
-- Labeled BUILD_PLAN sprints (`AGENT` / `HUMAN` / `ADB` / `AUTO`)
-- Golden Path stubs (Web, Python, Android, Lightroom)
-- Init lifecycle hooks (`bootstrap.config.json`, preflight, `PROJECT_CHECKLIST.md`)
+## Why this exists
+
+Starting a public project usually means reinventing the license, `SECURITY.md`, CI, issue templates, and agent instructions — then watching each IDE drift. This template is the industry-standard start **and** the *why* ([`docs/BEST_PRACTICES.md`](docs/BEST_PRACTICES.md)). Security is on by default. You edit `AGENTS.md` once; thin adapters stay in sync.
+
+## What you get
+
+- **One spec, every IDE** — `AGENTS.md` plus generated pointers. See [`docs/AGENT_PORTABILITY.md`](docs/AGENT_PORTABILITY.md).
+- **A first-day tour** — `/tour` in Cursor, or `docs/help/TOUR.md` in any other agent.
+- **A coach** — `/coach` plus the 30-day playbook [`docs/FIRST_30_DAYS.md`](docs/FIRST_30_DAYS.md).
+- **Gates that speak English** — failures print What failed / What to run / Why.
+- **Security on day one** — Dependabot, CodeQL, secret scanning, Scorecard. No tracking.
+- **A runnable slice** — Web, Python, Android, and Node Golden Paths (Lightroom, Rust, Go optional).
+- **Labeled work** — `AGENT` / `HUMAN` / `ADB` / `AUTO` so agents do not block on credentials.
+- **Codespaces + VS Code tasks** — Verify, Feature gate, Project health.
+
+## For humans
+
+Start here, then [`CONTRIBUTING.md`](CONTRIBUTING.md) and [`SUPPORT.md`](SUPPORT.md). Questions vs bugs vs vulns are split on purpose. First-month playbook: [`docs/FIRST_30_DAYS.md`](docs/FIRST_30_DAYS.md).
+
+## For agents
+
+Read [`docs/START_HERE.md`](docs/START_HERE.md) and [`AGENTS.md`](AGENTS.md). Cursor: `/tour` or `/bootstrap`. Any other IDE: `Read docs/help/TOUR.md and walk me through it.` Later sessions: `/coach`.
 
 ## Contents
 
+- [Why this exists](#why-this-exists)
+- [What you get](#what-you-get)
 - [Quick Start](#quick-start)
 - [Architecture](#architecture)
 - [Feature summary](#feature-summary)
@@ -106,11 +124,15 @@ flowchart LR
 |------------|------------|
 | Agent spec | `AGENTS.md` — overview, env, gates, test-first, security |
 | Multi-agent adapters | Cursor, Claude, Copilot, Windsurf, Gemini/Antigravity, Aider, Cline, Continue |
-| Spec-driven | `docs/spec.md`, `docs/plan.md`, `docs/features/_template.md` |
-| Security by default | `SECURITY.md`, Dependabot, CI, CodeQL, secret scanning |
-| Governance | Issue + PR templates, `CONTRIBUTING.md`, license prompt (MIT / Apache-2.0) |
-| Lifecycle | Preflight hooks, manifest, Definition of Done checklist |
+| First-run tour | `/tour` and [`docs/help/TOUR.md`](docs/help/TOUR.md) |
 | Coach layer | [`docs/BEST_PRACTICES.md`](docs/BEST_PRACTICES.md), [`docs/FIRST_30_DAYS.md`](docs/FIRST_30_DAYS.md), `/coach` |
+| Readable gates | Plain-English feature-gate hints; `bash scripts/verify.sh` |
+| Spec-driven | `docs/spec.md`, `docs/plan.md`, `docs/features/_template.md` |
+| Security by default | `SECURITY.md`, Dependabot, CI, CodeQL, secret scanning, Scorecard |
+| Governance | Issue + PR templates, `SUPPORT.md`, `CITATION.cff`, MIT / Apache-2.0 |
+| Lifecycle | Preflight, `bootstrap.config.json`, `PROJECT_CHECKLIST.md` |
+| Editor DX | `.vscode/tasks.json`, Codespaces / devcontainer, optional `justfile` |
+
 ## What gets generated
 
 After **Use this template** and `scripts/init-project.sh` (or `.ps1`):
@@ -123,19 +145,25 @@ After **Use this template** and `scripts/init-project.sh` (or `.ps1`):
 | `.cursor/rules/main.mdc` | Cursor adapter (from `AGENTS.md`) |
 | `CLAUDE.md` | Claude Code adapter |
 | `.github/copilot-instructions.md` | GitHub Copilot adapter |
+| `GEMINI.md` | Antigravity / Gemini pointer (never real rules) |
+| `.windsurf/rules/agents-pointer.md` | Windsurf pointer |
+| `.clinerules`, `CONVENTIONS.md`, `.continue/rules/agents.md` | Cline, Aider, Continue pointers |
 | `LICENSE` | Rewritten only when `--license Apache-2.0` |
-Shipped in the template (not generated): `docs/spec.md`, `docs/plan.md`, `docs/BEST_PRACTICES.md`, `docs/FIRST_30_DAYS.md`, `env.schema.json`, `.devcontainer/`, `.agent/memory/`, `.pre-commit-config.yaml`, CI/security workflows, issue/PR templates. Optional `.github/FUNDING.yml` when a donation URL is set.
+
+Shipped in the template (not generated): `docs/spec.md`, `docs/plan.md`, `docs/BEST_PRACTICES.md`, `docs/FIRST_30_DAYS.md`, `docs/AGENT_PORTABILITY.md`, `docs/help/TOUR.md`, `SUPPORT.md`, `CITATION.cff`, `env.schema.json`, `.devcontainer/`, `.vscode/tasks.json`, `.agent/memory/`, `.pre-commit-config.yaml`, CI/security workflows, issue/PR templates. Optional `.github/FUNDING.yml` when a donation URL is set. Optional `just verify` if [just](https://github.com/casey/just) is installed — CI still calls `scripts/verify.sh` directly.
 
 ## Agent shortcuts (cheat sheet)
 
-**[docs/help/BATCH_COMMANDS.md](docs/help/BATCH_COMMANDS.md)** — shortcut commands for Cursor Agent.
+**[docs/help/BATCH_COMMANDS.md](docs/help/BATCH_COMMANDS.md)** — shortcut recipes. In Cursor type `/`. In any other IDE, paste the matching `docs/help/` file.
 
-- `/bootstrap` — new project Sprint 0 end to end
+- `/tour` — 10-minute first-run walk (`docs/help/TOUR.md`)
+- `/bootstrap` — new project Sprint 0, then the tour
+- `/coach` — next action and the industry why
 - `/build` — plan and implement a feature
 - `/verify` — checks before merge
 - `/ship` — publish a release to GitHub
 
-Type **`/`** in Agent chat to pick a command. *Bookmark it for when you come back after a break.*
+*Bookmark the cheat sheet for when you come back after a break.*
 
 ## Stack Selection (Sprint 0)
 
@@ -165,9 +193,11 @@ Active modules are synced to `AGENT_MEMORY.md` and recorded in `.cursor/stack-se
   <dt>Initialization prompt</dt>
   <dd><a href="docs/INITIALIZATION_PROMPT.md"><code>docs/INITIALIZATION_PROMPT.md</code></a></dd>
   <dt>Agent routing</dt>
-  <dd><a href="docs/START_HERE.md"><code>docs/START_HERE.md</code></a>, <a href="docs/CURSOR_MODES.md"><code>docs/CURSOR_MODES.md</code></a>, <a href="docs/FOR_AGENTS.md"><code>docs/FOR_AGENTS.md</code></a>, <a href="AGENTS.md"><code>AGENTS.md</code></a></dd>
+  <dd><a href="docs/START_HERE.md"><code>docs/START_HERE.md</code></a>, <a href="docs/CURSOR_MODES.md"><code>docs/CURSOR_MODES.md</code></a>, <a href="docs/AGENT_PORTABILITY.md"><code>docs/AGENT_PORTABILITY.md</code></a>, <a href="AGENTS.md"><code>AGENTS.md</code></a></dd>
+  <dt>First-run tour &amp; coach</dt>
+  <dd><a href="docs/help/TOUR.md"><code>docs/help/TOUR.md</code></a> (<code>/tour</code>), <a href="docs/BEST_PRACTICES.md"><code>docs/BEST_PRACTICES.md</code></a>, <a href="docs/FIRST_30_DAYS.md"><code>docs/FIRST_30_DAYS.md</code></a> (<code>/coach</code>)</dd>
   <dt>Agent shortcuts</dt>
-  <dd><a href="docs/help/BATCH_COMMANDS.md"><code>docs/help/BATCH_COMMANDS.md</code></a> — slash commands (<code>/bootstrap</code>, <code>/verify</code>, <code>/build</code>, <code>/ship</code>)</dd>
+  <dd><a href="docs/help/BATCH_COMMANDS.md"><code>docs/help/BATCH_COMMANDS.md</code></a> — <code>/tour</code>, <code>/bootstrap</code>, <code>/coach</code>, <code>/verify</code>, <code>/build</code>, <code>/ship</code></dd>
   <dt>Sprint task board</dt>
   <dd><a href="BUILD_PLAN.md"><code>BUILD_PLAN.md</code></a> (active board); archived sprints in <a href="COMPLETED_TASKS.md"><code>COMPLETED_TASKS.md</code></a></dd>
 </dl>
@@ -228,7 +258,7 @@ Every task carries an owner label for filtering automated vs human work.
   <tbody>
     <tr>
       <td><img src="https://img.shields.io/badge/AGENT-Cursor_Agent-2ea043?style=flat-square" alt="AGENT" /></td>
-      <td>Cursor Agent</td>
+      <td>Coding agent</td>
       <td>Code, docs, scaffolding, tests, CI</td>
     </tr>
     <tr>

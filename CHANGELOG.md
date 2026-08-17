@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Documentation
 
+* **readme:** pitch-first template README (tour, portability, coach, readable gates)
 * **release:** archive v0.19.0 ship memory and decisions
 
 ## [0.19.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.18.3...v0.19.0) (2026-08-17)
