@@ -17,6 +17,20 @@
 
 ## Entries
 
+### 2026-08-16 — Ship v0.19.0 (/ship)
+- **Status:** Accepted
+- **Context:** Coach layer (`2f77fb9`) plus portable first-run polish were unpushed; first pre-release CI wait failed because HEAD had no Actions run.
+- **Decision:** Push feat commits, wait for CI/Security/CodeQL, re-run `pre-release-gate`, merge Release Please #67 to **v0.19.0**. Codex skipped (no key/CLI).
+- **Alternatives considered:** Hold for Codex (rejected: skip is allowed). Invent per-tool rulebooks (rejected: AGENTS.md SoT).
+- **Consequences:** Template at 0.19.0; SBOM attaches via `release` published workflow; batch commands are 24 atomic + 5 super.
+
+### 2026-08-16 — Portable first-run (any agent IDE)
+- **Status:** Accepted
+- **Context:** First-time users needed a scripted tour and readable gate failures; the template was Cursor-weighted while Windsurf, Antigravity, and others already read `AGENTS.md`.
+- **Decision:** Keep `AGENTS.md` Sacred. Generate thin pointers (`GEMINI.md` pointer-only, Windsurf, Cline, Aider, Continue). Ship `/tour` plus `docs/help/TOUR.md`. Add adapter drift gate, VS Code tasks, SUPPORT.md, CITATION.cff, good-first-issue, live badges, Codespaces link.
+- **Alternatives considered:** Duplicate full rules into `.windsurfrules` / `.agents/agents.md` (rejected: drift and a second SoT). Register `/why` (rejected: `/coach` synonym only).
+- **Consequences:** Edit `AGENTS.md` then `--sync-adapters`. Never put real rules in `GEMINI.md`.
+
 ### 2026-08-16 — Template Excellence / Coach Layer
 - **Status:** Accepted
 - **Context:** The template already had gates, memory, and Golden Paths; new users still got files without the industry *why*.

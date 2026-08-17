@@ -2,6 +2,11 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## v0.19.0 portable first-run release (2026-08-16)
+
+- ✅ [AUTO] Merge Release Please PR #67 — [v0.19.0](https://github.com/edwardlthompson/agent-project-bootstrap/releases/tag/v0.19.0) published @ `2bef8ac`
+- ✅ [AGENT] `/ship`: `/tour` + multi-agent adapters + coach layer; Codex skipped (no key/CLI)
+
 ## v0.18.3 Compose BOM release (2026-08-16)
 
 - ✅ [AUTO] Merge Release Please PR #66 — [v0.18.3](https://github.com/edwardlthompson/agent-project-bootstrap/releases/tag/v0.18.3) published @ `013e688`

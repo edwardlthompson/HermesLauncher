@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+### Changed
+
+### Fixed
+
+### Documentation
+
+* **release:** archive v0.19.0 ship memory and decisions
+
 ## [0.19.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.18.3...v0.19.0) (2026-08-17)
 
 
@@ -18,39 +30,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Documentation
 
 * **release:** archive v0.18.3 ship memory and decisions ([3b572d8](https://github.com/edwardlthompson/agent-project-bootstrap/commit/3b572d823820e4ed2bd0a4c6729da98ae925b573))
-
-## [Unreleased]
-
-### Added
-
-* **tour:** `/tour` and `docs/help/TOUR.md` (10-minute first-run walk for any IDE)
-* **portability:** `docs/AGENT_PORTABILITY.md` plus thin adapters for Windsurf, Antigravity/Gemini, Aider, Cline, and Continue
-* **gates:** plain-English feature-gate hints (`What failed` / `What to run` / `Why`)
-* **dx:** `.vscode/tasks.json` (Verify, Feature gate, Project health) and `extensions.json`
-* **community:** `SUPPORT.md`, `CITATION.cff`, and a Good first issue template
-* **coach:** `docs/BEST_PRACTICES.md`, `docs/FIRST_30_DAYS.md`, `/coach`, and `scripts/project-health.sh`
-* **init:** what/why summary, optional GitHub topics, FUNDING.yml when a donation URL is set
-* **dx:** optional root and Golden Path `justfile`s (`just` is not required in CI)
-* **verify:** `scripts/verify.sh` harness (env schema + bootstrap gates; `--full` runs feature-gate)
-* **env:** `env.schema.json` + `scripts/check-env.sh` (runs before feature-gate / verify)
-* **commits:** Conventional Commits `commit-msg` hook
-* **devcontainer:** `.devcontainer/Dockerfile` scaffold
-* **agent:** `.agent/memory/` and `.agent/skills/` indexes (pointers, not a second source of truth)
-* **bootstrap:** lifecycle hooks, `bootstrap.config.json`, and `PROJECT_CHECKLIST.md` after init
-* **agents:** Cursor / Claude Code / Copilot / Windsurf / Gemini / Aider / Cline / Continue adapters synced from `AGENTS.md`
-* **sdd:** `docs/spec.md` and `docs/plan.md` stubs with test-first rule
-* **init:** `--license MIT|Apache-2.0`, `--skip-preflight`, `--strict-preflight`
-
-### Changed
-
-* **agents:** `AGENTS.md` is the canonical spec (overview, env, gates, test-first, security)
-
-### Fixed
-
-### Documentation
-
-* **coach:** Welcome Tour on `/bootstrap`; GitHub Flow in CONTRIBUTING; warmer issue/PR templates
-* **readme:** live CI/Scorecard badges, Codespaces link, and architecture diagram for the template bootstrapper
 
 ## [0.18.3](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.18.2...v0.18.3) (2026-08-16)
 
