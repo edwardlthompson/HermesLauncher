@@ -14,6 +14,7 @@ if str(LIB) not in sys.path:
 from bootstrap_cli import run  # noqa: E402
 from bootstrap_engine import default_config, save_config  # noqa: E402
 from bootstrap_post import create_welcome_issue, ensure_git_repo, install_deps  # noqa: E402
+from build_sprint_model import is_template_repo  # noqa: E402
 from stamp_project import stamp_agents_md  # noqa: E402
 
 REPO = Path(__file__).resolve().parent.parent
@@ -41,7 +42,8 @@ class StampTests(unittest.TestCase):
         cfg = (REPO / "bootstrap.config.json").read_text(encoding="utf-8")
         self.assertNotIn("FOSS Cursor agent projects", agents)
         self.assertNotIn("FOSS Cursor agent projects", cfg)
-        self.assertIn("coding-agent", agents)
+        if is_template_repo(REPO):
+            self.assertIn("coding-agent", agents)
 
 
 class PostHookTests(unittest.TestCase):
