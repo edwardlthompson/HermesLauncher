@@ -2,6 +2,23 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## Sprint M39 — /ideas Windows PATH + ship hygiene (2026-08-18)
+
+- ✅ [AGENT] Shared resolver prepends `gh` / Git to Git Bash PATH
+- ✅ [AGENT] `agent-run` strips inherited `PYTHONPATH` before gates
+- ✅ [AGENT] Normalize `*-compliance.mdc` to UTF-8 LF
+- ✅ [AGENT] Fold `[Unreleased]` bullets onto the Release Please PR, then empty the section
+- ✅ [AGENT] Do not attach GitHub Environments on CI/Security/CodeQL (RP auto-merge)
+- ✅ [AGENT] Archive finished M38 off the active board
+- ✅ [AGENT] Name the Windows required check on child Sprint 0 AUTO sign-off
+- ✅ [AGENT] Create Discussions Q&A category or a one-line HUMAN fallback in setup
+- ✅ [AUTO] `validate-bootstrap --quick` + file-limits + encoding
+
+## v0.21.0 Windows PATH + Unreleased fold (2026-08-18)
+
+- ✅ [AUTO] Merge Release Please PR #69 — [v0.21.0](https://github.com/edwardlthompson/agent-project-bootstrap/releases/tag/v0.21.0) published @ `1525cd6`
+- ✅ [AGENT] `/ship`: M38+M39; Codex skipped (no key/CLI); admin-merge after CI green on `df322af`
+
 ## Sprint M38 — /ideas ship-hardening (2026-08-17)
 
 - ✅ [AGENT] Fail `/ship` when branch protection omits Windows upgrade-sim

@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-18 — Ship v0.21.0 (/ship)
+- **Status:** Accepted
+- **Context:** `/ship` after M38+M39. Pre-release green on `f54927e`; feat `8eab392` then `df322af` after `rp_merge_status` import failed once `PYTHONPATH` was stripped.
+- **Decision:** Push feat + cwd-relative import fix; wait Ubuntu + Windows upgrade-sim; admin-merge Release Please #69 to **v0.21.0**. Fold leftover Unreleased onto the PR as comments. Archive M39 and empty Unreleased after merge (fold does not rewrite the RP branch). Codex skipped (no key/CLI).
+- **Alternatives considered:** Leave leftover Unreleased under `[0.21.0]` (rejected: next `/ship` fails first+empty gates). `pull_request_target` for RP checks (rejected).
+- **Consequences:** Template at 0.21.0. Next `/ship` should empty Unreleased in the prepare commit so RP does not carry bullets. SBOM attaches via `release` published workflow.
+
 ### 2026-08-17 — M39 /ideas Windows PATH + ship hygiene
 - **Status:** Accepted
 - **Context:** Fifth `/ideas` pass. Git Bash still missed `gh`; inherited `PYTHONPATH=scripts/lib` broke validate-bootstrap; leftover Unreleased blocked RP merge; Q&A REST create often SKIP'd.

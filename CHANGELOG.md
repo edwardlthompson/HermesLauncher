@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
 ## [0.21.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.20.0...v0.21.0) (2026-08-18)
 
 
@@ -22,32 +24,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Documentation
 
 * **release:** archive v0.20.0 ship memory and decisions ([f54927e](https://github.com/edwardlthompson/agent-project-bootstrap/commit/f54927eb378a5e413f6b8346f2699ba0ef19ea58))
-
-## [Unreleased]
-
-### Added
-
-* **ship:** `pre-release-gate` fails when branch protection omits Windows upgrade-sim
-* **index:** Python-only `TEMPLATE_INDEX` checks (no `jq.exe` path)
-* **release:** skip Release Please wait when PR checks are `ACTION_REQUIRED`
-* **changelog:** Unreleased must be first; empty before Release Please merge
-* **ci:** pass `GITHUB_TOKEN` into upgrade-sim workflow validation
-* **path:** shared resolver prepends `gh` / Git / node on Git Bash PATH
-* **release:** fold leftover `[Unreleased]` notes onto the Release Please PR
-* **discussions:** GraphQL list + REST/GraphQL create for Q&A, with HUMAN fallback
-
-### Changed
-
-* **limits:** split allowlisted `scripts/lib` modules so each file is ≤150 lines
-* **docs:** FIRST_30_DAYS Week 2 names the Windows required check
-* **board:** archive Coach / M37 / M36 / M38 off the active maintainer board
-* **agent-run:** strip inherited `PYTHONPATH` before gates
-* **ci:** document that CI / Security Scan / CodeQL must not use Environments
-* **docs:** child Sprint 0 AUTO names the Windows upgrade-sim required check
-
-### Fixed
-
-* **encoding:** rewrite `*-compliance.mdc` as UTF-8 LF
 
 ## [0.20.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.19.0...v0.20.0) (2026-08-17)
 

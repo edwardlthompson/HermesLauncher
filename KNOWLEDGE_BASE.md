@@ -131,6 +131,14 @@
 | **Cause** | Git Bash does not inherit `C:\Program Files\GitHub CLI`. A parent shell `PYTHONPATH=scripts/lib` shadows repo-root imports |
 | **Fix** | `scripts/lib/resolve-tools.sh` prepends Windows tool dirs and unsets `PYTHONPATH`. `agent-run` passes `child_env()` that drops `PYTHONPATH` |
 | **Prevention** | Never export `PYTHONPATH=scripts/lib` in the agent shell. Source `resolve-tools.sh` before `command -v gh` |
+### KB-017 — Fold empties local Unreleased only
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | After `/ship` merges Release Please, `CHANGELOG.md` still has leftover `[Unreleased]` bullets under or after the new version heading |
+| **Cause** | `changelog_unreleased.py --fold` writes the working tree and comments the PR; it does not commit. Release Please copies Unreleased from the last pushed commit |
+| **Fix** | Empty `[Unreleased]` (and keep it first) in a `docs(release)` archive commit after merge, or empty it in the prepare commit before push |
+| **Prevention** | Do not mark `/ship` done until Unreleased is first and empty on `origin/main` |
 ### KB-011 — Vitest jsdom `localStorage` broken on Node 25+
 
 | Field | Detail |
