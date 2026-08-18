@@ -60,8 +60,7 @@ fi
 
 SKIP_WAIT="$("$PY" -c "
 import json, subprocess, sys
-from pathlib import Path
-sys.path.insert(0, str(Path(r'$ROOT') / 'scripts' / 'lib'))
+sys.path.insert(0, 'scripts/lib')
 from rp_merge_status import skip_auto_merge_wait
 raw = subprocess.check_output(
     ['gh', 'pr', 'view', '$PR', '--json', 'statusCheckRollup,mergeStateStatus'],
