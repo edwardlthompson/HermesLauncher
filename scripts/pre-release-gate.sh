@@ -60,6 +60,17 @@ else
   echo "OK   check-license-compliance.sh passed"
 fi
 
+if command -v gh >/dev/null 2>&1; then
+  if ! bash scripts/verify-branch-protection.sh; then
+    echo "FAIL: verify-branch-protection.sh (Windows upgrade-sim must be required)"
+    ERRORS=$((ERRORS + 1))
+  else
+    echo "OK   verify-branch-protection.sh passed"
+  fi
+else
+  echo "SKIP verify-branch-protection.sh (gh not on PATH)"
+fi
+
 echo ""
 echo "REMINDER: Before tagging, trigger the Release workflow via workflow_dispatch:"
 echo "  GitHub -> Actions -> Release -> Run workflow"

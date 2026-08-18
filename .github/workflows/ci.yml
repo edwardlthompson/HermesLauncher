@@ -14,6 +14,10 @@ concurrency:
 permissions:
   contents: read
 
+# Do not add jobs.<id>.environment here. GitHub Environments block Release Please
+# bot PRs (statusCheckRollup ACTION_REQUIRED) and stall auto-merge. Pages may use
+# the github-pages environment; CI / Security Scan / CodeQL must not.
+
 jobs:
   stack-presence:
     name: Detect active stacks
@@ -418,6 +422,9 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Simulate child-repo upgrade path
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ github.token }}
         run: bash scripts/simulate-template-upgrade.sh
 
   upgrade-simulation-windows:
@@ -435,6 +442,8 @@ jobs:
           PYTHONUNBUFFERED: "1"
           PYTHONIOENCODING: utf-8
           PYTHONUTF8: "1"
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ github.token }}
         run: bash scripts/simulate-template-upgrade.sh
 
   template-update-check:

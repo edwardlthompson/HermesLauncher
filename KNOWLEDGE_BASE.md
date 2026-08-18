@@ -123,6 +123,14 @@
 | **Cause** | `jq.exe` under Git Bash emits CRLF, so `test -e "$ROOT/$path"` looks for `path\r`. After web prune, commercial docs still link into removed stack trees |
 | **Fix** | Strip CR in `scripts/validate-template-index.sh` `check_path`. `check-doc-links` skips missing `modules/<stack>` / `examples/<stack>` targets when that stack directory is gone. Portable-purpose tests must not require `coding-agent` after child init stamps a new purpose |
 | **Prevention** | Do not mark `/ship` done until both upgrade-sim jobs are green. Prefer Python path checks on Windows; keep Unreleased empty before Release Please |
+### KB-016 — Git Bash PATH and inherited PYTHONPATH
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | `command -v gh` fails in Git Bash even when GitHub CLI is installed. `validate-bootstrap` fails with `ModuleNotFoundError` for `env_schema` / `agent_adapters` |
+| **Cause** | Git Bash does not inherit `C:\Program Files\GitHub CLI`. A parent shell `PYTHONPATH=scripts/lib` shadows repo-root imports |
+| **Fix** | `scripts/lib/resolve-tools.sh` prepends Windows tool dirs and unsets `PYTHONPATH`. `agent-run` passes `child_env()` that drops `PYTHONPATH` |
+| **Prevention** | Never export `PYTHONPATH=scripts/lib` in the agent shell. Source `resolve-tools.sh` before `command -v gh` |
 ### KB-011 — Vitest jsdom `localStorage` broken on Node 25+
 
 | Field | Detail |

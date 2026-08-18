@@ -12,6 +12,9 @@ on:
     - cron: "0 8 * * 1"
   workflow_dispatch:
 
+# Do not add jobs.<id>.environment — Environments block Release Please bot PRs
+# (ACTION_REQUIRED) and stall auto-merge. github-pages is Pages-only.
+
 jobs:
   analyze:
     name: Analyze

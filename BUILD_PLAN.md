@@ -55,70 +55,35 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 **Autonomous `/build`:** Runs all `[AGENT]`/`[AUTO]` and Parallel work first, then attempts the grouped **Human & device (after automation)** section via `scripts/attempt-build-plan-row.sh`. Success marks ✅; failure appends `HUMAN_BACKLOG.md` and continues — never halts on human labels. Humans review the grouped section (and backlog) after automation finishes. Status: `bash scripts/build-sprint-status.sh --json`.
 
-> **Template maintainer:** No active AGENT sprint — **maintenance + human open items** below. **Child repos:** copy the playbook.
+> **Template maintainer:** **M39** `/ideas` Windows PATH + ship hygiene is the active AGENT sprint. **Child repos:** copy the playbook.
 
 ---
 
 ## Template Maintainer — Active Board
 
-> **v0.19.0** archived in `COMPLETED_TASKS.md` @ `2bef8ac`. **v0.18.3** archived in `COMPLETED_TASKS.md` @ `013e688`. **v0.18.2** archived in `COMPLETED_TASKS.md` @ `7d46e68`. **M35 HUMAN** (Scorecard + Dependabot + radar) archived in `COMPLETED_TASKS.md`. **v0.18.1** archived in `COMPLETED_TASKS.md` @ `fe80fea`. **M35** AGENT rows archived in `COMPLETED_TASKS.md`. **v0.18.0** archived in `COMPLETED_TASKS.md` @ `3f0b5a3`. **M34** (prior-art thin steals) archived in `COMPLETED_TASKS.md`. **v0.17.0** archived in `COMPLETED_TASKS.md` @ `701cd24`. **v0.16.0** @ `90ce3db`. **v0.15.2** archived in `COMPLETED_TASKS.md` @ `634d06d`. **v0.15.0** archived in `COMPLETED_TASKS.md` @ `2e010ae`. **M33** archived in `COMPLETED_TASKS.md` @ `5d2d129`. **v0.14.1** archived in `COMPLETED_TASKS.md` @ `a6c6be1`. **M32** archived in `COMPLETED_TASKS.md` @ `e532c20`. **M31** archived in `COMPLETED_TASKS.md` @ `cd21e5a`. **v0.14.0** @ `4b94298`. **v0.13.2** @ `ff8e4e6`. **M19–M30** archived in `COMPLETED_TASKS.md`. **M18** @ `d6b92a2`. **M30** @ `508a541`.
+> **M38** archived in `COMPLETED_TASKS.md`. **Coach / M37 / M36** archived in `COMPLETED_TASKS.md`. **v0.20.0** @ `b570f07`. **v0.19.0** archived in `COMPLETED_TASKS.md` @ `2bef8ac`. **v0.18.3** archived in `COMPLETED_TASKS.md` @ `013e688`. **v0.18.2** archived in `COMPLETED_TASKS.md` @ `7d46e68`. **M35 HUMAN** (Scorecard + Dependabot + radar) archived in `COMPLETED_TASKS.md`. **v0.18.1** archived in `COMPLETED_TASKS.md` @ `fe80fea`. **M35** AGENT rows archived in `COMPLETED_TASKS.md`. **v0.18.0** archived in `COMPLETED_TASKS.md` @ `3f0b5a3`. **M34** (prior-art thin steals) archived in `COMPLETED_TASKS.md`. **v0.17.0** archived in `COMPLETED_TASKS.md` @ `701cd24`. **v0.16.0** @ `90ce3db`. **v0.15.2** archived in `COMPLETED_TASKS.md` @ `634d06d`. **v0.15.0** archived in `COMPLETED_TASKS.md` @ `2e010ae`. **M33** archived in `COMPLETED_TASKS.md` @ `5d2d129`. **v0.14.1** archived in `COMPLETED_TASKS.md` @ `a6c6be1`. **M32** archived in `COMPLETED_TASKS.md` @ `e532c20`. **M31** archived in `COMPLETED_TASKS.md` @ `cd21e5a`. **v0.14.0** @ `4b94298`. **v0.13.2** @ `ff8e4e6`. **M19–M30** archived in `COMPLETED_TASKS.md`. **M18** @ `d6b92a2`. **M30** @ `508a541`.
 
-### Template Excellence / Coach Layer (2026-08-16)
-
-#### Sequential
-
-1. ✅ [AGENT] Add `docs/BEST_PRACTICES.md`, `docs/FIRST_30_DAYS.md`, and `/coach` registry lock
-2. ✅ [AGENT] Init what/why summary, topics, FUNDING.yml, product README
-3. ✅ [AGENT] Golden Path justfiles + Why these tools
-4. ✅ [AGENT] CONTRIBUTING, issue/PR warmth, project-health.sh
-5. ✅ [AUTO] validate-bootstrap --quick + TEMPLATE_INDEX + commit
-
-#### Parallel (safe after Sequential step 1)
-
-<!-- agent_count_target: 3 -->
-
-| Task | Owner | Isolated scope |
-|------|-------|----------------|
-| Init / README / FUNDING | AGENT | `scripts/init-project.sh` `scripts/init-project.ps1` `scripts/generate-project-readme.py` `branding/templates/` `docs/GITHUB_ABOUT.md` |
-| Golden Path justfiles | AGENT | `examples/python/` `examples/web/README.md` `examples/web/justfile` `examples/android/README.md` `examples/android/justfile` `justfile` |
-| Coach UX polish | AGENT | `CONTRIBUTING.md` `.github/ISSUE_TEMPLATE/` `.github/PULL_REQUEST_TEMPLATE.md` `scripts/project-health.sh` `docs/MAINTAINING_THE_TEMPLATE.md` |
-
-### M37 — Gap close: verify harness, env schema, post hooks (2026-08-16)
+### M39 — /ideas Windows PATH + ship hygiene (2026-08-17)
 
 #### Sequential
 
-1. ✅ [AGENT] Audit checklist A–G against the tree
-2. ✅ [AGENT] Wire env schema + `scripts/verify.sh` + Conventional Commits hook
-3. ✅ [AGENT] Complete preflight (docker warn) and optional post hooks
-4. ✅ [AGENT] Devcontainer Dockerfile, `.agent/memory` indexes, AGENTS.md stamp
-5. ✅ [AUTO] Engine unit tests + validate-bootstrap --quick
+1. ✅ [AGENT] Shared resolver prepends `gh` / Git to Git Bash PATH
+2. ✅ [AGENT] `agent-run` strips inherited `PYTHONPATH` before gates
+3. ✅ [AGENT] Normalize `*-compliance.mdc` to UTF-8 LF
+4. ✅ [AGENT] Fold `[Unreleased]` bullets onto the Release Please PR, then empty the section
+5. ✅ [AGENT] Do not attach GitHub Environments on CI/Security/CodeQL (RP auto-merge)
+6. ✅ [AGENT] Archive finished M38 off the active board
+7. ✅ [AGENT] Name the Windows required check on child Sprint 0 AUTO sign-off
+8. ✅ [AGENT] Create Discussions Q&A category or a one-line HUMAN fallback in setup
+9. ✅ [AUTO] `validate-bootstrap --quick` + file-limits + encoding
 
 #### Parallel
 
-<!-- parallel_exception: M37 — shared init/docs/gates; no isolated parallel scopes -->
+<!-- parallel_exception: M39 — shared scripts/docs/gates; no isolated parallel scopes -->
 
 | Task | Owner | Isolated scope |
 |------|-------|----------------|
 | *None — see parallel_exception above* | — | — |
-
-### M36 — Agent spec, SDD, lifecycle hooks (2026-08-16)
-
-#### Sequential
-
-1. ✅ [AGENT] Audit foundation files; keep GitHub Template + `init-project` (no second generator CLI)
-2. ✅ [AGENT] Expand `AGENTS.md` and sync Cursor / Claude / Copilot adapters
-3. ✅ [AGENT] Add `docs/spec.md`, `docs/plan.md`, and test-first guardrail
-4. ✅ [AGENT] Add `bootstrap.config.json` + pre/post hooks + `PROJECT_CHECKLIST.md`
-5. ✅ [AUTO] `check-bootstrap-engine.sh` + `validate-bootstrap` + init dry-run asserts
-
-#### Parallel
-
-<!-- parallel_exception: M36 — shared init/docs/adapters; no isolated parallel scopes -->
-
-| Task | Owner | Isolated scope |
-|------|-------|----------------|
-| *None — see parallel_exception above* | — | — |
-
 ### Open (human judgment only)
 
 *None — M35 HUMAN items archived. Recurring maintenance: see **Ongoing Maintenance** below.*
@@ -143,7 +108,7 @@ When **Sprint 0** ends: stop re-reading `docs/INITIALIZATION_PROMPT.md` as the d
 3. 🔲 [AUTO] Sprint 0 sign-off (all green on `main`):
   - `validate-bootstrap.sh --quick`
   - `feature-gate.sh --stack <active>`
-  - `check-github-ci.sh --wait 300`
+  - `check-github-ci.sh --wait 300` (required: **CI**, **Security Scan**, **CodeQL**; **CI** must include **Template Upgrade Simulation (Windows)**, **Repo Hygiene**, **Feature Gate**)
   - `check-license-compliance.sh` (after `npm ci` / `uv sync`)
 
 #### Parallel (safe after Sequential step 5)
@@ -253,6 +218,9 @@ When **Sprint 0** ends: stop re-reading `docs/INITIALIZATION_PROMPT.md` as the d
 
 | Sprint                                                            | Status   | Archive                          |
 | ----------------------------------------------------------------- | -------- | -------------------------------- |
+| M38 /ideas ship-hardening                                         | Complete | `COMPLETED_TASKS.md`             |
+| Coach / M37 / M36 (stale ✅ active-board rows)                     | Complete | `COMPLETED_TASKS.md`             |
+| v0.20.0 first-run backlog + Windows upgrade-sim                   | Complete | `COMPLETED_TASKS.md` @ `b570f07` |
 | v0.19.0 portable first-run release                                | Complete | `COMPLETED_TASKS.md` @ `2bef8ac` |
 | v0.18.3 Compose BOM release                                       | Complete | `COMPLETED_TASKS.md` @ `013e688` |
 | v0.18.2 Scorecard + Dependabot release                            | Complete | `COMPLETED_TASKS.md` @ `7d46e68` |

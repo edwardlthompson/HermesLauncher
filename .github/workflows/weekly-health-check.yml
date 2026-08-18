@@ -43,6 +43,9 @@ jobs:
           bash scripts/check-github-ci.sh "$(git rev-parse HEAD)" --wait 600 --dispatch-if-missing
 
       - name: Simulate template upgrade path
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ github.token }}
         run: bash scripts/simulate-template-upgrade.sh
 
   upgrade-windows:
@@ -62,6 +65,8 @@ jobs:
           PYTHONUNBUFFERED: "1"
           PYTHONIOENCODING: utf-8
           PYTHONUTF8: "1"
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ github.token }}
         run: bash scripts/simulate-template-upgrade.sh
 
       - name: Setup Node for npm audit

@@ -8,20 +8,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.20.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.19.0...v0.20.0) (2026-08-17)
+### Added
 
+* **ship:** `pre-release-gate` fails when branch protection omits Windows upgrade-sim
+* **index:** Python-only `TEMPLATE_INDEX` checks (no `jq.exe` path)
+* **release:** skip Release Please wait when PR checks are `ACTION_REQUIRED`
+* **changelog:** Unreleased must be first; empty before Release Please merge
+* **ci:** pass `GITHUB_TOKEN` into upgrade-sim workflow validation
+* **path:** shared resolver prepends `gh` / Git / node on Git Bash PATH
+* **release:** fold leftover `[Unreleased]` notes onto the Release Please PR
+* **discussions:** GraphQL list + REST/GraphQL create for Q&A, with HUMAN fallback
+
+### Changed
+
+* **limits:** split allowlisted `scripts/lib` modules so each file is ≤150 lines
+* **docs:** FIRST_30_DAYS Week 2 names the Windows required check
+* **board:** archive Coach / M37 / M36 / M38 off the active maintainer board
+* **agent-run:** strip inherited `PYTHONPATH` before gates
+* **ci:** document that CI / Security Scan / CodeQL must not use Environments
+* **docs:** child Sprint 0 AUTO names the Windows upgrade-sim required check
+
+### Fixed
+
+* **encoding:** rewrite `*-compliance.mdc` as UTF-8 LF
+
+## [0.20.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.19.0...v0.20.0) (2026-08-17)
 
 ### Added
 
 * add first-run backlog and Windows upgrade-sim gates ([14811be](https://github.com/edwardlthompson/agent-project-bootstrap/commit/14811be2f4290841e8bf99bbd002facc50ff8e6e))
-
 
 ### Fixed
 
 * ignore pruned stack links in the docs gate ([d7a3ba0](https://github.com/edwardlthompson/agent-project-bootstrap/commit/d7a3ba099736f2194e08ec5d4d75ae6c4704935c))
 * keep portable-purpose test valid after child init stamp ([5084b4b](https://github.com/edwardlthompson/agent-project-bootstrap/commit/5084b4b07542c583371e2e4e0277ac81731f42c1))
 * strip CR from jq paths in template-index gate ([812a2db](https://github.com/edwardlthompson/agent-project-bootstrap/commit/812a2db71bca3929334d913848826bedffb4d80f))
-
 
 ### Documentation
 

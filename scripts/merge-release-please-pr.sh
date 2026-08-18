@@ -5,6 +5,8 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
+# shellcheck source=lib/resolve-tools.sh
+. "$(cd "$(dirname "$0")" && pwd)/lib/resolve-tools.sh"
 
 WAIT=0
 while [ $# -gt 0 ]; do
@@ -35,10 +37,42 @@ fi
 
 echo "Release Please PR #${PR}"
 
+# shellcheck source=lib/resolve-python.sh
+. "$(cd "$(dirname "$0")" && pwd)/lib/resolve-python.sh"
+NOTES="$("$PY" "$ROOT/scripts/lib/changelog_unreleased.py" --fold "$ROOT/CHANGELOG.md")"
+if [ -n "$NOTES" ]; then
+  if gh pr comment "$PR" --body "$(printf '%s\n\n%s\n' '## Folded [Unreleased] notes' "$NOTES")"; then
+    echo "Folded [Unreleased] onto PR #${PR}"
+  else
+    echo "WARN: could not comment folded [Unreleased] notes on PR #${PR}"
+  fi
+fi
+if ! "$PY" "$ROOT/scripts/lib/changelog_unreleased.py" --require-empty "$ROOT/CHANGELOG.md"; then
+  echo "FAIL: empty [Unreleased] before merging Release Please"
+  exit 1
+fi
+
 if gh pr merge "$PR" --auto --merge 2>/dev/null; then
   echo "Auto-merge queued for PR #${PR}"
 else
   echo "WARN: --auto failed; trying direct merge"
+fi
+
+SKIP_WAIT="$("$PY" -c "
+import json, subprocess, sys
+from pathlib import Path
+sys.path.insert(0, str(Path(r'$ROOT') / 'scripts' / 'lib'))
+from rp_merge_status import skip_auto_merge_wait
+raw = subprocess.check_output(
+    ['gh', 'pr', 'view', '$PR', '--json', 'statusCheckRollup,mergeStateStatus'],
+    text=True,
+)
+data = json.loads(raw)
+print('yes' if skip_auto_merge_wait(data.get('statusCheckRollup'), data.get('mergeStateStatus', '')) else 'no')
+")"
+if [ "$SKIP_WAIT" = "yes" ]; then
+  echo "SKIP wait: PR checks are empty or ACTION_REQUIRED"
+  WAIT=0
 fi
 
 if [ "$WAIT" -gt 0 ]; then

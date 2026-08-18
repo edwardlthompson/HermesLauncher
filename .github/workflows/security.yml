@@ -12,6 +12,9 @@ on:
 permissions:
   contents: read
 
+# Do not add jobs.<id>.environment — Environments block Release Please bot PRs
+# (ACTION_REQUIRED) and stall auto-merge. github-pages is Pages-only.
+
 jobs:
   trivy:
     name: Trivy FS Scan

@@ -17,6 +17,20 @@
 
 ## Entries
 
+### 2026-08-17 — M39 /ideas Windows PATH + ship hygiene
+- **Status:** Accepted
+- **Context:** Fifth `/ideas` pass. Git Bash still missed `gh`; inherited `PYTHONPATH=scripts/lib` broke validate-bootstrap; leftover Unreleased blocked RP merge; Q&A REST create often SKIP'd.
+- **Decision:** Shared `resolve-tools.sh` prepends Windows tool dirs and unsets `PYTHONPATH`. `agent-run` uses `child_env()`. Fold Unreleased onto the RP PR comment then empty. No `environment:` on CI/Security/CodeQL. GraphQL list + REST/GraphQL create for Q&A with a one-line HUMAN fallback. Archive M38; name Windows check on child Sprint 0 AUTO.
+- **Alternatives considered:** Document PATH-only (rejected: every `gh` script still fails). `pull_request_target` for RP checks (rejected: untrusted checkout). Fail setup when Q&A API 422s (rejected: Settings fallback is enough).
+- **Consequences:** Source `resolve-tools.sh` before `command -v gh`. Never export `PYTHONPATH=scripts/lib`. `/ship` comments leftover notes then empties Unreleased locally.
+
+### 2026-08-17 — M38 /ideas ship-hardening
+- **Status:** Accepted
+- **Context:** Fourth `/ideas` pass after v0.20.0. Live `main` still required only five checks; Windows `jq` and leftover Unreleased still bit `/ship`.
+- **Decision:** Fail `pre-release-gate` on missing Windows upgrade-sim; apply that check via `setup-github-repo`. Python-only `TEMPLATE_INDEX`. Skip RP wait on `ACTION_REQUIRED`. Split allowlisted `scripts/lib` to ≤150. Empty-Unreleased gate before RP merge. Archive Coach/M37/M36. Token on upgrade-sim jobs.
+- **Alternatives considered:** Keep jq + CR strip (rejected: two paths). Leave lib allowlist (rejected: token-economy lie).
+- **Consequences:** `/ship` now fails until protection matches the script. New `scripts/lib` files stay ≤150 with an empty allowlist.
+
 ### 2026-08-17 — Ship v0.20.0 (/ship)
 - **Status:** Accepted
 - **Context:** `/ship` after three `/ideas` implement-all rounds. First pre-release gate was green on `01e21fc`; feat `14811be` then failed upgrade-sim (stamped purpose, pruned Android link, Windows `jq` CRLF).

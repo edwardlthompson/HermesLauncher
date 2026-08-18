@@ -7,6 +7,16 @@ param(
 $ErrorActionPreference = "Stop"
 $Root = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
 Set-Location $Root
+foreach ($dir in @(
+        "${env:ProgramFiles}\GitHub CLI",
+        "${env:ProgramFiles}\Git\bin",
+        "${env:ProgramFiles}\nodejs",
+        "${env:LOCALAPPDATA}\Programs\GitHub CLI"
+    )) {
+    if ($dir -and (Test-Path $dir)) {
+        $env:PATH = "$dir;$env:PATH"
+    }
+}
 
 $Bash = "bash"
 if (-not (Get-Command $Bash -ErrorAction SilentlyContinue)) {

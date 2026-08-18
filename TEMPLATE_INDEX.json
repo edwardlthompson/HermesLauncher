@@ -1730,6 +1730,13 @@
       "owner": "maintainer"
     },
     {
+      "path": "scripts/lib/resolve-tools.sh",
+      "purpose": "Prepend Windows gh/Git/node on Git Bash PATH; unset inherited PYTHONPATH",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": "scripts/init-project.sh",
       "purpose": "Post-template clone customization and stack picker",
       "read_when": "bootstrap_session_start",

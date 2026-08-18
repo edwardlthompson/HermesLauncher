@@ -11,6 +11,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SCRIPTS = ROOT / "scripts"
+LIB = SCRIPTS / "lib"
+if str(LIB) not in sys.path:
+    sys.path.insert(0, str(LIB))
+
+from agent_run_env import child_env  # noqa: E402
 
 
 def script_argv(script: Path) -> str:
@@ -69,6 +74,7 @@ def run_script(name: str, args: list[str]) -> int:
         proc = subprocess.run(
             ["powershell", "-NoProfile", "-File", str(script), *args],
             cwd=ROOT,
+            env=child_env(),
         )
         return proc.returncode
 
@@ -81,7 +87,11 @@ def run_script(name: str, args: list[str]) -> int:
         )
         return 1
 
-    proc = subprocess.run([bash, script_argv(script), *args], cwd=ROOT)
+    proc = subprocess.run(
+        [bash, script_argv(script), *args],
+        cwd=ROOT,
+        env=child_env(),
+    )
     return proc.returncode
 
 

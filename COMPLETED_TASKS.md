@@ -2,6 +2,47 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## Sprint M38 — /ideas ship-hardening (2026-08-17)
+
+- ✅ [AGENT] Fail `/ship` when branch protection omits Windows upgrade-sim
+- ✅ [AGENT] Python-only `TEMPLATE_INDEX` checks
+- ✅ [AGENT] Skip Release Please 300s wait when PR checks are `action_required`
+- ✅ [AGENT] Split allowlisted `scripts/lib` modules so each file is ≤150 lines
+- ✅ [AGENT] Gate leftover `[Unreleased]` before Release Please merge
+- ✅ [AGENT] Archive stale ✅ maintainer sprints (Coach / M37 / M36)
+- ✅ [AGENT] Name the Windows required check in FIRST_30_DAYS Week 2
+- ✅ [AGENT] Pass `GITHUB_TOKEN` into upgrade-sim workflow validation
+- ✅ [AUTO] `validate-bootstrap --quick` + file-limits + encoding
+
+## v0.20.0 first-run backlog + Windows upgrade-sim (2026-08-17)
+
+- ✅ [AUTO] Merge Release Please PR #68 — [v0.20.0](https://github.com/edwardlthompson/agent-project-bootstrap/releases/tag/v0.20.0) published @ `b570f07`
+- ✅ [AGENT] `/ship`: three `/ideas` rounds + Windows upgrade-sim; Codex skipped (no key/CLI)
+
+## Template Excellence / Coach Layer (2026-08-16)
+
+- ✅ [AGENT] Add `docs/BEST_PRACTICES.md`, `docs/FIRST_30_DAYS.md`, and `/coach` registry lock
+- ✅ [AGENT] Init what/why summary, topics, FUNDING.yml, product README
+- ✅ [AGENT] Golden Path justfiles + Why these tools
+- ✅ [AGENT] CONTRIBUTING, issue/PR warmth, project-health.sh
+- ✅ [AUTO] validate-bootstrap --quick + TEMPLATE_INDEX + commit
+
+## Sprint M37 — Gap close: verify harness, env schema, post hooks (2026-08-16)
+
+- ✅ [AGENT] Audit checklist A–G against the tree
+- ✅ [AGENT] Wire env schema + `scripts/verify.sh` + Conventional Commits hook
+- ✅ [AGENT] Complete preflight (docker warn) and optional post hooks
+- ✅ [AGENT] Devcontainer Dockerfile, `.agent/memory` indexes, AGENTS.md stamp
+- ✅ [AUTO] Engine unit tests + validate-bootstrap --quick
+
+## Sprint M36 — Agent spec, SDD, lifecycle hooks (2026-08-16)
+
+- ✅ [AGENT] Audit foundation files; keep GitHub Template + `init-project` (no second generator CLI)
+- ✅ [AGENT] Expand `AGENTS.md` and sync Cursor / Claude / Copilot adapters
+- ✅ [AGENT] Add `docs/spec.md`, `docs/plan.md`, and test-first guardrail
+- ✅ [AGENT] Add `bootstrap.config.json` + pre/post hooks + `PROJECT_CHECKLIST.md`
+- ✅ [AUTO] `check-bootstrap-engine.sh` + `validate-bootstrap` + init dry-run asserts
+
 ## v0.19.0 portable first-run release (2026-08-16)
 
 - ✅ [AUTO] Merge Release Please PR #67 — [v0.19.0](https://github.com/edwardlthompson/agent-project-bootstrap/releases/tag/v0.19.0) published @ `2bef8ac`

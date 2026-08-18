@@ -2,9 +2,10 @@
 from __future__ import annotations
 
 import json
-import subprocess
 import sys
 from pathlib import Path
+
+from check_cursor_hooks_smoke import smoke
 
 FORBIDDEN_EVENTS = frozenset(
     {
@@ -83,68 +84,6 @@ def validate(root: Path) -> list[str]:
             first_line = script.read_text(encoding="utf-8").splitlines()[0:1]
             if not first_line or not first_line[0].startswith("#!"):
                 errors.append(f"hook script shebang must be line 1: {cmd}")
-
-    return errors
-
-
-def run_guard(root: Path, command: str) -> dict:
-    payload = json.dumps({"command": command})
-    guard = root / ".cursor/hooks/before_shell_guard.py"
-    proc = subprocess.run(
-        ["python3", str(guard)],
-        input=payload,
-        capture_output=True,
-        text=True,
-        cwd=root.as_posix(),
-        check=False,
-    )
-    if proc.returncode != 0 and proc.stdout.strip():
-        pass
-    out = proc.stdout.strip() or proc.stderr.strip()
-    if not out:
-        return {"permission": "allow"}
-    try:
-        return json.loads(out)
-    except json.JSONDecodeError:
-        return {"permission": "allow"}
-
-
-def smoke(root: Path) -> list[str]:
-    errors: list[str] = []
-    if hooks_disabled(root):
-        return errors
-
-    state = root / ".cursor-session-state.json"
-    backup = None
-    if state.is_file():
-        backup = state.read_text(encoding="utf-8")
-    try:
-        state.write_text(
-            json.dumps({"version": 1, "destructive_ops_approved": []}, indent=2) + "\n",
-            encoding="utf-8",
-        )
-
-        allow = run_guard(root, "git status")
-        if allow.get("permission") == "deny":
-            errors.append("smoke: git status should be allowed")
-
-        deny = run_guard(root, "git push origin main")
-        if deny.get("permission") != "deny":
-            errors.append("smoke: git push should be denied without session approval")
-
-        state.write_text(
-            json.dumps({"version": 1, "destructive_ops_approved": ["git push"]}, indent=2) + "\n",
-            encoding="utf-8",
-        )
-        ok = run_guard(root, "git push origin main")
-        if ok.get("permission") != "allow":
-            errors.append("smoke: git push should be allowed with destructive_ops_approved")
-    finally:
-        if backup is None:
-            if state.is_file():
-                state.unlink()
-        else:
-            state.write_text(backup, encoding="utf-8")
 
     return errors
 

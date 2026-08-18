@@ -46,6 +46,8 @@ jobs:
     permissions:
       pages: write
       id-token: write
+    # github-pages is the only allowed Environment. Do not copy this onto CI,
+    # Security Scan, or CodeQL — those required checks must stay unblocked.
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

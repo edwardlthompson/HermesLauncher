@@ -7,6 +7,10 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
+# shellcheck source=lib/resolve-tools.sh
+. "$(cd "$(dirname "$0")" && pwd)/lib/resolve-tools.sh"
+# shellcheck source=lib/resolve-python.sh
+. "$(cd "$(dirname "$0")" && pwd)/lib/resolve-python.sh"
 
 REPO="${1:-${GITHUB_REPO:-}}"
 if [ -z "$REPO" ]; then
@@ -45,6 +49,10 @@ MANUAL SETUP CHECKLIST (GitHub UI - API returned 422 or insufficient permissions
      - Add GitHub Actions app, mode "For pull requests only" — not available on classic personal-repo branch rules
   5. Settings -> General -> Features -> Discussions: ON
      Then add a Q&A category (answers enabled) if GitHub did not create one
+  5b. Settings → Actions → General: do not require approval for same-repo
+     github-actions[bot] / Release Please PRs (required checks stay ACTION_REQUIRED)
+  5c. Do not attach GitHub Environments to CI, Security Scan, or CodeQL
+     (github-pages on Pages deploy is the exception)
   6. Re-run: bash scripts/setup-github-repo.sh
 EOF
 }
@@ -134,7 +142,7 @@ fi
 
 export GITHUB_REQUIRED_CHECKS="$(IFS=,; echo "${REQUIRED_CHECKS[*]}")"
 
-protection_json="$(python3 - <<PY
+protection_json="$("$PY" - <<PY
 import json, os
 checks = os.environ.get("GITHUB_REQUIRED_CHECKS", "CI,Security Scan,CodeQL,Repo Hygiene,Feature Gate,Template Upgrade Simulation (Windows)").split(",")
 checks = [c.strip() for c in checks if c.strip()]
@@ -173,21 +181,22 @@ else
   echo "SKIP Discussions (gh could not enable — [HUMAN] Settings → General → Features → Discussions)"
 fi
 
-ensure_discussions_qa() {
+warn_required_check_environments() {
+  echo "NOTE: Do not attach GitHub Environments to CI, Security Scan, or CodeQL."
   local names
-  names="$(gh api "repos/${REPO}/discussions/categories" --jq '.[].name' 2>/dev/null || true)"
-  if printf '%s\n' "$names" | grep -qiE '^Q&A$|^qa$'; then
-    echo "OK   Discussions Q&A category present"
-    return 0
+  names="$(gh api "repos/${REPO}/environments" --jq '.environments[].name' 2>/dev/null || true)"
+  if [ -n "$names" ]; then
+    echo "NOTE: Environments present: $(printf '%s' "$names" | tr '\n' ' ')"
+    echo "[HUMAN] Settings → Environments: reviewers on github-pages are OK; do not gate CI / Security Scan / CodeQL"
   fi
-  if gh api --method POST "repos/${REPO}/discussions/categories" \
-    -f name='Q&A' -f emoji=':question:' -F is_answerable=true >/dev/null 2>&1; then
-    echo "OK   Discussions Q&A category created"
-    return 0
-  fi
-  echo "SKIP Q&A category ([HUMAN] Discussions → New category → Q&A, answers enabled)"
+  echo "[HUMAN] Settings → Actions → General: do not require approval for same-repo github-actions[bot] / Release Please PRs"
 }
 
+ensure_discussions_qa() {
+  "$PY" "$ROOT/scripts/lib/discussions_qa.py" "$REPO"
+}
+
+warn_required_check_environments
 ensure_discussions_qa
 
 if [ "$TRANSIENT" -gt 0 ]; then

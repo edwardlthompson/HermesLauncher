@@ -42,14 +42,8 @@ check_static_data_paths "static-data" < <(find "$ROOT" -type f \( \
   ! -name "tsconfig.json" ! -name ".lighthouserc.json" \
   -print0 2>/dev/null)
 
-# Pre-existing lib modules over budget; new scripts/lib/*.py must stay <= 150.
-LIB_ALLOWLIST=(
-  "scripts/lib/human_task_automation.py"
-  "scripts/lib/parallel_scope.py"
-  "scripts/lib/cursor_feature_radar.py"
-  "scripts/lib/check_cursor_hooks.py"
-  "scripts/lib/check_cursor_integrations.py"
-)
+# New scripts/lib/*.py must stay <= 150. Keep this empty unless a split is in flight.
+LIB_ALLOWLIST=()
 
 echo "Checking scripts/lib logic file limits (max $LOGIC_LIMIT lines)..."
 while IFS= read -r -d '' file; do

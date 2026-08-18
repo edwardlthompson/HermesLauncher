@@ -11,6 +11,10 @@ trap 'rm -rf "$WORKDIR"' EXIT
 export PYTHON_BASIC_REPL="${PYTHON_BASIC_REPL:-1}"
 export PYTHONUNBUFFERED="${PYTHONUNBUFFERED:-1}"
 export PYTHONIOENCODING="${PYTHONIOENCODING:-utf-8}"
+# Child init validates workflow refs; CI must pass github.token as GH_TOKEN.
+if [ -n "${GITHUB_TOKEN:-}" ] && [ -z "${GH_TOKEN:-}" ]; then
+  export GH_TOKEN="$GITHUB_TOKEN"
+fi
 
 echo "==> Simulating template upgrade in $WORKDIR"
 

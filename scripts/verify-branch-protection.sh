@@ -7,6 +7,8 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
+# shellcheck source=lib/resolve-tools.sh
+. "$(cd "$(dirname "$0")" && pwd)/lib/resolve-tools.sh"
 
 REPO="${GITHUB_REPO:-}"
 BRANCH="${GITHUB_DEFAULT_BRANCH:-main}"
