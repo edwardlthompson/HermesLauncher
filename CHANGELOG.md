@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.21.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.20.0...v0.21.0) (2026-08-18)
+
+
+### Added
+
+* harden Windows PATH, Unreleased fold, and ship gates ([8eab392](https://github.com/edwardlthompson/agent-project-bootstrap/commit/8eab392edff967bbc0cfabb89aff0902a6b8ac0e))
+
+
+### Fixed
+
+* import rp_merge_status from cwd-relative scripts/lib ([df322af](https://github.com/edwardlthompson/agent-project-bootstrap/commit/df322af79d3302457f6dad26fac0d2e424544a15))
+
+
+### Documentation
+
+* **release:** archive v0.20.0 ship memory and decisions ([f54927e](https://github.com/edwardlthompson/agent-project-bootstrap/commit/f54927eb378a5e413f6b8346f2699ba0ef19ea58))
+
 ## [Unreleased]
 
 ### Added
