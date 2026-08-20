@@ -18,7 +18,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        WindowRefresh.applyFastestSameResolution(window, window.decorView.display)
         val themePreferences = ThemePreferences(applicationContext)
         val appUpdatePreferences = AppUpdatePreferences(applicationContext)
         networkStatusMonitor = NetworkStatusMonitor(applicationContext).also { it.start() }
@@ -37,6 +36,11 @@ class MainActivity : ComponentActivity() {
                 networkStatusMonitor = networkStatusMonitor!!,
             )
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        WindowRefresh.applyTo(this)
     }
 
     override fun onDestroy() {
