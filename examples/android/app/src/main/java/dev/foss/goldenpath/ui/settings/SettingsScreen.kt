@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import dev.foss.goldenpath.R
+import dev.foss.goldenpath.display.highRefreshScroll
 import dev.foss.goldenpath.ui.insets.bottomInsetPadding
 import dev.foss.goldenpath.ui.theme.SpacingMd
 import dev.foss.goldenpath.ui.theme.ThemeMode
@@ -33,6 +34,7 @@ fun SettingsScreen(
 ) {
     Column(
         modifier = modifier
+            .highRefreshScroll()
             .verticalScroll(rememberScrollState())
             .padding(SpacingMd),
         verticalArrangement = Arrangement.spacedBy(SpacingMd),

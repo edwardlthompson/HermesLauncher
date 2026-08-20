@@ -15,6 +15,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import dev.foss.goldenpath.R
 import dev.foss.goldenpath.about.DonationsConfig
+import dev.foss.goldenpath.display.highRefreshScroll
 import dev.foss.goldenpath.ui.insets.LocalNavigationMode
 import dev.foss.goldenpath.ui.insets.bottomInsetPadding
 import dev.foss.goldenpath.ui.insets.navigationBarInsetBottomDp
@@ -37,6 +38,7 @@ fun AboutScreen(
     val insetDp = navigationBarInsetBottomDp()
     Column(
         modifier = modifier
+            .highRefreshScroll()
             .verticalScroll(rememberScrollState())
             .padding(SpacingMd),
         verticalArrangement = Arrangement.spacedBy(SpacingMd),
