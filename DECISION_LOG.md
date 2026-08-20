@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-20 — Ship v0.22.0 (/ship)
+- **Status:** Accepted
+- **Context:** `/ship` after Android same-resolution high-refresh. First CI failed instrumented smoke: `preferredDisplayModeId` stayed 0 because `decorView.display` is null in `onCreate`.
+- **Decision:** Apply the mode in `onStart` via `Activity.display` / `windowManager.defaultDisplay`. Empty Unreleased before push. Admin-merge Release Please #70 to **v0.22.0**. Codex skipped (no key/CLI).
+- **Alternatives considered:** Keep the instrumented assertion optional (rejected: it caught a real no-op). Set the mode only in `onCreate` with `windowManager.defaultDisplay` (weaker on multi-display).
+- **Consequences:** Template at 0.22.0. Child Android apps should vote display mode after the window attaches.
+
 ### 2026-08-18 — Ship v0.21.0 (/ship)
 - **Status:** Accepted
 - **Context:** `/ship` after M38+M39. Pre-release green on `f54927e`; feat `8eab392` then `df322af` after `rp_merge_status` import failed once `PYTHONPATH` was stripped.

@@ -139,6 +139,14 @@
 | **Cause** | `changelog_unreleased.py --fold` writes the working tree and comments the PR; it does not commit. Release Please copies Unreleased from the last pushed commit |
 | **Fix** | Empty `[Unreleased]` (and keep it first) in a `docs(release)` archive commit after merge, or empty it in the prepare commit before push |
 | **Prevention** | Do not mark `/ship` done until Unreleased is first and empty on `origin/main` |
+### KB-018 — `decorView.display` is null in Activity.onCreate
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | Instrumented smoke expects `preferredDisplayModeId` to match the fastest same-size mode; CI emulator reports expected `1` but actual `0` |
+| **Cause** | `window.decorView.display` is often null before the window is attached |
+| **Fix** | Apply `WindowRefresh.applyTo(activity)` from `onStart()` using `Activity.display` (API 30+) or `windowManager.defaultDisplay` |
+| **Prevention** | Do not read `decorView.display` in `onCreate` for display-mode votes |
 ### KB-011 — Vitest jsdom `localStorage` broken on Node 25+
 
 | Field | Detail |

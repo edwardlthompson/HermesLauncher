@@ -2,6 +2,11 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## v0.22.0 Android same-resolution high-refresh (2026-08-20)
+
+- ✅ [AUTO] Merge Release Please PR #70 — [v0.22.0](https://github.com/edwardlthompson/agent-project-bootstrap/releases/tag/v0.22.0) published @ `9a18276`
+- ✅ [AGENT] `/ship`: display-refresh + onStart attach fix; Codex skipped (no key/CLI)
+
 ## Sprint M39 — /ideas Windows PATH + ship hygiene (2026-08-18)
 
 - ✅ [AGENT] Shared resolver prepends `gh` / Git to Git Bash PATH
