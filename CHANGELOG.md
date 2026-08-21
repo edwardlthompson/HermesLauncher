@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.23.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.22.0...v0.23.0) (2026-08-21)
+
+
+### Added
+
+* add Continuum-method donations and updates ([53d14bd](https://github.com/edwardlthompson/agent-project-bootstrap/commit/53d14bdc824e0330f61473c150cd93cb680930bc))
+
+
+### Fixed
+
+* **web:** do not re-seed donate nudge prefs on reload ([6ab382c](https://github.com/edwardlthompson/agent-project-bootstrap/commit/6ab382c288dbec31a0eef5fcd43d93f49d511719))
+
+
+### Documentation
+
+* **release:** archive v0.22.0 ship memory and decisions ([4dcaf67](https://github.com/edwardlthompson/agent-project-bootstrap/commit/4dcaf67bc4d9f87f0ea17962e7a13d8ffde7acde))
+
 ## [Unreleased]
 
 ## [0.22.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.21.0...v0.22.0) (2026-08-20)
