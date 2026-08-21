@@ -147,6 +147,14 @@
 | **Cause** | `window.decorView.display` is often null before the window is attached |
 | **Fix** | Apply `WindowRefresh.applyTo(activity)` from `onStart()` using `Activity.display` (API 30+) or `windowManager.defaultDisplay` |
 | **Prevention** | Do not read `decorView.display` in `onCreate` for display-mode votes |
+### KB-019 — Playwright `addInitScript` re-seeds on reload
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | e2e donate-nudge: after Not now, reload still shows `donate-nudge` |
+| **Cause** | `page.addInitScript` runs on every navigation and overwrote `gp.update.lastSeenVersion` with `0.0.1` |
+| **Fix** | Seed lastSeen only when the key is unset so `markVersionSeen` survives reload |
+| **Prevention** | Do not unconditionally `localStorage.setItem` in Playwright init scripts that must persist across `reload()` |
 ### KB-011 — Vitest jsdom `localStorage` broken on Node 25+
 
 | Field | Detail |
