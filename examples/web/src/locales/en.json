@@ -17,6 +17,13 @@
   "about.update.no_compatible": "No compatible update for your install format.",
   "about.update.restarting": "Restarting to apply update\u2026",
   "about.update.apply": "Apply update",
+  "about.update.install": "Install",
+  "about.update.later": "Later",
+  "about.update.message": "A newer installer ({version}) is available.",
+  "about.donate": "Donate via Venmo",
+  "about.donate.nudge.title": "Development is still going",
+  "about.donate.nudge.body": "You just got a new build. If this app helps you, you can support ongoing work on Venmo. This is optional and will not appear again until the next update.",
+  "about.not_now": "Not now",
   "about.donations.heading": "Support development",
   "settings.title": "Settings",
   "settings.open": "Settings",
@@ -24,6 +31,5 @@
   "settings.theme.label": "Theme",
   "settings.theme.mode.system": "System theme",
   "settings.theme.mode.light": "Light theme",
-  "settings.theme.mode.dark": "Dark theme",
-  "settings.update_check.label": "Check for updates"
+  "settings.theme.mode.dark": "Dark theme"
 }

@@ -27,6 +27,16 @@ object ReleaseTagFetcher {
         }
     }
 
+    fun loadProductAssetPrefix(context: Context): String {
+        return try {
+            val json = context.assets.open("app-update.json").bufferedReader().use { it.readText() }
+            JSONObject(json).optString("product_asset_prefix", ProductUpdate.DEFAULT_ASSET_PREFIX)
+                .ifBlank { ProductUpdate.DEFAULT_ASSET_PREFIX }
+        } catch (_: Exception) {
+            ProductUpdate.DEFAULT_ASSET_PREFIX
+        }
+    }
+
     suspend fun fetchLatestRelease(releaseRepo: String): LatestRelease? = withContext(Dispatchers.IO) {
         try {
             val url = URL("https://api.github.com/repos/$releaseRepo/releases/latest")

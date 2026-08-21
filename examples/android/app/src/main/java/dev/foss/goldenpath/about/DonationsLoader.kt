@@ -12,6 +12,11 @@ data class DonationsConfig(
 )
 
 object DonationsLoader {
+    const val DEFAULT_VENMO_URL = "https://venmo.com/code?user_id=1857304970395648420"
+
+    fun primaryUrl(config: DonationsConfig): String =
+        config.links.firstOrNull()?.url?.ifBlank { null } ?: DEFAULT_VENMO_URL
+
     fun load(context: Context): DonationsConfig {
         return try {
             val json = context.assets.open("donations.json").bufferedReader().use { it.readText() }
@@ -26,7 +31,7 @@ object DonationsLoader {
                     links.add(DonationLink(item.optString("label"), item.optString("url")))
                 }
             }
-            DonationsConfig(enabled, message, links)
+            DonationsConfig(enabled && links.isNotEmpty(), message, links)
         } catch (_: Exception) {
             DonationsConfig(enabled = false, message = "", links = emptyList())
         }

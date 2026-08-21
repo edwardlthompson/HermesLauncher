@@ -6,7 +6,7 @@
 
 - ✅ User can open a Settings panel/screen from the main navigation
 - ✅ Theme preference (light/dark/system) persists across restarts
-- ✅ Update-check toggle respects opt-in telemetry policy (`docs/PRIVACY.md`)
+- ✅ Daily GitHub installer checks are not gated here (see `docs/features/donations-updates.md`); this screen is theme only
 - ✅ Offline: settings load last persisted values; no network required for display
 - ✅ i18n: all user-visible strings under `settings.*` keys
 
@@ -24,7 +24,6 @@
 | View | `examples/web/src/components/SettingsPanel.ts` | `examples/android/.../ui/settings/` |
 | Tests | `settings/*.test.ts` | `src/test/.../settings/` |
 | Wiring | `appBootstrap.ts` + `AppShell.ts` | `GoldenPathApp.kt` (composition root) |
-
 ## Out of scope (Sprint 2)
 
 - Account sync, cloud backup, analytics

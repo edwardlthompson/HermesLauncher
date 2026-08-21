@@ -4,6 +4,7 @@
   "check_interval": "weekly",
   "last_checked": null,
   "installed_artifact_format": null,
+  "product_asset_prefix": "Golden-Path",
   "notify_method": "about_screen",
   "restart_guard_key": "gp-update-restart-pending"
 }

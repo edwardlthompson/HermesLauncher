@@ -53,103 +53,39 @@ test("persists dark theme after reload", async ({ page }) => {
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
 });
 
-test("toggles update check in settings", async ({ page }) => {
-  await page.goto("/");
-  await page.getByRole("button", { name: "Settings" }).click();
-  const toggle = page.locator("[data-settings-update]");
-  await expect(toggle).not.toBeChecked();
-  await toggle.check();
-  await expect(toggle).toBeChecked();
-});
-
-test("opens about panel with version", async ({ page }) => {
+test("opens about panel with donate link", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("button", { name: "About" }).click();
   await expect(page.getByRole("heading", { name: "About" })).toBeVisible();
   await expect(page.getByTestId("about-status")).toBeVisible();
+  await expect(page.getByRole("link", { name: "Donate via Venmo" })).toHaveAttribute(
+    "href",
+    "https://venmo.com/code?user_id=1857304970395648420",
+  );
 });
 
-test.describe("update status", () => {
-  test.use({ serviceWorkers: "block" });
+test("shows quiet donate action in the header", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.getByRole("button", { name: "Donate via Venmo" })).toBeVisible();
+});
 
-  test("shows update status in about after enabling update check", async ({ page }) => {
-    await page.route("**/*", async (route) => {
-      const url = route.request().url();
-      if (url.includes("/app-update.json")) {
-        await route.fulfill({
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify({
-            release_repo: "test-owner/test-repo",
-            installed_artifact_format: "pwa",
-          }),
-        });
-        return;
-      }
-      if (url.includes("api.github.com/repos/test-owner/test-repo/releases/latest")) {
-        await route.fulfill({
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify({ tag_name: "v99.0.0" }),
-        });
-        return;
-      }
-      await route.continue();
+test.describe("donate nudge", () => {
+  test("shows once after a version change", async ({ page }) => {
+    await page.addInitScript(() => {
+      localStorage.setItem("gp.update.lastSeenVersion", "0.0.1");
     });
-
     await page.goto("/");
-    await page.locator("[data-about-open]").click();
-    await expect(page.getByTestId("about-status")).toContainText("latest version");
-
-    await page.getByRole("button", { name: "Close about" }).click();
-    await page.getByRole("button", { name: "Settings" }).click();
-    await page.locator("[data-settings-update]").check();
-    await page.waitForResponse(/releases\/latest/);
-    await page.locator("[data-about-open]").click();
-    const status = page.getByTestId("about-status");
-    await expect(status).toBeVisible();
-    await expect(status).toContainText("Update available");
-    await expect(status).toContainText("99.0.0");
-    await expect(status).not.toContainText("latest version");
+    await expect(page.getByTestId("donate-nudge")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Development is still going" })).toBeVisible();
+    await page.getByTestId("launch-decline").click();
+    await expect(page.getByTestId("donate-nudge")).toHaveCount(0);
+    await page.reload();
+    await expect(page.getByTestId("donate-nudge")).toHaveCount(0);
   });
 });
 
 test.describe("PWA apply update", () => {
   test.use({ serviceWorkers: "block" });
-
-  test("shows apply button when update is available", async ({ page }) => {
-    await page.route("**/*", async (route) => {
-      const url = route.request().url();
-      if (url.includes("/app-update.json")) {
-        await route.fulfill({
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify({
-            release_repo: "test-owner/test-repo",
-            installed_artifact_format: "pwa",
-          }),
-        });
-        return;
-      }
-      if (url.includes("api.github.com/repos/test-owner/test-repo/releases/latest")) {
-        await route.fulfill({
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify({ tag_name: "v99.0.0" }),
-        });
-        return;
-      }
-      await route.continue();
-    });
-
-    await page.goto("/");
-    await page.getByRole("button", { name: "Settings" }).click();
-    await page.locator("[data-settings-update]").check();
-    await page.waitForResponse(/releases\/latest/);
-    await page.getByRole("button", { name: "About" }).click();
-    await expect(page.getByTestId("about-apply")).toBeVisible();
-    await expect(page.getByTestId("about-apply")).toBeEnabled();
-  });
 
   test("clears restart guard on load", async ({ page }) => {
     await page.addInitScript(() => {
@@ -158,43 +94,6 @@ test.describe("PWA apply update", () => {
     await page.goto("/");
     const pending = await page.evaluate(() => localStorage.getItem("gp-update-restart-pending"));
     expect(pending).toBeNull();
-  });
-});
-
-test.describe("home update banner", () => {
-  test.use({ serviceWorkers: "block" });
-
-  test("shows update status on home when check finds newer version", async ({ page }) => {
-    await page.route("**/*", async (route) => {
-      const url = route.request().url();
-      if (url.includes("/app-update.json")) {
-        await route.fulfill({
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify({
-            release_repo: "test-owner/test-repo",
-            installed_artifact_format: "pwa",
-          }),
-        });
-        return;
-      }
-      if (url.includes("api.github.com/repos/test-owner/test-repo/releases/latest")) {
-        await route.fulfill({
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify({ tag_name: "v99.0.0" }),
-        });
-        return;
-      }
-      await route.continue();
-    });
-
-    await page.goto("/");
-    await page.getByRole("button", { name: "Settings" }).click();
-    await page.locator("[data-settings-update]").check();
-    await page.waitForResponse(/releases\/latest/);
-    await expect(page.getByTestId("home-update-status")).toContainText("Update available");
-    await expect(page.getByTestId("home-update-status")).toContainText("99.0.0");
   });
 });
 

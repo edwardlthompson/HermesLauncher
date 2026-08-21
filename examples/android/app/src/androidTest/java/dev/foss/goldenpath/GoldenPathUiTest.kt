@@ -17,7 +17,6 @@ class GoldenPathUiTest {
         composeTestRule.onNodeWithContentDescription("Settings").performClick()
         composeTestRule.onNodeWithText("Settings").assertIsDisplayed()
         composeTestRule.onNodeWithText("Theme").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Check for updates").assertIsDisplayed()
         composeTestRule.onNodeWithText("Dark theme").performClick()
         composeTestRule.onNodeWithText("Close settings").performClick()
     }

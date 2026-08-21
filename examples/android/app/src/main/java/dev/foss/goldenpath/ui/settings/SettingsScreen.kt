@@ -10,10 +10,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import dev.foss.goldenpath.R
@@ -26,9 +24,7 @@ import dev.foss.goldenpath.ui.theme.ThemeMode
 @Composable
 fun SettingsScreen(
     themeMode: ThemeMode,
-    updateCheckEnabled: Boolean,
     onThemeModeSelect: (ThemeMode) -> Unit,
-    onUpdateCheckChange: (Boolean) -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -60,16 +56,6 @@ fun SettingsScreen(
                     },
                 )
             }
-        }
-        androidx.compose.foundation.layout.Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(SpacingMd),
-        ) {
-            Text(
-                text = stringResource(R.string.settings_update_check_label),
-                modifier = Modifier.weight(1f),
-            )
-            Switch(checked = updateCheckEnabled, onCheckedChange = onUpdateCheckChange)
         }
         Button(
             onClick = onBack,

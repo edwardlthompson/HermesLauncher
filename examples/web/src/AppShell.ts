@@ -1,4 +1,6 @@
 import { APP_VERSION } from "./about/aboutSession";
+import { createLaunchPromptDialog } from "./about/launchPrompt";
+import type { LaunchPrompt } from "./about/runAppUpdates";
 import type { DonationConfig } from "./about/types";
 import { createAboutPanel } from "./components/AboutPanel";
 import { createSettingsPanel } from "./components/SettingsPanel";
@@ -14,12 +16,14 @@ export type AppShellState = {
   showSettings: boolean;
   updateStatus: string;
   donations: DonationConfig;
+  launchPrompt: LaunchPrompt | null;
 };
 
 export type AppShellCallbacks = {
   onState: (next: Partial<AppShellState>) => void;
-  onUpdateCheckChange?: (enabled: boolean) => void;
   onApplyUpdate?: () => void;
+  onDonate?: () => void;
+  onLaunchPrompt?: (accepted: boolean) => void;
   canApplyUpdate?: boolean;
 };
 
@@ -30,25 +34,24 @@ export function createAppShell(
 ): void {
   const online = isOnline();
   const statusKey = online ? "app.status.online" : "app.status.offline";
-  const currentUpdateLabel = t("about.update.current");
-  const showHomeUpdate = state.updateStatus !== currentUpdateLabel;
+  const donateEnabled = state.donations.enabled && state.donations.links.length > 0;
 
   root.innerHTML = `
     <main>
       <div class="gp-header">
         <h1 class="gp-title">${t("app.title")}</h1>
         <div class="gp-header-actions">
+          ${
+            donateEnabled
+              ? `<button type="button" class="gp-donate-btn" data-donate-open>${t("about.donate")}</button>`
+              : ""
+          }
           <button type="button" class="gp-settings-btn" data-settings-open aria-label="${t("settings.open")}">⚙</button>
           <button type="button" class="gp-about-btn" data-about-open aria-label="${t("about.open")}">i</button>
         </div>
       </div>
       <p class="gp-headline">${t("app.greeting")}</p>
       <p class="gp-body" data-testid="status">${t(statusKey)}</p>
-      ${
-        showHomeUpdate
-          ? `<p class="gp-update-banner" data-testid="home-update-status" aria-live="polite">${state.updateStatus}</p>`
-          : ""
-      }
       <div data-panel-mount></div>
     </main>
   `;
@@ -57,6 +60,10 @@ export function createAppShell(
   if (actions) {
     actions.insertBefore(createThemeToggle(), actions.firstChild);
   }
+
+  root.querySelector("[data-donate-open]")?.addEventListener("click", () => {
+    callbacks.onDonate?.();
+  });
 
   root.querySelector("[data-about-open]")?.addEventListener("click", () => {
     callbacks.onState({ showAbout: !state.showAbout, showSettings: false });
@@ -73,10 +80,17 @@ export function createAppShell(
   dialogCleanup = undefined;
   mount.innerHTML = "";
 
+  if (state.launchPrompt) {
+    const promptDialog = createLaunchPromptDialog(state.launchPrompt, (accepted) => {
+      callbacks.onLaunchPrompt?.(accepted);
+    });
+    mount.appendChild(promptDialog);
+    return;
+  }
+
   if (state.showSettings) {
     const panel = createSettingsPanel({
       onClose: () => callbacks.onState({ showSettings: false }),
-      onUpdateCheckChange: callbacks.onUpdateCheckChange,
     });
     mount.appendChild(panel);
     dialogCleanup = bindPanelDialog(panel, () => callbacks.onState({ showSettings: false }));

@@ -20,6 +20,8 @@ class DonationsLoaderTest {
         assertTrue(cfg.enabled)
         assertEquals("If this project helps you, consider supporting development.", cfg.message)
         assertEquals(1, cfg.links.size)
-        assertEquals("[INSERT METHOD]", cfg.links[0].label)
+        assertEquals("Donate via Venmo", cfg.links[0].label)
+        assertEquals(DonationsLoader.DEFAULT_VENMO_URL, cfg.links[0].url)
+        assertEquals(DonationsLoader.DEFAULT_VENMO_URL, DonationsLoader.primaryUrl(cfg))
     }
 }

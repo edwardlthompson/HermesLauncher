@@ -20,6 +20,13 @@
     <string name="about_update_no_compatible">No compatible update for your install format.</string>
     <string name="about_update_restarting">Restarting to apply update…</string>
     <string name="about_update_apply">Apply update</string>
+    <string name="about_donate">Donate via Venmo</string>
+    <string name="about_not_now">Not now</string>
+    <string name="about_install">Install</string>
+    <string name="about_later">Later</string>
+    <string name="about_donate_nudge_title">Development is still going</string>
+    <string name="about_donate_nudge_body">You just got a new build. If this app helps you, you can support ongoing work on Venmo. This is optional and will not appear again until the next update.</string>
+    <string name="about_update_prompt_body">Version %1$s is on GitHub. Install it when you are ready.</string>
     <string name="settings_title">Settings</string>
     <string name="settings_open">Settings</string>
     <string name="settings_close">Close settings</string>
@@ -27,11 +34,9 @@
     <string name="settings_theme_mode_system">System theme</string>
     <string name="settings_theme_mode_light">Light theme</string>
     <string name="settings_theme_mode_dark">Dark theme</string>
-    <string name="settings_update_check_label">Check for updates</string>
     <string name="about_debug_navigation_mode">Navigation: %1$s (inset %2$ddp)</string>
     <string name="nav_mode_three_button">3-button</string>
     <string name="nav_mode_two_button">2-button</string>
     <string name="nav_mode_gesture">Gesture</string>
     <string name="nav_mode_unknown">Unknown</string>
-    <string name="snackbar_update_available">Update available — open About to apply</string>
 </resources>

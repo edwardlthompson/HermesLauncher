@@ -3,6 +3,7 @@ package dev.foss.goldenpath.about
 import android.content.Context
 import android.content.pm.PackageManager
 import androidx.test.core.app.ApplicationProvider
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -18,6 +19,11 @@ class ReleaseTagFetcherTest {
     @Test
     fun loadReleaseRepoReturnsNullWhenEmpty() {
         assertNull(ReleaseTagFetcher.loadReleaseRepo(context))
+    }
+
+    @Test
+    fun loadProductAssetPrefixDefaultsToGoldenPath() {
+        assertEquals(ProductUpdate.DEFAULT_ASSET_PREFIX, ReleaseTagFetcher.loadProductAssetPrefix(context))
     }
 
     @Test

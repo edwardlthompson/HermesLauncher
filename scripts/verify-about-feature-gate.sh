@@ -22,6 +22,7 @@ ABOUT_TRACKED=(
   examples/web/src/components/AboutPanel.ts
   examples/web/src/settings/preferences.ts
   examples/web/e2e/app.spec.ts
+  examples/web/vitest.config.ts
 )
 
 restore() {
@@ -41,6 +42,9 @@ restore() {
     fi
     if [ -f "$BACKUP/app.spec.ts" ]; then
       cp -a "$BACKUP/app.spec.ts" "$WEB_E2E/app.spec.ts"
+    fi
+    if [ -f "$BACKUP/vitest.config.ts" ]; then
+      cp -a "$BACKUP/vitest.config.ts" "$ROOT/examples/web/vitest.config.ts"
     fi
   else
     echo "WARN: About backup missing; restoring tracked slice from HEAD"
@@ -68,17 +72,33 @@ cp -a "$WEB_SRC/AppShell.ts" "$BACKUP/AppShell.ts"
 cp -a "$WEB_SRC/components/AboutPanel.ts" "$BACKUP/components/AboutPanel.ts"
 cp -a "$WEB_SRC/settings/preferences.ts" "$BACKUP/settings/preferences.ts"
 cp -a "$WEB_E2E/app.spec.ts" "$BACKUP/app.spec.ts"
+cp -a "$ROOT/examples/web/vitest.config.ts" "$BACKUP/vitest.config.ts"
 
 $PY << 'PY'
 from pathlib import Path
+import os
+import re
 import shutil
+import time
 
 web = Path("examples/web/src")
 e2e = Path("examples/web/e2e")
 
 def write_lf(path: Path, text: str) -> None:
     # Biome format:check fails on CRLF stubs on Windows — always write LF.
-    path.write_text(text, encoding="utf-8", newline="\n")
+    # Write via sibling tmp + replace; retry if the target is briefly locked.
+    data = text.replace("\r\n", "\n").encode("utf-8")
+    tmp = path.with_name(path.name + ".about-stub.tmp")
+    last: OSError | None = None
+    for attempt in range(8):
+        try:
+            tmp.write_bytes(data)
+            os.replace(tmp, path)
+            return
+        except OSError as exc:
+            last = exc
+            time.sleep(0.25 * (attempt + 1))
+    raise last if last else OSError("write_lf failed")
 
 
 write_lf(
@@ -117,29 +137,7 @@ window.addEventListener("offline", render);
 """,
 )
 
-write_lf(
-    web.joinpath("settings/preferences.ts"),
-    """import { getThemeMode, setThemeMode, type ThemeMode } from "../theme";
-
-const INTERVAL_KEY = "gp-app-update-interval";
-
-export function isUpdateCheckEnabled(): boolean {
-  return localStorage.getItem(INTERVAL_KEY) !== "off";
-}
-
-export function setUpdateCheckEnabled(enabled: boolean): void {
-  localStorage.setItem(INTERVAL_KEY, enabled ? "weekly" : "off");
-}
-
-export function getSettingsThemeMode(): ThemeMode {
-  return getThemeMode();
-}
-
-export function applySettingsThemeMode(mode: ThemeMode): void {
-  setThemeMode(mode);
-}
-""",
-)
+# Settings is theme-only and does not import About — leave preferences.ts in place.
 
 for path in (
     web / "about",
@@ -152,6 +150,20 @@ for path in (
         shutil.rmtree(path, ignore_errors=True)
     elif path.exists():
         path.unlink()
+
+vitest = Path("examples/web/vitest.config.ts")
+if vitest.is_file():
+    text = vitest.read_text(encoding="utf-8").replace("\r\n", "\n")
+    patched, n = re.subn(
+        r"include:\s*\[.*?\]",
+        'include: [\n        "src/settings/preferences.ts",\n        "src/greet.ts",\n      ]',
+        text,
+        count=1,
+        flags=re.S,
+    )
+    if n != 1:
+        raise SystemExit("could not rewrite vitest coverage include for about-without")
+    write_lf(vitest, patched)
 
 write_lf(
     e2e.joinpath("app.spec.ts"),
@@ -173,7 +185,7 @@ fi
 
 echo "2/2 Gate after About removal (in-place, restored on exit)..."
 set +e
-ABOUT_WITHOUT_JSON="$(bash scripts/feature-gate.sh --stack web --step about-without --json 2>/dev/null)"
+ABOUT_WITHOUT_JSON="$(bash scripts/feature-gate.sh --stack web --step about-without --json)"
 ABOUT_WITHOUT_EXIT=$?
 set -e
 if [ "$ABOUT_WITHOUT_EXIT" -ne 0 ]; then

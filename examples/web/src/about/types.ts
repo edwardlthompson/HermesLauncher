@@ -14,6 +14,7 @@ export interface AppUpdateConfig {
   check_interval: CheckInterval;
   last_checked?: number | null;
   installed_artifact_format?: InstalledFormat | null;
+  product_asset_prefix?: string;
   restart_guard_key?: string;
 }
 

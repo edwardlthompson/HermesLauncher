@@ -1,5 +1,12 @@
 import { assetUrl } from "../assetUrl";
+import { withQuietDonate } from "./donate";
 import type { DonationConfig, DonationLink } from "./types";
+
+export const DEFAULT_VENMO_URL = "https://venmo.com/code?user_id=1857304970395648420";
+
+export function primaryDonateUrl(config: DonationConfig): string {
+  return config.links[0]?.url || DEFAULT_VENMO_URL;
+}
 
 function isLink(value: unknown): value is DonationLink {
   if (!value || typeof value !== "object") return false;
@@ -23,9 +30,9 @@ export function normalizeDonations(raw: unknown): DonationConfig {
 export async function loadDonations(url = assetUrl("donations.json")): Promise<DonationConfig> {
   try {
     const res = await fetch(url);
-    if (!res.ok) return { enabled: false, message: "", links: [] };
-    return normalizeDonations(await res.json());
+    if (!res.ok) return withQuietDonate({ enabled: false, message: "", links: [] });
+    return withQuietDonate(normalizeDonations(await res.json()));
   } catch {
-    return { enabled: false, message: "", links: [] };
+    return withQuietDonate({ enabled: false, message: "", links: [] });
   }
 }

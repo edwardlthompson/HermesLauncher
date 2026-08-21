@@ -1,159 +1,46 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { checkForUpdates, getInterval, handleRestartGuard, setIntervalPref } from "./aboutSession";
+import { assetPrefixOf, handleRestartGuard, loadAppUpdateConfig } from "./aboutSession";
 
-describe("aboutSession interval prefs", () => {
-  beforeEach(() => {
-    localStorage.clear();
-  });
-
-  it("defaults to off (opt-in update checks)", () => {
-    expect(getInterval()).toBe("off");
-  });
-
-  it("persists interval preference", () => {
-    setIntervalPref("daily");
-    expect(getInterval()).toBe("daily");
+describe("assetPrefixOf", () => {
+  it("defaults to Golden-Path", () => {
+    expect(assetPrefixOf(null)).toBe("Golden-Path");
+    expect(assetPrefixOf({ release_repo: "a/b", check_interval: "daily" })).toBe("Golden-Path");
+    expect(
+      assetPrefixOf({
+        release_repo: "a/b",
+        check_interval: "daily",
+        product_asset_prefix: "App-Name",
+      }),
+    ).toBe("App-Name");
   });
 });
 
-describe("checkForUpdates", () => {
-  beforeEach(() => {
-    localStorage.clear();
-    vi.restoreAllMocks();
-  });
-
+describe("loadAppUpdateConfig", () => {
   afterEach(() => {
     vi.unstubAllGlobals();
   });
 
-  it("does not persist lastChecked when GitHub fetch fails", async () => {
-    setIntervalPref("daily");
+  it("parses a successful response", async () => {
     vi.stubGlobal(
       "fetch",
-      vi.fn(async (url: string) => {
-        if (url.endsWith("/app-update.json")) {
-          return new Response(
-            JSON.stringify({
-              release_repo: "test-owner/test-repo",
-              installed_artifact_format: "pwa",
-            }),
-            { status: 200 },
-          );
-        }
-        return new Response("error", { status: 500 });
+      vi.fn().mockResolvedValue({
+        ok: true,
+        json: async () => ({ release_repo: "acme/app", product_asset_prefix: "App-Name" }),
       }),
     );
-
-    await checkForUpdates();
-
-    expect(localStorage.getItem("gp-app-update-last-checked")).toBeNull();
+    const config = await loadAppUpdateConfig();
+    expect(config?.release_repo).toBe("acme/app");
+    expect(assetPrefixOf(config)).toBe("App-Name");
   });
 
-  it("persists lastChecked after successful GitHub fetch", async () => {
-    setIntervalPref("daily");
-    vi.stubGlobal(
-      "fetch",
-      vi.fn(async (url: string) => {
-        if (url.endsWith("/app-update.json")) {
-          return new Response(
-            JSON.stringify({
-              release_repo: "test-owner/test-repo",
-              installed_artifact_format: "pwa",
-            }),
-            { status: 200 },
-          );
-        }
-        return new Response(JSON.stringify({ tag_name: "v0.1.0" }), {
-          status: 200,
-        });
-      }),
-    );
-
-    await checkForUpdates();
-
-    expect(localStorage.getItem("gp-app-update-last-checked")).not.toBeNull();
+  it("returns null when the response is not ok", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: false }));
+    await expect(loadAppUpdateConfig()).resolves.toBeNull();
   });
 
-  it("reports newer version when GitHub tag is ahead", async () => {
-    setIntervalPref("daily");
-    vi.stubGlobal(
-      "fetch",
-      vi.fn(async (url: string) => {
-        if (url.endsWith("/app-update.json")) {
-          return new Response(
-            JSON.stringify({
-              release_repo: "test-owner/test-repo",
-              installed_artifact_format: "pwa",
-            }),
-            { status: 200 },
-          );
-        }
-        return new Response(JSON.stringify({ tag_name: "v99.0.0" }), {
-          status: 200,
-        });
-      }),
-    );
-
-    const status = await checkForUpdates();
-
-    expect(status).toContain("99.0.0");
-  });
-
-  it("returns current when app-update.json is missing", async () => {
-    setIntervalPref("daily");
-    vi.stubGlobal(
-      "fetch",
-      vi.fn(async () => new Response("not found", { status: 404 })),
-    );
-
-    const status = await checkForUpdates();
-
-    expect(status).toBe("You are on the latest version.");
-  });
-
-  it("skips GitHub fetch when interval is off", async () => {
-    const fetchMock = vi.fn(async (url: string) => {
-      if (url.endsWith("/app-update.json")) {
-        return new Response(
-          JSON.stringify({
-            release_repo: "test-owner/test-repo",
-            installed_artifact_format: "pwa",
-          }),
-          { status: 200 },
-        );
-      }
-      return new Response("error", { status: 500 });
-    });
-    vi.stubGlobal("fetch", fetchMock);
-
-    const status = await checkForUpdates();
-
-    expect(status).toBe("You are on the latest version.");
-    expect(fetchMock).toHaveBeenCalledTimes(1);
-    expect(fetchMock.mock.calls[0]?.[0]).toContain("/app-update.json");
-  });
-
-  it("returns current when GitHub fetch throws", async () => {
-    setIntervalPref("daily");
-    vi.stubGlobal(
-      "fetch",
-      vi.fn(async (url: string) => {
-        if (url.endsWith("/app-update.json")) {
-          return new Response(
-            JSON.stringify({
-              release_repo: "test-owner/test-repo",
-              installed_artifact_format: "pwa",
-            }),
-            { status: 200 },
-          );
-        }
-        throw new Error("network");
-      }),
-    );
-
-    const status = await checkForUpdates();
-
-    expect(status).toBe("You are on the latest version.");
+  it("returns null when fetch throws", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("offline")));
+    await expect(loadAppUpdateConfig()).resolves.toBeNull();
   });
 });
 
@@ -164,7 +51,6 @@ describe("handleRestartGuard", () => {
 
   it("clears pending restart guard and reports handled", () => {
     localStorage.setItem("gp-update-restart-pending", "true");
-
     expect(handleRestartGuard()).toBe(true);
     expect(localStorage.getItem("gp-update-restart-pending")).toBeNull();
   });

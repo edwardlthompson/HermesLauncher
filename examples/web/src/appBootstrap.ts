@@ -1,14 +1,17 @@
 import { type AppShellState, createAppShell } from "./AppShell";
-import { checkForUpdates, handleRestartGuard } from "./about/aboutSession";
+import {
+  APP_VERSION,
+  assetPrefixOf,
+  handleRestartGuard,
+  loadAppUpdateConfig,
+} from "./about/aboutSession";
 import { applyPwaUpdate } from "./about/applyUpdate";
-import { loadDonations } from "./about/donations";
+import { loadDonations, primaryDonateUrl } from "./about/donations";
+import { decideLaunchPrompt, type LaunchPrompt } from "./about/runAppUpdates";
+import { markUpdateChecked, markVersionSeen } from "./about/updatePrefs";
 import { assetUrl } from "./assetUrl";
 import { t } from "./i18n";
 import { initTheme, subscribeThemeChange } from "./theme";
-
-function isUpdateAvailableStatus(status: string): boolean {
-  return status.startsWith(t("about.update.available"));
-}
 
 export function bootstrapApp(appRoot: HTMLDivElement): void {
   let state: AppShellState = {
@@ -16,6 +19,7 @@ export function bootstrapApp(appRoot: HTMLDivElement): void {
     showSettings: false,
     updateStatus: t("about.update.current"),
     donations: { enabled: false, message: "", links: [] },
+    launchPrompt: null,
   };
 
   async function handleApplyUpdate(): Promise<void> {
@@ -29,24 +33,36 @@ export function bootstrapApp(appRoot: HTMLDivElement): void {
     }
   }
 
+  function openDonate(): void {
+    window.open(primaryDonateUrl(state.donations), "_blank", "noopener,noreferrer");
+  }
+
+  function handleLaunchPrompt(accepted: boolean): void {
+    const prompt = state.launchPrompt;
+    state = { ...state, launchPrompt: null };
+    render();
+    if (!prompt) return;
+    if (prompt.kind === "donate") {
+      markVersionSeen(APP_VERSION);
+      if (accepted) openDonate();
+      return;
+    }
+    markUpdateChecked(Date.now(), prompt.version);
+    if (accepted) window.open(prompt.url, "_blank", "noopener,noreferrer");
+  }
+
   function render(): void {
     createAppShell(appRoot, state, {
       onState: (patch) => {
         state = { ...state, ...patch };
         render();
       },
-      onUpdateCheckChange: (enabled) => {
-        if (enabled) {
-          void checkForUpdates().then((status) => {
-            state = { ...state, updateStatus: status };
-            render();
-          });
-        }
-      },
       onApplyUpdate: () => {
         void handleApplyUpdate();
       },
-      canApplyUpdate: isUpdateAvailableStatus(state.updateStatus),
+      onDonate: openDonate,
+      onLaunchPrompt: handleLaunchPrompt,
+      canApplyUpdate: false,
     });
   }
 
@@ -59,10 +75,20 @@ export function bootstrapApp(appRoot: HTMLDivElement): void {
   });
 
   if (!handleRestartGuard()) {
-    void checkForUpdates().then((status) => {
-      state = { ...state, updateStatus: status };
-      render();
-    });
+    void (async () => {
+      const config = await loadAppUpdateConfig();
+      const prompt: LaunchPrompt | null = await decideLaunchPrompt({
+        currentVersion: APP_VERSION,
+        kind: "exe",
+        prefix: assetPrefixOf(config),
+        releaseRepo: config?.release_repo ?? "",
+        userAgent: `GoldenPath/${APP_VERSION}`,
+      });
+      if (prompt) {
+        state = { ...state, launchPrompt: prompt };
+        render();
+      }
+    })();
   }
 
   window.addEventListener("online", render);

@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { AppShellCallbacks } from "./AppShell";
-import { checkForUpdates, handleRestartGuard } from "./about/aboutSession";
+import { handleRestartGuard } from "./about/aboutSession";
 import { bootstrapApp } from "./appBootstrap";
 import en from "./locales/en.json";
 
@@ -10,13 +10,23 @@ vi.mock("./AppShell", () => ({
   createAppShell: vi.fn(),
 }));
 
-vi.mock("./about/aboutSession", () => ({
-  handleRestartGuard: vi.fn(() => false),
-  checkForUpdates: vi.fn(() => Promise.resolve(messages["about.update.current"])),
+vi.mock("./about/aboutSession", async () => {
+  const actual =
+    await vi.importActual<typeof import("./about/aboutSession")>("./about/aboutSession");
+  return {
+    ...actual,
+    handleRestartGuard: vi.fn(() => false),
+    loadAppUpdateConfig: vi.fn(() => Promise.resolve(null)),
+  };
+});
+
+vi.mock("./about/runAppUpdates", () => ({
+  decideLaunchPrompt: vi.fn(() => Promise.resolve(null)),
 }));
 
 vi.mock("./about/donations", () => ({
   loadDonations: vi.fn(() => Promise.resolve({ enabled: true, message: "thanks", links: [] })),
+  primaryDonateUrl: vi.fn(() => "https://venmo.com/code?user_id=1857304970395648420"),
 }));
 
 vi.mock("./theme", () => ({
@@ -34,9 +44,10 @@ vi.mock("./about/applyUpdate", () => ({
 
 import { createAppShell } from "./AppShell";
 import { applyPwaUpdate } from "./about/applyUpdate";
+import { decideLaunchPrompt } from "./about/runAppUpdates";
 
 const mockedCreateAppShell = vi.mocked(createAppShell);
-const mockedCheckForUpdates = vi.mocked(checkForUpdates);
+const mockedDecide = vi.mocked(decideLaunchPrompt);
 const mockedApplyPwaUpdate = vi.mocked(applyPwaUpdate);
 
 describe("bootstrapApp", () => {
@@ -51,6 +62,7 @@ describe("bootstrapApp", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    localStorage.clear();
     handlers = undefined;
     mockedCreateAppShell.mockImplementation((_root, _state, h) => {
       handlers = h;
@@ -59,6 +71,7 @@ describe("bootstrapApp", () => {
       configurable: true,
       value: { register: vi.fn(() => Promise.resolve()) },
     });
+    vi.stubGlobal("open", vi.fn());
   });
 
   it("renders app shell on bootstrap", async () => {
@@ -69,6 +82,7 @@ describe("bootstrapApp", () => {
         root,
         expect.objectContaining({
           updateStatus: messages["about.update.current"],
+          launchPrompt: null,
         }),
         expect.any(Object),
       );
@@ -93,21 +107,6 @@ describe("bootstrapApp", () => {
     expect(mockedCreateAppShell.mock.calls.length).toBeGreaterThan(callsBefore);
   });
 
-  it("refreshes update status when check toggle enabled", async () => {
-    const root = document.createElement("div");
-    bootstrapApp(root);
-    await vi.waitFor(() => expect(handlers).toBeDefined());
-    mockedCheckForUpdates.mockResolvedValueOnce(messages["about.update.available"]);
-    requireHandlers().onUpdateCheckChange?.(true);
-    await vi.waitFor(() =>
-      expect(
-        mockedCreateAppShell.mock.calls.some(
-          ([, state]) => state.updateStatus === messages["about.update.available"],
-        ),
-      ).toBe(true),
-    );
-  });
-
   it("registers service worker on load", async () => {
     const root = document.createElement("div");
     bootstrapApp(root);
@@ -117,73 +116,105 @@ describe("bootstrapApp", () => {
     });
   });
 
-  it("skips background update check when restart guard is active", async () => {
+  it("skips launch prompt when restart guard is active", async () => {
     vi.mocked(handleRestartGuard).mockReturnValueOnce(true);
-    mockedCheckForUpdates.mockClear();
+    mockedDecide.mockClear();
     const root = document.createElement("div");
     bootstrapApp(root);
     await vi.waitFor(() => expect(handlers).toBeDefined());
-    expect(mockedCheckForUpdates).not.toHaveBeenCalled();
+    expect(mockedDecide).not.toHaveBeenCalled();
   });
 
-  it("ignores disabled update-check toggle", async () => {
+  it("shows a donate launch prompt when decide returns donate", async () => {
+    mockedDecide.mockResolvedValueOnce({ kind: "donate" });
     const root = document.createElement("div");
     bootstrapApp(root);
-    await vi.waitFor(() => expect(handlers).toBeDefined());
-    const callsBefore = mockedCheckForUpdates.mock.calls.length;
-    requireHandlers().onUpdateCheckChange?.(false);
-    expect(mockedCheckForUpdates.mock.calls.length).toBe(callsBefore);
-  });
-
-  it("re-renders about panel when background update completes while open", async () => {
-    let resolveCheck: (value: string) => void = () => {};
-    mockedCheckForUpdates.mockImplementation(
-      () =>
-        new Promise((resolve) => {
-          resolveCheck = resolve;
-        }),
-    );
-    const root = document.createElement("div");
-    bootstrapApp(root);
-    await vi.waitFor(() => expect(handlers).toBeDefined());
-    requireHandlers().onState({ showAbout: true });
-    const callsBefore = mockedCreateAppShell.mock.calls.length;
-    resolveCheck(messages["about.update.available"]);
     await vi.waitFor(() =>
-      expect(mockedCreateAppShell.mock.calls.length).toBeGreaterThan(callsBefore),
+      expect(
+        mockedCreateAppShell.mock.calls.some(([, state]) => state.launchPrompt?.kind === "donate"),
+      ).toBe(true),
     );
   });
 
-  it("re-renders home banner when background update completes while about is closed", async () => {
-    let resolveCheck: (value: string) => void = () => {};
-    mockedCheckForUpdates.mockImplementation(
-      () =>
-        new Promise((resolve) => {
-          resolveCheck = resolve;
-        }),
-    );
+  it("opens the installer URL when an update prompt is accepted", async () => {
+    mockedDecide.mockResolvedValueOnce({
+      kind: "update",
+      version: "0.2.0",
+      url: "https://example.com/setup.exe",
+    });
     const root = document.createElement("div");
     bootstrapApp(root);
-    await vi.waitFor(() => expect(handlers).toBeDefined());
-    const callsBefore = mockedCreateAppShell.mock.calls.length;
-    resolveCheck(`${messages["about.update.available"]}: 99.0.0`);
     await vi.waitFor(() =>
-      expect(mockedCreateAppShell.mock.calls.length).toBeGreaterThan(callsBefore),
+      expect(
+        mockedCreateAppShell.mock.calls.some(([, state]) => state.launchPrompt?.kind === "update"),
+      ).toBe(true),
     );
-    expect(
-      mockedCreateAppShell.mock.calls.some(
-        ([, state]) => state.updateStatus === `${messages["about.update.available"]}: 99.0.0`,
-      ),
-    ).toBe(true);
+    requireHandlers().onLaunchPrompt?.(true);
+    expect(window.open).toHaveBeenCalledWith(
+      "https://example.com/setup.exe",
+      "_blank",
+      "noopener,noreferrer",
+    );
   });
 
-  it("exposes apply update when a newer version is reported", async () => {
+  it("declines donate and update prompts without opening a URL", async () => {
+    mockedDecide.mockResolvedValueOnce({ kind: "donate" });
+    const root = document.createElement("div");
+    bootstrapApp(root);
+    await vi.waitFor(() =>
+      expect(
+        mockedCreateAppShell.mock.calls.some(([, state]) => state.launchPrompt?.kind === "donate"),
+      ).toBe(true),
+    );
+    requireHandlers().onLaunchPrompt?.(false);
+    expect(window.open).not.toHaveBeenCalled();
+  });
+
+  it("silences an update version when Later is chosen", async () => {
+    mockedDecide.mockResolvedValueOnce({
+      kind: "update",
+      version: "0.3.0",
+      url: "https://example.com/later.exe",
+    });
+    const root = document.createElement("div");
+    bootstrapApp(root);
+    await vi.waitFor(() =>
+      expect(
+        mockedCreateAppShell.mock.calls.some(([, state]) => state.launchPrompt?.kind === "update"),
+      ).toBe(true),
+    );
+    requireHandlers().onLaunchPrompt?.(false);
+    expect(window.open).not.toHaveBeenCalled();
+    expect(localStorage.getItem("gp.update.dismissedVersion")).toBe("0.3.0");
+  });
+
+  it("opens Venmo from the quiet donate action", async () => {
     const root = document.createElement("div");
     bootstrapApp(root);
     await vi.waitFor(() => expect(handlers).toBeDefined());
-    mockedCheckForUpdates.mockResolvedValueOnce(`${messages["about.update.available"]}: 99.0.0`);
-    requireHandlers().onUpdateCheckChange?.(true);
-    await vi.waitFor(() => expect(handlers?.canApplyUpdate).toBe(true));
+    requireHandlers().onDonate?.();
+    expect(window.open).toHaveBeenCalled();
+  });
+
+  it("no-ops launch prompt when none is pending", async () => {
+    const root = document.createElement("div");
+    bootstrapApp(root);
+    await vi.waitFor(() => expect(handlers).toBeDefined());
+    requireHandlers().onLaunchPrompt?.(true);
+    expect(window.open).not.toHaveBeenCalled();
+  });
+
+  it("opens Venmo when donate prompt is accepted", async () => {
+    mockedDecide.mockResolvedValueOnce({ kind: "donate" });
+    const root = document.createElement("div");
+    bootstrapApp(root);
+    await vi.waitFor(() =>
+      expect(
+        mockedCreateAppShell.mock.calls.some(([, state]) => state.launchPrompt?.kind === "donate"),
+      ).toBe(true),
+    );
+    requireHandlers().onLaunchPrompt?.(true);
+    expect(window.open).toHaveBeenCalled();
   });
 
   it("applies PWA update through service worker registration", async () => {
@@ -223,6 +254,28 @@ describe("bootstrapApp", () => {
         ),
       ).toBe(true),
     );
+  });
+
+  it("leaves status unchanged when applyPwaUpdate returns false", async () => {
+    mockedApplyPwaUpdate.mockResolvedValueOnce(false);
+    const registration = { waiting: {} } as ServiceWorkerRegistration;
+    Object.defineProperty(navigator, "serviceWorker", {
+      configurable: true,
+      value: {
+        register: vi.fn(() => Promise.resolve()),
+        getRegistration: vi.fn(() => Promise.resolve(registration)),
+      },
+    });
+    const root = document.createElement("div");
+    bootstrapApp(root);
+    await vi.waitFor(() => expect(handlers).toBeDefined());
+    requireHandlers().onApplyUpdate?.();
+    await vi.waitFor(() => expect(mockedApplyPwaUpdate).toHaveBeenCalled());
+    expect(
+      mockedCreateAppShell.mock.calls.some(
+        ([, state]) => state.updateStatus === messages["about.update.restarting"],
+      ),
+    ).toBe(false);
   });
 
   it("no-ops apply when service worker registration is missing", async () => {

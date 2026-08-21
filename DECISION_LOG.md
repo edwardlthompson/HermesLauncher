@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-21 — M40 donations and updates (Continuum method)
+- **Status:** Accepted
+- **Context:** Child Golden Path About mixed donate with update nags (settings toggle, home banner, snackbar). Continuum Calendar already had a quieter launch policy.
+- **Decision:** Port Continuum: quiet Venmo donate, one note after a version change, silent daily GitHub check of installer filenames (`Golden-Path-X.Y.Z-x64-setup.exe` / `golden-path-X.Y.Z-foss.apk`). Donate short-circuits that launch. Device-local prefs only (`gp.update.*` / `gp_updates`, excluded from Android Auto Backup). Remove the Settings update-check toggle and home banner.
+- **Alternatives considered:** Keep the opt-in interval toggle (rejected: Continuum has no daily donate timer and no launch gate). Drive PWA `applyPwaUpdate` from the GitHub installer prompt (rejected: About-only).
+- **Consequences:** `docs/features/donations-updates.md` + `productUpdate` / `ProductUpdate` API. `OWNER/REPO` stays silent. HUMAN optional smoke remains on M40.
+
 ### 2026-08-20 — Ship v0.22.0 (/ship)
 - **Status:** Accepted
 - **Context:** `/ship` after Android same-resolution high-refresh. First CI failed instrumented smoke: `preferredDisplayModeId` stayed 0 because `decorView.display` is null in `onCreate`.

@@ -100,6 +100,32 @@ main {
 }
 
 
+.gp-donate-btn {
+  min-height: 2.75rem;
+  padding-inline: var(--gp-space-md);
+  padding-block: var(--gp-space-sm);
+  border-radius: var(--gp-radius-md);
+  border: 1px solid var(--gp-color-outline);
+  background: transparent;
+  color: var(--gp-color-on-surface);
+  cursor: pointer;
+}
+
+.gp-launch-dialog {
+  margin-block-start: var(--gp-space-lg);
+  padding: var(--gp-space-md);
+  border: 1px solid var(--gp-color-outline);
+  border-radius: var(--gp-radius-md);
+  text-align: start;
+}
+
+.gp-launch-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gp-space-sm);
+  margin-block-start: var(--gp-space-md);
+}
+
 .gp-about-btn {
   min-width: 2.75rem;
   min-height: 2.75rem;

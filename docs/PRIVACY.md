@@ -8,12 +8,14 @@
 |------|---------|--------------|-----------|
 | _Example: app settings_ | _Feature functionality_ | _Legitimate interest_ | _Until user deletes_ |
 | _Example: crash logs (opt-in)_ | _Debugging_ | _Consent_ | _90 days_ |
-
 ## App update checks
 
-- Release endpoint: GitHub Releases API or configured manifest URL
-- Stored locally: `last_checked`, `installed_artifact_format`, `check_interval`
-- No PII transmitted
+- Release endpoint: GitHub Releases API (`/repos/OWNER/REPO/releases/latest`), once per 24 hours
+- Not telemetry: User-Agent is product name and version only; no analytics identifiers
+- Stored locally (device-only, not peer-synced): `last_check_at`, `last_seen_version`, `dismissed_version`
+- Android Auto Backup excludes `gp_updates`; web uses `localStorage` (`gp.update.*`)
+- Failed fetch, timeout, or unmatched installer assets stay silent
+- Donate reminder is once per installed version after an update — not a daily nag
 
 ## Data We Do Not Collect
 

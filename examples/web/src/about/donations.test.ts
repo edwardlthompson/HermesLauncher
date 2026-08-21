@@ -1,5 +1,10 @@
 import { describe, expect, it, vi } from "vitest";
-import { loadDonations, normalizeDonations } from "./donations";
+import {
+  DEFAULT_VENMO_URL,
+  loadDonations,
+  normalizeDonations,
+  primaryDonateUrl,
+} from "./donations";
 
 describe("normalizeDonations", () => {
   it("returns disabled config for invalid input", () => {
@@ -30,9 +35,11 @@ describe("normalizeDonations", () => {
     expect(result.links).toHaveLength(1);
   });
 
-  it("loadDonations returns empty on fetch failure", async () => {
+  it("loadDonations keeps quiet Venmo when fetch fails", async () => {
     vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("offline")));
-    await expect(loadDonations()).resolves.toEqual({ enabled: false, message: "", links: [] });
+    const result = await loadDonations();
+    expect(result.enabled).toBe(true);
+    expect(result.links[0]?.url).toBe(DEFAULT_VENMO_URL);
     vi.unstubAllGlobals();
   });
 
@@ -53,9 +60,24 @@ describe("normalizeDonations", () => {
     vi.unstubAllGlobals();
   });
 
-  it("loadDonations returns empty when response not ok", async () => {
+  it("primaryDonateUrl uses first link or Venmo default", () => {
+    expect(primaryDonateUrl({ enabled: true, message: "", links: [] })).toBe(DEFAULT_VENMO_URL);
+    expect(
+      primaryDonateUrl({
+        enabled: true,
+        message: "",
+        links: [
+          { label: "Donate via Venmo", url: "https://venmo.com/code?user_id=1857304970395648420" },
+        ],
+      }),
+    ).toBe("https://venmo.com/code?user_id=1857304970395648420");
+  });
+
+  it("loadDonations keeps quiet Venmo when response is not ok", async () => {
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: false }));
-    await expect(loadDonations()).resolves.toEqual({ enabled: false, message: "", links: [] });
+    const result = await loadDonations();
+    expect(result.enabled).toBe(true);
+    expect(result.links[0]?.url).toBe(DEFAULT_VENMO_URL);
     vi.unstubAllGlobals();
   });
 });

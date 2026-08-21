@@ -1,15 +1,9 @@
 import { t } from "../i18n";
-import {
-  applySettingsThemeMode,
-  getSettingsThemeMode,
-  isUpdateCheckEnabled,
-  setUpdateCheckEnabled,
-} from "../settings/preferences";
+import { applySettingsThemeMode, getSettingsThemeMode } from "../settings/preferences";
 import type { ThemeMode } from "../theme";
 
 export type SettingsPanelCallbacks = {
   onClose: () => void;
-  onUpdateCheckChange?: (enabled: boolean) => void;
 };
 
 export function createSettingsPanel(callbacks: SettingsPanelCallbacks): HTMLElement {
@@ -19,7 +13,6 @@ export function createSettingsPanel(callbacks: SettingsPanelCallbacks): HTMLElem
   panel.dataset.testid = "settings-panel";
 
   const themeMode = getSettingsThemeMode();
-  const updateEnabled = isUpdateCheckEnabled();
 
   panel.innerHTML = `
     <header class="gp-settings-header">
@@ -34,10 +27,6 @@ export function createSettingsPanel(callbacks: SettingsPanelCallbacks): HTMLElem
         <option value="dark">${t("settings.theme.mode.dark")}</option>
       </select>
     </label>
-    <label class="gp-settings-field gp-settings-toggle">
-      <input type="checkbox" data-settings-update ${updateEnabled ? "checked" : ""} />
-      <span>${t("settings.update_check.label")}</span>
-    </label>
   `;
 
   const themeSelect = panel.querySelector<HTMLSelectElement>("[data-settings-theme]");
@@ -47,14 +36,6 @@ export function createSettingsPanel(callbacks: SettingsPanelCallbacks): HTMLElem
       applySettingsThemeMode(themeSelect.value as ThemeMode);
     });
   }
-
-  panel
-    .querySelector<HTMLInputElement>("[data-settings-update]")
-    ?.addEventListener("change", (e) => {
-      const checked = (e.target as HTMLInputElement).checked;
-      setUpdateCheckEnabled(checked);
-      callbacks.onUpdateCheckChange?.(checked);
-    });
 
   panel.querySelector(".gp-settings-close")?.addEventListener("click", callbacks.onClose);
   return panel;

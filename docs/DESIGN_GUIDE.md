@@ -132,11 +132,12 @@ Cross-stack in-app About (not GitHub repo About):
 |------------|---------|
 | `about.title`, `about.close`, `about.open` | Navigation |
 | `about.version`, `about.format` | Installed metadata |
-| `about.update.interval.*` | Check interval selector (`off`, `daily`, `weekly`, `monthly`, `on_session`) |
+| `about.update.install`, `about.update.later`, `about.update.message` | Installer prompt (never includes donate) |
 | `about.update.current`, `about.update.available`, `about.update.no_compatible`, `about.update.restarting` | Status copy |
+| `about.donate`, `about.donate.nudge.*`, `about.not_now` | Quiet Venmo donate + once-per-version note |
 | `about.donations.*` | Optional donation encouragement |
-**Update rules:** persist `installed_artifact_format` on first run; `selectReleaseAsset()` exact match only; seamless apply + single restart with `pending_restart` guard.
+**Update rules:** compare installer filenames (`{Prefix}-X.Y.Z-x64-setup.exe` / `{prefix}-X.Y.Z-foss.apk`), not git tags; daily GitHub check; Later silences that version. PWA `applyPwaUpdate()` stays About-only.
 
-**Platform parity:** Web applies updates via `applyUpdate.ts` and shows `about.update.restarting` during the restart guard. Android persists `pending_restart` in DataStore and surfaces `about_update_restarting` in `GoldenPathApp` (UI stub only — no in-app APK apply in the exemplar).
+**Platform parity:** Launch prompts are donate-or-update, never both. Web `localStorage` (`gp.update.*`); Android SharedPreferences `gp_updates` excluded from Auto Backup.
 
-**Donations:** external links only; hide block when `donations.json` disabled or empty.
+**Donations:** external Venmo (or `donations.json`) links only; hide block when disabled or empty. Never put donate on the update dialog.
