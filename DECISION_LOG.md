@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-21 — Ship v0.23.0 (/ship)
+- **Status:** Accepted
+- **Context:** `/ship` after M40 Continuum donations/updates. First CI failed Playwright donate-nudge: `addInitScript` reset `lastSeenVersion` on reload. About-without gate failed on Windows `EINVAL` writing `preferences.ts`.
+- **Decision:** Seed lastSeen only when unset; write About stubs via tmp+replace and leave theme-only preferences in place. Empty Unreleased and keep it first after RP merge. Admin-merge Release Please #71 to **v0.23.0**. Codex skipped (no key/CLI).
+- **Alternatives considered:** Force-set lastSeen on every navigation (rejected: hides the once-per-version contract). Overwrite preferences with INTERVAL_KEY stubs (rejected: settings is theme-only).
+- **Consequences:** Template at 0.23.0. Optional HUMAN smoke remains on the board. Next `/ship` should keep Unreleased first+empty on `origin/main`.
+
 ### 2026-08-21 — M40 donations and updates (Continuum method)
 - **Status:** Accepted
 - **Context:** Child Golden Path About mixed donate with update nags (settings toggle, home banner, snackbar). Continuum Calendar already had a quieter launch policy.

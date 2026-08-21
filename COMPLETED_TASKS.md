@@ -2,6 +2,21 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## v0.23.0 Continuum donations and updates (2026-08-21)
+
+- ✅ [AUTO] Merge Release Please PR #71 — [v0.23.0](https://github.com/edwardlthompson/agent-project-bootstrap/releases/tag/v0.23.0) published @ `b85cd74`
+- ✅ [AGENT] `/ship`: M40 Continuum donate/updates; Codex skipped (no key/CLI); e2e reload seed fix
+
+## Sprint M40 — Donations and updates (Continuum method) (2026-08-21)
+
+- ✅ [AGENT] Lock `docs/features/donations-updates.md` + `productUpdate` / `ProductUpdate` API + Venmo / `product_asset_prefix` config
+- ✅ [AGENT] Web + Android launch logic, device-local prefs, unit tests
+- ✅ [AUTO] `watch-agent-gates.sh --once --autofix` after wiring
+- ✅ [AGENT] Web about logic + tests (`examples/web/src/about/`)
+- ✅ [AGENT] Android about logic + tests (`examples/android/**/about/`)
+- ✅ [AGENT] Web view + i18n + e2e
+- ✅ [AGENT] Android view + i18n
+
 ## v0.22.0 Android same-resolution high-refresh (2026-08-20)
 
 - ✅ [AUTO] Merge Release Please PR #70 — [v0.22.0](https://github.com/edwardlthompson/agent-project-bootstrap/releases/tag/v0.22.0) published @ `9a18276`

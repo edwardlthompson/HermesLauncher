@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
 ## [0.23.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.22.0...v0.23.0) (2026-08-21)
 
 
@@ -22,8 +24,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Documentation
 
 * **release:** archive v0.22.0 ship memory and decisions ([4dcaf67](https://github.com/edwardlthompson/agent-project-bootstrap/commit/4dcaf67bc4d9f87f0ea17962e7a13d8ffde7acde))
-
-## [Unreleased]
 
 ## [0.22.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.21.0...v0.22.0) (2026-08-20)
 
