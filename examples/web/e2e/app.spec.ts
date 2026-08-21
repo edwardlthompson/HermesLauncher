@@ -72,7 +72,9 @@ test("shows quiet donate action in the header", async ({ page }) => {
 test.describe("donate nudge", () => {
   test("shows once after a version change", async ({ page }) => {
     await page.addInitScript(() => {
-      localStorage.setItem("gp.update.lastSeenVersion", "0.0.1");
+      if (!localStorage.getItem("gp.update.lastSeenVersion")) {
+        localStorage.setItem("gp.update.lastSeenVersion", "0.0.1");
+      }
     });
     await page.goto("/");
     await expect(page.getByTestId("donate-nudge")).toBeVisible();
