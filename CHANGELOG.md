@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
 ## [0.24.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.23.0...v0.24.0) (2026-08-23)
 
 
@@ -23,8 +25,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * add KB-019 Playwright addInitScript reload seed ([22eb402](https://github.com/edwardlthompson/agent-project-bootstrap/commit/22eb402695b82a49491842c48810dfb08a315a6d))
 * **release:** archive v0.23.0 ship memory and decisions ([ba3c0df](https://github.com/edwardlthompson/agent-project-bootstrap/commit/ba3c0df20865937f271505db9c49003cb0382206))
-
-## [Unreleased]
 
 ## [0.23.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.22.0...v0.23.0) (2026-08-21)
 

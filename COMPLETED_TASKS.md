@@ -2,6 +2,23 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## v0.24.0 Privacy-first GitHub feedback (2026-08-23)
+
+- ✅ [AUTO] Merge Release Please PR #72 — [v0.24.0](https://github.com/edwardlthompson/agent-project-bootstrap/releases/tag/v0.24.0) published @ `c0f0dee`
+- ✅ [AGENT] `/ship`: M41 privacy-feedback; Codex skipped (no key/CLI); TEMPLATE_INDEX + About-without decoupling
+
+## Sprint M41 — Privacy-first GitHub crash and feedback (2026-08-23)
+
+- ✅ [AGENT] Specs + ADR-0002 + PRIVACY / THREAT_MODEL / SUPPORT
+- ✅ [AGENT] `privacy-report` sanitizer, fingerprint, markdown + tests
+- ✅ [AGENT] Issue templates, `config.yml`, Ideas category, stale exemptions, `issue-pii-nudge.yml`
+- ✅ [AGENT] `github-feedback` composer + duplicate search + cooldown
+- ✅ [AGENT] Feedback UI (web, then Android) + i18n
+- ✅ [AGENT] Opt-in crash-capture adapters
+- ✅ [AGENT] CLI `report-issue` + `feedback-inbox` + `/audit` `/ideas` `/coach`
+- ✅ [AGENT] `feedback-notify.yml` + weekly inbox warning
+- ✅ [AUTO] `watch-agent-gates --once --autofix` + `check-file-encoding`
+
 ## v0.23.0 Continuum donations and updates (2026-08-21)
 
 - ✅ [AUTO] Merge Release Please PR #71 — [v0.23.0](https://github.com/edwardlthompson/agent-project-bootstrap/releases/tag/v0.23.0) published @ `b85cd74`

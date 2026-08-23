@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-23 — Ship v0.24.0 (/ship)
+- **Status:** Accepted
+- **Context:** `/ship` after M41 privacy-first GitHub crash and feedback. First CI failed `validate-template-index` (four new scripts/workflows unindexed). About-without failed when feedback imported About; a WSL1 `bash` run of the About gate restored tracked files from HEAD.
+- **Decision:** Own `isPlaceholderRepo` in `github-feedback`; use `__APP_VERSION__` in FeedbackPanel. Index the new `.sh`/workflow paths. Empty Unreleased before RP. Admin-merge Release Please #72 to **v0.24.0**. Codex skipped (no key/CLI).
+- **Alternatives considered:** Import About helpers from later features (rejected: breaks About add/remove). Run About-gate via System32 bash (rejected: WSL1 breaks npm and the restore trap can wipe uncommitted wiring).
+- **Consequences:** Template at 0.24.0. HUMAN Watch/collaborator + optional About smoke remain on the board.
+
 ### 2026-08-22 — Privacy-first GitHub crash and feedback intake
 - **Status:** Accepted
 - **Context:** Need crash/bug/feature intake without email, PII, or proprietary crash SDKs, and route incoming issues through `/audit` (fixes now) vs `/ideas` (features after approval).

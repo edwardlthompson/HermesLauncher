@@ -147,6 +147,14 @@
 | **Cause** | `window.decorView.display` is often null before the window is attached |
 | **Fix** | Apply `WindowRefresh.applyTo(activity)` from `onStart()` using `Activity.display` (API 30+) or `windowManager.defaultDisplay` |
 | **Prevention** | Do not read `decorView.display` in `onCreate` for display-mode votes |
+### KB-020 — About-without forbids later-feature imports of `about/`
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | `verify-about-feature-gate` fails `web-lint` after About removal: `Cannot find module '../about/...'` |
+| **Cause** | Feedback/github-feedback imported `APP_VERSION` / `isPlaceholderRepo` from the About slice. Running the gate via WSL1 `System32\\bash.exe` can also skip the backup and `git checkout HEAD` tracked About files |
+| **Fix** | Keep `isPlaceholderRepo` in `github-feedback`; use `__APP_VERSION__` in FeedbackPanel. Invoke the gate with `python3 scripts/agent-run.py verify-about-feature-gate` (Git Bash) |
+| **Prevention** | Later slices must not import `examples/web/src/about/`. Never call `bash scripts/*.sh` on Windows if `bash` is WSL1 |
 ### KB-019 — Playwright `addInitScript` re-seeds on reload
 
 | Field | Detail |
