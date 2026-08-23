@@ -8,10 +8,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
-
-* Privacy-first GitHub crash and feedback intake (opt-in capture, issue forms, `/audit` inbox, maintainer assign notify)
-
 ## [0.23.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.22.0...v0.23.0) (2026-08-21)
 
 ### Added
