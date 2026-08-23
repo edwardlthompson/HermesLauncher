@@ -925,6 +925,20 @@
       "owner": "maintainer"
     },
     {
+      "path": ".github/workflows/feedback-notify.yml",
+      "purpose": "Assign CODEOWNERS and label crash/bug as fix-now, enhancement as needs-approval",
+      "read_when": "prompt_needed",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": ".github/workflows/issue-pii-nudge.yml",
+      "purpose": "Comment-only PII nudge on new issues; never echo matched text",
+      "read_when": "security_triage",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": ".github/workflows/release.yml",
       "purpose": "SBOM, provenance attestation, and GitHub Release on version tags",
       "read_when": "release",
@@ -935,6 +949,20 @@
       "path": "scripts/setup-github-repo.sh",
       "purpose": "Idempotent gh api: Dependabot alerts, private reporting, branch protection",
       "read_when": "bootstrap_session_start",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/feedback-inbox.sh",
+      "purpose": "List untrusted GitHub crash/bug/enhancement issues for /audit and /ideas",
+      "read_when": "prompt_needed",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/report-issue.sh",
+      "purpose": "Print or create a sanitized GitHub issue from a privacy-report payload",
+      "read_when": "prompt_needed",
       "update_when": "milestone_boundary",
       "owner": "maintainer"
     },
