@@ -26,6 +26,7 @@ import dev.foss.goldenpath.ui.about.AboutScreen
 import dev.foss.goldenpath.ui.about.LaunchPromptDialogs
 import dev.foss.goldenpath.ui.components.GoldenPathScaffold
 import dev.foss.goldenpath.ui.components.ThemeToggle
+import dev.foss.goldenpath.ui.feedback.FeedbackScreen
 import dev.foss.goldenpath.ui.settings.SettingsScreen
 import dev.foss.goldenpath.ui.theme.SpacingLg
 import dev.foss.goldenpath.ui.theme.SpacingMd
@@ -39,6 +40,10 @@ fun GoldenPathScreen(
     isOnline: Boolean,
     showAbout: Boolean,
     showSettings: Boolean,
+    showFeedback: String?,
+    saveCrashes: Boolean,
+    releaseRepo: String,
+    pendingStack: String?,
     appVersion: String,
     installedFormat: String,
     updateStatus: String,
@@ -51,6 +56,10 @@ fun GoldenPathScreen(
     onAboutClose: () -> Unit,
     onSettingsOpen: () -> Unit,
     onSettingsClose: () -> Unit,
+    onSaveCrashes: (Boolean) -> Unit,
+    onReportBug: () -> Unit,
+    onRequestFeature: () -> Unit,
+    onFeedbackClose: () -> Unit,
     onDonate: () -> Unit,
     onDonatePrompt: (Boolean) -> Unit,
     onUpdatePrompt: (Boolean) -> Unit,
@@ -92,9 +101,20 @@ fun GoldenPathScreen(
             )
         }
         when {
+            showFeedback != null -> FeedbackScreen(
+                kind = showFeedback,
+                releaseRepo = releaseRepo,
+                stack = pendingStack,
+                onBack = onFeedbackClose,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+            )
             showSettings -> SettingsScreen(
                 themeMode = themeMode,
                 onThemeModeSelect = onThemeModeSelect,
+                saveCrashes = saveCrashes,
+                onSaveCrashes = onSaveCrashes,
                 onBack = onSettingsClose,
                 modifier = Modifier
                     .fillMaxSize()
@@ -107,6 +127,8 @@ fun GoldenPathScreen(
                 donations = donations,
                 canApplyUpdate = canApplyUpdate,
                 onApplyUpdate = onApplyUpdate,
+                onReportBug = onReportBug,
+                onRequestFeature = onRequestFeature,
                 onBack = onAboutClose,
                 modifier = Modifier
                     .fillMaxSize()

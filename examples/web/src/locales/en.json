@@ -31,5 +31,15 @@
   "settings.theme.label": "Theme",
   "settings.theme.mode.system": "System theme",
   "settings.theme.mode.light": "Light theme",
-  "settings.theme.mode.dark": "Dark theme"
+  "settings.theme.mode.dark": "Dark theme",
+  "settings.feedback.save_crashes": "Save crash details for me to review",
+  "feedback.bug.title": "Report a bug",
+  "feedback.feature.title": "Request a feature",
+  "feedback.description": "Description",
+  "feedback.copy": "Copy report",
+  "feedback.open": "Open GitHub",
+  "feedback.discard": "Discard",
+  "feedback.offline": "You are offline. Copy still works; Open GitHub needs a network.",
+  "feedback.clipboard.hint": "Review the sanitized preview. The OS clipboard may keep a copy after Discard.",
+  "feedback.crash.title": "The app recovered. Review and send a report?"
 }

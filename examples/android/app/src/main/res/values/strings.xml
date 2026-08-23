@@ -39,4 +39,12 @@
     <string name="nav_mode_two_button">2-button</string>
     <string name="nav_mode_gesture">Gesture</string>
     <string name="nav_mode_unknown">Unknown</string>
+    <string name="settings_feedback_save_crashes">Save crash details for me to review</string>
+    <string name="feedback_bug_title">Report a bug</string>
+    <string name="feedback_feature_title">Request a feature</string>
+    <string name="feedback_description">Description</string>
+    <string name="feedback_copy">Copy report</string>
+    <string name="feedback_open">Open GitHub</string>
+    <string name="feedback_discard">Discard</string>
+    <string name="feedback_clipboard_hint">Review the sanitized preview. The OS clipboard may keep a copy after Discard.</string>
 </resources>

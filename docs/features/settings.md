@@ -6,7 +6,8 @@
 
 - ✅ User can open a Settings panel/screen from the main navigation
 - ✅ Theme preference (light/dark/system) persists across restarts
-- ✅ Daily GitHub installer checks are not gated here (see `docs/features/donations-updates.md`); this screen is theme only
+- ✅ Optional **Save crash details for me to review** toggle (default off); see `docs/features/feedback.md` and `docs/features/crash-capture.md`
+- ✅ Daily GitHub installer checks are not gated here (see `docs/features/donations-updates.md`)
 - ✅ Offline: settings load last persisted values; no network required for display
 - ✅ i18n: all user-visible strings under `settings.*` keys
 

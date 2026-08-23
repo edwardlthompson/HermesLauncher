@@ -48,7 +48,9 @@ MANUAL SETUP CHECKLIST (GitHub UI - API returned 422 or insufficient permissions
   4b. (Optional, org repos or Rulesets only) Settings -> Rules -> Rulesets -> Bypass list:
      - Add GitHub Actions app, mode "For pull requests only" — not available on classic personal-repo branch rules
   5. Settings -> General -> Features -> Discussions: ON
-     Then add a Q&A category (answers enabled) if GitHub did not create one
+     Then add a Q&A category (answers enabled) and an Ideas category if missing
+  5d. [HUMAN] Watch this repo → Custom → Issues. Add CODEOWNERS as collaborators
+     so feedback-notify.yml can assign crash/bug issues.
   5b. Settings → Actions → General: do not require approval for same-repo
      github-actions[bot] / Release Please PRs (required checks stay ACTION_REQUIRED)
   5c. Do not attach GitHub Environments to CI, Security Scan, or CodeQL

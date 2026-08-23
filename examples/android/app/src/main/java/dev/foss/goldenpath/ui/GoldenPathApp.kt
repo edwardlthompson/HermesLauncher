@@ -13,6 +13,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.material3.SnackbarHostState
 import dev.foss.goldenpath.BuildConfig
 import dev.foss.goldenpath.R
+import dev.foss.goldenpath.crashcapture.PendingCrashStore
+import dev.foss.goldenpath.feedback.FeedbackPrefs
+import dev.foss.goldenpath.about.ReleaseTagFetcher
 import dev.foss.goldenpath.about.AppUpdatePreferences
 import dev.foss.goldenpath.about.AppUpdates
 import dev.foss.goldenpath.about.DonationsLoader
@@ -40,6 +43,9 @@ fun GoldenPathApp(
     val pendingRestart by appUpdatePreferences.pendingRestart.collectAsStateWithLifecycle(initialValue = false)
     var showAbout by remember { mutableStateOf(false) }
     var showSettings by remember { mutableStateOf(false) }
+    val feedbackPrefs = remember { FeedbackPrefs(context) }
+    var saveCrashes by remember { mutableStateOf(feedbackPrefs.saveCrashes()) }
+    var showFeedback by remember { mutableStateOf<String?>(if (PendingCrashStore(context).read() != null) "bug" else null) }
     var updateStatus by remember { mutableStateOf(context.getString(R.string.about_update_current)) }
     var launchPrompt by remember { mutableStateOf<AppUpdates.LaunchPrompt?>(null) }
     val donations = remember { DonationsLoader.load(context) }
@@ -71,6 +77,10 @@ fun GoldenPathApp(
                 isOnline = isOnline,
                 showAbout = showAbout,
                 showSettings = showSettings,
+                showFeedback = showFeedback,
+                saveCrashes = saveCrashes,
+                releaseRepo = ReleaseTagFetcher.loadReleaseRepo(context).orEmpty(),
+                pendingStack = PendingCrashStore(context).read()?.stack,
                 appVersion = appVersion,
                 installedFormat = installedFormat ?: "apk",
                 updateStatus = updateStatus,
@@ -83,6 +93,10 @@ fun GoldenPathApp(
                 onAboutClose = { showAbout = false },
                 onSettingsOpen = { showSettings = !showSettings; if (showSettings) showAbout = false },
                 onSettingsClose = { showSettings = false },
+                onSaveCrashes = { on -> feedbackPrefs.setSaveCrashes(on); saveCrashes = on },
+                onReportBug = { showAbout = false; showFeedback = "bug" },
+                onRequestFeature = { showAbout = false; showFeedback = "feature" },
+                onFeedbackClose = { showFeedback = null; PendingCrashStore(context).clear() },
                 onDonate = { openUrl(DonationsLoader.primaryUrl(donations)) },
                 onDonatePrompt = { donate ->
                     launchPrefs.markVersionSeen(appVersion)

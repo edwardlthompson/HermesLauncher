@@ -9,7 +9,7 @@ LIB = Path(__file__).resolve().parent.parent / "scripts" / "lib"
 if str(LIB) not in sys.path:
     sys.path.insert(0, str(LIB))
 
-from discussions_qa import has_qa  # noqa: E402
+from discussions_qa import has_ideas, has_qa  # noqa: E402
 
 
 class DiscussionsQaTests(unittest.TestCase):
@@ -18,3 +18,8 @@ class DiscussionsQaTests(unittest.TestCase):
         self.assertTrue(has_qa([{"name": "qa"}]))
         self.assertFalse(has_qa([{"name": "Ideas"}]))
         self.assertFalse(has_qa([]))
+
+    def test_detects_ideas_names(self) -> None:
+        self.assertTrue(has_ideas([{"name": "Ideas"}]))
+        self.assertTrue(has_ideas([{"name": "idea"}]))
+        self.assertFalse(has_ideas([{"name": "Q&A"}]))

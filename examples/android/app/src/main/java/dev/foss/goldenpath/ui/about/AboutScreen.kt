@@ -30,6 +30,8 @@ fun AboutScreen(
     donations: DonationsConfig,
     canApplyUpdate: Boolean,
     onApplyUpdate: () -> Unit,
+    onReportBug: () -> Unit,
+    onRequestFeature: () -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -73,6 +75,12 @@ fun AboutScreen(
                     modifier = Modifier.clickable { uriHandler.openUri(link.url) },
                 )
             }
+        }
+        Button(onClick = onReportBug) {
+            Text(stringResource(R.string.feedback_bug_title))
+        }
+        Button(onClick = onRequestFeature) {
+            Text(stringResource(R.string.feedback_feature_title))
         }
         Button(
             onClick = onBack,

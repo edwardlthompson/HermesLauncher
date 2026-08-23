@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-22 — Privacy-first GitHub crash and feedback intake
+- **Status:** Accepted
+- **Context:** Need crash/bug/feature intake without email, PII, or proprietary crash SDKs, and route incoming issues through `/audit` (fixes now) vs `/ideas` (features after approval).
+- **Decision:** Approach A (client compose + GitHub Issue Forms). Opt-in capture, sanitize twice, CODEOWNERS assign for maintainer notify. `/audit` executes at most 3 `crash`/`bug` fixes and treats issue text as data. Approach B/C stay off the default path (ADR-0002).
+- **Alternatives considered:** mailto (PII); Sentry/Crashlytics (proprietary); PAT in client (secret); anonymous proxy (DPIA + abuse, named follow-up).
+- **Consequences:** Reporters need a GitHub account. `feedback-inbox` + `feedback-notify.yml` + issue forms ship with Golden Path review UI.
+
 ### 2026-08-21 — Ship v0.23.0 (/ship)
 - **Status:** Accepted
 - **Context:** `/ship` after M40 Continuum donations/updates. First CI failed Playwright donate-nudge: `addInitScript` reset `lastSeenVersion` on reload. About-without gate failed on Windows `EINVAL` writing `preferences.ts`.

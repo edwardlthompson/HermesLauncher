@@ -1,3 +1,5 @@
+import { onSaveCrashesChanged } from "../crash-capture/pendingCrash";
+import { getSaveCrashes, setSaveCrashes } from "../feedback/saveCrashes";
 import { t } from "../i18n";
 import { applySettingsThemeMode, getSettingsThemeMode } from "../settings/preferences";
 import type { ThemeMode } from "../theme";
@@ -27,6 +29,10 @@ export function createSettingsPanel(callbacks: SettingsPanelCallbacks): HTMLElem
         <option value="dark">${t("settings.theme.mode.dark")}</option>
       </select>
     </label>
+    <label class="gp-settings-field">
+      <input type="checkbox" data-save-crashes />
+      <span>${t("settings.feedback.save_crashes")}</span>
+    </label>
   `;
 
   const themeSelect = panel.querySelector<HTMLSelectElement>("[data-settings-theme]");
@@ -34,6 +40,15 @@ export function createSettingsPanel(callbacks: SettingsPanelCallbacks): HTMLElem
     themeSelect.value = themeMode;
     themeSelect.addEventListener("change", () => {
       applySettingsThemeMode(themeSelect.value as ThemeMode);
+    });
+  }
+
+  const save = panel.querySelector<HTMLInputElement>("[data-save-crashes]");
+  if (save) {
+    save.checked = getSaveCrashes();
+    save.addEventListener("change", () => {
+      setSaveCrashes(save.checked);
+      onSaveCrashesChanged(save.checked);
     });
   }
 

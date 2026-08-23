@@ -63,6 +63,19 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 > **v0.23.0** @ `b85cd74`. **M40** archived in `COMPLETED_TASKS.md`. **v0.22.0** @ `9a18276`. **M39** archived in `COMPLETED_TASKS.md`. **v0.21.0** @ `1525cd6`. **M38** archived in `COMPLETED_TASKS.md`. **Coach / M37 / M36** archived in `COMPLETED_TASKS.md`. **v0.20.0** @ `b570f07`. **v0.19.0** archived in `COMPLETED_TASKS.md` @ `2bef8ac`. **v0.18.3** archived in `COMPLETED_TASKS.md` @ `013e688`. **v0.18.2** archived in `COMPLETED_TASKS.md` @ `7d46e68`. **M35 HUMAN** (Scorecard + Dependabot + radar) archived in `COMPLETED_TASKS.md`. **v0.18.1** archived in `COMPLETED_TASKS.md` @ `fe80fea`. **M35** AGENT rows archived in `COMPLETED_TASKS.md`. **v0.18.0** archived in `COMPLETED_TASKS.md` @ `3f0b5a3`. **M34** (prior-art thin steals) archived in `COMPLETED_TASKS.md`. **v0.17.0** archived in `COMPLETED_TASKS.md` @ `701cd24`. **v0.16.0** @ `90ce3db`. **v0.15.2** archived in `COMPLETED_TASKS.md` @ `634d06d`. **v0.15.0** archived in `COMPLETED_TASKS.md` @ `2e010ae`. **M33** archived in `COMPLETED_TASKS.md` @ `5d2d129`. **v0.14.1** archived in `COMPLETED_TASKS.md` @ `a6c6be1`. **M32** archived in `COMPLETED_TASKS.md` @ `e532c20`. **M31** archived in `COMPLETED_TASKS.md` @ `cd21e5a`. **v0.14.0** @ `4b94298`. **v0.13.2** @ `ff8e4e6`. **M19–M30** archived in `COMPLETED_TASKS.md`. **M18** @ `d6b92a2`. **M30** @ `508a541`.
 
+### M41 — Privacy-first GitHub crash and feedback
+
+1. ✅ [AGENT] Specs + ADR-0002 + PRIVACY / THREAT_MODEL / SUPPORT
+2. ✅ [AGENT] `privacy-report` sanitizer, fingerprint, markdown + tests
+3. ✅ [AGENT] Issue templates, `config.yml`, Ideas category, stale exemptions, `issue-pii-nudge.yml`
+4. ✅ [AGENT] `github-feedback` composer + duplicate search + cooldown
+5. ✅ [AGENT] Feedback UI (web, then Android) + i18n
+6. ✅ [AGENT] Opt-in crash-capture adapters
+7. ✅ [AGENT] CLI `report-issue` + `feedback-inbox` + `/audit` `/ideas` `/coach`
+8. ✅ [AGENT] `feedback-notify.yml` + weekly inbox warning
+9. ✅ [AUTO] `watch-agent-gates --once --autofix` + `check-file-encoding`
+10. 🔲 [HUMAN] Watch repo Issues + add CODEOWNERS as collaborator; optional About smoke
+
 ### Open (human judgment only)
 
 *🔲 [HUMAN] Optional product smoke: donate link + first-run (no popup) + version-change note (M40 leftover). Recurring maintenance: see **Ongoing Maintenance** below.*

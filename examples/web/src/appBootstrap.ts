@@ -10,6 +10,9 @@ import { loadDonations, primaryDonateUrl } from "./about/donations";
 import { decideLaunchPrompt, type LaunchPrompt } from "./about/runAppUpdates";
 import { markUpdateChecked, markVersionSeen } from "./about/updatePrefs";
 import { assetUrl } from "./assetUrl";
+import { installCrashHandler } from "./crash-capture/installHandler";
+import { readPendingCrash } from "./crash-capture/pendingCrash";
+import { getSaveCrashes } from "./feedback/saveCrashes";
 import { t } from "./i18n";
 import { initTheme, subscribeThemeChange } from "./theme";
 
@@ -17,6 +20,7 @@ export function bootstrapApp(appRoot: HTMLDivElement): void {
   let state: AppShellState = {
     showAbout: false,
     showSettings: false,
+    showFeedback: null,
     updateStatus: t("about.update.current"),
     donations: { enabled: false, message: "", links: [] },
     launchPrompt: null,
@@ -68,6 +72,10 @@ export function bootstrapApp(appRoot: HTMLDivElement): void {
 
   initTheme();
   subscribeThemeChange(() => render());
+  installCrashHandler(() => getSaveCrashes());
+  if (readPendingCrash()) {
+    state = { ...state, showFeedback: "bug" };
+  }
   render();
   void loadDonations().then((d) => {
     state = { ...state, donations: d };
@@ -85,8 +93,10 @@ export function bootstrapApp(appRoot: HTMLDivElement): void {
         userAgent: `GoldenPath/${APP_VERSION}`,
       });
       if (prompt) {
-        state = { ...state, launchPrompt: prompt };
+        state = { ...state, launchPrompt: prompt, releaseRepo: config?.release_repo ?? "" };
         render();
+      } else {
+        state = { ...state, releaseRepo: config?.release_repo ?? "" };
       }
     })();
   }

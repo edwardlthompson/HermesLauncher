@@ -6,8 +6,8 @@
 
 | Data | Purpose | Lawful Basis | Retention |
 |------|---------|--------------|-----------|
-| _Example: app settings_ | _Feature functionality_ | _Legitimate interest_ | _Until user deletes_ |
-| _Example: crash logs (opt-in)_ | _Debugging_ | _Consent_ | _90 days_ |
+| App settings (theme, save-crashes toggle) | Feature functionality | Legitimate interest | Until the user clears app data |
+| Crash / bug / feature report (opt-in, user-reviewed) | Debugging and product planning | Consent | GitHub issue retention; app keeps at most one pending crash |
 ## App update checks
 
 - Release endpoint: GitHub Releases API (`/repos/OWNER/REPO/releases/latest`), once per 24 hours
@@ -17,11 +17,21 @@
 - Failed fetch, timeout, or unmatched installer assets stay silent
 - Donate reminder is once per installed version after an update — not a daily nag
 
+## Crash and feedback reports
+
+- Filing requires a GitHub account (no email field in the app; no anonymous proxy on the default path)
+- Payload may include: report kind, app version, OS family, exception type, sanitized stack, crash fingerprint, optional user text
+- Payload must not include: email, name, user/device/advertising ids, IP, GPS, screenshots, logcat, cookies, tokens, `.env` values, or home-directory paths
+- Capture is off by default. The user reviews sanitized markdown, then taps Open GitHub or Copy
+- A self-hosted crash inbox (GlitchTip / Bugsink) is a child escape hatch only — do not enable without a DPIA
+- Anonymous intake (GitHub App proxy) is a named follow-up and needs a new DPIA before enable
+
 ## Data We Do Not Collect
 
 - No tracking without explicit opt-in
 - No sale of personal data
 - No PII in logs without user consent
+- No install UUID “just for dedup”
 
 ## User Rights (GDPR / CCPA)
 

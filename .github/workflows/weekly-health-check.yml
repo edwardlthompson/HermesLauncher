@@ -42,6 +42,25 @@ jobs:
           # (those push events do not start CI/Security/CodeQL).
           bash scripts/check-github-ci.sh "$(git rev-parse HEAD)" --wait 600 --dispatch-if-missing
 
+      - name: Feedback inbox warning
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 scripts/lib/feedback_inbox_cli.py > /tmp/inbox.json || true
+          python3 - <<'PY'
+          import json, os, pathlib
+          path = pathlib.Path("/tmp/inbox.json")
+          try:
+              data = json.loads(path.read_text(encoding="utf-8") or "{}")
+          except Exception:
+              data = {}
+          n = len(data.get("fixes") or [])
+          summary = pathlib.Path(os.environ.get("GITHUB_STEP_SUMMARY") or "inbox.md")
+          summary.write_text(f"Open crash/bug fixes: {n}\n", encoding="utf-8")
+          if n:
+              print(f"::warning::{n} open crash/bug issues")
+          PY
+
       - name: Simulate template upgrade path
         env:
           GH_TOKEN: ${{ github.token }}

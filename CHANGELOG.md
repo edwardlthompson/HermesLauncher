@@ -8,18 +8,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.23.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.22.0...v0.23.0) (2026-08-21)
+### Added
 
+* Privacy-first GitHub crash and feedback intake (opt-in capture, issue forms, `/audit` inbox, maintainer assign notify)
+
+## [0.23.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.22.0...v0.23.0) (2026-08-21)
 
 ### Added
 
 * add Continuum-method donations and updates ([53d14bd](https://github.com/edwardlthompson/agent-project-bootstrap/commit/53d14bdc824e0330f61473c150cd93cb680930bc))
 
-
 ### Fixed
 
 * **web:** do not re-seed donate nudge prefs on reload ([6ab382c](https://github.com/edwardlthompson/agent-project-bootstrap/commit/6ab382c288dbec31a0eef5fcd43d93f49d511719))
-
 
 ### Documentation
 
@@ -27,16 +28,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.22.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.21.0...v0.22.0) (2026-08-20)
 
-
 ### Added
 
 * request fastest same-resolution display mode on Android ([90428a6](https://github.com/edwardlthompson/agent-project-bootstrap/commit/90428a64f24aa89409a287fca5b9e1ea1b030961))
 
-
 ### Fixed
 
 * **android:** apply preferred display mode after the window attaches ([c205177](https://github.com/edwardlthompson/agent-project-bootstrap/commit/c20517794b21adc105170cd7bfbf7807c6f611a5))
-
 
 ### Documentation
 

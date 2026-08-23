@@ -10,6 +10,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -25,6 +26,8 @@ import dev.foss.goldenpath.ui.theme.ThemeMode
 fun SettingsScreen(
     themeMode: ThemeMode,
     onThemeModeSelect: (ThemeMode) -> Unit,
+    saveCrashes: Boolean,
+    onSaveCrashes: (Boolean) -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -57,6 +60,8 @@ fun SettingsScreen(
                 )
             }
         }
+        Text(text = stringResource(R.string.settings_feedback_save_crashes))
+        Switch(checked = saveCrashes, onCheckedChange = onSaveCrashes)
         Button(
             onClick = onBack,
             modifier = Modifier.bottomInsetPadding(),

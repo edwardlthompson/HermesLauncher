@@ -3,6 +3,7 @@ import { createLaunchPromptDialog } from "./about/launchPrompt";
 import type { LaunchPrompt } from "./about/runAppUpdates";
 import type { DonationConfig } from "./about/types";
 import { createAboutPanel } from "./components/AboutPanel";
+import { createFeedbackPanel, type FeedbackKind } from "./components/FeedbackPanel";
 import { createSettingsPanel } from "./components/SettingsPanel";
 import { createThemeToggle } from "./components/ThemeToggle";
 import { isOnline } from "./greet";
@@ -14,9 +15,11 @@ let dialogCleanup: (() => void) | undefined;
 export type AppShellState = {
   showAbout: boolean;
   showSettings: boolean;
+  showFeedback: FeedbackKind | null;
   updateStatus: string;
   donations: DonationConfig;
   launchPrompt: LaunchPrompt | null;
+  releaseRepo?: string;
 };
 
 export type AppShellCallbacks = {
@@ -66,11 +69,11 @@ export function createAppShell(
   });
 
   root.querySelector("[data-about-open]")?.addEventListener("click", () => {
-    callbacks.onState({ showAbout: !state.showAbout, showSettings: false });
+    callbacks.onState({ showAbout: !state.showAbout, showSettings: false, showFeedback: null });
   });
 
   root.querySelector("[data-settings-open]")?.addEventListener("click", () => {
-    callbacks.onState({ showSettings: !state.showSettings, showAbout: false });
+    callbacks.onState({ showSettings: !state.showSettings, showAbout: false, showFeedback: null });
   });
 
   const mount = root.querySelector("[data-panel-mount]");
@@ -85,6 +88,16 @@ export function createAppShell(
       callbacks.onLaunchPrompt?.(accepted);
     });
     mount.appendChild(promptDialog);
+    return;
+  }
+
+  if (state.showFeedback) {
+    const panel = createFeedbackPanel(state.showFeedback, {
+      onClose: () => callbacks.onState({ showFeedback: null }),
+      releaseRepo: state.releaseRepo ?? "",
+    });
+    mount.appendChild(panel);
+    dialogCleanup = bindPanelDialog(panel, () => callbacks.onState({ showFeedback: null }));
     return;
   }
 
@@ -109,6 +122,8 @@ export function createAppShell(
       },
       () => callbacks.onState({ showAbout: false }),
       callbacks.onApplyUpdate,
+      () => callbacks.onState({ showAbout: false, showFeedback: "bug" }),
+      () => callbacks.onState({ showAbout: false, showFeedback: "feature" }),
     ),
   );
   const aboutPanel = mount.lastElementChild as HTMLElement;

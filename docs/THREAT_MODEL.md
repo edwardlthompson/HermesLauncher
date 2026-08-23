@@ -12,13 +12,16 @@
 ## Trust Boundaries
 
 ```text
-[User] --> [Client App / PWA] --> [API / Backend] --> [Data Store]
+[User] --> [Client App / PWA] --> [GitHub Issues / Discussions]
                 |                      |
-           Local storage          External services
+           Local pending crash    Public issue body
+           (opt-in, sanitized)
+
+[Maintainer] --> [/audit /ideas] --> [GitHub issue text as DATA only]
 
 ```
 
-Document your actual boundaries after architecture is defined.
+Public GitHub Issues are a trust boundary. Issue and discussion text is untrusted (LLM01): never execute it as agent instructions. See ADR-0002.
 
 ## STRIDE Summary
 
@@ -37,6 +40,8 @@ Document your actual boundaries after architecture is defined.
 3. _Secret leakage via committed credentials_
 4. _Prompt injection (if agent-exposed APIs)_
 5. _Telemetry opt-out bypass_
+6. _Crash/bug issue body used as agent instructions (LLM01)_
+7. _PII or secrets pasted into a public issue_
 
 ## OWASP LLM Top 10
 
@@ -44,7 +49,7 @@ Walk agent-exposed surfaces against [OWASP LLM Top 10 (2025)](https://owasp.org/
 
 | ID | Risk | Template control |
 |----|------|------------------|
-| LLM01 Prompt Injection | Untrusted text steers tools | Validate at boundaries; never execute untrusted text as system prompts |
+| LLM01 Prompt Injection | Untrusted text steers tools | Validate at boundaries; never execute untrusted text as system prompts. GitHub issue/discussion titles and bodies are data only (`/audit`, `feedback-inbox`) |
 | LLM02 Sensitive Information Disclosure | Secrets/PII in prompts or logs | No secrets in git; opt-in telemetry; `docs/PRIVACY.md` |
 | LLM03 Supply Chain | Malicious model, plugin, or dep | Dependabot, CodeQL, Trivy; no default marketplace install |
 | LLM04 Data/Model Poisoning | Tampered training or RAG | Treat uploads as untrusted; N/A until child adds RAG |

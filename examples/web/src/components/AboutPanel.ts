@@ -12,6 +12,8 @@ export function createAboutPanel(
   state: AboutPanelState,
   onClose: () => void,
   onApplyUpdate?: () => void,
+  onReportBug?: () => void,
+  onRequestFeature?: () => void,
 ): HTMLElement {
   const panel = document.createElement("section");
   panel.className = "gp-about-panel";
@@ -81,6 +83,23 @@ export function createAboutPanel(
       donateList.append(item);
     }
     panel.append(donateMsg, donateList);
+  }
+
+  if (onReportBug) {
+    const bugBtn = document.createElement("button");
+    bugBtn.type = "button";
+    bugBtn.dataset.testid = "about-report-bug";
+    bugBtn.textContent = t("feedback.bug.title");
+    bugBtn.addEventListener("click", onReportBug);
+    panel.append(bugBtn);
+  }
+  if (onRequestFeature) {
+    const featBtn = document.createElement("button");
+    featBtn.type = "button";
+    featBtn.dataset.testid = "about-request-feature";
+    featBtn.textContent = t("feedback.feature.title");
+    featBtn.addEventListener("click", onRequestFeature);
+    panel.append(featBtn);
   }
 
   return panel;
