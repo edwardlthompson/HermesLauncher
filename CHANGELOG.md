@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.24.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.23.0...v0.24.0) (2026-08-23)
+
+
+### Added
+
+* add privacy-first GitHub crash and feedback intake ([0f5f29b](https://github.com/edwardlthompson/agent-project-bootstrap/commit/0f5f29b469257e1e939a4f789bfe9fc36782dac6))
+
+
+### Fixed
+
+* index privacy-feedback scripts and workflows ([c29987e](https://github.com/edwardlthompson/agent-project-bootstrap/commit/c29987e475a680dceb4e09b38dd125b730bc6d27))
+
+
+### Documentation
+
+* add KB-019 Playwright addInitScript reload seed ([22eb402](https://github.com/edwardlthompson/agent-project-bootstrap/commit/22eb402695b82a49491842c48810dfb08a315a6d))
+* **release:** archive v0.23.0 ship memory and decisions ([ba3c0df](https://github.com/edwardlthompson/agent-project-bootstrap/commit/ba3c0df20865937f271505db9c49003cb0382206))
+
 ## [Unreleased]
 
 ### Added
