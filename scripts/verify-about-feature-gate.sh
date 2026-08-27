@@ -26,31 +26,53 @@ ABOUT_TRACKED=(
 )
 
 restore() {
+  # Restore must return 0: with set -e a failed trap cp would fail a passing gate.
+  copy_retry() {
+    "$PY" - "$1" "$2" <<'PY'
+import shutil, sys, time
+src, dest = sys.argv[1], sys.argv[2]
+last = None
+for attempt in range(8):
+    try:
+        shutil.copy2(src, dest)
+        raise SystemExit(0)
+    except OSError as exc:
+        last = exc
+        time.sleep(0.25 * (attempt + 1))
+print(f"WARN: copy failed {src} -> {dest}: {last}", file=sys.stderr)
+raise SystemExit(1)
+PY
+  }
   if [ -d "$BACKUP/about" ]; then
     rm -rf "$WEB_SRC/about"
-    cp -a "$BACKUP/about" "$WEB_SRC/about"
+    cp -a "$BACKUP/about" "$WEB_SRC/about" || git checkout HEAD -- examples/web/src/about || true
     for rel in main.ts appBootstrap.ts appBootstrap.test.ts AppShell.ts; do
       if [ -f "$BACKUP/$rel" ]; then
-        cp -a "$BACKUP/$rel" "$WEB_SRC/$rel"
+        copy_retry "$BACKUP/$rel" "$WEB_SRC/$rel" || git checkout HEAD -- "examples/web/src/$rel" || true
       fi
     done
     if [ -f "$BACKUP/components/AboutPanel.ts" ]; then
-      cp -a "$BACKUP/components/AboutPanel.ts" "$WEB_SRC/components/AboutPanel.ts"
+      copy_retry "$BACKUP/components/AboutPanel.ts" "$WEB_SRC/components/AboutPanel.ts" \
+        || git checkout HEAD -- examples/web/src/components/AboutPanel.ts || true
     fi
     if [ -f "$BACKUP/settings/preferences.ts" ]; then
-      cp -a "$BACKUP/settings/preferences.ts" "$WEB_SRC/settings/preferences.ts"
+      copy_retry "$BACKUP/settings/preferences.ts" "$WEB_SRC/settings/preferences.ts" \
+        || git checkout HEAD -- examples/web/src/settings/preferences.ts || true
     fi
     if [ -f "$BACKUP/app.spec.ts" ]; then
-      cp -a "$BACKUP/app.spec.ts" "$WEB_E2E/app.spec.ts"
+      copy_retry "$BACKUP/app.spec.ts" "$WEB_E2E/app.spec.ts" \
+        || git checkout HEAD -- examples/web/e2e/app.spec.ts || true
     fi
     if [ -f "$BACKUP/vitest.config.ts" ]; then
-      cp -a "$BACKUP/vitest.config.ts" "$ROOT/examples/web/vitest.config.ts"
+      copy_retry "$BACKUP/vitest.config.ts" "$ROOT/examples/web/vitest.config.ts" \
+        || git checkout HEAD -- examples/web/vitest.config.ts || true
     fi
   else
     echo "WARN: About backup missing; restoring tracked slice from HEAD"
     git checkout HEAD -- "${ABOUT_TRACKED[@]}" || true
   fi
   rm -rf "$BACKUP"
+  return 0
 }
 trap restore EXIT
 

@@ -10,7 +10,7 @@ ERRORS=0
 ATOMIC=(
   audit cleanup debug gates triage dependabot push prerelease regress
   feature fix init prune ci docs upgrade setup plan restore compact scope
-  codex-review coach tour ideas
+  codex-review coach tour ideas update-deps best-of-n emulator
 )
 
 SUPER=(
@@ -21,8 +21,8 @@ declare -A SUPER_CHAINS
 SUPER_CHAINS[bootstrap]="init prune setup gates"
 SUPER_CHAINS[verify]="docs gates ci"
 SUPER_CHAINS[build]="plan feature gates cleanup"
-SUPER_CHAINS[ship]="prerelease push regress"
-SUPER_CHAINS[maintain]="triage dependabot audit"
+SUPER_CHAINS[ship]="update-deps prerelease push regress"
+SUPER_CHAINS[maintain]="triage update-deps dependabot audit"
 
 check_file() {
   local name="$1"

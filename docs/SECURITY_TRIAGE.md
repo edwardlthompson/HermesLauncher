@@ -1,6 +1,6 @@
 # Security Triage
 
-Weekly CVE triage playbook for Dependabot alerts and release security gates.
+Weekly CVE triage playbook. **Local-first:** `/update-deps` (or `just update-deps-dry`) before push. GitHub Dependabot remains weekly backup and the post-push `/regress` inbox.
 
 ## Setup (one-time, [HUMAN])
 
@@ -30,7 +30,7 @@ Requires `gh` CLI authenticated with admin access. On API `422` (plan or permiss
 
 **Public repos:** Dependabot alerts are free.
 
-`dependabot.yml` schedules version-update PRs; **Dependabot alerts** are a separate GitHub setting for CVE advisories - both are required.
+`dependabot.yml` is weekly **backup** version-update PRs. Day-to-day bumps: `python3 scripts/agent-run.py update-deps`. **Dependabot alerts** are a separate GitHub setting for CVE advisories — still enable them. Local HIGH+ findings from `update-deps --audit` block `pre-release-gate.sh --local` (`/prerelease` / `/ship`). GitHub alert counts still block the **default** `pre-release-gate.sh` used by `/regress`.
 
 ## Weekly Triage Pass
 
@@ -40,7 +40,7 @@ Recommended cadence: **Monday** (aligned with scheduled security scans and `heal
 |------|-------|--------|
 | 1 | HUMAN | Open **Security -> Dependabot alerts**; sort Critical/High first |
 | 2 | HUMAN | Review open Dependabot version-update PRs |
-| 3 | AGENT | Apply dependency bumps, run tests locally, open PRs as needed |
+| 3 | AGENT | `/update-deps` locally (patch/minor); Gradle via depsonar MCP or Dependabot backup |
 | 4 | AUTO | CI (Trivy, CodeQL, matrix tests) validates merges |
 | 5 | HUMAN | Merge PR or escalate deferred items |
 | 6 | AUTO | Review `weekly-health-check.yml` weekly run (Monday 07:00 UTC); confirm CI + Security Scan + CodeQL green on main |
@@ -109,7 +109,7 @@ If a Critical/High alert has no upstream fix, release may proceed only when:
 
 ## OWASP LLM walk (agents / tools / MCP)
 
-When the product exposes agents, run the compact walk in [`THREAT_MODEL.md`](THREAT_MODEL.md) (prompt injection, insecure output, supply chain, over-agency). Map findings to BUILD_PLAN `[AGENT]` rows. No new scanner — Dependabot, CodeQL, Trivy, and Gitleaks remain the automated gates.
+When the product exposes agents, run the compact walk in [`THREAT_MODEL.md`](THREAT_MODEL.md) (prompt injection, insecure output, supply chain, over-agency). Map findings to BUILD_PLAN `[AGENT]` rows. Local `update-deps --audit` plus Dependabot, CodeQL, Trivy, and Gitleaks remain the automated gates.
 
 1. **Prompt injection / insecure output** — untrusted content cannot become shell or system prompts (destructive-ops Prompt Injection Defense).
 2. **Supply chain** — no unsigned marketplace plugins on the default FOSS path.
@@ -119,14 +119,15 @@ When the product exposes agents, run the compact walk in [`THREAT_MODEL.md`](THR
 
 | File | Purpose |
 |------|---------|
-| `.github/dependabot.yml` | Weekly grouped version-update PRs |
+| `.github/dependabot.yml` | Weekly grouped version-update PRs (backup; local `/update-deps` is primary) |
+| `scripts/update-deps.sh` | Local dry-run / apply / audit (`upd-cli==0.6.2`) |
 | `.github/workflows/security.yml` | Trivy filesystem scan |
 | `.github/workflows/codeql.yml` | CodeQL static analysis |
 | `.github/workflows/weekly-health-check.yml` | Weekly CI + Security Scan + CodeQL status on main |
 | `scripts/validate-workflow-actions.sh` | Resolve action refs via GitHub API |
 | `scripts/check-workflow-action-ref-format.sh` | Local bare-semver guard |
 | `scripts/check-security-triage.sh` | Weekly Dependabot + workflow + Scorecard gate |
-| `scripts/pre-release-gate.sh` | Pre-merge `workflow_dispatch` dry-run (`feature-gate --strict`, `check-security-triage --strict`) |
+| `scripts/pre-release-gate.sh` | `--local` for `/prerelease`/`/ship`; default (full GH) for `/regress` and `release.yml` |
 | `.github/workflows/scorecard.yml` | OpenSSF Scorecard SARIF upload |
 | `scripts/setup-github-repo.sh` | One-time Dependabot + reporting + branch protection setup |
 | `scripts/setup-automerge-token.sh` | Set `AUTOMERGE_TOKEN` secret from env or `gh auth token` |

@@ -17,6 +17,20 @@
 
 ## Entries
 
+### 2026-08-27 — Local resource packing (M43)
+- **Status:** Accepted
+- **Context:** After M42, local deps were fast but `feature-gate` still ran stacks serially, worktrees reinstalled cold, `/best-of-n` was docs-only, and GPU was idle.
+- **Decision:** RAM-capped parallel stack waves (CI max 2 slots; Android weight 2); worktree `npm ci --prefer-offline`; real `/best-of-n` and `/emulator` commands; Ollama on 127.0.0.1 with no cloud keys; emulator skip-if-no-SDK and never on `/ship`. GitHub CI remains post-push truth.
+- **Alternatives considered:** Require Ollama or emulator for `/ship` (rejected). Auto-accept SDK licenses (rejected). `OLLAMA_ORIGINS=*` (rejected: LAN exposure). Content-hash skip-cache for bootstrap checks (rejected: stale green).
+- **Consequences:** Agents use `check-local-compute`, `/best-of-n`, `/emulator`. Humans may install Ollama and accept Android licenses. `FEATURE_GATE_JOBS=1` is the low-RAM escape hatch.
+
+### 2026-08-27 — Local-first dependency updater (M42)
+- **Status:** Accepted
+- **Context:** GitHub Dependabot PRs and `/prerelease` waiting on CI/Dependabot/Scorecard before push made releases slow.
+- **Decision:** Primary path is local `upd-cli==0.6.2` (`scripts/update-deps.sh`, dry-run default) plus optional pinned depsonar MCP. `/ship` is `update-deps → prerelease → push → regress`. `pre-release-gate.sh --local` skips GitHub waits; default full gate remains for `/regress` and `release.yml`. Release Please Action still publishes; `release-please-dry.sh` is preview-only.
+- **Alternatives considered:** Replace Dependabot entirely (rejected: keep weekly backup). Run Release Please `github-release` from the laptop (rejected: still needs GitHub API; preview-only). Call `npx depsonar` from the CLI (rejected: slow, optional).
+- **Consequences:** Agents use `/update-deps` or “update deps safely before release”. Humans may copy `mcp.foss.example` to `.cursor/mcp.json`. Automerge frequency remains a HUMAN choice.
+
 ### 2026-08-23 — Ship v0.24.0 (/ship)
 - **Status:** Accepted
 - **Context:** `/ship` after M41 privacy-first GitHub crash and feedback. First CI failed `validate-template-index` (four new scripts/workflows unindexed). About-without failed when feedback imported About; a WSL1 `bash` run of the About gate restored tracked files from HEAD.

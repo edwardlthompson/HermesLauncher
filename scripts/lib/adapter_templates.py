@@ -42,6 +42,8 @@ Run `bash scripts/verify.sh` before marking a BUILD_PLAN row complete.
 
 `python3 scripts/agent-run.py validate-bootstrap --quick`
 `python3 scripts/agent-run.py watch-agent-gates --once --autofix`
+`python3 scripts/agent-run.py update-deps`
+`python3 scripts/agent-run.py check-local-compute`
 """
 
 CLAUDE = f"""{GENERATED}

@@ -26,7 +26,7 @@
 - ✅ No proprietary closed-source SDKs in production path
 - ✅ Opt-in only telemetry (GDPR/CCPA compliant); see `docs/PRIVACY.md`
 - ✅ Secrets excluded from VCS (Gitleaks pre-commit)
-- ✅ Dependency vulnerability scanning enabled (CodeQL + Trivy + Dependabot)
+- ✅ Dependency vulnerability scanning enabled (local `update-deps --audit` + CodeQL + Trivy + Dependabot backup)
 - ✅ Input validation at all data boundaries
 - ✅ `SECURITY.md` and private vulnerability reporting enabled
 
@@ -46,6 +46,8 @@ FOSS coding-agent bootstrap template: labeled BUILD_PLAN sprints, Golden Path ex
 
 | Date | Milestone | What worked | What to improve |
 |------|-----------|-------------|-----------------|
+| 2026-08-27 | M43 local resource packing | RAM-capped parallel feature-gate; `/best-of-n` + `/emulator`; Ollama docs no keys | Do not require Ollama/emulator on `/ship`; CI slot cap 2; dummy GUI string never in git |
+| 2026-08-27 | M42 local-first deps | `/update-deps` + `upd-cli==0.6.2`; `/ship` uses `--local` gate; Dependabot weekly backup; RP dry-run preview | Do not wait on Dependabot PRs before push; full GH gate stays on `/regress` |
 | 2026-08-23 | v0.24.0 /ship | Privacy-feedback feat + TEMPLATE_INDEX fix; RP #72 admin-merge; emptied Unreleased before merge | About-without forbids imports of `about/`; never run that gate via WSL1 `bash` |
 | 2026-08-21 | v0.23.0 /ship | Strict pre-release + about-without Windows write retry; RP #71 admin-merge after e2e seed fix | Playwright `addInitScript` re-runs on reload — only seed lastSeen when unset |
 | 2026-08-20 | v0.22.0 /ship | Emptied Unreleased before push; RP #70 admin-merge after onStart display-mode fix | `decorView.display` is null in onCreate on the CI emulator — apply `preferredDisplayModeId` in onStart |

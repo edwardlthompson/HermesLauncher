@@ -42,9 +42,9 @@ Each subsection is **What** (the file), **Why** (industry reason + source), **Ho
 
 ## GitHub Actions, Dependabot, pre-commit
 
-- **What:** CI (`ci.yml`), Security Scan / CodeQL / gitleaks, Dependabot, local hooks.
-- **Why:** Catching lint, tests, and leaked secrets on the laptop is cheaper than on `main`. Dependabot is GitHub’s default CVE channel. See [GitHub Actions](https://docs.github.com/en/actions) and [Dependabot](https://docs.github.com/en/code-security/dependabot).
-- **How:** `bash scripts/verify.sh` before marking a task done. `scripts/setup-github-repo.sh` enables alerts and branch protection.
+- **What:** CI (`ci.yml`), Security Scan / CodeQL / gitleaks, local `/update-deps`, Dependabot as weekly backup, local hooks.
+- **Why:** Catching lint, tests, leaked secrets, and dependency bumps on the laptop is cheaper than waiting on GitHub Dependabot PRs. RAM-capped parallel `feature-gate` stacks and `/best-of-n` use local CPU; optional Ollama stays on 127.0.0.1 (`docs/LOCAL_MODELS.md`) with no cloud keys. See [GitHub Actions](https://docs.github.com/en/actions) and [Dependabot](https://docs.github.com/en/code-security/dependabot).
+- **How:** `bash scripts/verify.sh` before marking a task done. Before a release: `/update-deps` or `just update-deps-dry`. `scripts/setup-github-repo.sh` still enables alerts and branch protection.
 
 ## BUILD_PLAN labels
 

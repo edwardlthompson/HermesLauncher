@@ -82,7 +82,7 @@ Progress file: `.cursor/agent-progress.json` (gitignored). See `.cursor-session-
 
 | Script | Purpose |
 |--------|---------|
-| `scripts/feature-gate.sh` | Hygiene + encoding + stack lint/test/build |
+| `scripts/feature-gate.sh` | Hygiene + encoding + RAM-capped parallel stack lint/test/build |
 | `scripts/feature-autofix.sh` | Mechanical multi-stack format/lint (ruff, Biome, cargo fmt, gofmt, whitespace) |
 | `scripts/apply-suggested-gate-fixes.sh` | Allowlisted `failed_stage` → safe fixer commands |
 | `scripts/watch-agent-gates.sh` | Gate loop with autofix + progress tracking |

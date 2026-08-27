@@ -7,6 +7,7 @@ export default defineConfig({
     environment: "jsdom",
     setupFiles: ["src/test/setup-localStorage.ts"],
     exclude: ["e2e/**", "node_modules/**"],
+    maxWorkers: process.env.VITEST_MAX_WORKERS || "50%",
     coverage: {
       provider: "v8",
       include: [

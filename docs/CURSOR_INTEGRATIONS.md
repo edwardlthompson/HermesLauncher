@@ -8,10 +8,10 @@ After `scripts/init-project.sh --distribution-tier foss`:
 
 | Layer | Artifact | Status |
 |-------|----------|--------|
-| Rules | `.cursor/rules/*.mdc` | Shipped (15) |
-| Commands | `.cursor/commands/*.md` | Shipped (27) |
+| Rules | `.cursor/rules/*.mdc` | Shipped (16) |
+| Commands | `.cursor/commands/*.md` | Shipped (33) |
 | Hooks | `.cursor/hooks.json` + `.cursor/hooks/` | Shipped |
-| Skills | `.cursor/skills/` (8) | Shipped |
+| Skills | `.cursor/skills/` (11) | Shipped |
 | Subagents | `.cursor/agents/` (3) | Shipped |
 | Modes | `docs/CURSOR_MODES.md` | Shipped |
 | Worktrees | `.cursor/worktrees.json` + OS setup scripts | Shipped |
@@ -23,7 +23,7 @@ After `scripts/init-project.sh --distribution-tier foss`:
 | Plugin pack | `.cursor-plugin/plugin.json` + `scripts/pack-cursor-plugin.*` | Example |
 | CLI (opt-in) | `.github/workflow-examples/cursor-agent.yml` + `docs/CURSOR_CLI.md` | Example |
 | Codex review (opt-in) | `.github/workflow-examples/codex-review.yml` + `docs/CODEX_REVIEW.md` + `/codex-review` | Example |
-| GitHub MCP (optional) | Copy `.cursor/mcp.foss.example` → `.cursor/mcp.json` | Example |
+| GitHub + depsonar MCP (optional) | Copy `.cursor/mcp.foss.example` → `.cursor/mcp.json` | Example |
 Validation: `python3 scripts/agent-run.py check-cursor-integrations -- --tier foss`
 
 ## Commercial quick start
@@ -75,8 +75,10 @@ On **This Computer**, maximize local parallelism before Cloud:
 
 - Rule: [`.cursor/rules/local-compute.mdc`](../.cursor/rules/local-compute.mdc)
 - Parallel `/scope` Task subagents + worktrees + `/best-of-n`
-- `validate-bootstrap` runs independent checks via `scripts/lib/run_checks_parallel.py` (workers = CPU count, override with `BOOTSTRAP_CHECK_JOBS`)
-- Session start hook reminds agents of `local-first cpus=N`
+- `validate-bootstrap` runs independent checks via `scripts/lib/run_checks_parallel.py` (RAM-capped workers, override with `BOOTSTRAP_CHECK_JOBS`)
+- Multi-stack `feature-gate` runs independent stacks in parallel (`FEATURE_GATE_JOBS`; CI cap 2)
+- `/best-of-n` and `/emulator` are slash commands; Ollama recipe: [`docs/LOCAL_MODELS.md`](LOCAL_MODELS.md)
+- Session start hook reminds agents of `local-first cpus=N ram= jobs= ollama=`
 
 ## Worktrees
 
@@ -117,6 +119,9 @@ Commands remain canonical UX. Skills wrap high-churn flows:
 | `sprint0-signoff` | Sprint 0 Child Repo Playbook |
 | `feature-vertical-slice` | `/feature` |
 | `canvas-bootstrap-status` | `/gates` (Canvas; markdown fallback) |
+| `update-deps` | `/update-deps`, `/ship` |
+| `best-of-n` | `/best-of-n` |
+| `local-models` | `docs/LOCAL_MODELS.md` |
 ## Subagents
 
 | Agent | Role |
@@ -127,7 +132,7 @@ Commands remain canonical UX. Skills wrap high-churn flows:
 ## MCP activation (FOSS)
 
 1. Copy `.cursor/mcp.foss.example` → `.cursor/mcp.json` (gitignored)
-2. Set `GITHUB_TOKEN` in environment
+2. Set `GITHUB_TOKEN` in environment (GitHub MCP only; depsonar does not need it)
 3. Restart Cursor
 4. Never commit tokens or live `mcp.json`
 

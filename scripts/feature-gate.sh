@@ -13,10 +13,12 @@ JSON=false
 STRICT=false
 STACK=""
 STEP=""
+SKIP_PREAMBLE=false
 while [ $# -gt 0 ]; do
   case "$1" in
     --json) JSON=true; shift ;;
     --strict) STRICT=true; shift ;;
+    --skip-preamble) SKIP_PREAMBLE=true; shift ;;
     --stack=*) STACK="${1#*=}"; shift ;;
     --stack) STACK="${2:-}"; shift 2 ;;
     --step=*) STEP="${1#*=}"; shift ;;
@@ -24,6 +26,19 @@ while [ $# -gt 0 ]; do
     *) shift ;;
   esac
 done
+
+if [ -n "${FEATURE_GATE_JOBS:-}" ]; then
+  case "$FEATURE_GATE_JOBS" in
+    *[!0-9]*|0)
+      echo "FAIL: FEATURE_GATE_JOBS must be a positive int" >&2
+      exit 2
+      ;;
+  esac
+fi
+
+if [ "${FEATURE_GATE_CHILD:-}" = "1" ] || [ "$SKIP_PREAMBLE" = true ]; then
+  JSON=false
+fi
 
 log() {
   if [ "$JSON" = true ]; then
@@ -68,6 +83,9 @@ PY
 }
 
 record_progress() {
+  if [ "${FEATURE_GATE_CHILD:-}" = "1" ]; then
+    return 0
+  fi
   local exit_code="$1"
   local gp=""
   if [ "${#GATES_PASSED[@]}" -gt 0 ]; then
@@ -149,6 +167,11 @@ if [ -z "$STACK" ] && [ -f .cursor/stack-selection.json ]; then
 fi
 STACK="${STACK:-multi}"
 
+if [ "$SKIP_PREAMBLE" = true ] && [ "$STACK" = "multi" ]; then
+  echo "FAIL: --skip-preamble requires a single stack (not multi)" >&2
+  exit 2
+fi
+
 should_run() {
   local s="$1"
   [ "$STACK" = "multi" ] || [ "$STACK" = "none" ] || [ "$STACK" = "$s" ]
@@ -183,33 +206,46 @@ run_in_dir() {
   popd >/dev/null
 }
 
-log "Feature gate (stack=$STACK step=${STEP:-none} strict=$STRICT)..."
+log "Feature gate (stack=$STACK step=${STEP:-none} strict=$STRICT skip_preamble=$SKIP_PREAMBLE)..."
 
-if ! bash scripts/check-repo-hygiene.sh >/dev/null 2>&1; then
-  fail_gate "hygiene" "$(bash scripts/check-repo-hygiene.sh 2>&1 | tail -n 20)"
+if [ "$SKIP_PREAMBLE" = false ]; then
+  if ! bash scripts/check-repo-hygiene.sh >/dev/null 2>&1; then
+    fail_gate "hygiene" "$(bash scripts/check-repo-hygiene.sh 2>&1 | tail -n 20)"
+  fi
+  GATES_PASSED+=("hygiene")
+
+  bash scripts/sync-exemplar-config.sh >/dev/null 2>&1 || true
+
+  if ! bash scripts/check-file-encoding.sh >/dev/null 2>&1; then
+    fail_gate "encoding" "$(bash scripts/check-file-encoding.sh 2>&1 | tail -n 20)"
+  fi
+  GATES_PASSED+=("encoding")
+
+  if ! bash scripts/check-env.sh >/dev/null 2>&1; then
+    fail_gate "env" "$(bash scripts/check-env.sh 2>&1 | tail -n 20)"
+  fi
+  GATES_PASSED+=("env")
+
+  if ! bash scripts/check-file-limits.sh >/dev/null 2>&1; then
+    fail_gate "file-limits" "$(bash scripts/check-file-limits.sh 2>&1 | tail -n 20)"
+  fi
+  GATES_PASSED+=("file-limits")
 fi
-GATES_PASSED+=("hygiene")
 
-bash scripts/sync-exemplar-config.sh >/dev/null 2>&1 || true
-
-if ! bash scripts/check-file-encoding.sh >/dev/null 2>&1; then
-  fail_gate "encoding" "$(bash scripts/check-file-encoding.sh 2>&1 | tail -n 20)"
-fi
-GATES_PASSED+=("encoding")
-
-if ! bash scripts/check-env.sh >/dev/null 2>&1; then
-  fail_gate "env" "$(bash scripts/check-env.sh 2>&1 | tail -n 20)"
-fi
-GATES_PASSED+=("env")
-
-if ! bash scripts/check-file-limits.sh >/dev/null 2>&1; then
-  fail_gate "file-limits" "$(bash scripts/check-file-limits.sh 2>&1 | tail -n 20)"
-fi
-GATES_PASSED+=("file-limits")
-
+if [ "$STACK" = "multi" ]; then
+  stack_rc=0
+  "$PY" "$ROOT/scripts/lib/run_feature_stacks.py" || stack_rc=$?
+  if [ "$stack_rc" -eq 2 ]; then
+    block_env "invalid FEATURE_GATE_JOBS"
+  fi
+  if [ "$stack_rc" -ne 0 ]; then
+    fail_gate "stack-parallel" "one or more stack children failed"
+  fi
+  GATES_PASSED+=("stack-parallel")
+else
 if should_run web && [ -f examples/web/package.json ]; then
   if ! command -v npm >/dev/null 2>&1; then
-    if [ "$STACK" = "web" ]; then
+    if [ "$STACK" = "web" ] && [ "${FEATURE_GATE_CHILD:-}" != "1" ]; then
       block_env "npm not found; install Node.js or set PATH"
     else
       skip_or_block "Skipping web gate (npm not found)"
@@ -226,7 +262,7 @@ fi
 
 if should_run python && [ -f examples/python/pyproject.toml ]; then
   if ! command -v uv >/dev/null 2>&1; then
-    if [ "$STACK" = "python" ]; then
+    if [ "$STACK" = "python" ] && [ "${FEATURE_GATE_CHILD:-}" != "1" ]; then
       block_env "uv not found"
     else
       skip_or_block "Skipping python gate (uv not found)"
@@ -242,7 +278,7 @@ fi
 
 if should_run android && [ -f examples/android/gradlew ]; then
   if ! command -v java >/dev/null 2>&1 && [ -z "${JAVA_HOME:-}" ]; then
-    if [ "$STACK" = "android" ]; then
+    if [ "$STACK" = "android" ] && [ "${FEATURE_GATE_CHILD:-}" != "1" ]; then
       block_env "JAVA_HOME not set; Android gate skipped"
     else
       skip_or_block "Skipping android gate (JAVA_HOME not set)"
@@ -254,7 +290,7 @@ fi
 
 if should_run node && [ -f examples/node/package.json ]; then
   if ! command -v npm >/dev/null 2>&1; then
-    if [ "$STACK" = "node" ]; then
+    if [ "$STACK" = "node" ] && [ "${FEATURE_GATE_CHILD:-}" != "1" ]; then
       block_env "npm not found"
     else
       skip_or_block "Skipping node gate (npm not found)"
@@ -270,7 +306,7 @@ fi
 
 if should_run rust && [ -f examples/rust/Cargo.toml ]; then
   if ! command -v cargo >/dev/null 2>&1; then
-    if [ "$STACK" = "rust" ]; then
+    if [ "$STACK" = "rust" ] && [ "${FEATURE_GATE_CHILD:-}" != "1" ]; then
       block_env "cargo not found"
     else
       skip_or_block "Skipping rust gate (cargo not found)"
@@ -284,7 +320,7 @@ fi
 
 if should_run go && [ -f examples/go/go.mod ]; then
   if ! command -v go >/dev/null 2>&1; then
-    if [ "$STACK" = "go" ]; then
+    if [ "$STACK" = "go" ] && [ "${FEATURE_GATE_CHILD:-}" != "1" ]; then
       block_env "go not found"
     else
       skip_or_block "Skipping go gate (go not found)"
@@ -294,6 +330,7 @@ if should_run go && [ -f examples/go/go.mod ]; then
     run_in_dir examples/go go-fmt sh -c 'test -z "$(gofmt -l .)"'
     run_in_dir examples/go go-test go test ./...
   fi
+fi
 fi
 
 if [ "$STRICT" = true ] && [ "$STACK" = "multi" ]; then

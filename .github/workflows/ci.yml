@@ -137,11 +137,18 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: "22"
+          cache: npm
+          cache-dependency-path: |
+            examples/web/package-lock.json
+            examples/node/package-lock.json
       - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
       - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: "21"
+          cache: gradle
       - name: Install web dependencies
         if: hashFiles('examples/web/package-lock.json') != ''
         working-directory: examples/web
@@ -564,4 +571,3 @@ jobs:
       - run: go vet ./...
       - run: test -z "$(gofmt -l .)"
       - run: go test ./...
-

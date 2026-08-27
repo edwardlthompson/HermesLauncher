@@ -54,6 +54,8 @@ Before running instrumented tests or manual QA:
 - 🔲 Set `SOURCE_DATE_EPOCH` for reproducible release builds (template default: `1700000000`)
 - 🔲 Accept licenses: `sdkmanager --licenses`
 
+Local host-GPU path (skips if SDK missing): `python3 scripts/agent-run.py run-android-emulator-local` or `just android-instrumented`. Uses `-gpu host` then `swiftshader_indirect`. GitHub `android-instrumented` remains backup.
+
 ## FOSS compliance
 
 - No `com.google.android.gms` dependencies

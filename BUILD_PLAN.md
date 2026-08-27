@@ -65,6 +65,18 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 > **M41** archived in COMPLETED_TASKS.md @ `c0f0dee`.
 
+### M43 — Local resource packing
+
+1. ✅ [AGENT] RAM-capped parallel feature-gate, `/best-of-n`, `/emulator` skip-if-no-SDK, local Ollama recipe (no keys), local-compute probe
+2. 🔲 [HUMAN] Optional: install Ollama and point Cursor Models at `http://127.0.0.1:11434/v1` (`docs/LOCAL_MODELS.md`)
+3. 🔲 [ADB] Optional: Android SDK licenses + first AVD (`/emulator` or `just android-instrumented`)
+
+### M42 — Local-first dependency updater
+
+1. ✅ [AGENT] Local `update-deps` CLI, `--local` pre-release gate, `/ship` chain, depsonar MCP example
+2. 🔲 [HUMAN] Optional: copy `.cursor/mcp.foss.example` → `.cursor/mcp.json` and restart Cursor
+3. 🔲 [HUMAN] Optional: reduce Dependabot interval or disable automerge
+
 ### M41 leftovers (human only)
 
 1. 🔲 [HUMAN] Watch repo Issues + add CODEOWNERS as collaborator; optional About smoke
@@ -176,7 +188,7 @@ When **Sprint 0** ends: stop re-reading `docs/INITIALIZATION_PROMPT.md` as the d
 
 - 🔲 [AUTO] `cursor-feature-radar.sh` (non-blocking; artifact in weekly-health-check)
 - 🔲 [AUTO] `check-security-triage.sh --wait-ci 300` (Dependabot + CI + Scorecard)
-- 🔲 [AGENT] Apply Dependabot bumps; triage Scorecard SARIF findings
+- 🔲 [AGENT] `/update-deps` locally; triage leftover Dependabot PRs and Scorecard SARIF
 - 🔲 [AUTO] CI matrix + Repo Hygiene + Feature Gate green on `main`
 
 ### Monthly
@@ -187,7 +199,7 @@ When **Sprint 0** ends: stop re-reading `docs/INITIALIZATION_PROMPT.md` as the d
 
 ### Pre-release (every version)
 
-- 🔲 [AUTO] `pre-release-gate.sh` + `run-maintainer-gates.sh` (includes `verify-branch-protection.sh`)
+- 🔲 [AUTO] `pre-release-gate.sh --local` before push; full `pre-release-gate.sh` + `run-maintainer-gates.sh` after (`verify-branch-protection.sh`)
 - 🔲 [AUTO] Release Please PR merged; CHANGELOG + manifest bumped
 
 ### Human (after automation)

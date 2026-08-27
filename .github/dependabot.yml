@@ -1,3 +1,5 @@
+# Local-first is primary (just update-deps-dry / /update-deps / /ship).
+# This file is weekly GitHub backup. Do not delete. Frequency changes are [HUMAN].
 version: 2
 updates:
   - package-ecosystem: github-actions

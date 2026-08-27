@@ -31,6 +31,10 @@ else
 fi
 
 echo ""
+echo "--- Local compute ---"
+bash scripts/check-local-compute.sh || true
+
+echo ""
 echo "--- Working tree ---"
 python3 - <<'PY'
 import sys

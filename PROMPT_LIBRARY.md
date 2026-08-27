@@ -274,7 +274,40 @@ Write CODE_REVIEW.md from CODE_REVIEW.md.example; add BUILD_PLAN sprint; execute
 **Prompt:**
 
 ```
-Execute @.cursor/commands/dependabot.md — triage alerts/PRs; KB-007 npm overrides when needed.
+Execute @.cursor/commands/dependabot.md — leftover GitHub alerts/PRs after /update-deps; KB-007 npm overrides when needed.
+
+```
+
+## Entry 23b — Update deps (`/update-deps`)
+
+**Slash command:** `.cursor/commands/update-deps.md`
+
+**Prompt:**
+
+```
+Execute @.cursor/commands/update-deps.md — local dry-run, audit, patch/minor apply. Prefer depsonar MCP; else upd CLI. Do not git push.
+
+```
+
+## Entry 23c — Best-of-N (`/best-of-n`)
+
+**Slash command:** `.cursor/commands/best-of-n.md`
+
+**Prompt:**
+
+```
+Execute @.cursor/commands/best-of-n.md — local worktree model race; cap N by RAM; one Ollama server; never git push.
+
+```
+
+## Entry 23d — Local emulator (`/emulator`)
+
+**Slash command:** `.cursor/commands/emulator.md`
+
+**Prompt:**
+
+```
+Execute @.cursor/commands/emulator.md — local AOSP instrumented tests; skip if no SDK; never git push or adb reboot.
 
 ```
 
@@ -285,7 +318,7 @@ Execute @.cursor/commands/dependabot.md — triage alerts/PRs; KB-007 npm overri
 **Prompt:**
 
 ```
-Execute @.cursor/commands/prerelease.md — prerelease-autofix, optional Codex (/codex-review), hard pre-release-gate; zero Critical/High before /push. Used by /ship.
+Execute @.cursor/commands/prerelease.md — if /ship already ran /update-deps, audit-only; else full /update-deps. Then release-please-dry, prerelease-autofix, optional Codex, pre-release-gate --local. Used by /ship.
 
 ```
 
@@ -527,7 +560,7 @@ Execute @.cursor/commands/build.md — autonomous BUILD_PLAN sprint chain; no us
 **Prompt:**
 
 ```
-Execute @.cursor/commands/ship.md — prerelease → push → regress; grants git push approval.
+Execute @.cursor/commands/ship.md — update-deps → prerelease → push → regress; grants git push approval.
 
 ```
 
@@ -538,7 +571,7 @@ Execute @.cursor/commands/ship.md — prerelease → push → regress; grants gi
 **Prompt:**
 
 ```
-Execute @.cursor/commands/maintain.md — radar → triage → dependabot → audit.
+Execute @.cursor/commands/maintain.md — radar → triage → update-deps → dependabot → audit.
 
 ```
 

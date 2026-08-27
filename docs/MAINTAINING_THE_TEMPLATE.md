@@ -15,7 +15,7 @@ Playbook for template maintainers optimizing agent-project-bootstrap over time.
 1. All CI checks green on main
 2. `bash scripts/check-repo-hygiene.sh` passes
 3. **Dry-run:** **Actions → Release → Run workflow** (`workflow_dispatch`, no tag input) to validate SBOM/provenance **before** merge
-4. Run `scripts/pre-release-gate.sh` (or `.ps1`) — CI poll, Dependabot Critical/High count, version/tag match
+4. Run `scripts/pre-release-gate.sh --local` before push (`/prerelease` / `/ship`); full `pre-release-gate.sh` after push (`/regress`, `release.yml`)
 5. Run `scripts/run-maintainer-gates.sh` for weekly maintainer cycle (readme, fdroid metadata, feature-gate, CI jobs)
 6. Bump `.template-version` (or merge Release Please PR which bumps it)
 7. Update `CHANGELOG.md` (Keep a Changelog; Release Please PR covers this)

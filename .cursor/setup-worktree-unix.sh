@@ -84,7 +84,10 @@ install_npm_dir() {
     echo "SKIP npm ci in $dir (npm not on PATH)"
     return 0
   fi
-  (cd "$dir" && npm ci) && echo "OK npm ci in $dir" || echo "SKIP npm ci failed in $dir (non-fatal)"
+  (cd "$dir" && npm ci --prefer-offline --no-audit --no-fund) && echo "OK npm ci in $dir" || {
+    echo "WARN npm ci --prefer-offline failed in $dir; retry without offline"
+    (cd "$dir" && npm ci --no-audit --no-fund) && echo "OK npm ci in $dir" || echo "SKIP npm ci failed in $dir (non-fatal)"
+  }
 }
 
 install_uv_dir() {

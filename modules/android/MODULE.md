@@ -55,15 +55,15 @@ See `examples/android/` for FOSS Gradle/Kotlin skeleton. CI runs `./gradlew asse
 
 ## Instrumented tests (CI)
 
-Optional emulator job **Android - connectedDebugAndroidTest** in `.github/workflows/ci.yml` runs `MainActivitySmokeTest` via `reactivecircus/android-emulator-runner` (API 34, x86_64, **AOSP `default` target** — no Google APIs). Runs when `examples/android/**` changes (or on `workflow_dispatch`). Local equivalent:
+Optional emulator job **Android - connectedDebugAndroidTest** in `.github/workflows/ci.yml` runs `MainActivitySmokeTest` via `reactivecircus/android-emulator-runner` (API 34, x86_64, **AOSP `default` target** — no Google APIs). Runs when `examples/android/**` changes (or on `workflow_dispatch`). Local equivalent (host GPU when possible; skip if no SDK):
 
 ```bash
-cd examples/android
-./gradlew connectedDebugAndroidTest
+python3 scripts/agent-run.py run-android-emulator-local
+# or: just android-instrumented
 
 ```
 
-Requires an AVD or USB device (`[ADB]`). Robolectric unit tests remain the default fast path in `feature-gate.sh`.
+`/gates` uses `--if-device` so it will not download system images. Requires an AVD or USB device (`[ADB]`). Robolectric unit tests remain the default fast path in `feature-gate.sh`.
 
 **System bar / nav mode verification:** `bash scripts/verify-android-insets.sh` — sets 3-button and gesture nav via adb, runs `NavBarInsetUiTest` bounds checks. Optional `--screencap`. Manual Settings only if adb `settings put` fails on OEM.
 

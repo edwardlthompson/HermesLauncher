@@ -108,7 +108,7 @@ def generate_help(root: Path, tier: str) -> None:
         ("Plugin pack", "`.cursor-plugin/plugin.json` + `scripts/pack-cursor-plugin.*`", "both"),
         ("CLI (opt-in)", "`.github/workflow-examples/cursor-agent.yml`", "both"),
         ("Codex review (opt-in)", "`.github/workflow-examples/codex-review.yml`", "both"),
-        ("GitHub MCP (optional)", "`.cursor/mcp.foss.example`", "foss"),
+        ("GitHub + depsonar MCP (optional)", "`.cursor/mcp.foss.example`", "foss"),
         ("Feature radar", "`scripts/cursor-feature-radar.sh`", "both"),
     ]
     commercial_rows = [

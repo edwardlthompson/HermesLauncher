@@ -108,6 +108,30 @@
       "last_seen": "2026-07-21"
     },
     {
+      "id": "skills.update-deps",
+      "category": "skills",
+      "distribution_tier": "both",
+      "doc_url": "https://cursor.com/docs/context/skills",
+      "template_status": "shipped",
+      "last_seen": "2026-08-27"
+    },
+    {
+      "id": "skills.best-of-n",
+      "category": "skills",
+      "distribution_tier": "both",
+      "doc_url": "https://cursor.com/docs/context/skills",
+      "template_status": "shipped",
+      "last_seen": "2026-08-27"
+    },
+    {
+      "id": "skills.local-models",
+      "category": "skills",
+      "distribution_tier": "both",
+      "doc_url": "https://cursor.com/docs/context/skills",
+      "template_status": "shipped",
+      "last_seen": "2026-08-27"
+    },
+    {
       "id": "skills.codex-review",
       "category": "skills",
       "distribution_tier": "both",
@@ -162,6 +186,14 @@
       "doc_url": "https://cursor.com/docs/context/mcp",
       "template_status": "example",
       "last_seen": "2026-07-21"
+    },
+    {
+      "id": "mcp.foss.depsonar",
+      "category": "mcp",
+      "distribution_tier": "foss",
+      "doc_url": "https://cursor.com/docs/context/mcp",
+      "template_status": "example",
+      "last_seen": "2026-08-27"
     },
     {
       "id": "mcp.commercial",

@@ -1,0 +1,4 @@
+# Local-first updater (upd). Kotlin >=2.3.30 is blocked in scripts/lib/update_deps.py
+# (CodeQL java-kotlin extractor). Do not ignore all Kotlin packages — patches below
+# 2.3.30 are allowed. GitHub Actions SHA pins: upd --update-action-shas.
+# Wrapper always passes --max-bump minor so apply cannot write majors.

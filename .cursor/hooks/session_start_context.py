@@ -22,8 +22,22 @@ def main() -> None:
         except json.JSONDecodeError:
             pass
     cpus = os.cpu_count() or 1
+    ram = "?"
+    jobs = "?"
+    ollama = "down"
+    try:
+        sys.path.insert(0, str(ROOT / "scripts" / "lib"))
+        from local_resources import ollama_up, ram_gb_or_none, recommended_check_jobs
+
+        gb = ram_gb_or_none()
+        ram = str(gb) if gb is not None else "?"
+        jobs = str(recommended_check_jobs())
+        ollama = "up" if ollama_up() else "down"
+    except Exception:
+        pass
     parts.append(
-        f"local-first cpus={cpus}: prefer This Computer + parallel Task/worktrees/"
+        f"local-first cpus={cpus} ram={ram} jobs={jobs} ollama={ollama}: "
+        f"prefer This Computer + parallel Task/worktrees/"
         f"/best-of-n over Cloud; BOOTSTRAP_CHECK_JOBS overrides gate parallelism"
     )
     if parts:

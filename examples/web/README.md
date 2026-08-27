@@ -28,7 +28,7 @@ examples/web/
 
 ```bash
 npm ci
-npm test          # Vitest unit tests
+npm test          # Vitest unit tests (maxWorkers 50%; override with VITEST_MAX_WORKERS=1 if a race appears)
 npm run build     # Production build → dist/
 npm run preview   # Preview server
 npx playwright test  # E2E + axe + visual snapshots

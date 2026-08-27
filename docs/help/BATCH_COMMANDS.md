@@ -35,19 +35,21 @@ Grouped by life moment (not every command — use `/` menu for the full list).
 
 **Building:** `/plan` · `/feature` · `/fix` (gates failed after `/build`) · `/cleanup` (archive finished BUILD_PLAN rows) · `/scope` (parallel manifest + auto Task dispatch)
 
-**Docs & checks:** `/docs` · `/ci` (CI poll only) · `/gates` (full local validation). **bootstrap-doctor** is an alias for the same maintainer/validate gates: `python3 scripts/agent-run.py validate-bootstrap --quick` or `python3 scripts/agent-run.py run-maintainer-gates`.
+**Docs & checks:** `/docs` · `/ci` (CI poll only) · `/gates` (full local validation, including compute probe). **bootstrap-doctor** is an alias for the same maintainer/validate gates: `python3 scripts/agent-run.py validate-bootstrap --quick` or `python3 scripts/agent-run.py run-maintainer-gates`.
 
-**Publishing:** `/prerelease` (autofix + optional Codex + hard gate) · `/push` (commit + push + release) · `/regress` (after release) · `/codex-review` (third-party review alone)
+**Publishing:** `/update-deps` (local bumps) · `/prerelease` (autofix + optional Codex + `--local` gate) · `/push` (commit + push + release) · `/regress` (after release) · `/codex-review` (third-party review alone)
 
-**Maintenance:** `/triage` · `/dependabot` · `/audit` (full repo review)
+**Local hardware:** `/best-of-n` (worktree model race) · `/emulator` (optional AOSP GPU tests; skips without SDK)
 
-`/ship` runs `/prerelease` first — one command for autofix, optional Codex, gates, push, and regress.
+**Maintenance:** `/triage` · `/update-deps` · `/dependabot` (GitHub leftover) · `/audit` (full repo review)
+
+`/ship` runs `/update-deps` then `/prerelease` — one command for local bumps, autofix, optional Codex, local gates, push, and regress.
 
 **Long sessions:** `/compact` (save checkpoint before clearing chat) · `/restore` (load checkpoint)
 
 ## Before you publish
 
-`/push` and `/ship` **push code to GitHub**. Only run them when you intend to publish. `/ship` is the full path (pre-release checks → push → post-release verification). Use `/prerelease` alone if you want checks without pushing yet.
+`/push` and `/ship` **push code to GitHub**. Only run them when you intend to publish. `/ship` is the full path (local dep update → pre-release checks → push → post-release verification). Use `/prerelease` alone if you want checks without pushing yet.
 
 ## Coming back after a break?
 

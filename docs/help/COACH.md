@@ -14,7 +14,7 @@ Read docs/help/COACH.md and tell me the next recommended action and why. Do not 
 ## Recipe
 
 1. Read `AGENT_MEMORY.md` (Persistent Context + latest retrospective only), `BUILD_PLAN.md` Sequential, `docs/BEST_PRACTICES.md`, and `docs/FIRST_30_DAYS.md`.
-2. Run `python3 scripts/agent-run.py project-health` (or `bash scripts/project-health.sh`) and `python3 scripts/agent-run.py feedback-inbox`. Summarize stack, repo mode (template vs child), next BUILD_PLAN row, and any dirty Unreleased / unpushed note. If the fix inbox is non-empty, next action is `/audit`.
+2. Run `python3 scripts/agent-run.py project-health` (or `bash scripts/project-health.sh`) and `python3 scripts/agent-run.py feedback-inbox`. Summarize stack, repo mode (template vs child), next BUILD_PLAN row, and any dirty Unreleased / unpushed note. If the fix inbox is non-empty, next action is `/audit`. If `ollama=up`, mention `docs/LOCAL_MODELS.md`.
 3. Name the **next recommended action** in one sentence, then the **industry reason** (link the matching BEST_PRACTICES subsection).
 4. Offer a walkthrough of the first 3–4 open rows in `docs/FIRST_30_DAYS.md`, or a 7-day slice if time-boxed. If Week 1 is still open, offer [`TOUR.md`](TOUR.md) before inventing a custom onboarding.
 5. Do not dump whole memory files. Do not update `AGENT_MEMORY.md` unless this is a milestone.

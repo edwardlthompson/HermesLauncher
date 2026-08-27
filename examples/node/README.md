@@ -11,7 +11,7 @@ FOSS apps with a clear path from idea to release — minimal typed HTTP API (Hon
 ```bash
 npm ci
 npm run lint
-npm test
+npm test          # Vitest (maxWorkers 50%; VITEST_MAX_WORKERS=1 if a race)
 npm run dev
 
 ```

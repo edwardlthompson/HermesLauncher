@@ -2,7 +2,7 @@
 
 > Technical catalog for agents and maintainers. **Humans:** start with [docs/help/BATCH_COMMANDS.md](help/BATCH_COMMANDS.md).
 
-30 slash commands: **25 atomic** workflows + **5 super** orchestrators. Bare-word triggers: `.cursor/rules/batch-commands.mdc`. Other IDEs: paste the matching file under `docs/help/` (start with `docs/help/TOUR.md` or `docs/help/IDEAS.md`).
+33 slash commands: **28 atomic** workflows + **5 super** orchestrators. Bare-word triggers: `.cursor/rules/batch-commands.mdc`. Other IDEs: paste the matching file under `docs/help/` (start with `docs/help/TOUR.md` or `docs/help/IDEAS.md`).
 
 ## Super commands
 
@@ -11,8 +11,8 @@
 | `/bootstrap` | init → prune → setup → gates | Agent | 42 | No |
 | `/verify` | docs → gates → ci | Agent | 43 | No |
 | `/build` | Autonomous BUILD_PLAN sprint chain — automates HUMAN/ADB first, backlog on failure | Agent | 44 | No |
-| `/ship` | prerelease (autofix + optional Codex + hard gate) → push → regress | Agent | 45 | **Yes** |
-| `/maintain` | triage → dependabot → audit | Agent | 46 | No |
+| `/ship` | update-deps → prerelease (`--local`) → push → regress | Agent | 45 | **Yes** |
+| `/maintain` | triage → update-deps → dependabot → audit | Agent | 46 | No |
 ## Atomic commands
 
 | Command | Workflow | Super parent | PROMPT_LIBRARY |
@@ -23,9 +23,12 @@
 | `/debug` | Defect investigation | — | 20 |
 | `/gates` | Local validation suite | bootstrap, verify, build | 4/5 |
 | `/triage` | Weekly security pass | maintain | 6 |
-| `/dependabot` | Triage/merge Dependabot; KB-007 overrides | maintain | 6 + KB-007 |
+| `/dependabot` | Leftover GitHub Dependabot alerts/PRs after local apply | maintain | 6 + KB-007 |
 | `/push` | Release commit → push → release | ship | 26 |
-| `/prerelease` | `pre-release-gate.sh`; zero Critical/High | ship | 3/10 |
+| `/prerelease` | `pre-release-gate.sh --local`; local CVE audit | ship | 3/10 |
+| `/update-deps` | Local dry-run/audit/apply (depsonar MCP or upd CLI) | ship, maintain | — |
+| `/best-of-n` | Local worktree model race (cap N by RAM; never push) | — | — |
+| `/emulator` | Local AOSP instrumented tests (skip if no SDK) | — | — |
 | `/regress` | Post-release SBOM, Pages, upgrade sim | ship | 15 |
 | `/feature` | Sprint 2+ vertical slice + gate loop | build | 17 |
 | `/fix` | `watch-agent-gates --autofix` in feature scope | build | 17 |
@@ -51,7 +54,7 @@ What next (now)?    → /coach
 What could we add?  → /ideas
 New feature?        → /build  (or /fix if gates fail)
 Ready to publish?   → /ship   (or /prerelease then /push)
-Weekly maintenance? → /maintain (heavy) or /triage + /verify (light)
+Weekly maintenance? → /maintain (heavy) or /triage + /update-deps (light)
 Bug with evidence?  → /debug  (not /audit)
 Long chat session?  → /compact before clear · /restore after
 
@@ -64,7 +67,7 @@ Long chat session?  → /compact before clear · /restore after
 | `/gates` | Local scripts only — no CI poll. **bootstrap-doctor** alias: `validate-bootstrap --quick` or `run-maintainer-gates` |
 | `/verify` | docs + gates + CI (pre-merge) |
 | `/push` | Full release workflow with explicit push approval |
-| `/ship` | prerelease + push + regress (preferred publish path) |
+| `/ship` | update-deps + local prerelease + push + regress (preferred publish path) |
 ## File layout
 
 | Path | Role |

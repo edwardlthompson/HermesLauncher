@@ -764,6 +764,13 @@
       "owner": "maintainer"
     },
     {
+      "path": "docs/LOCAL_MODELS.md",
+      "purpose": "Local Ollama/LM Studio Cursor setup without cloud API keys",
+      "read_when": "session_start",
+      "update_when": "milestone_boundary",
+      "owner": "agent+human"
+    },
+    {
       "path": "docs/MAINTAINING_THE_TEMPLATE.md",
       "purpose": "Template maintainer semver, release checklist, badge conventions",
       "read_when": "release",
@@ -1821,6 +1828,34 @@
       "owner": "maintainer"
     },
     {
+      "path": "scripts/update-deps.sh",
+      "purpose": "Local-first dependency dry-run, apply, and audit",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/run-android-emulator-local.sh",
+      "purpose": "Opt-in host-GPU AOSP emulator plus instrumented tests (skip if no SDK)",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-local-compute.sh",
+      "purpose": "INFO probe for CPU RAM Ollama emulator; fail only on misconfig",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/release-please-dry.sh",
+      "purpose": "Preview next Release Please version without publishing",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": "scripts/check-tracked-artifacts.sh",
       "purpose": "Detect forbidden tracked build artifacts",
       "read_when": "milestone_boundary",
@@ -1916,6 +1951,9 @@
       ".cursor/commands/gates.md",
       ".cursor/commands/triage.md",
       ".cursor/commands/dependabot.md",
+      ".cursor/commands/update-deps.md",
+      ".cursor/commands/best-of-n.md",
+      ".cursor/commands/emulator.md",
       ".cursor/commands/push.md",
       ".cursor/commands/prerelease.md",
       ".cursor/commands/regress.md",

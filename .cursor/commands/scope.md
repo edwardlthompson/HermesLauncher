@@ -34,7 +34,7 @@ Write the manifest agents array to `.cursor/parallel-scope-lock.json` (gitignore
 
 ```
 
-Print **agent_count** in one line for the user.
+Print **agent_count** in one line for the user. Recommend `agent_count = min(8, slots)` from `python3 scripts/agent-run.py check-local-compute` (`slots=` line). Do not raise `MAX_AGENTS` above 8.
 
 ## 3. Auto-dispatch rules
 

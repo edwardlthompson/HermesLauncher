@@ -37,7 +37,8 @@
 
 - 🔲 Update `AGENT_MEMORY.md` at this milestone only
 - 🔲 Append one `DECISION_LOG.md` entry for the first architecture choice
-- 🔲 `/maintain` or `/triage` once (Dependabot + Scorecard awareness)
+- 🔲 `/maintain` or `/triage` + `/update-deps` once (local bumps; GitHub Dependabot leftover + Scorecard awareness)
+- 🔲 Optional: `just local-compute`; Ollama (`docs/LOCAL_MODELS.md`); `/emulator` if you have an Android SDK
 - 🔲 Bookmark `docs/help/BATCH_COMMANDS.md` (`/verify` before every PR)
 
 ## Next recommended action

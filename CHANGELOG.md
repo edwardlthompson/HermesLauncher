@@ -10,16 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.24.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.23.0...v0.24.0) (2026-08-23)
 
-
 ### Added
 
 * add privacy-first GitHub crash and feedback intake ([0f5f29b](https://github.com/edwardlthompson/agent-project-bootstrap/commit/0f5f29b469257e1e939a4f789bfe9fc36782dac6))
 
-
 ### Fixed
 
 * index privacy-feedback scripts and workflows ([c29987e](https://github.com/edwardlthompson/agent-project-bootstrap/commit/c29987e475a680dceb4e09b38dd125b730bc6d27))
-
 
 ### Documentation
 

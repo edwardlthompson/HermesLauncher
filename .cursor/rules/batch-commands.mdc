@@ -11,7 +11,7 @@ Prefer slash commands (`/audit`) when bare words fail — they load the same fil
 
 Full registry: `docs/BATCH_COMMANDS.md` · Human cheat sheet: `docs/help/BATCH_COMMANDS.md`
 
-## Atomic commands (25)
+## Atomic commands (28)
 
 | Word | File |
 |------|------|
@@ -40,6 +40,9 @@ Full registry: `docs/BATCH_COMMANDS.md` · Human cheat sheet: `docs/help/BATCH_C
 | coach | `.cursor/commands/coach.md` |
 | tour | `.cursor/commands/tour.md` |
 | ideas | `.cursor/commands/ideas.md` |
+| update-deps | `.cursor/commands/update-deps.md` |
+| best-of-n | `.cursor/commands/best-of-n.md` |
+| emulator | `.cursor/commands/emulator.md` |
 
 ## Super commands (5)
 
@@ -50,8 +53,8 @@ Run child atomics **in order**; summarize pass/fail after each step.
 | bootstrap | init → prune → setup → gates |
 | verify | docs → gates → ci |
 | build | plan → *(approval pause)* → feature → gates → cleanup |
-| ship | prerelease → push → regress |
-| maintain | triage → dependabot → audit |
+| ship | update-deps → prerelease → push → regress |
+| maintain | triage → update-deps → dependabot → audit |
 
 ## Rules
 

@@ -18,10 +18,12 @@ python3 scripts/agent-run.py check-github-ci --wait 300
 
 ## Gate Order (local)
 
-1. `scripts/watch-agent-gates.sh --once --autofix` (after each AGENT feature step)
-2. `scripts/feature-gate.sh --json` (same gate, manual)
-3. `pre-commit run --all-files` (optional if hooks installed)
-4. Push → `scripts/check-github-ci.sh --wait 300`
+1. `python3 scripts/agent-run.py update-deps` (dry-run; `--apply` only from `/update-deps` / `/ship`)
+2. `scripts/watch-agent-gates.sh --once --autofix` (after each AGENT feature step)
+3. `scripts/feature-gate.sh --json` (RAM-capped parallel stacks on `multi`; `FEATURE_GATE_JOBS` override)
+4. `pre-commit run --all-files` (optional if hooks installed)
+5. `/prerelease` uses `pre-release-gate.sh --local` (no GitHub wait)
+6. Push → `scripts/check-github-ci.sh --wait 300` (`/push`, `/regress` full gate)
 
 **Autonomous rule:** On gate failure, agent auto-fixes from JSON output within feature scope; re-run until pass or 3-strike. Push still requires human approval.
 

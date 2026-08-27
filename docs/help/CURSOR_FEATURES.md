@@ -7,9 +7,9 @@
 | Feature | Path | Tier |
 |---------|------|------|
 | Rules (`.mdc`) | `.cursor/rules/` | both |
-| Slash commands (30) | `.cursor/commands/` | both |
+| Slash commands (33) | `.cursor/commands/` | both |
 | Hooks | `.cursor/hooks.json` | both |
-| Skills (8) | `.cursor/skills/` | both |
+| Skills (11) | `.cursor/skills/` | both |
 | Subagents (3) | `.cursor/agents/` | both |
 | Worktrees | `.cursor/worktrees.json` | both |
 | Auto-review permissions | `.cursor/permissions.json` | both |
@@ -17,7 +17,7 @@
 | Plugin pack | `.cursor-plugin/plugin.json` + `scripts/pack-cursor-plugin.*` | both |
 | CLI (opt-in) | `.github/workflow-examples/cursor-agent.yml` | both |
 | Codex review (opt-in) | `.github/workflow-examples/codex-review.yml` | both |
-| GitHub MCP (optional) | `.cursor/mcp.foss.example` | foss |
+| GitHub + depsonar MCP (optional) | `.cursor/mcp.foss.example` | foss |
 | Feature radar | `scripts/cursor-feature-radar.sh` | both |
 Commercial-only features stay as `*.commercial.example` — see [CURSOR_INTEGRATIONS.md](../CURSOR_INTEGRATIONS.md).
 

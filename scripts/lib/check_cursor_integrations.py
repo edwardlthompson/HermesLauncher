@@ -15,6 +15,9 @@ SKILLS = (
     "sprint0-signoff",
     "feature-vertical-slice",
     "canvas-bootstrap-status",
+    "update-deps",
+    "best-of-n",
+    "local-models",
 )
 AGENTS = ("verifier", "gate-fixer", "explorer")
 COMMAND_SKILL = {
@@ -23,6 +26,8 @@ COMMAND_SKILL = {
     "fix.md": ("watch-gates-autofix",),
     "audit.md": ("check-repo-hygiene",),
     "feature.md": ("feature-vertical-slice",),
+    "update-deps.md": ("update-deps",),
+    "best-of-n.md": ("best-of-n",),
 }
 
 FOSS_EXAMPLES = (

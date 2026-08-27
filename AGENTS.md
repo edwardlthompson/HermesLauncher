@@ -35,7 +35,8 @@ This repository is a **GitHub Template** for FOSS projects with coding agents (C
 | Node 22 + npm | Web / Node stacks |
 | uv | Python stack |
 | JDK 17+ | Android stack |
-Copy `.env.example` → `.env` (never commit `.env`). Lockfiles are required when a stack is present.
+| Local deps | `python3 scripts/agent-run.py update-deps` (dry-run default; `--apply` / `--audit`). Pin `upd-cli==0.6.2`. Prefer `depsonar_*` MCP when enabled. GitHub Dependabot is weekly backup. |
+Copy `.env.example` → `.env` (never commit `.env`). Lockfiles are required when a stack is present. `/ship` runs `/update-deps` then `pre-release-gate.sh --local` before push.
 
 ## Build, Test, and Validation Commands
 
@@ -87,7 +88,7 @@ Do not mark a BUILD_PLAN feature row ✅ without tests or that justification. Co
 ## Security Guidelines & Commit Conventions
 
 - Conventional Commits; never commit secrets or `.env`
-- Security defaults are on: `SECURITY.md`, Dependabot, CI, CodeQL, secret scanning
+- Security defaults are on: `SECURITY.md`, local `update-deps --audit` before push, Dependabot (backup), CI, CodeQL, secret scanning
 - Destructive ops (`git push`, production deploys) need `[HUMAN]` approval (see `.cursor/rules/destructive-ops.mdc`)
 - Vulnerability reports: `SECURITY.md` (private reporting)
 
@@ -133,15 +134,15 @@ Activate only the modules matching your stack. See `modules/*/MODULE.md`.
 Shipped in template (see `docs/CURSOR_INTEGRATIONS.md`):
 
 - **Hooks** — `.cursor/hooks.json` enforces destructive-ops + UTF-8 (fail-open; `/push` session override)
-- **Skills (7)** — `.cursor/skills/` progressive-load companions for `/gates`, `/scope`, `/fix`, hygiene, Sprint 0, features, canvas status
+- **Skills** — `.cursor/skills/` companions for `/gates`, `/scope`, `/fix`, hygiene, Sprint 0, features, canvas, `/update-deps`, `/best-of-n`, local models
 - **Subagents (3)** — `.cursor/agents/` verifier, gate-fixer, explorer
-- **Local compute first** — `.cursor/rules/local-compute.mdc`: This Computer + parallel Task/worktrees/`/best-of-n` before Cloud; multi-core bootstrap checks
+- **Local compute first** — `.cursor/rules/local-compute.mdc`: This Computer + parallel Task/worktrees/`/best-of-n`; RAM-capped parallel `feature-gate` stacks; optional `/emulator`
 - **Worktrees** — `.cursor/worktrees.json` + fail-soft OS setup (`/worktree`, `/best-of-n`)
 - **Auto-review** — `.cursor/permissions.json` dual layer with hooks
 - **Plugin pack** — `.cursor-plugin/plugin.json` + `scripts/pack-cursor-plugin.*` → `dist/cursor-plugin/`
 - **CLI (opt-in)** — `docs/CURSOR_CLI.md` + `.github/workflow-examples/cursor-agent.yml`
 - **Codex review (opt-in)** — `docs/CODEX_REVIEW.md` + `/codex-review` + `.github/workflow-examples/codex-review.yml` (used by expanded `/prerelease` / `/ship`)
-- **Optional MCP** — copy `.cursor/mcp.foss.example` → gitignored `.cursor/mcp.json`
+- **Optional MCP** — copy `.cursor/mcp.foss.example` → gitignored `.cursor/mcp.json` (GitHub + pinned `depsonar@4`; GitHub token not required for depsonar)
 
 Validate: `python3 scripts/agent-run.py check-cursor-hooks -- --smoke`, `python3 scripts/agent-run.py check-cursor-integrations -- --tier foss`
 

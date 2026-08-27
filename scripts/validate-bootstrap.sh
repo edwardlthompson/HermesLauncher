@@ -88,6 +88,7 @@ BATCH_COMMANDS=(
   audit cleanup debug gates triage dependabot push prerelease regress
   feature fix init prune ci docs upgrade setup plan restore compact scope
   bootstrap verify build ship maintain coach tour ideas
+  codex-review update-deps best-of-n emulator
 )
 
 for cmd in "${BATCH_COMMANDS[@]}"; do
