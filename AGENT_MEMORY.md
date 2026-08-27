@@ -46,6 +46,7 @@ FOSS coding-agent bootstrap template: labeled BUILD_PLAN sprints, Golden Path ex
 
 | Date | Milestone | What worked | What to improve |
 |------|-----------|-------------|-----------------|
+| 2026-08-27 | v0.25.0 /ship | M42+M43 feat; `--max-bump minor`; About restore retry; RP #77 admin-merge; CI+CodeQL+Security Scan green | Empty Unreleased before push; child Go skip when FEATURE_GATE_CHILD=1; do not trust env GITHUB_TOKEN for GraphQL |
 | 2026-08-27 | M43 local resource packing | RAM-capped parallel feature-gate; `/best-of-n` + `/emulator`; Ollama docs no keys | Do not require Ollama/emulator on `/ship`; CI slot cap 2; dummy GUI string never in git |
 | 2026-08-27 | M42 local-first deps | `/update-deps` + `upd-cli==0.6.2`; `/ship` uses `--local` gate; Dependabot weekly backup; RP dry-run preview | Do not wait on Dependabot PRs before push; full GH gate stays on `/regress` |
 | 2026-08-23 | v0.24.0 /ship | Privacy-feedback feat + TEMPLATE_INDEX fix; RP #72 admin-merge; emptied Unreleased before merge | About-without forbids imports of `about/`; never run that gate via WSL1 `bash` |

@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-27 — Ship v0.25.0 (/ship)
+- **Status:** Accepted
+- **Context:** `/ship` after M42 local-first deps and M43 resource packing. `upd --apply` without `--max-bump minor` wrote GitHub Action majors; About-without restore `cp` hit Windows file lock after a passing gate.
+- **Decision:** Cap apply at `--max-bump minor`; prefer `gh auth token` + `--token` for Release Please dry-run; child feature-gate skips missing optional toolchains; retry About restore then `git checkout` fallback. Empty Unreleased before push. Admin-merge Release Please #77 to **v0.25.0**. Codex skipped (no key/CLI).
+- **Alternatives considered:** Apply GitHub Action majors (rejected: setup-java v6 / CodeQL fake tags). Fail `/prerelease` when Go is missing on the laptop (rejected: optional stack).
+- **Consequences:** Template at 0.25.0. HUMAN leftovers: Ollama install, mcp.json copy, Dependabot frequency. ADB leftover: Android SDK licenses.
+
 ### 2026-08-27 — Local resource packing (M43)
 - **Status:** Accepted
 - **Context:** After M42, local deps were fast but `feature-gate` still ran stacks serially, worktrees reinstalled cold, `/best-of-n` was docs-only, and GPU was idle.

@@ -2,6 +2,19 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## v0.25.0 Local-first deps and resource packing (2026-08-27)
+
+- ✅ [AUTO] Merge Release Please PR #77 — [v0.25.0](https://github.com/edwardlthompson/agent-project-bootstrap/releases/tag/v0.25.0) published @ `7670444`
+- ✅ [AGENT] `/ship`: M42 `/update-deps` + M43 parallel feature-gate; Codex skipped (no key/CLI); About restore retry; `--max-bump minor`
+
+## Sprint M43 — Local resource packing (2026-08-27)
+
+- ✅ [AGENT] RAM-capped parallel feature-gate, `/best-of-n`, `/emulator` skip-if-no-SDK, local Ollama recipe (no keys), local-compute probe
+
+## Sprint M42 — Local-first dependency updater (2026-08-27)
+
+- ✅ [AGENT] Local `update-deps` CLI, `--local` pre-release gate, `/ship` chain, depsonar MCP example
+
 ## v0.24.0 Privacy-first GitHub feedback (2026-08-23)
 
 - ✅ [AUTO] Merge Release Please PR #72 — [v0.24.0](https://github.com/edwardlthompson/agent-project-bootstrap/releases/tag/v0.24.0) published @ `c0f0dee`
