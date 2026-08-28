@@ -81,7 +81,7 @@ Place `[HUMAN]`/`[ADB]` rows only under `#### Human & device (after automation)`
 
 Config env vars (optional): `BUILD_STACK`, `BUILD_PROJECT_NAME`, `BUILD_PURPOSE`, `GITHUB_REPO`, `BUILD_DONATION_URL`. Fallback: `.cursor/stack-selection.json`, `gh repo view`, folder name.
 
-Status: `bash scripts/build-sprint-status.sh --json --lane child` → `next_row.action` is `automate_human`, `automate_adb`, `execute`, or `parallel_dispatch`. Rows already in `HUMAN_BACKLOG.md` are skipped until a human clears them.
+Status: `bash scripts/build-sprint-status.sh --json --lane auto` → `next_row.action` is `automate_human`, `automate_adb`, `execute`, or `parallel_dispatch`. Rows already in `HUMAN_BACKLOG.md` are skipped until a human clears them. On the template, `auto` selects maintainer / Ongoing Maintenance (child Sprint 0 is the playbook, not this repo).
 
 Disable autonomous ADR approval in child repos: add `<!-- no-auto-approve -->` to BUILD_PLAN.
 
