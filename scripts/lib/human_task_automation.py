@@ -16,6 +16,15 @@ from human_task_github import (
     automate_branch_protection,
     automate_dependabot_major_merge,
 )
+from human_task_leftovers import (
+    automate_cii_badge,
+    automate_codeowners_about,
+    automate_crash_proxy_off,
+    automate_dependabot_weekly,
+    automate_mcp_copy,
+    automate_ollama,
+    automate_scorecard_badge,
+)
 from human_task_rows import (
     automate_approve_adr,
     automate_informational,
@@ -38,6 +47,13 @@ HUMAN_RULES: list[tuple[re.Pattern[str], str, object]] = [
     (re.compile(r"required status checks|branch protection|setup-github-repo", re.I), "human", automate_branch_protection),
     (re.compile(r"Dependabot PR|Review/merge Dependabot|TypeScript \d+ major", re.I), "human", automate_dependabot_major_merge),
     (re.compile(r"AUTOMERGE_TOKEN", re.I), "human", automate_automerge_token),
+    (re.compile(r"Scorecard badge", re.I), "human", automate_scorecard_badge),
+    (re.compile(r"CII Best Practices", re.I), "human", automate_cii_badge),
+    (re.compile(r"Ollama", re.I), "human", automate_ollama),
+    (re.compile(r"Crash-proxy|DPIA", re.I), "human", automate_crash_proxy_off),
+    (re.compile(r"mcp\.foss\.example|mcp\.json", re.I), "human", automate_mcp_copy),
+    (re.compile(r"Dependabot interval|disable automerge", re.I), "human", automate_dependabot_weekly),
+    (re.compile(r"CODEOWNERS|Watch repo Issues", re.I), "human", automate_codeowners_about),
 ]
 
 ADB_RULES: list[tuple[re.Pattern[str], str, object]] = [

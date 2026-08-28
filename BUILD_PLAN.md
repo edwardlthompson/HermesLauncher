@@ -61,27 +61,27 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 ## Template Maintainer — Active Board
 
-> **M46** AGENT/AUTO archived in COMPLETED_TASKS.md @ `6229822`. HUMAN leftovers remain (Scorecard, CII). **M45** and **M44** archived in COMPLETED_TASKS.md. **v0.25.0** archived in COMPLETED_TASKS.md @ `7670444`. **M43/M42** AGENT rows archived; HUMAN/ADB leftovers remain. **v0.24.0** archived in COMPLETED_TASKS.md @ `c0f0dee`.
+> **M46** AGENT/AUTO archived in COMPLETED_TASKS.md @ `6229822`. HUMAN leftovers that still need a person: CII login, optional Ollama, Android SDK licenses. **M45** and **M44** archived in COMPLETED_TASKS.md. **v0.25.0** archived in COMPLETED_TASKS.md @ `7670444`. **v0.24.0** archived in COMPLETED_TASKS.md @ `c0f0dee`.
 
 ### M46 leftovers (human only)
 
-1. 🔲 [HUMAN] P2: Scorecard badge; keep `/ship --local` non-blocking on the live score
+1. ✅ [HUMAN] P2: Scorecard badge; keep `/ship --local` non-blocking on the live score
 2. 🔲 [HUMAN] P2: CII Best Practices checklist (login + public badge)
 
 ### M43 leftovers (human/device)
 
 1. 🔲 [HUMAN] Optional: install Ollama and point Cursor Models at `http://127.0.0.1:11434/v1` (`docs/LOCAL_MODELS.md`)
-2. 🔲 [HUMAN] Crash-proxy GitHub App: DPIA before enable (`docs/CRASH_PROXY.md`)
+2. ✅ [HUMAN] Crash-proxy GitHub App: DPIA before enable (`docs/CRASH_PROXY.md`)
 3. 🔲 [ADB] Optional: Android SDK licenses + first AVD (`/emulator` or `just android-instrumented`)
 
 ### M42 leftovers (human only)
 
-1. 🔲 [HUMAN] Optional: copy `.cursor/mcp.foss.example` → `.cursor/mcp.json` and restart Cursor
-2. 🔲 [HUMAN] Optional: reduce Dependabot interval or disable automerge
+1. ✅ [HUMAN] Optional: copy `.cursor/mcp.foss.example` → `.cursor/mcp.json` and restart Cursor
+2. ✅ [HUMAN] Optional: reduce Dependabot interval or disable automerge
 
 ### M41 leftovers (human only)
 
-1. 🔲 [HUMAN] Watch repo Issues + add CODEOWNERS as collaborator; optional About smoke
+1. ✅ [HUMAN] Watch repo Issues + add CODEOWNERS as collaborator; optional About smoke
 
 ---
 
