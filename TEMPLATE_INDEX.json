@@ -2265,6 +2265,20 @@
       "owner": "maintainer"
     },
     {
+      "path": "scripts/check-semgrep.sh",
+      "purpose": "Gate: FOSS Semgrep config (no SaaS token); scan if installed",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": ".semgrep.yml",
+      "purpose": "FOSS Semgrep rules; never upload findings",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": "flake.nix",
       "purpose": "Optional Nix apps wrapping verify/validate-bootstrap/feature-gate/update-deps",
       "read_when": "milestone_boundary",
