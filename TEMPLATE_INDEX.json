@@ -2244,6 +2244,13 @@
       "owner": "maintainer"
     },
     {
+      "path": "scripts/check-auto-review.sh",
+      "purpose": "Gate: Auto-review permissions.json matches allow/block fixtures",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": "flake.nix",
       "purpose": "Optional Nix apps wrapping verify/validate-bootstrap/feature-gate/update-deps",
       "read_when": "milestone_boundary",

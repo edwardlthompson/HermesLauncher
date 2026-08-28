@@ -150,7 +150,7 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 59. ✅ [AGENT] P1: Prompt-injection fixtures for crash/feedback text
 60. ✅ [AGENT] P1: Denylist unit tests for every line
-61. 🔲 [AGENT] P2: Auto-review fixtures
+61. ✅ [AGENT] P2: Auto-review fixtures
 62. 🔲 [AGENT] P2: Gitleaks baseline
 63. 🔲 [AGENT] P2: Semgrep FOSS
 64. 🔲 [AGENT] P1: `beforeMCPExecution` allowlist servers

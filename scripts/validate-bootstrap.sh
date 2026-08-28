@@ -182,7 +182,8 @@ if ! python3 scripts/lib/run_checks_parallel.py \
   check-readme-badges.sh \
   check-playwright-cache.sh \
   check-android-cmdline-tools.sh \
-  check-nix-flake.sh
+  check-nix-flake.sh \
+  check-auto-review.sh
 then
   ERRORS=$((ERRORS + 1))
 fi
