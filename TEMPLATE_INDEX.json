@@ -2160,6 +2160,13 @@
       "owner": "maintainer"
     },
     {
+      "path": "scripts/check-github-settings-yml.sh",
+      "purpose": "Gate: .github/settings.yml matches setup-github-repo.sh required checks",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": "scripts/check-psscriptanalyzer.sh",
       "purpose": "Gate: PSScriptAnalyzer -Severity Error on scripts/*.ps1",
       "read_when": "milestone_boundary",

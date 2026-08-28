@@ -20,7 +20,7 @@ pwsh scripts/setup-github-repo.ps1
 
 Requires `gh` CLI authenticated with admin access. On API `422` (plan or permission limits), the script prints a manual UI checklist. Re-run after fixing permissions.
 
-5. Configure branch protection on `main` requiring status checks: **CI**, **Security Scan**, **CodeQL**, **Repo Hygiene**, **Feature Gate**, **Template Upgrade Simulation (Windows)** (`scripts/setup-github-repo.sh` sets these via API; verify in Settings -> Branches)
+5. Configure branch protection on `main` requiring status checks: **CI**, **Security Scan**, **CodeQL**, **Repo Hygiene**, **Feature Gate**, **Template Upgrade Simulation (Windows)** (`scripts/setup-github-repo.sh` sets these via API; desired-state copy: [`.github/settings.yml`](../.github/settings.yml); verify in Settings -> Branches)
 
 **Verify after setup:** `bash scripts/verify-branch-protection.sh` asserts required check contexts, `strict: true`, and `allow_force_pushes: false`. Override expected checks with `GITHUB_REQUIRED_CHECKS` when workflow job names differ.
 

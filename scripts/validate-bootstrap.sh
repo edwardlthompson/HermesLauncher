@@ -175,7 +175,8 @@ if ! python3 scripts/lib/run_checks_parallel.py \
   check-md-yaml-lint.sh \
   check-reuse.sh \
   check-openvex.sh \
-  check-package-attestation-docs.sh
+  check-package-attestation-docs.sh \
+  check-github-settings-yml.sh
 then
   ERRORS=$((ERRORS + 1))
 fi
