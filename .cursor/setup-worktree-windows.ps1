@@ -150,16 +150,46 @@ function Install-UvDir([string]$Dir) {
   }
 }
 
+function Resolve-GradleOfflinePy {
+  foreach ($base in @($Wt, $RootSrc)) {
+    if (-not $base) { continue }
+    $candidate = Join-Path $base 'scripts\lib\gradle_offline.py'
+    if (Test-Path -LiteralPath $candidate) { return $candidate }
+  }
+  return $null
+}
+
 function Install-GradleDir([string]$Dir) {
   $gw = Join-Path $Dir 'gradlew.bat'
   if (-not (Test-Path -LiteralPath $gw)) {
     Write-Host "SKIP gradle in $Dir (no gradlew.bat)"
     return
   }
+  $helper = Resolve-GradleOfflinePy
+  $offline = $false
+  if ($helper -and $RootSrc) {
+    $extra = & $Python $helper --args --root $RootSrc 2>$null
+    if ($extra -match '--offline') { $offline = $true }
+  }
   Push-Location $Dir
   try {
+    if ($offline) {
+      & .\gradlew.bat --offline --version
+      if ($LASTEXITCODE -eq 0) {
+        Write-Host "OK gradle wrapper in $Dir (offline)"
+        return
+      }
+      Write-Host "WARN gradle --offline failed in $Dir; retry online"
+    }
     & .\gradlew.bat --version
-    if ($LASTEXITCODE -eq 0) { Write-Host "OK gradle wrapper in $Dir" } else { Write-Host "SKIP gradle failed in $Dir (non-fatal)" }
+    if ($LASTEXITCODE -eq 0) {
+      if ($helper -and $RootSrc) {
+        & $Python $helper --mark --root $RootSrc 2>$null
+      }
+      Write-Host "OK gradle wrapper in $Dir"
+    } else {
+      Write-Host "SKIP gradle failed in $Dir (non-fatal)"
+    }
   } catch {
     Write-Host "SKIP gradle failed in $Dir (non-fatal)"
   } finally {

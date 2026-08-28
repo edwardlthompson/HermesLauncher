@@ -140,14 +140,44 @@ install_uv_dir() {
   (cd "$dir" && uv sync) && echo "OK uv sync in $dir" || echo "SKIP uv sync failed in $dir (non-fatal)"
 }
 
+gradle_offline_py() {
+  for d in "$WT" "$ROOT_SRC"; do
+    if [ -n "$d" ] && [ -f "$d/scripts/lib/gradle_offline.py" ]; then
+      echo "$d/scripts/lib/gradle_offline.py"
+      return 0
+    fi
+  done
+  return 1
+}
+
 install_gradle_dir() {
   local dir="$1"
+  local helper extra
   if [ ! -f "$dir/gradlew" ]; then
     echo "SKIP gradle in $dir (no gradlew)"
     return 0
   fi
   chmod +x "$dir/gradlew" 2>/dev/null || true
-  (cd "$dir" && ./gradlew --version) && echo "OK gradle wrapper in $dir" || echo "SKIP gradle failed in $dir (non-fatal)"
+  helper="$(gradle_offline_py || true)"
+  extra=""
+  if [ -n "$helper" ] && [ -n "$ROOT_SRC" ]; then
+    extra="$("$PY" "$helper" --args --root "$ROOT_SRC" 2>/dev/null || true)"
+  fi
+  if [ -n "$extra" ]; then
+    if (cd "$dir" && ./gradlew --offline --version); then
+      echo "OK gradle wrapper in $dir (offline)"
+      return 0
+    fi
+    echo "WARN gradle --offline failed in $dir; retry online"
+  fi
+  if (cd "$dir" && ./gradlew --version); then
+    if [ -n "$helper" ] && [ -n "$ROOT_SRC" ]; then
+      "$PY" "$helper" --mark --root "$ROOT_SRC" 2>/dev/null || true
+    fi
+    echo "OK gradle wrapper in $dir"
+  else
+    echo "SKIP gradle failed in $dir (non-fatal)"
+  fi
 }
 
 case "$STACK" in

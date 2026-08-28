@@ -137,7 +137,7 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 #### Sequential — Local compute
 
-51. 🔲 [AGENT] P1: Gradle `--offline` after first worktree success
+51. ✅ [AGENT] P1: Gradle `--offline` after first worktree success
 52. 🔲 [AGENT] P1: Playwright cache-hash skip
 53. 🔲 [AGENT] P1: depsonar Gradle apply with Kotlin cap
 54. 🔲 [AGENT] P2: upd dry-run canvas

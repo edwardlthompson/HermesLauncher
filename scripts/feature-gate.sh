@@ -309,7 +309,9 @@ if should_run android && [ -f examples/android/gradlew ]; then
   elif ! android_sdk_ready; then
     skip_or_block "Skipping android gate (no ANDROID_HOME / sdk.dir)"
   else
-    run_in_dir examples/android android-test ./gradlew test --parallel --quiet
+    gradle_extra="$("$PY" "$ROOT/scripts/lib/gradle_offline.py" --args --root "$ROOT" 2>/dev/null || true)"
+    # shellcheck disable=SC2086
+    run_in_dir examples/android android-test ./gradlew $gradle_extra test --parallel --quiet
   fi
 fi
 
