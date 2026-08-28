@@ -1,6 +1,7 @@
 # Desired GitHub repo settings (documentation + optional Settings GitHub App).
 # Live apply on FOSS path: bash scripts/setup-github-repo.sh
 # Optional: install https://github.com/apps/settings and keep this file in sync.
+# Merge queue stays off by default: docs/MERGE_QUEUE.md
 repository:
   default_branch: main
   delete_branch_on_merge: true

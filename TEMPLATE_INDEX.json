@@ -802,6 +802,13 @@
       "owner": "maintainer"
     },
     {
+      "path": "docs/MERGE_QUEUE.md",
+      "purpose": "Optional GitHub merge queue; required checks stay in settings.yml",
+      "read_when": "security_triage",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": "docs/LOCAL_MODELS.md",
       "purpose": "Local Ollama/LM Studio Cursor setup without cloud API keys",
       "read_when": "session_start",
@@ -2162,6 +2169,13 @@
     {
       "path": "scripts/check-github-settings-yml.sh",
       "purpose": "Gate: .github/settings.yml matches setup-github-repo.sh required checks",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-merge-queue-docs.sh",
+      "purpose": "Gate: merge queue stays optional and lists required checks",
       "read_when": "milestone_boundary",
       "update_when": "milestone_boundary",
       "owner": "maintainer"
