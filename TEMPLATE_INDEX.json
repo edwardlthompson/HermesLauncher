@@ -340,6 +340,13 @@
       "owner": "maintainer"
     },
     {
+      "path": "scripts/check-contributing-agent.sh",
+      "purpose": "Gate: CONTRIBUTING.md includes the coding-agent edition",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": ".cursor/commands/coach.md",
       "purpose": "Coach slash command: health + next action + why",
       "read_when": "prompt_needed",
