@@ -7,8 +7,8 @@
   </defs>
   <rect width="1280" height="640" fill="url(#sg)"/>
   <rect x="120" y="200" width="160" height="160" rx="32" fill="#2a2a42"/>
-  <path d="M160 320 L200 240 L240 320 Z" fill="#e94560"/>
+  <path d="M160 320 L200 240 L240 320 Z" fill="#D3304E"/>
   <text x="320" y="280" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="700" fill="#E6E6F0">Golden Path</text>
   <text x="320" y="360" font-family="system-ui, -apple-system, sans-serif" font-size="32" fill="#C4C4D4">Ship FOSS products with agent-ready scaffolding</text>
-  <text x="320" y="420" font-family="system-ui, -apple-system, sans-serif" font-size="24" fill="#e94560">MIT · Privacy-respecting · CI-guarded</text>
+  <text x="320" y="420" font-family="system-ui, -apple-system, sans-serif" font-size="24" fill="#D3304E">MIT · Privacy-respecting · CI-guarded</text>
 </svg>

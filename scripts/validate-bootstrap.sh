@@ -195,7 +195,8 @@ if ! python3 scripts/lib/run_checks_parallel.py \
   check-template-upgrade-form.sh \
   check-ideas-discussion.sh \
   check-adr-command.sh \
-  check-readme-mermaid.sh
+  check-readme-mermaid.sh \
+  check-social-preview.sh
 then
   ERRORS=$((ERRORS + 1))
 fi

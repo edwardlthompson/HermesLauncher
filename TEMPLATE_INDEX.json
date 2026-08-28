@@ -404,6 +404,13 @@
       "owner": "maintainer"
     },
     {
+      "path": "scripts/check-social-preview.sh",
+      "purpose": "Gate: OG social preview SVG uses design-token colors",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": ".cursor/commands/coach.md",
       "purpose": "Coach slash command: health + next action + why",
       "read_when": "prompt_needed",
