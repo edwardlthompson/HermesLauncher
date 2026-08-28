@@ -2188,6 +2188,13 @@
       "owner": "maintainer"
     },
     {
+      "path": "scripts/check-readme-badges.sh",
+      "purpose": "Gate: README hero, stack, and owner badges match repo truth",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": "scripts/check-psscriptanalyzer.sh",
       "purpose": "Gate: PSScriptAnalyzer -Severity Error on scripts/*.ps1",
       "read_when": "milestone_boundary",

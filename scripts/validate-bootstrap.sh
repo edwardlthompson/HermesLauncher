@@ -178,7 +178,8 @@ if ! python3 scripts/lib/run_checks_parallel.py \
   check-package-attestation-docs.sh \
   check-github-settings-yml.sh \
   check-merge-queue-docs.sh \
-  check-pages-analytics.sh
+  check-pages-analytics.sh \
+  check-readme-badges.sh
 then
   ERRORS=$((ERRORS + 1))
 fi
