@@ -57,6 +57,7 @@ REQUIRED=(
   docs/plan.md
   docs/BEST_PRACTICES.md
   docs/FIRST_30_DAYS.md
+  docs/first-30-days.json
   docs/AGENT_PORTABILITY.md
   docs/help/TOUR.md
   docs/help/IDEAS.md
@@ -187,7 +188,8 @@ if ! python3 scripts/lib/run_checks_parallel.py \
   check-gitleaks-baseline.sh \
   check-semgrep.sh \
   check-mcp-allowlist.sh \
-  check-crash-payload-allowlist.sh
+  check-crash-payload-allowlist.sh \
+  check-first-30-days.sh
 then
   ERRORS=$((ERRORS + 1))
 fi

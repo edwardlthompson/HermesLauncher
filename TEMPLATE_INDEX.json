@@ -326,6 +326,20 @@
       "owner": "agent+human"
     },
     {
+      "path": "docs/first-30-days.json",
+      "purpose": "Machine-readable week needles for the first-30-days playbook",
+      "read_when": "bootstrap_session_start",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-first-30-days.sh",
+      "purpose": "Gate: FIRST_30_DAYS.md matches docs/first-30-days.json",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": ".cursor/commands/coach.md",
       "purpose": "Coach slash command: health + next action + why",
       "read_when": "prompt_needed",

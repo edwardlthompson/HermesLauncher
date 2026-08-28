@@ -158,7 +158,7 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 #### Sequential — Docs / community
 
-66. 🔲 [AGENT] P2: FIRST_30_DAYS from health JSON
+66. ✅ [AGENT] P2: FIRST_30_DAYS from health JSON
 67. 🔲 [AGENT] P1: CONTRIBUTING agent edition
 68. 🔲 [AGENT] P1: Issue form for template-upgrade Sacred/Canon/Mixed
 69. 🔲 [AGENT] P2: Discussion template for `/ideas`
