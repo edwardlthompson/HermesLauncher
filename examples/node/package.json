@@ -18,7 +18,7 @@
     "hono": "^4.13.5"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.5.10",
+    "@biomejs/biome": "^2.5.11",
     "@types/node": "^26.4.0",
     "@vitest/coverage-v8": "^4.1.11",
     "fast-check": "^4.9.0",

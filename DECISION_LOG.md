@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-28 — /build uses auto lane on the template
+- **Status:** Accepted
+- **Context:** Slack `/build` (bare word `build`) hardcoded `--lane child`, so the next row was Sprint 0 `init-project.sh` on this template.
+- **Decision:** `/build`, `AGENTS.md`, and `docs/FOR_AGENTS.md` use `--lane auto`. On the template that selects Ongoing Maintenance; child repos still walk the Child Repo Playbook. Do not run `init-project.sh` here.
+- **Alternatives considered:** Run child Sprint 0 on the template (rejected: destroys template branding). Idle-exit without maintenance (rejected: weekly AUTO/AGENT rows are the real next work).
+- **Consequences:** Recurring weekly rows stay 🔲. HUMAN leftovers remain on the board (Ollama, mcp.json, Dependabot, Codeowners, product smoke, Android SDK). Skipped bogus `codeql-action@vcodeql-bundle-*` tag from upd.
+
 ### 2026-08-27 — Ship v0.25.0 (/ship)
 - **Status:** Accepted
 - **Context:** `/ship` after M42 local-first deps and M43 resource packing. `upd --apply` without `--max-bump minor` wrote GitHub Action majors; About-without restore `cp` hit Windows file lock after a passing gate.
