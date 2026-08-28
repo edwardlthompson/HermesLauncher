@@ -4,8 +4,7 @@ const EMAIL = /[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}/g;
 const WIN_HOME = /C:\\Users\\[^\\]+\\/gi;
 const UNIX_HOME = /\/(?:home|Users)\/[^/\s]+\//g;
 const TOKEN = /(?:api[_-]?key|token)\s*[:=]\s*\S+/gi;
-const INJECT =
-  /(?:ignore\s+(?:all\s+)?previous\s+instructions|you\s+are\s+now|<<SYS>>|\[INST\])/gi;
+const INJECT = /(?:ignore\s+(?:all\s+)?previous\s+instructions|you\s+are\s+now|<<SYS>>|\[INST\])/gi;
 
 export function sanitizeCrashText(text: string): string {
   let out = text.replace(EMAIL, "<redacted-email>");

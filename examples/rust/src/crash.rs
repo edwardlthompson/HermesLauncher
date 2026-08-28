@@ -20,7 +20,11 @@ fn replace_ci(hay: &str, needle: &str, repl: &str) -> String {
 
 fn redact_injection(text: &str) -> String {
     let mut out = replace_ci(text, "ignore previous instructions", "<redacted-injection>");
-    out = replace_ci(&out, "ignore all previous instructions", "<redacted-injection>");
+    out = replace_ci(
+        &out,
+        "ignore all previous instructions",
+        "<redacted-injection>",
+    );
     out = replace_ci(&out, "you are now", "<redacted-injection>");
     out = replace_ci(&out, "<<sys>>", "<redacted-injection>");
     replace_ci(&out, "[inst]", "<redacted-injection>")

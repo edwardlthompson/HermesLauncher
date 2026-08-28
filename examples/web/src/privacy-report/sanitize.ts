@@ -14,8 +14,7 @@ const UNC = /\\\\[^\\\s]+\\[^\\\s]+\\/g;
 const IPV4 = /\b(?:\d{1,3}\.){3}\d{1,3}\b/g;
 const IPV6 = /\b(?:[0-9a-f]{1,4}:){2,7}[0-9a-f]{1,4}\b/gi;
 const URL_Q = /([?&])(token|key|code|access_token)=[^&\s]+/gi;
-const INJECT =
-  /(?:ignore\s+(?:all\s+)?previous\s+instructions|you\s+are\s+now|<<SYS>>|\[INST\])/gi;
+const INJECT = /(?:ignore\s+(?:all\s+)?previous\s+instructions|you\s+are\s+now|<<SYS>>|\[INST\])/gi;
 
 export function sanitizeReportText(text: string | null | undefined, stack = false): string {
   if (text == null) return "";
