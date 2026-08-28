@@ -31,6 +31,9 @@ class SanitizeFixtureParityTests(unittest.TestCase):
         canon = CANON.read_bytes()
         self.assertEqual(canon, ANDROID.read_bytes())
         self.assertEqual(canon, WEB.read_bytes())
+        text = CANON.read_text(encoding="utf-8")
+        self.assertIn("<redacted-injection>", text)
+        self.assertIn("Ignore previous", text)
 
 
 if __name__ == "__main__":

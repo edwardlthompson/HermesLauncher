@@ -14,6 +14,8 @@ const UNC = /\\\\[^\\\s]+\\[^\\\s]+\\/g;
 const IPV4 = /\b(?:\d{1,3}\.){3}\d{1,3}\b/g;
 const IPV6 = /\b(?:[0-9a-f]{1,4}:){2,7}[0-9a-f]{1,4}\b/gi;
 const URL_Q = /([?&])(token|key|code|access_token)=[^&\s]+/gi;
+const INJECT =
+  /(?:ignore\s+(?:all\s+)?previous\s+instructions|you\s+are\s+now|<<SYS>>|\[INST\])/gi;
 
 export function sanitizeReportText(text: string | null | undefined, stack = false): string {
   if (text == null) return "";
@@ -31,6 +33,7 @@ export function sanitizeReportText(text: string | null | undefined, stack = fals
   out = out.replace(IPV4, "<redacted-ip>");
   out = out.replace(IPV6, "<redacted-ip>");
   out = out.replace(URL_Q, "$1$2=<redacted-secret>");
+  out = out.replace(INJECT, "<redacted-injection>");
   if (stack) {
     out = out.split("\n").slice(0, MAX_STACK_LINES).join("\n");
   }

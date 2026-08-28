@@ -19,6 +19,10 @@ object SanitizeReport {
     private val ipv4 = Regex("\\b(?:\\d{1,3}\\.){3}\\d{1,3}\\b")
     private val ipv6 = Regex("\\b(?:[0-9a-f]{1,4}:){2,7}[0-9a-f]{1,4}\\b", RegexOption.IGNORE_CASE)
     private val urlQ = Regex("([?&])(token|key|code|access_token)=[^&\\s]+", RegexOption.IGNORE_CASE)
+    private val inject = Regex(
+        "(?:ignore\\s+(?:all\\s+)?previous\\s+instructions|you\\s+are\\s+now|<<SYS>>|\\[INST\\])",
+        RegexOption.IGNORE_CASE,
+    )
 
     fun text(raw: String?, stack: Boolean = false): String {
         if (raw == null) return ""
@@ -36,6 +40,7 @@ object SanitizeReport {
         out = ipv4.replace(out, "<redacted-ip>")
         out = ipv6.replace(out, "<redacted-ip>")
         out = urlQ.replace(out, "$1$2=<redacted-secret>")
+        out = inject.replace(out, "<redacted-injection>")
         if (stack) {
             out = out.lineSequence().take(MAX_STACK_LINES).joinToString("\n")
         }

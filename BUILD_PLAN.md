@@ -148,7 +148,7 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 #### Sequential — Security
 
-59. 🔲 [AGENT] P1: Prompt-injection fixtures for crash/feedback text
+59. ✅ [AGENT] P1: Prompt-injection fixtures for crash/feedback text
 60. 🔲 [AGENT] P1: Denylist unit tests for every line
 61. 🔲 [AGENT] P2: Auto-review fixtures
 62. 🔲 [AGENT] P2: Gitleaks baseline
