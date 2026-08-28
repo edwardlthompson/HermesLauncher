@@ -601,3 +601,20 @@ jobs:
       - run: go vet ./...
       - run: test -z "$(gofmt -l .)"
       - run: go test ./...
+
+  ci-ok:
+    name: CI
+    runs-on: ubuntu-latest
+    if: ${{ always() && !cancelled() }}
+    needs:
+      - repo-hygiene
+      - feature-gate
+      - upgrade-simulation-windows
+      - validate-bootstrap
+    steps:
+      - name: Require core CI jobs
+        run: |
+          test "${{ needs.repo-hygiene.result }}" = "success"
+          test "${{ needs.feature-gate.result }}" = "success"
+          test "${{ needs.upgrade-simulation-windows.result }}" = "success"
+          test "${{ needs.validate-bootstrap.result }}" = "success"

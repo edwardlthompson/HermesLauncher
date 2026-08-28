@@ -31,6 +31,12 @@ class GithubSettingsYmlTests(unittest.TestCase):
         for name in names:
             self.assertIn(name, (ROOT / ".github" / "settings.yml").read_text(encoding="utf-8"))
 
+    def test_workflows_publish_required_check_names(self) -> None:
+        ci = (ROOT / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
+        sec = (ROOT / ".github" / "workflows" / "security.yml").read_text(encoding="utf-8")
+        self.assertIn("\n    name: CI\n", ci)
+        self.assertIn("\n    name: Security Scan\n", sec)
+
 
 if __name__ == "__main__":
     unittest.main()

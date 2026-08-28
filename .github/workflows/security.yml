@@ -53,3 +53,15 @@ jobs:
         run: semgrep --config .semgrep.yml --metrics=off --error
         env:
           SEMGREP_SEND_METRICS: "off"
+
+  security-ok:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    if: ${{ always() && !cancelled() }}
+    needs: [trivy, gitleaks, semgrep]
+    steps:
+      - name: Require scan jobs
+        run: |
+          test "${{ needs.trivy.result }}" = "success"
+          test "${{ needs.gitleaks.result }}" = "success"
+          test "${{ needs.semgrep.result }}" = "success"
