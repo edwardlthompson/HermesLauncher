@@ -15,6 +15,8 @@ Execute the BUILD_PLAN **without asking the user questions, presenting options, 
 
 ## Step 0 — Load sprint state
 
+Use `--lane auto` (not `child`): on this template it selects Ongoing Maintenance; on child repos it still walks the Child Repo Playbook.
+
 ```bash
 python3 scripts/agent-run.py build-sprint-status --json --lane auto
 
@@ -76,7 +78,7 @@ When `sprint_agent_auto_complete` for current sprint:
 
 ## Step 3 — Chain to next sprint
 
-Re-run `python3 scripts/agent-run.py build-sprint-status --json`.
+Re-run `python3 scripts/agent-run.py build-sprint-status --json --lane auto`.
 
 - If `next_row` exists → **go to Step 1** immediately (no user pause).
 - If `all_sprints_agent_auto_complete` → print final summary: all actionable BUILD_PLAN work complete; list `backlogged_human_adb` and `HUMAN_BACKLOG.md` path.

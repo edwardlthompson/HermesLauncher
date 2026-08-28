@@ -30,7 +30,7 @@ Initialize the repository with a professional, hermetic layout. Early in the lif
   - **`[AGENT]`** Scaffold `.github/workflows/security.yml` (Trivy filesystem scan) and `.github/workflows/codeql.yml` as **separate workflows** from the main CI workflow — do not assume CI green means security scans passed.
   - **`[AGENT]`** Third-party `uses:` pins must resolve on GitHub before push: use **`v`-prefixed tags** (e.g. `aquasecurity/trivy-action@v0.36.0`) or a **full commit SHA** — never bare semver (`@0.28.0` fails with "unable to find version"). Prefer SHA pins for security scanners (comment the release tag, e.g. `# v0.36.0`). Run `scripts/validate-workflow-actions.sh` locally before committing workflow changes.
   - **`[AUTO]`** `dependency-review-action` on PRs — fail on new High/Critical vulnerabilities.
-  - **`[AUTO]`** Generate SBOM (CycloneDX) per release via `syft`; attach to GitHub Release. Optional: SLSA build provenance attestation.
+  - **`[AUTO]`** Generate SBOM (CycloneDX) per release via `syft`; attach to GitHub Release. Optional: SLSA build provenance attestation. npm/uv registry attestations: [`docs/PACKAGE_ATTESTATION.md`](PACKAGE_ATTESTATION.md).
   - **`[AUTO]`** License compliance check in CI (`scripts/check-license-compliance.sh`) after locked dependency install.
   - **`[AGENT]`** Maintain `THIRD_PARTY_LICENSES.md` or `NOTICE` for bundled dependencies.
   - **`[AGENT]`** Declare SPDX license in package manifests (`"license": "MIT"` in `package.json` even when `"private": true`) so production dependency audits pass; CI excludes the private root package via `--excludePrivatePackages`.

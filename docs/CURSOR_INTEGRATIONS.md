@@ -44,7 +44,7 @@ Enforcement complement to rules (M27 — no `beforeSubmitPrompt`):
 | `beforeShellExecution` | `before_shell_guard.py` | Denylist + session `destructive_ops_approved` |
 | `afterFileEdit` | `after_edit_encoding.py` | UTF-8 check, fail-open (opt-in fail-closed: `CURSOR_ENCODING_STRICT=1` or `.cursor/encoding-strict`) |
 | `subagentStart` | `subagent_scope_inject.py` | Parallel lock scope |
-| `beforeMCPExecution` | `mcp_audit.py` | Append audit log only |
+| `beforeMCPExecution` | `mcp_audit.py` | Audit log + FOSS server allowlist (fail-open on parse errors) |
 Hooks are Python modules (not `.sh`) so Cursor Agent shell execution does not open hook scripts in the editor.
 
 **Quiet agent shell:** Agents should invoke gates via `python3 scripts/agent-run.py <name> [args]` instead of `bash scripts/<name>.sh`. Workspace `.vscode/settings.json` disables editor auto-reveal when files open in the background.

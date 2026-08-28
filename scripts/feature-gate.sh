@@ -190,8 +190,24 @@ skip_or_block() {
 run_cmd() {
   local stage="$1"
   shift
-  local logfile
+  local logfile secs rc
   logfile="$(mktemp)"
+  secs="$("$PY" "$ROOT/scripts/lib/feature_gate_timeout.py" --stage "$stage" 2>/dev/null || echo 180)"
+  if command -v timeout >/dev/null 2>&1; then
+    set +e
+    timeout --signal=TERM "$secs" "$@" >"$logfile" 2>&1
+    rc=$?
+    set -e
+    if [ "$rc" -eq 0 ]; then
+      GATES_PASSED+=("$stage")
+      rm -f "$logfile"
+      return 0
+    fi
+    if [ "$rc" -eq 124 ]; then
+      fail_gate "$stage" "timeout after ${secs}s (FEATURE_GATE_TIMEOUT / FEATURE_GATE_TIMEOUT_${stage%%-*})"
+    fi
+    fail_gate "$stage" "$(tail -n 40 "$logfile")"
+  fi
   if "$@" >"$logfile" 2>&1; then
     GATES_PASSED+=("$stage")
     rm -f "$logfile"
@@ -286,6 +302,19 @@ if should_run python && [ -f examples/python/pyproject.toml ]; then
   fi
 fi
 
+android_sdk_ready() {
+  if [ -n "${ANDROID_HOME:-}" ] && [ -d "${ANDROID_HOME}" ]; then
+    return 0
+  fi
+  if [ -n "${ANDROID_SDK_ROOT:-}" ] && [ -d "${ANDROID_SDK_ROOT}" ]; then
+    return 0
+  fi
+  if [ -f examples/android/local.properties ] && grep -q '^sdk.dir=' examples/android/local.properties; then
+    return 0
+  fi
+  return 1
+}
+
 if should_run android && [ -f examples/android/gradlew ]; then
   if ! command -v java >/dev/null 2>&1 && [ -z "${JAVA_HOME:-}" ]; then
     if [ "$STACK" = "android" ] && [ "${FEATURE_GATE_CHILD:-}" != "1" ]; then
@@ -293,8 +322,12 @@ if should_run android && [ -f examples/android/gradlew ]; then
     else
       skip_or_block "Skipping android gate (JAVA_HOME not set)"
     fi
+  elif ! android_sdk_ready; then
+    skip_or_block "Skipping android gate (no ANDROID_HOME / sdk.dir)"
   else
-    run_in_dir examples/android android-test ./gradlew test --parallel --quiet
+    gradle_extra="$("$PY" "$ROOT/scripts/lib/gradle_offline.py" --args --root "$ROOT" 2>/dev/null || true)"
+    # shellcheck disable=SC2086
+    run_in_dir examples/android android-test ./gradlew $gradle_extra test --parallel --quiet
   fi
 fi
 

@@ -1,0 +1,10 @@
+{
+  "required_status_checks": [
+    "CI",
+    "Security Scan",
+    "CodeQL",
+    "Repo Hygiene",
+    "Feature Gate",
+    "Template Upgrade Simulation (Windows)"
+  ]
+}

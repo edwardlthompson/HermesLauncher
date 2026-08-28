@@ -78,6 +78,18 @@ class ForcePushHonestyTests(unittest.TestCase):
         result = _run("git push origin main")
         self.assertEqual(result.get("permission"), "allow")
 
+    def test_every_denylist_line_denies_without_approval(self) -> None:
+        lines = []
+        for raw in (HOOKS / "shell-denylist.txt").read_text(encoding="utf-8").splitlines():
+            line = raw.strip()
+            if line and not line.startswith("#"):
+                lines.append(line)
+        self.assertGreaterEqual(len(lines), 8)
+        for needle in lines:
+            with self.subTest(needle=needle):
+                result = _run(needle)
+                self.assertEqual(result.get("permission"), "deny", needle)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# shellcheck -S error on scripts/*.sh. Skip if missing locally; required in CI.
+# Run shellcheck at -S error on scripts/*.sh. Skip if missing locally; required in CI.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"

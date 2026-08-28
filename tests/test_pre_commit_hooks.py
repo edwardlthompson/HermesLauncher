@@ -43,6 +43,24 @@ class PreCommitHookTests(unittest.TestCase):
         self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
         self.assertIn("skipped in CI", proc.stdout + proc.stderr)
 
+    def test_skips_in_upgrade_sim(self) -> None:
+        bash = _bash()
+        if not bash:
+            self.skipTest("bash not available")
+        env = {**os.environ, "BOOTSTRAP_UPGRADE_SIM": "1"}
+        env.pop("CI", None)
+        env.pop("GITHUB_ACTIONS", None)
+        proc = subprocess.run(
+            [bash, "scripts/check-pre-commit-hooks.sh"],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+            env=env,
+        )
+        self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+        self.assertIn("skipped in CI", proc.stdout + proc.stderr)
+
     def test_fails_without_hook(self) -> None:
         bash = _bash()
         if not bash:
@@ -59,6 +77,7 @@ class PreCommitHookTests(unittest.TestCase):
             env = {**os.environ}
             env.pop("CI", None)
             env.pop("GITHUB_ACTIONS", None)
+            env.pop("BOOTSTRAP_UPGRADE_SIM", None)
             empty = repo / "empty.gitconfig"
             empty.write_text("", encoding="utf-8")
             env["GIT_CONFIG_GLOBAL"] = str(empty)

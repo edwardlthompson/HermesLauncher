@@ -6,7 +6,8 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
-if [ "${CI:-}" = "true" ] || [ "${GITHUB_ACTIONS:-}" = "true" ]; then
+if [ "${CI:-}" = "true" ] || [ "${GITHUB_ACTIONS:-}" = "true" ] \
+  || [ "${BOOTSTRAP_UPGRADE_SIM:-}" = "1" ]; then
   echo "OK   pre-commit commit-msg hook skipped in CI"
   exit 0
 fi

@@ -244,7 +244,18 @@ jobs:
       - name: Bundle size budget
         working-directory: ${{ github.workspace }}
         run: bash scripts/check-bundle-size.sh
-      - run: npx playwright install --with-deps chromium
+      - name: Playwright browser cache
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('examples/web/package-lock.json') }}
+      - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps chromium
+      - name: Restore Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: npx playwright install chromium
       - run: npx playwright test
       - run: npm run lighthouse
       - name: Upload web coverage
@@ -590,3 +601,20 @@ jobs:
       - run: go vet ./...
       - run: test -z "$(gofmt -l .)"
       - run: go test ./...
+
+  ci-ok:
+    name: CI
+    runs-on: ubuntu-latest
+    if: ${{ always() && !cancelled() }}
+    needs:
+      - repo-hygiene
+      - feature-gate
+      - upgrade-simulation-windows
+      - validate-bootstrap
+    steps:
+      - name: Require core CI jobs
+        run: |
+          test "${{ needs.repo-hygiene.result }}" = "success"
+          test "${{ needs.feature-gate.result }}" = "success"
+          test "${{ needs.upgrade-simulation-windows.result }}" = "success"
+          test "${{ needs.validate-bootstrap.result }}" = "success"

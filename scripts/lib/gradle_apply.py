@@ -1,7 +1,9 @@
 """Patch-only Gradle plugin pin apply with Kotlin CodeQL ceiling."""
 from __future__ import annotations
 
+import os
 import re
+import sys
 from pathlib import Path
 
 from update_deps import KOTLIN_BLOCK, PLUGIN_RE
@@ -77,3 +79,39 @@ def apply_env_pins(root: Path, raw: str, *, write: bool) -> list[str]:
     if write and updated != text:
         path.write_text(updated, encoding="utf-8", newline="\n")
     return changed
+
+
+def apply_depsonar_pins(
+    root: Path, pins: dict[str, str] | str, *, write: bool
+) -> list[str]:
+    """Apply depsonar Gradle plugin updates through patch-only + Kotlin cap."""
+    raw = pins if isinstance(pins, str) else ",".join(f"{k}={v}" for k, v in pins.items())
+    return apply_env_pins(root, raw, write=write)
+
+
+def main(argv: list[str] | None = None) -> int:
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Apply depsonar Gradle pins")
+    parser.add_argument("--pins", default="", help="id=ver,id=ver")
+    parser.add_argument("--apply", action="store_true")
+    parsed = parser.parse_args(argv)
+    root = Path.cwd()
+    raw = parsed.pins or os.environ.get("UPDATE_GRADLE_PINS", "")
+    if not raw:
+        print("FAIL: pass --pins id=ver or UPDATE_GRADLE_PINS", file=sys.stderr)
+        return 1
+    for line in apply_depsonar_pins(root, raw, write=parsed.apply):
+        prefix = "Gradle pin" if parsed.apply else "Gradle pin (dry-run)"
+        print(f"{prefix}: {line}")
+    from update_deps import kotlin_guard_error
+
+    err = kotlin_guard_error(root)
+    if err:
+        print(f"FAIL: {err}", file=sys.stderr)
+        return 1
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

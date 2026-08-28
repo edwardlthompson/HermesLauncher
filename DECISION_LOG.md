@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-28 — /build uses auto lane on the template
+- **Status:** Accepted
+- **Context:** Slack `/build` (bare word `build`) hardcoded `--lane child`, so the next row was Sprint 0 `init-project.sh` on this template.
+- **Decision:** `/build`, `AGENTS.md`, and `docs/FOR_AGENTS.md` use `--lane auto`. On this template auto prefers Template Maintainer 🔲 AGENT rows (M46); child repos still walk the playbook. Do not run `init-project.sh` here.
+- **Alternatives considered:** Run child Sprint 0 on the template (rejected: destroys template branding). Idle-exit without maintenance (rejected: M46 AGENT rows are the real next work).
+- **Consequences:** M46 remaining rows stay 🔲. HUMAN leftovers remain (Ollama, DPIA, mcp.json, Dependabot, Codeowners, product smoke, Android SDK). Skipped bogus `codeql-action@vcodeql-bundle-*` tag from upd.
+
 ### 2026-08-27 — /build scoped feature-gate
 - **Status:** Accepted
 - **Context:** `/build` re-ran all Golden Path stacks after every AGENT row. Android weight 2 plus three RAM-capped slots made a docs-only or web-only row take several minutes.

@@ -50,4 +50,4 @@ PY
 echo ""
 echo "--- Next human action ---"
 echo "If the next row is HUMAN/ADB, do that. Otherwise run /coach or bash scripts/verify.sh."
-echo "Playbook: docs/FIRST_30_DAYS.md   Why: docs/BEST_PRACTICES.md"
+echo "Playbook: docs/first-30-days.json  Markdown: docs/FIRST_30_DAYS.md   Why: docs/BEST_PRACTICES.md"

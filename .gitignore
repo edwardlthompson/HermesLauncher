@@ -40,6 +40,7 @@ CURSOR_RADAR_REPORT.md
 CURSOR_RADAR_BACKLOG.md
 CURSOR_RADAR_SUGGESTIONS.md
 .cursor/gates-status.md
+.cursor/upd-status.md
 .cursor/encoding-strict
 
 # Cursor plugin pack output (see scripts/pack-cursor-plugin.sh)
@@ -90,6 +91,10 @@ examples/android/captures/
 
 # Logs
 *.log
+
+# Optional Nix (flake.nix wraps scripts/ only)
+result
+.direnv/
 
 # Ephemeral agent outputs (examples tracked)
 CODE_REVIEW.md

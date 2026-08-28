@@ -18,6 +18,12 @@ class I18nParityTests(unittest.TestCase):
     def test_repo_locales_align(self) -> None:
         self.assertEqual(check_repo(ROOT), [])
 
+    def test_skips_when_android_pruned(self) -> None:
+        from tempfile import TemporaryDirectory
+
+        with TemporaryDirectory() as tmp:
+            self.assertEqual(check_repo(Path(tmp)), [])
+
     def test_reports_missing_android(self) -> None:
         errors = check_files({"about.close": "Close about"}, set(), {"android_only": []})
         self.assertTrue(any("about_close" in e for e in errors))

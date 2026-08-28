@@ -14,6 +14,7 @@
     "agent_portability": "docs/AGENT_PORTABILITY.md",
     "allideas": "docs/help/ALLIDEAS.md",
     "upgrade": "docs/help/UPGRADE.md",
+    "adr": "docs/help/ADR.md",
     "batch_commands_print": "docs/help/batch-commands-print.html"
   },
   "files": [
@@ -324,6 +325,111 @@
       "read_when": "bootstrap_session_start",
       "update_when": "milestone_boundary",
       "owner": "agent+human"
+    },
+    {
+      "path": "docs/first-30-days.json",
+      "purpose": "Machine-readable week needles for the first-30-days playbook",
+      "read_when": "bootstrap_session_start",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-first-30-days.sh",
+      "purpose": "Gate: FIRST_30_DAYS.md matches docs/first-30-days.json",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-contributing-agent.sh",
+      "purpose": "Gate: CONTRIBUTING.md includes the coding-agent edition",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/template_upgrade.yml",
+      "purpose": "Issue form to classify template-upgrade paths as Sacred/Canon/Mixed",
+      "read_when": "prompt_needed",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-template-upgrade-form.sh",
+      "purpose": "Gate: template-upgrade issue form lists Sacred/Canon/Mixed",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": ".github/DISCUSSION_TEMPLATE/ideas.yml",
+      "purpose": "GitHub Discussion form that points at /ideas and docs/help/IDEAS.md",
+      "read_when": "prompt_needed",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-ideas-discussion.sh",
+      "purpose": "Gate: /ideas Discussion template keeps required pointers",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": ".cursor/commands/adr.md",
+      "purpose": "Slash command to write the next docs/adr record",
+      "read_when": "prompt_needed",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "docs/help/ADR.md",
+      "purpose": "Tool-agnostic /adr recipe for other IDEs",
+      "read_when": "prompt_needed",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-adr-command.sh",
+      "purpose": "Gate: /adr command and help twin stay registered",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-readme-mermaid.sh",
+      "purpose": "Gate: generated README preview includes a mermaid flowchart",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-social-preview.sh",
+      "purpose": "Gate: OG social preview SVG uses design-token colors",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-fdroid-screenshots.sh",
+      "purpose": "Gate: fail dummy/placeholder F-Droid screenshots",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "docs/WINGET.md",
+      "purpose": "Winget publish runbook for child desktop installers",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-winget-runbook.sh",
+      "purpose": "Gate: docs/WINGET.md keeps generate/validate/submit steps",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
     },
     {
       "path": ".cursor/commands/coach.md",
@@ -792,6 +898,27 @@
       "purpose": "Dependabot alerts setup, weekly CVE triage, OWASP LLM walk, release security gate",
       "read_when": "security_triage",
       "update_when": "never",
+      "owner": "maintainer"
+    },
+    {
+      "path": "docs/PACKAGE_ATTESTATION.md",
+      "purpose": "npm provenance, uv/PEP 740, and GitHub SBOM attest-build-provenance",
+      "read_when": "security_triage",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "docs/MERGE_QUEUE.md",
+      "purpose": "Optional GitHub merge queue; required checks stay in required-checks.json",
+      "read_when": "security_triage",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": ".github/required-checks.json",
+      "purpose": "Named required GitHub checks (not a workflow content-hash cache)",
+      "read_when": "security_triage",
+      "update_when": "milestone_boundary",
       "owner": "maintainer"
     },
     {
@@ -1635,6 +1762,13 @@
       "owner": "maintainer"
     },
     {
+      "path": "scripts/apply-depsonar-gradle.sh",
+      "purpose": "Apply depsonar Gradle pins through patch-only + Kotlin cap",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": "scripts/prerelease-autofix.sh",
       "purpose": "Pre-release mechanical autofix + one watch-agent-gates pass",
       "read_when": "release",
@@ -2090,6 +2224,13 @@
       "owner": "maintainer"
     },
     {
+      "path": "scripts/render-upd-status.sh",
+      "purpose": "Write /update-deps dry-run markdown (and Canvas when available)",
+      "read_when": "bootstrap_session_start",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": "scripts/wait-release-sbom.sh",
       "purpose": "Poll GitHub Release for sbom.cyclonedx.json",
       "read_when": "bootstrap_session_start",
@@ -2141,6 +2282,139 @@
     {
       "path": "scripts/check-openvex.sh",
       "purpose": "Gate: OpenVEX example next to the release SBOM",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-package-attestation-docs.sh",
+      "purpose": "Gate: npm/uv attestation docs stay next to release provenance",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-github-settings-yml.sh",
+      "purpose": "Gate: .github/settings.yml matches setup-github-repo.sh required checks",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-merge-queue-docs.sh",
+      "purpose": "Gate: merge queue stays optional and lists required checks",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-pages-analytics.sh",
+      "purpose": "Gate: /regress fails if GitHub Pages web tree has analytics",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-readme-badges.sh",
+      "purpose": "Gate: README hero, stack, and owner badges match repo truth",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-playwright-cache.sh",
+      "purpose": "Gate: CI skips Playwright --with-deps when lockfile cache hits",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-android-cmdline-tools.sh",
+      "purpose": "Gate: devcontainer Android cmdline-tools never auto-accept licenses",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/install-android-cmdline-tools.sh",
+      "purpose": "Download pinned Android cmdline-tools without accepting licenses",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-nix-flake.sh",
+      "purpose": "Gate: optional Nix flake only wraps existing scripts/",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-auto-review.sh",
+      "purpose": "Gate: Auto-review permissions.json matches allow/block fixtures",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-gitleaks-baseline.sh",
+      "purpose": "Gate: Gitleaks baseline allowlists documented fixture secrets",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": ".gitleaks.toml",
+      "purpose": "Gitleaks config + fixture-secret allowlist baseline",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-semgrep.sh",
+      "purpose": "Gate: FOSS Semgrep config (no SaaS token); scan if installed",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": ".semgrep.yml",
+      "purpose": "FOSS Semgrep rules; never upload findings",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-mcp-allowlist.sh",
+      "purpose": "Gate: beforeMCPExecution allowlists FOSS MCP servers",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": ".cursor/mcp-allowlist.json",
+      "purpose": "FOSS + built-in Cursor MCP server allowlist",
+      "read_when": "bootstrap_session_start",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-crash-payload-allowlist.sh",
+      "purpose": "Gate: crash payload allowlist tests exist on every sanitizing stack",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "schemas/golden-path/crash-payload-allowlist.json",
+      "purpose": "Allowed crash JSON keys (message, stack) vs rejected extras",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "flake.nix",
+      "purpose": "Optional Nix apps wrapping verify/validate-bootstrap/feature-gate/update-deps",
       "read_when": "milestone_boundary",
       "update_when": "milestone_boundary",
       "owner": "maintainer"

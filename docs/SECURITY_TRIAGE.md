@@ -20,7 +20,7 @@ pwsh scripts/setup-github-repo.ps1
 
 Requires `gh` CLI authenticated with admin access. On API `422` (plan or permission limits), the script prints a manual UI checklist. Re-run after fixing permissions.
 
-5. Configure branch protection on `main` requiring status checks: **CI**, **Security Scan**, **CodeQL**, **Repo Hygiene**, **Feature Gate**, **Template Upgrade Simulation (Windows)** (`scripts/setup-github-repo.sh` sets these via API; verify in Settings -> Branches)
+5. Configure branch protection on `main` requiring status checks: **CI**, **Security Scan**, **CodeQL**, **Repo Hygiene**, **Feature Gate**, **Template Upgrade Simulation (Windows)** (`scripts/setup-github-repo.sh` sets these via API; desired-state copy: [`.github/settings.yml`](../.github/settings.yml); verify in Settings -> Branches)
 
 **Verify after setup:** `bash scripts/verify-branch-protection.sh` asserts required check contexts, `strict: true`, and `allow_force_pushes: false`. Override expected checks with `GITHUB_REQUIRED_CHECKS` when workflow job names differ.
 
@@ -134,5 +134,7 @@ When the product exposes agents, run the compact walk in [`THREAT_MODEL.md`](THR
 | `scripts/setup-automerge-token.sh` | Set `AUTOMERGE_TOKEN` secret from env or `gh auth token` |
 | `scripts/verify-branch-protection.sh` | Post-setup branch protection + strict/force-push verification |
 | `scripts/verify-reproducible-apk.sh` | Local reproducible APK hash check (also in `run-maintainer-gates.sh` full mode) |
+| `docs/PACKAGE_ATTESTATION.md` | npm provenance, uv/PEP 740, GitHub `attest-build-provenance` |
+| `docs/MERGE_QUEUE.md` | Optional GitHub merge queue (off by default) |
 | `docs/MAINTAINING_THE_TEMPLATE.md` | Maintainer release checklist |
 | `docs/INITIALIZATION_PROMPT.md` | Section 7a pre-release gate |

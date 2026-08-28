@@ -160,7 +160,7 @@ jobs:
 
       - name: Generate Winget manifest stub
         run: |
-          bash scripts/generate-winget-manifest.sh "AgentProjectBootstrap.Template" "$(cat .template-version | tr -d '[:space:]')"
+          bash scripts/generate-winget-manifest.sh "AgentProjectBootstrap.Template" "$(tr -d '[:space:]' < .template-version)"
           bash scripts/validate-winget-stub.sh
 
       - name: Generate provenance attestation
@@ -177,18 +177,18 @@ jobs:
             echo "FAIL: release $TAG not found (merge Release Please PR first)"
             exit 1
           fi
-          FILES="packaging/winget/manifest.stub.yaml sbom.cyclonedx.json"
+          FILES=(packaging/winget/manifest.stub.yaml sbom.cyclonedx.json)
           if [ -f openvex.json ]; then
             cp openvex.json openvex-upload.json
           else
             cp schemas/golden-path/openvex.example.json openvex-upload.json
           fi
           mv openvex-upload.json openvex.json
-          FILES="$FILES openvex.json"
-          [ -f sbom-web.cyclonedx.json ] && FILES="$FILES sbom-web.cyclonedx.json"
-          [ -f sbom-python.cyclonedx.json ] && FILES="$FILES sbom-python.cyclonedx.json"
-          [ -f sbom-node.cyclonedx.json ] && FILES="$FILES sbom-node.cyclonedx.json"
-          [ -f sbom-android.cyclonedx.json ] && FILES="$FILES sbom-android.cyclonedx.json"
-          [ -f sbom-rust.cyclonedx.json ] && FILES="$FILES sbom-rust.cyclonedx.json"
-          [ -f sbom-go.cyclonedx.json ] && FILES="$FILES sbom-go.cyclonedx.json"
-          gh release upload "$TAG" $FILES --clobber
+          FILES+=(openvex.json)
+          [ -f sbom-web.cyclonedx.json ] && FILES+=(sbom-web.cyclonedx.json)
+          [ -f sbom-python.cyclonedx.json ] && FILES+=(sbom-python.cyclonedx.json)
+          [ -f sbom-node.cyclonedx.json ] && FILES+=(sbom-node.cyclonedx.json)
+          [ -f sbom-android.cyclonedx.json ] && FILES+=(sbom-android.cyclonedx.json)
+          [ -f sbom-rust.cyclonedx.json ] && FILES+=(sbom-rust.cyclonedx.json)
+          [ -f sbom-go.cyclonedx.json ] && FILES+=(sbom-go.cyclonedx.json)
+          gh release upload "$TAG" "${FILES[@]}" --clobber

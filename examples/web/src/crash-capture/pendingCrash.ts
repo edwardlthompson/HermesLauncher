@@ -9,12 +9,16 @@ export type PendingCrash = {
   stack: string;
 };
 
+export function sanitizeCrashPayload(raw: Record<string, unknown>): PendingCrash {
+  return {
+    message: sanitizeReportText(String(raw.message ?? "")),
+    stack: sanitizeReportText(String(raw.stack ?? ""), true),
+  };
+}
+
 export function persistPendingCrash(record: PendingCrash, saveLocal = getSaveCrashes()): boolean {
   try {
-    const payload = JSON.stringify({
-      message: sanitizeReportText(record.message),
-      stack: sanitizeReportText(record.stack, true),
-    });
+    const payload = JSON.stringify(sanitizeCrashPayload(record));
     sessionStorage.setItem(SESSION_KEY, payload);
     if (saveLocal) localStorage.setItem(LOCAL_KEY, payload);
     else localStorage.removeItem(LOCAL_KEY);
@@ -28,9 +32,9 @@ export function readPendingCrash(): PendingCrash | null {
   try {
     const raw = sessionStorage.getItem(SESSION_KEY) ?? localStorage.getItem(LOCAL_KEY);
     if (!raw) return null;
-    const parsed = JSON.parse(raw) as PendingCrash;
+    const parsed = JSON.parse(raw) as Record<string, unknown>;
     if (typeof parsed.message !== "string" || typeof parsed.stack !== "string") return null;
-    return parsed;
+    return sanitizeCrashPayload(parsed);
   } catch {
     return null;
   }

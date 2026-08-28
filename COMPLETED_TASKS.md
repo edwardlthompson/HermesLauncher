@@ -2,6 +2,106 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## HUMAN leftover automation (2026-08-28)
+
+- ✅ [HUMAN] P2: Scorecard badge; keep `/ship --local` non-blocking on the live score
+- ✅ [HUMAN] Crash-proxy GitHub App: DPIA before enable (`docs/CRASH_PROXY.md`)
+- ✅ [HUMAN] Optional: copy `.cursor/mcp.foss.example` → `.cursor/mcp.json` and restart Cursor
+- ✅ [HUMAN] Optional: reduce Dependabot interval or disable automerge
+- ✅ [HUMAN] Watch repo Issues + add CODEOWNERS as collaborator; optional About smoke
+
+## Sprint M46 — /allideas template backlog (2026-08-28)
+
+- ✅ [AGENT] Ship `/allideas` (uncapped idea dump) + `docs/help/ALLIDEAS.md` + batch registry; `/build --lane auto` reads this board
+- ✅ [AGENT] P0: Deny `git push --force` even when the session only approved `git push` (hooks + tests)
+- ✅ [AGENT] P0: `resolve-tools.sh` adds `go` and `cargo` the same way as `gh` / `python`
+- ✅ [AGENT] P0: `agent-run.py` never selects System32/`bash` (WSL1)
+- ✅ [AGENT] P0: Upgrade simulation asserts Sacred files are never overwritten (child `AGENTS.md`)
+- ✅ [AGENT] P0: Plugin pack `version` tracks `.template-version`
+- ✅ [AGENT] P1: Shared About/crash/donate JSON schema + contract tests
+- ✅ [AGENT] P1: Node Golden Path About + crash sanitize
+- ✅ [AGENT] P1: Python Golden Path About + crash sanitize
+- ✅ [AGENT] P1: Android vs web sanitizer fixture parity
+- ✅ [AGENT] P1: `verify-about-feature-gate` for rust/go/node/python
+- ✅ [AGENT] P1: Feature `_template.md` schema + fallback validation command
+- ✅ [AGENT] P1: i18n key parity web ↔ Android
+- ✅ [AGENT] P1: RTL + reduced-motion Playwright coverage
+- ✅ [AGENT] P1: WCAG contrast check on design tokens
+- ✅ [AGENT] P1: Keyboard-only e2e for About / Settings / Feedback
+- ✅ [AGENT] P1: CSP + Referrer-Policy + Permissions-Policy on web
+- ✅ [AGENT] P2: PWA share-target
+- ✅ [AGENT] P2: UnifiedPush Android FOSS
+- ✅ [AGENT] P2: Settings export/import as a file
+- ✅ [AGENT] P2: Lightroom one real `Lr*` export
+- ✅ [AGENT] P1: `/ideas` waits for confirmation (no silent `do all`)
+- ✅ [AGENT] P1: `/build` refuses a second feature until gates pass
+- ✅ [AGENT] P1: Gate JSON → `render-gates-status` after `watch-agent-gates`
+- ✅ [AGENT] P1: Debug recipe uses `last-feature-gate.json` + 3-strike
+- ✅ [AGENT] P1: `/fix` prints strike/stage first
+- ✅ [AGENT] P1: Portability gate for command ↔ `docs/help` twins
+- ✅ [AGENT] P1: `/coach` dirty-Unreleased vs empty-board
+- ✅ [AGENT] P1: Session-start dirty Unreleased + next AGENT row
+- ✅ [AGENT] P1: Copilot/Cline adapter byte-budget
+- ✅ [AGENT] P1: `alwaysApply` rule audit
+- ✅ [AGENT] P2: `/compact` writes Unreleased + HUMAN rows into session state
+- ✅ [AGENT] P2: Parallel-lock GC
+- ✅ [AGENT] P2: Worktree GC
+- ✅ [AGENT] P2: `/tour` runs verify and interprets the first failure
+- ✅ [AGENT] P2: Glossary term linter
+- ✅ [AGENT] P1: actionlint + zizmor in `validate-bootstrap --quick`
+- ✅ [AGENT] P1: shellcheck all `scripts/*.sh`
+- ✅ [AGENT] P1: PSScriptAnalyzer on `*.ps1`
+- ✅ [AGENT] P2: hadolint
+- ✅ [AGENT] P2: markdownlint + yamllint
+- ✅ [AGENT] P2: REUSE / SPDX
+- ✅ [AGENT] P2: VEX with SBOM
+- ✅ [AGENT] P2: npm/uv attestation docs
+- ✅ [AGENT] P2: GitHub `settings.yml`
+- ✅ [AGENT] P2: Merge queue docs
+- ✅ [AGENT] P1: `/regress` fails if Pages has analytics
+- ✅ [AGENT] P1: README badge accuracy gate
+- ✅ [AGENT] P1: Release Please extra-files includes plugin.json version
+- ✅ [AGENT] P0: `/push` always runs Unreleased `--require-empty` before `git push`
+- ✅ [AGENT] P1: Gradle `--offline` after first worktree success
+- ✅ [AGENT] P1: Playwright cache-hash skip
+- ✅ [AGENT] P1: depsonar Gradle apply with Kotlin cap
+- ✅ [AGENT] P2: upd dry-run canvas
+- ✅ [AGENT] P1: Per-stack feature-gate timeout
+- ✅ [AGENT] P2: Check-name manifest instead of content-hash cache
+- ✅ [AGENT] P2: Devcontainer Android cmdline-tools (no auto-license)
+- ✅ [AGENT] P2: Optional Nix flake wrapping existing scripts only (not a second generator CLI)
+- ✅ [AGENT] P1: Prompt-injection fixtures for crash/feedback text
+- ✅ [AGENT] P1: Denylist unit tests for every line
+- ✅ [AGENT] P2: Auto-review fixtures
+- ✅ [AGENT] P2: Gitleaks baseline
+- ✅ [AGENT] P2: Semgrep FOSS
+- ✅ [AGENT] P1: `beforeMCPExecution` allowlist servers
+- ✅ [AGENT] P1: Crash payload allowlist tests on every sanitizing stack
+- ✅ [AGENT] P2: FIRST_30_DAYS from health JSON
+- ✅ [AGENT] P1: CONTRIBUTING agent edition
+- ✅ [AGENT] P1: Issue form for template-upgrade Sacred/Canon/Mixed
+- ✅ [AGENT] P2: Discussion template for `/ideas`
+- ✅ [AGENT] P2: `/adr` command
+- ✅ [AGENT] P2: Mermaid in generated README
+- ✅ [AGENT] P2: OG / social preview from tokens
+- ✅ [AGENT] P2: F-Droid screenshot dummy fail
+- ✅ [AGENT] P2: Winget publish runbook
+- ✅ [HUMAN] Optional product smoke: donate link + first-run (no popup) + version-change note (M40 leftover). Recurring maintenance: see **Ongoing Maintenance** below.
+
+## Sprint M45 — /ideas round 2 (2026-08-28)
+
+- ✅ [AGENT] Health CI ignores Release Please branches; init installs commit-msg hook; `--quick` runs action-ref format; JSON writes stay LF
+- ✅ [AGENT] `/gates` status script; worktree `resolve-python`; Gradle patch apply; SBOM wait; plugin-pack CI
+- ✅ [AGENT] Rust/Go About + crash sanitize; F-Droid in Android feature-gate; Lightroom in stack waves
+- ✅ [AGENT] Winget stub validate; crash-proxy docs (DPIA HUMAN); encoding strict opt-in; radar AGENT stub; sandbox copy; `--force` denylist test; citation date-only
+
+## Sprint M44 — /ideas ship hygiene (2026-08-28)
+
+- ✅ [AGENT] Stop Release Please patch bumps for `docs`/`chore`; keep `[Unreleased]` first on the RP PR
+- ✅ [AGENT] Skip worktree stack installs unless `ROOT_WORKTREE_PATH` is a different checkout
+- ✅ [AGENT] Ignore `.cursor-session-state.json`; Gradle pins on `update-deps` dry-run; Dependency Review check on RP PRs
+- ✅ [AGENT] `/gates` always reports via canvas skill; local `commit-msg` hook check (skip in CI)
+
 ## v0.25.0 Local-first deps and resource packing (2026-08-27)
 
 - ✅ [AUTO] Merge Release Please PR #77 — [v0.25.0](https://github.com/edwardlthompson/agent-project-bootstrap/releases/tag/v0.25.0) published @ `7670444`

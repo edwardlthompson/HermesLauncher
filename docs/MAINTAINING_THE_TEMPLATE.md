@@ -14,7 +14,7 @@ Playbook for template maintainers optimizing agent-project-bootstrap over time.
 
 1. All CI checks green on main
 2. `bash scripts/check-repo-hygiene.sh` passes
-3. **Dry-run:** **Actions → Release → Run workflow** (`workflow_dispatch`, no tag input) to validate SBOM/provenance **before** merge
+3. **Dry-run:** **Actions → Release → Run workflow** (`workflow_dispatch`, no tag input) to validate SBOM/provenance **before** merge. npm/uv registry attestations: [`PACKAGE_ATTESTATION.md`](PACKAGE_ATTESTATION.md)
 4. Run `scripts/pre-release-gate.sh --local` before push (`/prerelease` / `/ship`); full `pre-release-gate.sh` after push (`/regress`, `release.yml`)
 5. Run `scripts/run-maintainer-gates.sh` for weekly maintainer cycle (readme, fdroid metadata, feature-gate, CI jobs)
 6. Bump `.template-version` (or merge Release Please PR which bumps it)
@@ -27,6 +27,7 @@ Playbook for template maintainers optimizing agent-project-bootstrap over time.
 13. Zero open Critical/High Dependabot alerts (or documented exception with linked issue)
 14. `THIRD_PARTY_LICENSES.md` reviewed; SBOM attached to release
 15. Move completed Sprint M* items to `COMPLETED_TASKS.md`
+16. Desktop installer children: follow [`docs/WINGET.md`](WINGET.md) before a `microsoft/winget-pkgs` PR
 
 ## Safe Edit Zones
 

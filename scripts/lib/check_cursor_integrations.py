@@ -36,6 +36,7 @@ FOSS_EXAMPLES = (
     ".cursor/hooks.json",
     ".cursor/worktrees.json",
     ".cursor/permissions.json",
+    ".cursor/mcp-allowlist.json",
 )
 
 

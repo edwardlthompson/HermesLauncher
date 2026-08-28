@@ -11,10 +11,19 @@ trap 'rm -rf "$WORKDIR"' EXIT
 export PYTHON_BASIC_REPL="${PYTHON_BASIC_REPL:-1}"
 export PYTHONUNBUFFERED="${PYTHONUNBUFFERED:-1}"
 export PYTHONIOENCODING="${PYTHONIOENCODING:-utf-8}"
+# git clone never copies hooks; child --quick still skips the local hook gate.
+export BOOTSTRAP_UPGRADE_SIM=1
 # Child init validates workflow refs; CI must pass github.token as GH_TOKEN.
 if [ -n "${GITHUB_TOKEN:-}" ] && [ -z "${GH_TOKEN:-}" ]; then
   export GH_TOKEN="$GITHUB_TOKEN"
 fi
+
+child_quick() {
+  # Laptop-like --quick: optional linters skip if missing (do not inherit template CI).
+  env -u CI -u GITHUB_ACTIONS -u REQUIRE_ACTION_LINT -u REQUIRE_HADOLINT \
+    -u REQUIRE_SHELLCHECK -u REQUIRE_SEMGREP \
+    bash scripts/validate-bootstrap.sh --quick
+}
 
 echo "==> Simulating template upgrade in $WORKDIR"
 
@@ -41,7 +50,7 @@ for path in "${AREAS[@]}"; do
   fi
 done
 
-bash scripts/validate-bootstrap.sh --quick
+child_quick
 bash scripts/validate-template-index.sh
 
 echo "==> Non-interactive init smoke (web stack, no prune)"
@@ -112,7 +121,7 @@ if ! grep -q 'Upgrade Sim' AGENTS.md; then
   exit 1
 fi
 
-bash scripts/validate-bootstrap.sh --quick
+child_quick
 
 echo "==> Non-interactive init smoke with --prune --prune-optional"
 git clone --quiet "file://$ROOT" "$WORKDIR/child-prune"
@@ -138,7 +147,7 @@ for path in examples/python examples/android examples/node modules/python module
     exit 1
   fi
 done
-bash scripts/validate-bootstrap.sh --quick
+child_quick
 echo "Prune-optional smoke passed"
 
 echo "==> Non-interactive init smoke (PowerShell)"
@@ -157,7 +166,7 @@ else
     -Prune \
     -PruneOptional
 
-  bash scripts/validate-bootstrap.sh --quick
+  child_quick
   echo "PowerShell init smoke passed"
 fi
 

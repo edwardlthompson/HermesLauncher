@@ -57,6 +57,8 @@ REQUIRED=(
   docs/plan.md
   docs/BEST_PRACTICES.md
   docs/FIRST_30_DAYS.md
+  docs/first-30-days.json
+  docs/WINGET.md
   docs/AGENT_PORTABILITY.md
   docs/help/TOUR.md
   docs/help/IDEAS.md
@@ -64,6 +66,7 @@ REQUIRED=(
   docs/help/GLOSSARY.md
   docs/help/COACH.md
   docs/help/DEBUG.md
+  docs/help/ADR.md
   scripts/check-doc-links.sh
   bootstrap.config.json.example
   PROJECT_CHECKLIST.md
@@ -174,7 +177,29 @@ if ! python3 scripts/lib/run_checks_parallel.py \
   check-hadolint.sh \
   check-md-yaml-lint.sh \
   check-reuse.sh \
-  check-openvex.sh
+  check-openvex.sh \
+  check-package-attestation-docs.sh \
+  check-github-settings-yml.sh \
+  check-merge-queue-docs.sh \
+  check-pages-analytics.sh \
+  check-readme-badges.sh \
+  check-playwright-cache.sh \
+  check-android-cmdline-tools.sh \
+  check-nix-flake.sh \
+  check-auto-review.sh \
+  check-gitleaks-baseline.sh \
+  check-semgrep.sh \
+  check-mcp-allowlist.sh \
+  check-crash-payload-allowlist.sh \
+  check-first-30-days.sh \
+  check-contributing-agent.sh \
+  check-template-upgrade-form.sh \
+  check-ideas-discussion.sh \
+  check-adr-command.sh \
+  check-readme-mermaid.sh \
+  check-social-preview.sh \
+  check-fdroid-screenshots.sh \
+  check-winget-runbook.sh
 then
   ERRORS=$((ERRORS + 1))
 fi

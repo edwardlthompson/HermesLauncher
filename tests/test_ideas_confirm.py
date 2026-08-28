@@ -57,7 +57,7 @@ class IdeasConfirmTests(unittest.TestCase):
     def test_portable_help_twins(self) -> None:
         check = (ROOT / "scripts/check-batch-commands.sh").read_text(encoding="utf-8")
         self.assertIn("PORTABLE=", check)
-        for name in ("tour", "coach", "ideas", "allideas", "debug", "upgrade"):
+        for name in ("tour", "coach", "ideas", "allideas", "debug", "upgrade", "adr"):
             twin = ROOT / "docs" / "help" / f"{name.upper()}.md"
             cmd = ROOT / ".cursor" / "commands" / f"{name}.md"
             self.assertTrue(cmd.is_file(), cmd)

@@ -134,6 +134,13 @@ class RepoModeTests(unittest.TestCase):
             self.assertEqual(status["lane"], "child")
             self.assertIn("init-project", status["next_row"]["task"])
 
+    def test_build_command_uses_auto_lane(self) -> None:
+        text = (
+            Path(__file__).resolve().parent.parent / ".cursor" / "commands" / "build.md"
+        ).read_text(encoding="utf-8")
+        self.assertIn("--lane auto", text)
+        self.assertIn("build-sprint-status --json --lane auto", text)
+
     def test_weekly_auto_markers(self) -> None:
         row = PlanRow(
             owner="AUTO",

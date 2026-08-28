@@ -39,6 +39,19 @@ class ShellcheckScriptsTests(unittest.TestCase):
         text = (ROOT / "scripts/validate-bootstrap.sh").read_text(encoding="utf-8")
         self.assertIn("check-shellcheck.sh", text)
 
+    def test_no_invalid_shellcheck_directives(self) -> None:
+        allowed = ("source=", "shell=", "disable=", "enable=", "source-path=")
+        for path in script_files(ROOT):
+            for line in path.read_text(encoding="utf-8").splitlines():
+                stripped = line.strip()
+                if not stripped.startswith("# shellcheck "):
+                    continue
+                rest = stripped[len("# shellcheck ") :]
+                self.assertTrue(
+                    rest.startswith(allowed),
+                    f"{path.name}: invalid directive {stripped!r}",
+                )
+
 
 if __name__ == "__main__":
     unittest.main()
