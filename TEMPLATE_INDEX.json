@@ -2251,6 +2251,20 @@
       "owner": "maintainer"
     },
     {
+      "path": "scripts/check-gitleaks-baseline.sh",
+      "purpose": "Gate: Gitleaks baseline allowlists documented fixture secrets",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": ".gitleaks.toml",
+      "purpose": "Gitleaks config + fixture-secret allowlist baseline",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": "flake.nix",
       "purpose": "Optional Nix apps wrapping verify/validate-bootstrap/feature-gate/update-deps",
       "read_when": "milestone_boundary",

@@ -1,0 +1,13 @@
+# Baseline allowlist for documented fixture secrets (not live credentials).
+title = "agent-project-bootstrap"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Golden Path sanitizer fixtures used to prove redaction"
+paths = [
+  '''^schemas/golden-path/sanitize-fixtures\.json$''',
+  '''^examples/web/src/privacy-report/sanitize-fixtures\.json$''',
+  '''^examples/android/app/src/test/resources/sanitize-fixtures\.json$''',
+]

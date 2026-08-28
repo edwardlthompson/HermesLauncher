@@ -183,7 +183,8 @@ if ! python3 scripts/lib/run_checks_parallel.py \
   check-playwright-cache.sh \
   check-android-cmdline-tools.sh \
   check-nix-flake.sh \
-  check-auto-review.sh
+  check-auto-review.sh \
+  check-gitleaks-baseline.sh
 then
   ERRORS=$((ERRORS + 1))
 fi
