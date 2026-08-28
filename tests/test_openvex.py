@@ -26,6 +26,8 @@ class OpenVexTests(unittest.TestCase):
         release = (ROOT / ".github/workflows/release.yml").read_text(encoding="utf-8")
         wait = (ROOT / "scripts/wait-release-sbom.sh").read_text(encoding="utf-8")
         self.assertIn("openvex.json", release)
+        self.assertIn('"${FILES[@]}"', release)
+        self.assertNotIn("cat .template-version", release)
         self.assertIn("openvex.json", wait)
         ignore = (ROOT / ".gitignore").read_text(encoding="utf-8")
         self.assertIn("openvex.json", ignore)

@@ -27,6 +27,7 @@ class UpgradeSimSacredTests(unittest.TestCase):
         self.assertIn("Sacred AGENTS.md was overwritten", text)
         self.assertIn("env -u CI -u GITHUB_ACTIONS", text)
         self.assertIn("child_quick", text)
+        self.assertIn("BOOTSTRAP_UPGRADE_SIM=1", text)
 
 
 if __name__ == "__main__":
