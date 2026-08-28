@@ -134,5 +134,6 @@ When the product exposes agents, run the compact walk in [`THREAT_MODEL.md`](THR
 | `scripts/setup-automerge-token.sh` | Set `AUTOMERGE_TOKEN` secret from env or `gh auth token` |
 | `scripts/verify-branch-protection.sh` | Post-setup branch protection + strict/force-push verification |
 | `scripts/verify-reproducible-apk.sh` | Local reproducible APK hash check (also in `run-maintainer-gates.sh` full mode) |
+| `docs/PACKAGE_ATTESTATION.md` | npm provenance, uv/PEP 740, GitHub `attest-build-provenance` |
 | `docs/MAINTAINING_THE_TEMPLATE.md` | Maintainer release checklist |
 | `docs/INITIALIZATION_PROMPT.md` | Section 7a pre-release gate |

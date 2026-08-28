@@ -795,6 +795,13 @@
       "owner": "maintainer"
     },
     {
+      "path": "docs/PACKAGE_ATTESTATION.md",
+      "purpose": "npm provenance, uv/PEP 740, and GitHub SBOM attest-build-provenance",
+      "read_when": "security_triage",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": "docs/LOCAL_MODELS.md",
       "purpose": "Local Ollama/LM Studio Cursor setup without cloud API keys",
       "read_when": "session_start",
@@ -2141,6 +2148,13 @@
     {
       "path": "scripts/check-openvex.sh",
       "purpose": "Gate: OpenVEX example next to the release SBOM",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-package-attestation-docs.sh",
+      "purpose": "Gate: npm/uv attestation docs stay next to release provenance",
       "read_when": "milestone_boundary",
       "update_when": "milestone_boundary",
       "owner": "maintainer"

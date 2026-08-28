@@ -286,6 +286,19 @@ if should_run python && [ -f examples/python/pyproject.toml ]; then
   fi
 fi
 
+android_sdk_ready() {
+  if [ -n "${ANDROID_HOME:-}" ] && [ -d "${ANDROID_HOME}" ]; then
+    return 0
+  fi
+  if [ -n "${ANDROID_SDK_ROOT:-}" ] && [ -d "${ANDROID_SDK_ROOT}" ]; then
+    return 0
+  fi
+  if [ -f examples/android/local.properties ] && grep -q '^sdk.dir=' examples/android/local.properties; then
+    return 0
+  fi
+  return 1
+}
+
 if should_run android && [ -f examples/android/gradlew ]; then
   if ! command -v java >/dev/null 2>&1 && [ -z "${JAVA_HOME:-}" ]; then
     if [ "$STACK" = "android" ] && [ "${FEATURE_GATE_CHILD:-}" != "1" ]; then
@@ -293,6 +306,8 @@ if should_run android && [ -f examples/android/gradlew ]; then
     else
       skip_or_block "Skipping android gate (JAVA_HOME not set)"
     fi
+  elif ! android_sdk_ready; then
+    skip_or_block "Skipping android gate (no ANDROID_HOME / sdk.dir)"
   else
     run_in_dir examples/android android-test ./gradlew test --parallel --quiet
   fi

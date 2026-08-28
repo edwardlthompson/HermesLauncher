@@ -127,7 +127,7 @@ grep '\[AUTO\]' BUILD_PLAN.md
 41. 🔲 [HUMAN] P2: Scorecard badge; keep `/ship --local` non-blocking on the live score
 42. ✅ [AGENT] P2: REUSE / SPDX
 43. ✅ [AGENT] P2: VEX with SBOM
-44. 🔲 [AGENT] P2: npm/uv attestation docs
+44. ✅ [AGENT] P2: npm/uv attestation docs
 45. 🔲 [AGENT] P2: GitHub `settings.yml`
 46. 🔲 [AGENT] P2: Merge queue docs
 47. 🔲 [AGENT] P1: `/regress` fails if Pages has analytics

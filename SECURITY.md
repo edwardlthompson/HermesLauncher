@@ -34,6 +34,7 @@ See [`docs/THREAT_MODEL.md`](docs/THREAT_MODEL.md) and [`docs/PRIVACY.md`](docs/
 ## Security Practices
 
 - Local audit before push: `python3 scripts/agent-run.py update-deps -- --audit` (npm/uv/`upd audit`; optional Trivy/OSV). GitHub Dependabot alerts remain the backup inbox; see [`docs/SECURITY_TRIAGE.md`](docs/SECURITY_TRIAGE.md)
+- npm / uv / GitHub provenance: [`docs/PACKAGE_ATTESTATION.md`](docs/PACKAGE_ATTESTATION.md) (docs only; CI does not require registry attestations)
 - Maintainer orchestrator: `bash scripts/run-maintainer-gates.sh` (weekly; full cycle omits `--quick`)
 - Secrets must never be committed (Gitleaks pre-commit enforced)
 - Report dependency vulnerabilities via local audit or Dependabot; do not commit patched forks without review
