@@ -8,6 +8,55 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.25.0...v1.0.0) (2026-08-28)
+
+
+### chore
+
+* **release:** prepare v1.0.0 release ([6e037a2](https://github.com/edwardlthompson/agent-project-bootstrap/commit/6e037a237aaa62c9b6c4514264ca527437056e21))
+
+
+### Added
+
+* **android:** add cmdline-tools install without auto-license ([67d12a9](https://github.com/edwardlthompson/agent-project-bootstrap/commit/67d12a98a4208b3da46cf0a31ab79f9dc20be8e4))
+* **android:** fail dummy F-Droid store screenshots ([96a9a2e](https://github.com/edwardlthompson/agent-project-bootstrap/commit/96a9a2e1f464aa82c4688e884f5da186f3291a7c))
+* **android:** use Gradle --offline after first worktree ([9197d44](https://github.com/edwardlthompson/agent-project-bootstrap/commit/9197d441abbfdd702c257d928a10d16f07ad7786))
+* **branding:** drive OG social preview from design tokens ([c25f702](https://github.com/edwardlthompson/agent-project-bootstrap/commit/c25f702985150dc1faaf90a5cc072b87c7001a4a))
+* **build:** automate leftover HUMAN rows that scripts can close ([1fb50e8](https://github.com/edwardlthompson/agent-project-bootstrap/commit/1fb50e8ac20b058505f09c4464368d07c3ea6675))
+* **ci:** skip Playwright --with-deps on lockfile cache-hit ([85105cc](https://github.com/edwardlthompson/agent-project-bootstrap/commit/85105cc2180cd1bfc9a1b6816db8fcca0e8c9208))
+* **commands:** add /adr for the next docs/adr record ([51116a7](https://github.com/edwardlthompson/agent-project-bootstrap/commit/51116a7ab63cd83fc422411d7c379fa263a29d53))
+* **deps:** apply depsonar Gradle pins with Kotlin cap ([cd10282](https://github.com/edwardlthompson/agent-project-bootstrap/commit/cd10282b13c4668ad641d690f28f78cee2fecf46))
+* **deps:** render update-deps dry-run as a canvas ([443a320](https://github.com/edwardlthompson/agent-project-bootstrap/commit/443a320371897050985b87e41743614c907adf68))
+* **docs:** add mermaid flowchart to generated README ([2d667b8](https://github.com/edwardlthompson/agent-project-bootstrap/commit/2d667b80a5bd2691664b31da6a7a02458976b36d))
+* **docs:** add README badge accuracy gate ([426c3c6](https://github.com/edwardlthompson/agent-project-bootstrap/commit/426c3c6a2a6b1e40b0fe6b3bf0a15475dadabefe))
+* **docs:** keep FIRST_30_DAYS aligned with health JSON ([f93a8e2](https://github.com/edwardlthompson/agent-project-bootstrap/commit/f93a8e28f6d5eb9b502614e6f3eabc4ee5ba7886))
+* **gates:** add per-stack feature-gate command timeouts ([bb34985](https://github.com/edwardlthompson/agent-project-bootstrap/commit/bb3498571a48008f7ec7f12c2d4aa39a1c25143e))
+* **github:** add /ideas Discussion template ([b8e971e](https://github.com/edwardlthompson/agent-project-bootstrap/commit/b8e971e7616d0c05e76a9b1184f2b880f32cc0cb))
+* **github:** add Sacred/Canon/Mixed upgrade issue form ([c340585](https://github.com/edwardlthompson/agent-project-bootstrap/commit/c340585e56ca747f26c729999ba540158ffbd2bb))
+* **github:** add settings.yml desired-state for branch protection ([eb04760](https://github.com/edwardlthompson/agent-project-bootstrap/commit/eb047605f4d7c61d0a4c9c257c7033aacc35f42c))
+* **github:** use a required-check name manifest ([35f9735](https://github.com/edwardlthompson/agent-project-bootstrap/commit/35f9735b89027bd83bdbded19be0a40821781b5c))
+* **hooks:** allowlist FOSS MCP servers before execution ([673e128](https://github.com/edwardlthompson/agent-project-bootstrap/commit/673e128a688450a2c620ea7044fdf3f13c851aa5))
+* land M46 Golden Path slices, agent UX, and offline CI linters ([a730fa3](https://github.com/edwardlthompson/agent-project-bootstrap/commit/a730fa308f0d283ba74fc12de325b340231a5ca6))
+* **nix:** add optional flake that only wraps existing scripts ([d37cd41](https://github.com/edwardlthompson/agent-project-bootstrap/commit/d37cd41d5f744a241159551fa66cc36eb1005349))
+* **pages:** fail /regress when the web tree has analytics ([448130f](https://github.com/edwardlthompson/agent-project-bootstrap/commit/448130f5ce2342b239e2ef60da1536a44325d3e6))
+* **release:** bump plugin.json version via Release Please ([49f02cb](https://github.com/edwardlthompson/agent-project-bootstrap/commit/49f02cb4d952108f8ced3130542d3d2f91937579))
+* **release:** require empty Unreleased before /push ([5e3a778](https://github.com/edwardlthompson/agent-project-bootstrap/commit/5e3a778a709b96242b7b1e6b4c3832ef3b31ec5d))
+* **security:** add Auto-review allow/block fixtures ([22ddeb1](https://github.com/edwardlthompson/agent-project-bootstrap/commit/22ddeb11403884f7bcce17ef88a8a9cc31b431e3))
+* **security:** add FOSS Semgrep rules without SaaS upload ([43a09be](https://github.com/edwardlthompson/agent-project-bootstrap/commit/43a09be567d867c57eb8761e62809367834f182d))
+* **security:** add Gitleaks baseline for fixture secrets ([ad9f7b5](https://github.com/edwardlthompson/agent-project-bootstrap/commit/ad9f7b5621d12db11a7e7a95849155426ef6db0a))
+* **security:** redact prompt-injection phrases in crash text ([4be4cff](https://github.com/edwardlthompson/agent-project-bootstrap/commit/4be4cff05cd2fb8c57e3aeb09a488454f8264718))
+
+
+### Fixed
+
+* **agents:** use auto lane for autonomous /build ([f460ee0](https://github.com/edwardlthompson/agent-project-bootstrap/commit/f460ee0796f540beb271ae65ca81f045e1bbb8a3))
+* **ci:** do not treat shellcheck prose as a directive ([52688b4](https://github.com/edwardlthompson/agent-project-bootstrap/commit/52688b4265dfbbbb2cc1f2a157ad7d6ef6933572))
+* **ci:** isolate commit-msg hook test from upgrade-sim env ([1973533](https://github.com/edwardlthompson/agent-project-bootstrap/commit/1973533d82e8bfa94bc15b8d334365bc5cd7b18b))
+* **ci:** pass actionlint shellcheck and upgrade-sim hook gate ([2e1ede3](https://github.com/edwardlthompson/agent-project-bootstrap/commit/2e1ede38a2a05755f5426bdf0e9e29dc0f65d3df))
+* **ci:** publish CI and Security Scan required check names ([79b875c](https://github.com/edwardlthompson/agent-project-bootstrap/commit/79b875cbf64962675e07bc1e206bdf101f3fe66a))
+* **ci:** skip stack-specific bootstrap checks after prune ([3e66933](https://github.com/edwardlthompson/agent-project-bootstrap/commit/3e669333b7cfc929b66293b3fea7fd4c79c16fb4))
+* **ci:** unblock Semgrep, actionlint, and upgrade-sim ([7543909](https://github.com/edwardlthompson/agent-project-bootstrap/commit/754390994b591176a38a70e642e6e309c3035272))
+
 ## [0.25.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.24.0...v0.25.0) (2026-08-27)
 
 ### Added
