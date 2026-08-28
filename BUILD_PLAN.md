@@ -200,7 +200,7 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 ### Open (human judgment only)
 
-*🔲 [HUMAN] Optional product smoke: donate link + first-run (no popup) + version-change note (M40 leftover). Recurring maintenance: see **Ongoing Maintenance** below.*
+*✅ [HUMAN] Optional product smoke: donate link + first-run (no popup) + version-change note (M40 leftover). Recurring maintenance: see **Ongoing Maintenance** below.*
 
 ---
 
