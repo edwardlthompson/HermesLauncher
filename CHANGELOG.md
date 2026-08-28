@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
 ## [1.0.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.25.0...v1.0.0) (2026-08-28)
 
 
@@ -54,8 +56,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * **ci:** publish CI and Security Scan required check names ([79b875c](https://github.com/edwardlthompson/agent-project-bootstrap/commit/79b875cbf64962675e07bc1e206bdf101f3fe66a))
 * **ci:** skip stack-specific bootstrap checks after prune ([3e66933](https://github.com/edwardlthompson/agent-project-bootstrap/commit/3e669333b7cfc929b66293b3fea7fd4c79c16fb4))
 * **ci:** unblock Semgrep, actionlint, and upgrade-sim ([7543909](https://github.com/edwardlthompson/agent-project-bootstrap/commit/754390994b591176a38a70e642e6e309c3035272))
-
-## [Unreleased]
 
 ## [0.25.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.24.0...v0.25.0) (2026-08-27)
 
