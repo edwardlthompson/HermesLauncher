@@ -2181,6 +2181,13 @@
       "owner": "maintainer"
     },
     {
+      "path": "scripts/check-pages-analytics.sh",
+      "purpose": "Gate: /regress fails if GitHub Pages web tree has analytics",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": "scripts/check-psscriptanalyzer.sh",
       "purpose": "Gate: PSScriptAnalyzer -Severity Error on scripts/*.ps1",
       "read_when": "milestone_boundary",

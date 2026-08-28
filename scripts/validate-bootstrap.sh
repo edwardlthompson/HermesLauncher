@@ -177,7 +177,8 @@ if ! python3 scripts/lib/run_checks_parallel.py \
   check-openvex.sh \
   check-package-attestation-docs.sh \
   check-github-settings-yml.sh \
-  check-merge-queue-docs.sh
+  check-merge-queue-docs.sh \
+  check-pages-analytics.sh
 then
   ERRORS=$((ERRORS + 1))
 fi
