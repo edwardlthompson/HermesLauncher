@@ -55,6 +55,14 @@ Start with this README, then [`CONTRIBUTING.md`](../../CONTRIBUTING.md) and [`do
 
 Read [`docs/START_HERE.md`](../../docs/START_HERE.md) and [`AGENTS.md`](../../AGENTS.md). In Cursor type `/tour` or `/bootstrap`. Any other IDE: ask the agent to read [`docs/help/TOUR.md`](../../docs/help/TOUR.md). `/coach` is the next recommended action.
 
+```mermaid
+flowchart TD
+  Readme[README] --> Humans[CONTRIBUTING]
+  Readme --> Agents[START_HERE]
+  Agents --> Tour["/tour or TOUR.md"]
+  Tour --> Coach["/coach"]
+```
+
 ## Install
 
 Requirements depend on your active stack (Node 20+, Python 3.11+, Android SDK). See the active `modules/{stack}/MODULE.md` and `examples/{stack}/README.md`.

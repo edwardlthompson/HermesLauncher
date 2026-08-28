@@ -163,7 +163,7 @@ grep '\[AUTO\]' BUILD_PLAN.md
 68. ✅ [AGENT] P1: Issue form for template-upgrade Sacred/Canon/Mixed
 69. ✅ [AGENT] P2: Discussion template for `/ideas`
 70. ✅ [AGENT] P2: `/adr` command
-71. 🔲 [AGENT] P2: Mermaid in generated README
+71. ✅ [AGENT] P2: Mermaid in generated README
 72. 🔲 [AGENT] P2: OG / social preview from tokens
 73. 🔲 [AGENT] P2: F-Droid screenshot dummy fail
 74. 🔲 [AGENT] P2: Winget publish runbook

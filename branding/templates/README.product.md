@@ -46,6 +46,14 @@ Start with this README, then [`CONTRIBUTING.md`]({{url_contributing}}) and [`doc
 
 Read [`docs/START_HERE.md`]({{url_start_here}}) and [`AGENTS.md`]({{url_agents}}). In Cursor type `/tour` or `/bootstrap`. Any other IDE: ask the agent to read [`docs/help/TOUR.md`]({{url_tour}}). `/coach` is the next recommended action.
 
+```mermaid
+flowchart TD
+  Readme[README] --> Humans[CONTRIBUTING]
+  Readme --> Agents[START_HERE]
+  Agents --> Tour["/tour or TOUR.md"]
+  Tour --> Coach["/coach"]
+```
+
 ## Install
 
 {{install}}
