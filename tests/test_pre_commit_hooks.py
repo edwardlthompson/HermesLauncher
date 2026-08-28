@@ -77,6 +77,7 @@ class PreCommitHookTests(unittest.TestCase):
             env = {**os.environ}
             env.pop("CI", None)
             env.pop("GITHUB_ACTIONS", None)
+            env.pop("BOOTSTRAP_UPGRADE_SIM", None)
             empty = repo / "empty.gitconfig"
             empty.write_text("", encoding="utf-8")
             env["GIT_CONFIG_GLOBAL"] = str(empty)
