@@ -65,6 +65,11 @@ fi
 echo ""
 echo "SKIP [ADB] reproducible APK hash verification — run on device/emulator per modules/android/MODULE.md"
 
+# Dummy/placeholder screenshots fail even when metadata text is present.
+if ! bash "$ROOT/scripts/check-fdroid-screenshots.sh"; then
+  fail "dummy F-Droid screenshots are not allowed"
+fi
+
 if [ "$ERRORS" -gt 0 ]; then
   echo "${ERRORS} F-Droid metadata check(s) failed"
   exit 1

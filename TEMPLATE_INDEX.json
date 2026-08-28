@@ -411,6 +411,13 @@
       "owner": "maintainer"
     },
     {
+      "path": "scripts/check-fdroid-screenshots.sh",
+      "purpose": "Gate: fail dummy/placeholder F-Droid screenshots",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": ".cursor/commands/coach.md",
       "purpose": "Coach slash command: health + next action + why",
       "read_when": "prompt_needed",
