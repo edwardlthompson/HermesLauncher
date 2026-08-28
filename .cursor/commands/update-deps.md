@@ -28,6 +28,13 @@ python3 scripts/agent-run.py update-deps -- --apply
 
 Halt if Kotlin `>=2.3.30` or the Kotlin guard fails. Then `python3 scripts/agent-run.py verify`. If `examples/web`, `examples/node`, `examples/python`, or `examples/android` changed, run that stack’s tests (`npm test`, `uv run pytest`, `./gradlew test`).
 
+Gradle plugins from depsonar must use the same cap (never write Kotlin `>=2.3.30` yourself):
+
+```bash
+python3 scripts/agent-run.py apply-depsonar-gradle -- --pins 'plugin.id=x.y.z,...'
+python3 scripts/agent-run.py apply-depsonar-gradle -- --apply --pins 'plugin.id=x.y.z,...'
+```
+
 Stop for the human before commit/push unless they invoked `/ship` (which grants push after this step).
 
 Begin now.

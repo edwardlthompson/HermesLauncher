@@ -1649,6 +1649,13 @@
       "owner": "maintainer"
     },
     {
+      "path": "scripts/apply-depsonar-gradle.sh",
+      "purpose": "Apply depsonar Gradle pins through patch-only + Kotlin cap",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": "scripts/prerelease-autofix.sh",
       "purpose": "Pre-release mechanical autofix + one watch-agent-gates pass",
       "read_when": "release",

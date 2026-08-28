@@ -17,3 +17,5 @@ python3 scripts/agent-run.py update-deps -- --audit
 ```
 
 Dry-run first. Do not git push. Halt on majors, Kotlin >=2.3.30, or HIGH+ audit findings.
+
+Gradle from depsonar: `python3 scripts/agent-run.py apply-depsonar-gradle -- --pins 'id=ver'` then `--apply`. Never write Kotlin `>=2.3.30`.
