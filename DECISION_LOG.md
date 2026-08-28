@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-28 — First stable v1.0.0
+- **Status:** Accepted
+- **Context:** Template had shipped through 0.25.0. Cloud agent `/build --lane auto` prepared `Release-As: 1.0.0` on PR #81 so Release Please would not cut 0.26.0. Upgrade-sim failed until stack-specific gates skipped after prune.
+- **Decision:** Merge #81 after CI (including both upgrade-sims) was green, then merge RP #82 as v1.0.0. Keep remaining HUMAN/ADB leftovers (CII, Ollama, Android SDK) off the AGENT board.
+- **Alternatives considered:** Ship 0.26.0 first (rejected: human asked for v1). Squash #81 (rejected: would drop the `Release-As` footer).
+- **Consequences:** `.template-version` is 1.0.0. Child upgrades from 0.x should treat this as a major. Recurring weekly AUTO and CII/Ollama/SDK stay 🔲.
+
 ### 2026-08-28 — /build uses auto lane on the template
 - **Status:** Accepted
 - **Context:** Slack `/build` (bare word `build`) hardcoded `--lane child`, so the next row was Sprint 0 `init-project.sh` on this template.

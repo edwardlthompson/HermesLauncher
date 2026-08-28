@@ -2,6 +2,11 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## v1.0.0 First stable template (2026-08-28)
+
+- ✅ [AUTO] Merge Release Please PR #82 — [v1.0.0](https://github.com/edwardlthompson/agent-project-bootstrap/releases/tag/v1.0.0) published @ `3dae768`
+- ✅ [AGENT] Cloud agent `/build` auto-lane + M46 remaining rows; CI unblocked (actionlint, upgrade-sim prune skips, required check names)
+
 ## HUMAN leftover automation (2026-08-28)
 
 - ✅ [HUMAN] P2: Scorecard badge; keep `/ship --local` non-blocking on the live score

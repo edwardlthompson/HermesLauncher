@@ -44,6 +44,7 @@ FOSS coding-agent bootstrap template: labeled BUILD_PLAN sprints, Golden Path ex
 
 ## Session Retrospectives
 
+| 2026-08-28 | v1.0.0 /ship | Cloud agent #81 reviewed+merged; RP #82 cut first stable; Unreleased empty; SBOM+OpenVEX on the tag | Do not merge RP while upgrade-sim still fails on pruned stacks; `Release-As: 1.0.0` beats 0.26.0 |
 | 2026-08-28 | /cleanup HUMAN leftovers | Archived 5 script-closed HUMAN rows; CII, Ollama, Android SDK stay 🔲 | Recurring weekly AUTO stays 🔲 |
 | 2026-08-28 | HUMAN leftover automation | Scripts close Scorecard, crash-proxy-off, mcp.json copy, weekly Dependabot, CODEOWNERS | CII login, Ollama install, and Android licenses stay HUMAN/ADB |
 | 2026-08-28 | /cleanup M46 | Archived M46/M45/M44 AGENT rows; HUMAN leftovers (Scorecard, CII) stay on the board | Recurring weekly AUTO stays 🔲; do not archive Child Playbook templates |
