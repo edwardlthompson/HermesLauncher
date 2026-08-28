@@ -70,6 +70,11 @@
       "group": "build",
       "caption": "Design one feature or decision before coding."
     },
+    "adr": {
+      "kind": "step",
+      "group": "build",
+      "caption": "Write the next numbered architecture decision record."
+    },
     "feature": {
       "kind": "step",
       "group": "build",

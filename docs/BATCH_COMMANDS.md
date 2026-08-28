@@ -2,7 +2,7 @@
 
 > Technical catalog for agents and maintainers. **Humans:** start with [docs/help/BATCH_COMMANDS.md](help/BATCH_COMMANDS.md).
 
-34 slash commands: **29 atomic** workflows + **5 super** orchestrators. Bare-word triggers: `.cursor/rules/batch-commands.mdc`. Other IDEs: paste the matching file under `docs/help/` (start with `docs/help/TOUR.md`, `docs/help/IDEAS.md`, or `docs/help/ALLIDEAS.md`). Novice print sheet: [`docs/help/batch-commands-print.html`](help/batch-commands-print.html).
+35 slash commands: **30 atomic** workflows + **5 super** orchestrators. Bare-word triggers: `.cursor/rules/batch-commands.mdc`. Other IDEs: paste the matching file under `docs/help/` (start with `docs/help/TOUR.md`, `docs/help/IDEAS.md`, or `docs/help/ALLIDEAS.md`). Novice print sheet: [`docs/help/batch-commands-print.html`](help/batch-commands-print.html).
 
 ## Super commands
 
@@ -39,6 +39,7 @@
 | `/upgrade` | Child: template gap plan (Canon/Mixed/Sacred + Golden Path). Template: upgrade sim | maintain | 16 |
 | `/setup` | GitHub repo settings | bootstrap | 11 |
 | `/plan` | Feature/ADR plan + resolved Critique (Issue→Resolution) | build | 19 |
+| `/adr` | Write the next numbered `docs/adr/` record | — | — |
 | `/restore` | Restore from `.cursor-session-state.json` | — | 13 |
 | `/compact` | Save session state before clearing chat | — | 13 |
 | `/scope` | Parallel manifest + auto Task dispatch | — | 14 |

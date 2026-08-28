@@ -65,6 +65,7 @@ REQUIRED=(
   docs/help/GLOSSARY.md
   docs/help/COACH.md
   docs/help/DEBUG.md
+  docs/help/ADR.md
   scripts/check-doc-links.sh
   bootstrap.config.json.example
   PROJECT_CHECKLIST.md
@@ -192,7 +193,8 @@ if ! python3 scripts/lib/run_checks_parallel.py \
   check-first-30-days.sh \
   check-contributing-agent.sh \
   check-template-upgrade-form.sh \
-  check-ideas-discussion.sh
+  check-ideas-discussion.sh \
+  check-adr-command.sh
 then
   ERRORS=$((ERRORS + 1))
 fi

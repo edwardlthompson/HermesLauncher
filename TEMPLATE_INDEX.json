@@ -14,6 +14,7 @@
     "agent_portability": "docs/AGENT_PORTABILITY.md",
     "allideas": "docs/help/ALLIDEAS.md",
     "upgrade": "docs/help/UPGRADE.md",
+    "adr": "docs/help/ADR.md",
     "batch_commands_print": "docs/help/batch-commands-print.html"
   },
   "files": [
@@ -370,6 +371,27 @@
     {
       "path": "scripts/check-ideas-discussion.sh",
       "purpose": "Gate: /ideas Discussion template keeps required pointers",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": ".cursor/commands/adr.md",
+      "purpose": "Slash command to write the next docs/adr record",
+      "read_when": "prompt_needed",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "docs/help/ADR.md",
+      "purpose": "Tool-agnostic /adr recipe for other IDEs",
+      "read_when": "prompt_needed",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-adr-command.sh",
+      "purpose": "Gate: /adr command and help twin stay registered",
       "read_when": "milestone_boundary",
       "update_when": "milestone_boundary",
       "owner": "maintainer"
