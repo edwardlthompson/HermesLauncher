@@ -61,7 +61,7 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 ## Template Maintainer — Active Board
 
-> **M46** AGENT/AUTO archived in COMPLETED_TASKS.md. HUMAN leftovers remain (Scorecard, CII). **M45** and **M44** archived in COMPLETED_TASKS.md. **v0.25.0** archived in COMPLETED_TASKS.md @ `7670444`. **M43/M42** AGENT rows archived; HUMAN/ADB leftovers remain. **v0.24.0** archived in COMPLETED_TASKS.md @ `c0f0dee`.
+> **M46** AGENT/AUTO archived in COMPLETED_TASKS.md @ `6229822`. HUMAN leftovers remain (Scorecard, CII). **M45** and **M44** archived in COMPLETED_TASKS.md. **v0.25.0** archived in COMPLETED_TASKS.md @ `7670444`. **M43/M42** AGENT rows archived; HUMAN/ADB leftovers remain. **v0.24.0** archived in COMPLETED_TASKS.md @ `c0f0dee`.
 
 ### M46 leftovers (human only)
 
@@ -213,7 +213,7 @@ When **Sprint 0** ends: stop re-reading `docs/INITIALIZATION_PROMPT.md` as the d
 
 | Sprint                                                            | Status   | Archive                          |
 | ----------------------------------------------------------------- | -------- | -------------------------------- |
-| M46 — /allideas template backlog                                  | Complete | `COMPLETED_TASKS.md`             |
+| M46 — /allideas template backlog                                  | Complete | `COMPLETED_TASKS.md` @ `6229822` |
 | M45 — /ideas round 2                                             | Complete | `COMPLETED_TASKS.md`             |
 | M44 — /ideas ship hygiene                                        | Complete | `COMPLETED_TASKS.md`             |
 | v0.25.0 Local-first deps and resource packing                     | Complete | `COMPLETED_TASKS.md` @ `7670444` |
