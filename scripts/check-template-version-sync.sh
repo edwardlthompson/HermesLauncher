@@ -59,4 +59,18 @@ if [ "$PLUGIN" != "$VERSION" ]; then
   exit 1
 fi
 
+RP_PLUGIN="$(python3 -c "
+import json
+cfg = json.load(open('release-please-config.json', encoding='utf-8'))
+ok = False
+for item in cfg['packages']['.']['extra-files']:
+    if isinstance(item, dict) and item.get('path') == '.cursor-plugin/plugin.json' and item.get('jsonpath') == '\$.version':
+        ok = True
+print('ok' if ok else '')
+")"
+if [ "$RP_PLUGIN" != "ok" ]; then
+  echo "FAIL: release-please-config extra-files must bump .cursor-plugin/plugin.json \$.version"
+  exit 1
+fi
+
 echo "Template version sync OK ($VERSION)"

@@ -11,6 +11,11 @@
           "type": "yaml",
           "path": "CITATION.cff",
           "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".cursor-plugin/plugin.json",
+          "jsonpath": "$.version"
         }
       ],
       "include-component-in-tag": false,

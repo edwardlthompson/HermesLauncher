@@ -23,6 +23,21 @@ class ReleasePleaseHygieneTests(unittest.TestCase):
         self.assertIn("checks: write", text)
         self.assertIn("name='Dependency Review'", text)
 
+    def test_extra_files_include_plugin_json_version(self) -> None:
+        cfg = json.loads((ROOT / "release-please-config.json").read_text(encoding="utf-8"))
+        extras = cfg["packages"]["."]["extra-files"]
+        plugin = next(
+            item
+            for item in extras
+            if isinstance(item, dict) and item.get("path") == ".cursor-plugin/plugin.json"
+        )
+        self.assertEqual(plugin.get("type"), "json")
+        self.assertEqual(plugin.get("jsonpath"), "$.version")
+        workflow = (ROOT / ".github" / "workflows" / "release-please.yml").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn(".cursor-plugin/plugin.json", workflow)
+
     def test_session_state_json_gitignored(self) -> None:
         text = (ROOT / ".gitignore").read_text(encoding="utf-8")
         self.assertIn(".cursor-session-state.json", text)

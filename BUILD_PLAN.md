@@ -132,7 +132,7 @@ grep '\[AUTO\]' BUILD_PLAN.md
 46. ✅ [AGENT] P2: Merge queue docs
 47. ✅ [AGENT] P1: `/regress` fails if Pages has analytics
 48. ✅ [AGENT] P1: README badge accuracy gate
-49. 🔲 [AGENT] P1: Release Please extra-files includes plugin.json version
+49. ✅ [AGENT] P1: Release Please extra-files includes plugin.json version
 50. 🔲 [AGENT] P0: `/push` always runs Unreleased `--require-empty` before `git push`
 
 #### Sequential — Local compute
