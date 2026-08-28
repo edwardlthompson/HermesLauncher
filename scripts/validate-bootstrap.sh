@@ -179,7 +179,8 @@ if ! python3 scripts/lib/run_checks_parallel.py \
   check-github-settings-yml.sh \
   check-merge-queue-docs.sh \
   check-pages-analytics.sh \
-  check-readme-badges.sh
+  check-readme-badges.sh \
+  check-playwright-cache.sh
 then
   ERRORS=$((ERRORS + 1))
 fi

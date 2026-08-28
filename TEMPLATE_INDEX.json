@@ -2195,6 +2195,13 @@
       "owner": "maintainer"
     },
     {
+      "path": "scripts/check-playwright-cache.sh",
+      "purpose": "Gate: CI skips Playwright --with-deps when lockfile cache hits",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": "scripts/check-psscriptanalyzer.sh",
       "purpose": "Gate: PSScriptAnalyzer -Severity Error on scripts/*.ps1",
       "read_when": "milestone_boundary",
