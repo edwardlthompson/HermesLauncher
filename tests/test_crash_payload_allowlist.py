@@ -18,6 +18,26 @@ class CrashPayloadAllowlistTests(unittest.TestCase):
     def test_repo(self) -> None:
         self.assertEqual(check_repo(ROOT), [])
 
+    def test_skips_pruned_stack_dir(self) -> None:
+        from tempfile import TemporaryDirectory
+
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            schema = ROOT / "schemas" / "golden-path"
+            dest = root / "schemas" / "golden-path"
+            dest.mkdir(parents=True)
+            dest.joinpath("crash-payload-allowlist.json").write_text(
+                (schema / "crash-payload-allowlist.json").read_text(encoding="utf-8"),
+                encoding="utf-8",
+            )
+            dest.joinpath("crash-report.schema.json").write_text(
+                (schema / "crash-report.schema.json").read_text(encoding="utf-8"),
+                encoding="utf-8",
+            )
+            (root / "examples" / "web").mkdir(parents=True)
+            errors = check_repo(root)
+            self.assertFalse(any("android" in e or "python" in e for e in errors))
+
     def test_wired(self) -> None:
         text = (ROOT / "scripts" / "validate-bootstrap.sh").read_text(encoding="utf-8")
         self.assertIn("check-crash-payload-allowlist.sh", text)

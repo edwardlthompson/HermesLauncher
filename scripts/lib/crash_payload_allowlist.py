@@ -30,6 +30,9 @@ def check_repo(root: Path) -> list[str]:
     if list(schema.get("required") or []) != allowed:
         errors.append("schema required keys must match allowlist")
     for rel in STACK_TESTS:
+        parts = rel.parts
+        if len(parts) >= 2 and parts[0] == "examples" and not (root / parts[0] / parts[1]).is_dir():
+            continue
         path = root / rel
         if not path.is_file():
             errors.append(f"MISSING: {rel.as_posix()}")

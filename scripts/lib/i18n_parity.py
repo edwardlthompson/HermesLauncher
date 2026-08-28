@@ -49,10 +49,12 @@ def check_files(web: dict, android: set[str], allow: dict) -> list[str]:
 
 def check_repo(root: Path | None = None) -> list[str]:
     base = root or ROOT
-    web = json.loads((base / "examples/web/src/locales/en.json").read_text(encoding="utf-8"))
-    android = android_names(
-        (base / "examples/android/app/src/main/res/values/strings.xml").read_text(encoding="utf-8")
-    )
+    web_path = base / "examples/web/src/locales/en.json"
+    android_path = base / "examples/android/app/src/main/res/values/strings.xml"
+    if not web_path.is_file() or not android_path.is_file():
+        return []
+    web = json.loads(web_path.read_text(encoding="utf-8"))
+    android = android_names(android_path.read_text(encoding="utf-8"))
     allow = json.loads(
         (base / "schemas/golden-path/i18n-parity.allowlist.json").read_text(encoding="utf-8")
     )
@@ -62,7 +64,13 @@ def check_repo(root: Path | None = None) -> list[str]:
 
 
 def main() -> int:
-    errors = check_repo()
+    root = Path.cwd()
+    web_path = root / "examples/web/src/locales/en.json"
+    android_path = root / "examples/android/app/src/main/res/values/strings.xml"
+    if not web_path.is_file() or not android_path.is_file():
+        print("SKIP i18n key parity (web or android locales missing)")
+        return 0
+    errors = check_repo(root)
     if errors:
         print("\n".join(errors))
         return 1

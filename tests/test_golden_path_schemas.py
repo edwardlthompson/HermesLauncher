@@ -71,7 +71,10 @@ class GoldenPathSchemaTests(unittest.TestCase):
             "examples/web/public/donations.json.example",
             "examples/android/app/src/main/assets/donations.json.example",
         ):
-            data = json.loads((ROOT / rel).read_text(encoding="utf-8"))
+            path = ROOT / rel
+            if not path.is_file():
+                continue
+            data = json.loads(path.read_text(encoding="utf-8"))
             self.assertEqual(_validate(data, schema), [], rel)
 
     def test_app_update_examples(self) -> None:
@@ -81,7 +84,10 @@ class GoldenPathSchemaTests(unittest.TestCase):
             "examples/web/public/app-update.json.example",
             "examples/android/app/src/main/assets/app-update.json.example",
         ):
-            data = json.loads((ROOT / rel).read_text(encoding="utf-8"))
+            path = ROOT / rel
+            if not path.is_file():
+                continue
+            data = json.loads(path.read_text(encoding="utf-8"))
             self.assertEqual(_validate(data, schema), [], rel)
 
     def test_crash_payload_contract(self) -> None:
