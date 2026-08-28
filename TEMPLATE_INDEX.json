@@ -2237,6 +2237,20 @@
       "owner": "maintainer"
     },
     {
+      "path": "scripts/check-nix-flake.sh",
+      "purpose": "Gate: optional Nix flake only wraps existing scripts/",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "flake.nix",
+      "purpose": "Optional Nix apps wrapping verify/validate-bootstrap/feature-gate/update-deps",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": "scripts/check-psscriptanalyzer.sh",
       "purpose": "Gate: PSScriptAnalyzer -Severity Error on scripts/*.ps1",
       "read_when": "milestone_boundary",

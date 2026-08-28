@@ -144,7 +144,7 @@ grep '\[AUTO\]' BUILD_PLAN.md
 55. ✅ [AGENT] P1: Per-stack feature-gate timeout
 56. ✅ [AGENT] P2: Check-name manifest instead of content-hash cache
 57. ✅ [AGENT] P2: Devcontainer Android cmdline-tools (no auto-license)
-58. 🔲 [AGENT] P2: Optional Nix flake wrapping existing scripts only (not a second generator CLI)
+58. ✅ [AGENT] P2: Optional Nix flake wrapping existing scripts only (not a second generator CLI)
 
 #### Sequential — Security
 
