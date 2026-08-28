@@ -97,6 +97,10 @@ def main(argv: list[str] | None = None, root: Path | None = None) -> int:
     print(f"=== {' '.join(cmd)} ===", file=sys.stderr, flush=True)
     code = run_cmd(cmd, timeout, root)
     if mode == "dry-run":
+        from upd_canvas import write_status
+
+        dest = write_status(root)
+        print(f"Wrote {dest}", file=sys.stderr, flush=True)
         return 0 if code in (0, 1) else 1
     if code != 0:
         return 1

@@ -10,7 +10,11 @@ Do **not** `git push`. Prefer `depsonar_*` MCP tools (`scan`, `check`, `changelo
 python3 scripts/agent-run.py update-deps
 ```
 
-Summarize outdated packages, majors, and Gradle fallback (`Gradle: Dependabot backup or enable depsonar MCP.`). Do not apply majors.
+Summarize outdated packages, majors, and Gradle fallback (`Gradle: Dependabot backup or enable depsonar MCP.`). Do not apply majors. Always render the dry-run canvas:
+
+```bash
+python3 scripts/agent-run.py render-upd-status
+```
 
 ## Step 2 — Audit
 

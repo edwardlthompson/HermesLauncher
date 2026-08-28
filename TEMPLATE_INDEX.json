@@ -2111,6 +2111,13 @@
       "owner": "maintainer"
     },
     {
+      "path": "scripts/render-upd-status.sh",
+      "purpose": "Write /update-deps dry-run markdown (and Canvas when available)",
+      "read_when": "bootstrap_session_start",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": "scripts/wait-release-sbom.sh",
       "purpose": "Poll GitHub Release for sbom.cyclonedx.json",
       "read_when": "bootstrap_session_start",
