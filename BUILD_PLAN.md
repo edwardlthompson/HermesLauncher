@@ -166,7 +166,7 @@ grep '\[AUTO\]' BUILD_PLAN.md
 71. ✅ [AGENT] P2: Mermaid in generated README
 72. ✅ [AGENT] P2: OG / social preview from tokens
 73. ✅ [AGENT] P2: F-Droid screenshot dummy fail
-74. 🔲 [AGENT] P2: Winget publish runbook
+74. ✅ [AGENT] P2: Winget publish runbook
 75. 🔲 [HUMAN] P2: CII Best Practices checklist (login + public badge)
 
 ### M45 — /ideas round 2

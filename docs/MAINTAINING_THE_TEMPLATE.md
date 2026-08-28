@@ -27,6 +27,7 @@ Playbook for template maintainers optimizing agent-project-bootstrap over time.
 13. Zero open Critical/High Dependabot alerts (or documented exception with linked issue)
 14. `THIRD_PARTY_LICENSES.md` reviewed; SBOM attached to release
 15. Move completed Sprint M* items to `COMPLETED_TASKS.md`
+16. Desktop installer children: follow [`docs/WINGET.md`](WINGET.md) before a `microsoft/winget-pkgs` PR
 
 ## Safe Edit Zones
 

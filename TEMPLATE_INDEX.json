@@ -418,6 +418,20 @@
       "owner": "maintainer"
     },
     {
+      "path": "docs/WINGET.md",
+      "purpose": "Winget publish runbook for child desktop installers",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-winget-runbook.sh",
+      "purpose": "Gate: docs/WINGET.md keeps generate/validate/submit steps",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": ".cursor/commands/coach.md",
       "purpose": "Coach slash command: health + next action + why",
       "read_when": "prompt_needed",

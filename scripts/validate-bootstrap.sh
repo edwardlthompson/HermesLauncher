@@ -58,6 +58,7 @@ REQUIRED=(
   docs/BEST_PRACTICES.md
   docs/FIRST_30_DAYS.md
   docs/first-30-days.json
+  docs/WINGET.md
   docs/AGENT_PORTABILITY.md
   docs/help/TOUR.md
   docs/help/IDEAS.md
@@ -197,7 +198,8 @@ if ! python3 scripts/lib/run_checks_parallel.py \
   check-adr-command.sh \
   check-readme-mermaid.sh \
   check-social-preview.sh \
-  check-fdroid-screenshots.sh
+  check-fdroid-screenshots.sh \
+  check-winget-runbook.sh
 then
   ERRORS=$((ERRORS + 1))
 fi
