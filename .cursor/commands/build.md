@@ -19,7 +19,10 @@ Use `--lane auto` (not `child`): on this template it selects Ongoing Maintenance
 
 ```bash
 python3 scripts/agent-run.py build-sprint-status --json --lane auto
+
 ```
+
+`auto` uses the child playbook on product repos and the Template Maintainer board on this template. Pass `--lane child` only when you mean Sprint 0+.
 
 Write `.cursor-session-state.json` fields: `active_sprint`, `build_plan_lane`, `autonomous_mode: true`.
 
@@ -33,6 +36,7 @@ Repeat until `sprint_agent_auto_complete`:
 
 ```bash
 python3 scripts/agent-run.py build-sprint-status --json --lane auto
+
 ```
 
 - If `next_row` is null and `sprint_agent_auto_complete` → go to Step 2 (sprint wrap-up).
@@ -45,18 +49,22 @@ python3 scripts/agent-run.py build-sprint-status --json --lane auto
 | `execute` | Implement the task; for post-Parallel step 3 skip if `parallel_steps_completed` includes `tests`; for step 4 skip if includes `view`; gate; mark ✅ |
 | `parallel_dispatch` | Run @.cursor/commands/scope.md fully, then `python3 scripts/agent-run.py agent-progress set-parallel-sprint-done --sprint "<sprint title>"` |
 | AUTO rows | Run listed scripts/commands to completion; mark ✅ on exit 0 |
-
 ### 1c. Gate autofix (every AGENT step)
 
 ```bash
-python3 scripts/agent-run.py watch-agent-gates --once --autofix
+python3 scripts/agent-run.py watch-agent-gates --once --autofix --scope auto
+
 ```
+
+`--scope auto` gates only dirty stacks (git vs `HEAD`: `examples/{stack}/`, or preamble-only for docs/changelog/commands). Shared `scripts/` / `schemas/` / `modules/` still run the full multi-stack gate. Print the `gate scope:` line. Override with `--scope full` or `FEATURE_GATE_SCOPE=full`.
 
 Exit 1 → fix in scope and re-run (3-strike max). Exit 2 after 3 strikes → halt with evidence; do not ask user.
 
 Skip gates for successful `automate_human`/`automate_adb` no-op/informational steps unless the automation script ran product smoke or init.
 
 ### 1d. Loop
+
+**Gate lock:** do not execute another `next_row` until step 1c `watch-agent-gates` exited 0. Never skip 1c to chain a second feature.
 
 Re-run `build-sprint-status.sh --json` and continue 1a.
 

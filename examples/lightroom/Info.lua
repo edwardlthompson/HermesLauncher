@@ -11,4 +11,8 @@ return {
     LrPluginName = "FOSS Plugin Stub",
     LrPluginInfoUrl = "https://github.com/example/foss-lightroom-plugin",
     VERSION = { major = 0, minor = 1, revision = 0, build = 0 },
+    LrExportServiceProvider = {
+        title = "Golden Path Export",
+        file = "ExportServiceProvider.lua",
+    },
 }

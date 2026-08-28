@@ -31,7 +31,7 @@ Execute **at most 3** inbox fix rows this run. Remaining 🔲 rows stay at the t
 Work Sequential [AGENT] items top-to-bottom. After each step:
 
 ```bash
-python3 scripts/agent-run.py watch-agent-gates --once --autofix --step none
+python3 scripts/agent-run.py watch-agent-gates --once --autofix --scope full --step none
 
 ```
 

@@ -17,7 +17,7 @@
 1. Orchestrator completes Sequential schema-lock steps
 2. `bash scripts/plan-parallel-dispatch.sh --json` → **agent_count**
 3. `/scope` launches Task subagents when count ≥ 2 (see `.cursor/commands/scope.md`)
-4. Optional hard isolation: `bash scripts/setup-agent-worktrees.sh` (creates `.cursor/worktrees/`)
+4. Optional hard isolation: `bash scripts/setup-agent-worktrees.sh` (creates `.cursor/worktrees/`). GC stale copies with `python3 scripts/agent-run.py gc-worktrees` (dry-run; `--apply` after 24h).
 
 ## Native Cursor worktrees
 

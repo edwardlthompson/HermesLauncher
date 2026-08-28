@@ -51,11 +51,15 @@ jobs:
     steps:
       - name: Resolve release tag
         id: tag
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          INPUT_TAG: ${{ inputs.tag }}
         run: |
-          if [ "${{ github.event_name }}" = "release" ]; then
-            echo "tag=${{ github.event.release.tag_name }}" >> "$GITHUB_OUTPUT"
-          elif [ -n "${{ inputs.tag }}" ]; then
-            echo "tag=${{ inputs.tag }}" >> "$GITHUB_OUTPUT"
+          if [ "$EVENT_NAME" = "release" ]; then
+            echo "tag=${RELEASE_TAG}" >> "$GITHUB_OUTPUT"
+          elif [ -n "$INPUT_TAG" ]; then
+            echo "tag=${INPUT_TAG}" >> "$GITHUB_OUTPUT"
           else
             echo "tag=" >> "$GITHUB_OUTPUT"
           fi
@@ -71,11 +75,15 @@ jobs:
         run: echo "tag=v$(tr -d '[:space:]' < .template-version)" >> "$GITHUB_OUTPUT"
 
       - name: Verify tag matches .template-version
+        env:
+          INPUT_TAG: ${{ inputs.tag }}
+          STEP_TAG: ${{ steps.tag.outputs.tag }}
+          STEP_TAG_VER: ${{ steps.tag_ver.outputs.tag }}
         run: |
-          if [ -n "${{ inputs.tag }}" ]; then
-            EFFECTIVE="${{ inputs.tag }}"
+          if [ -n "$INPUT_TAG" ]; then
+            EFFECTIVE="$INPUT_TAG"
           else
-            EFFECTIVE="${{ steps.tag.outputs.tag || steps.tag_ver.outputs.tag }}"
+            EFFECTIVE="${STEP_TAG:-$STEP_TAG_VER}"
           fi
           TAG="${EFFECTIVE#v}"
           VERSION=$(tr -d '[:space:]' < .template-version)
@@ -151,7 +159,9 @@ jobs:
           output-file: sbom-go.cyclonedx.json
 
       - name: Generate Winget manifest stub
-        run: bash scripts/generate-winget-manifest.sh "AgentProjectBootstrap.Template" "$(cat .template-version | tr -d '[:space:]')"
+        run: |
+          bash scripts/generate-winget-manifest.sh "AgentProjectBootstrap.Template" "$(cat .template-version | tr -d '[:space:]')"
+          bash scripts/validate-winget-stub.sh
 
       - name: Generate provenance attestation
         uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v2.2.0
@@ -168,6 +178,13 @@ jobs:
             exit 1
           fi
           FILES="packaging/winget/manifest.stub.yaml sbom.cyclonedx.json"
+          if [ -f openvex.json ]; then
+            cp openvex.json openvex-upload.json
+          else
+            cp schemas/golden-path/openvex.example.json openvex-upload.json
+          fi
+          mv openvex-upload.json openvex.json
+          FILES="$FILES openvex.json"
           [ -f sbom-web.cyclonedx.json ] && FILES="$FILES sbom-web.cyclonedx.json"
           [ -f sbom-python.cyclonedx.json ] && FILES="$FILES sbom-python.cyclonedx.json"
           [ -f sbom-node.cyclonedx.json ] && FILES="$FILES sbom-node.cyclonedx.json"

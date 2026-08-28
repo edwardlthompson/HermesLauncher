@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Lint + smoke gate for active stack after feature work.
-# Usage: scripts/feature-gate.sh [--json] [--stack web|python|android|node] [--step LABEL]
+# Usage: scripts/feature-gate.sh [--json] [--stack web|python|android|node|rust|go|lightroom|docs|multi] [--step LABEL]
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -36,7 +36,7 @@ if [ -n "${FEATURE_GATE_JOBS:-}" ]; then
   esac
 fi
 
-if [ "${FEATURE_GATE_CHILD:-}" = "1" ] || [ "$SKIP_PREAMBLE" = true ]; then
+if [ "${FEATURE_GATE_CHILD:-}" = "1" ]; then
   JSON=false
 fi
 
@@ -125,6 +125,8 @@ fail_gate() {
     go-vet) SUGGESTED=("run go vet in examples/go") ;;
     go-fmt) SUGGESTED=("run gofmt -w in examples/go") ;;
     go-test) SUGGESTED=("run go test in examples/go") ;;
+    android-fdroid) SUGGESTED=("run scripts/verify-fdroid-metadata.sh") ;;
+    lightroom-sdk) SUGGESTED=("run scripts/verify-lightroom.sh") ;;
     node-lint) SUGGESTED=("fix lint in examples/node" "run npm run format in examples/node if format script exists") ;;
     node-format) SUGGESTED=("run npm run format in examples/node") ;;
     node-test) SUGGESTED=("fix tests in examples/node") ;;
@@ -167,8 +169,8 @@ if [ -z "$STACK" ] && [ -f .cursor/stack-selection.json ]; then
 fi
 STACK="${STACK:-multi}"
 
-if [ "$SKIP_PREAMBLE" = true ] && [ "$STACK" = "multi" ]; then
-  echo "FAIL: --skip-preamble requires a single stack (not multi)" >&2
+if [ "$SKIP_PREAMBLE" = true ] && [ "$STACK" = "multi" ] && [ -z "${FEATURE_GATE_ONLY:-}" ]; then
+  echo "FAIL: --skip-preamble requires a single stack (not multi) or FEATURE_GATE_ONLY" >&2
   exit 2
 fi
 
@@ -230,9 +232,17 @@ if [ "$SKIP_PREAMBLE" = false ]; then
     fail_gate "file-limits" "$(bash scripts/check-file-limits.sh 2>&1 | tail -n 20)"
   fi
   GATES_PASSED+=("file-limits")
+
+  if ! bash scripts/check-pre-commit-hooks.sh >/dev/null 2>&1; then
+    fail_gate "pre-commit-hooks" "$(bash scripts/check-pre-commit-hooks.sh 2>&1 | tail -n 20)"
+  fi
+  GATES_PASSED+=("pre-commit-hooks")
 fi
 
-if [ "$STACK" = "multi" ]; then
+if [ "$STACK" = "docs" ]; then
+  log "Feature gate docs-only (preamble; no stack tests)."
+  GATES_PASSED+=("docs-scope")
+elif [ "$STACK" = "multi" ]; then
   stack_rc=0
   "$PY" "$ROOT/scripts/lib/run_feature_stacks.py" || stack_rc=$?
   if [ "$stack_rc" -eq 2 ]; then
@@ -288,6 +298,10 @@ if should_run android && [ -f examples/android/gradlew ]; then
   fi
 fi
 
+if should_run android && [ -d examples/android/metadata ]; then
+  run_cmd android-fdroid bash scripts/verify-fdroid-metadata.sh
+fi
+
 if should_run node && [ -f examples/node/package.json ]; then
   if ! command -v npm >/dev/null 2>&1; then
     if [ "$STACK" = "node" ] && [ "${FEATURE_GATE_CHILD:-}" != "1" ]; then
@@ -330,6 +344,10 @@ if should_run go && [ -f examples/go/go.mod ]; then
     run_in_dir examples/go go-fmt sh -c 'test -z "$(gofmt -l .)"'
     run_in_dir examples/go go-test go test ./...
   fi
+fi
+
+if should_run lightroom && [ -f examples/lightroom/Info.lua ]; then
+  run_cmd lightroom-sdk bash scripts/verify-lightroom.sh
 fi
 fi
 

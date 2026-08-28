@@ -11,7 +11,7 @@ Prefer slash commands (`/audit`) when bare words fail — they load the same fil
 
 Full registry: `docs/BATCH_COMMANDS.md` · Human cheat sheet: `docs/help/BATCH_COMMANDS.md`
 
-## Atomic commands (28)
+## Atomic commands (29)
 
 | Word | File |
 |------|------|
@@ -40,6 +40,7 @@ Full registry: `docs/BATCH_COMMANDS.md` · Human cheat sheet: `docs/help/BATCH_C
 | coach | `.cursor/commands/coach.md` |
 | tour | `.cursor/commands/tour.md` |
 | ideas | `.cursor/commands/ideas.md` |
+| allideas | `.cursor/commands/allideas.md` |
 | update-deps | `.cursor/commands/update-deps.md` |
 | best-of-n | `.cursor/commands/best-of-n.md` |
 | emulator | `.cursor/commands/emulator.md` |
@@ -59,6 +60,7 @@ Run child atomics **in order**; summarize pass/fail after each step.
 ## Rules
 
 - **`debug` ≠ `audit`** — debug is defect investigation; audit is full repo review + BUILD_PLAN sprint.
+- **`upgrade`** — on this template: upgrade simulation. On a child: gap plan only (never overwrite Sacred files until the human names numbers).
 - **`push` and `ship` grant explicit `git push` approval** per destructive-ops (user invoked the command).
 - **`plan` ≠ Plan Mode toggle** — user still picks Cursor Plan Mode in the UI.
 - Supers are thin orchestrators; all logic lives in atomic command files.

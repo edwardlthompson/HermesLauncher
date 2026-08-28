@@ -2,10 +2,24 @@
 
 > Skill: `.cursor/skills/watch-gates-autofix/`
 
-Autonomous feature step with auto-fix:
+Autonomous feature step with auto-fix.
+
+## Step 0 — Print strike and stage first
+
+Run this **before** the gate loop. Do not skip it.
 
 ```bash
-python3 scripts/agent-run.py watch-agent-gates --once --autofix --step scaffold
+python3 scripts/agent-run.py render-gates-status -- --fix-banner
+
+```
+
+Prints `strikes=N` and `failed_stage=…` from `.cursor/agent-progress.json` and `.cursor/last-feature-gate.json`. If `strikes >= 3`, halt and run `/debug` — do not autofix.
+
+## Step 1 — Gate loop
+
+```bash
+python3 scripts/agent-run.py watch-agent-gates --once --autofix --scope auto --step scaffold
+
 ```
 
 If exit 1: read `.cursor/agent-progress.json` and gate JSON; fix lint/tests in active feature scope; re-run.

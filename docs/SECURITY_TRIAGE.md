@@ -98,7 +98,7 @@ Before any version bump or GitHub Release:
 |---------|----------------|
 | `workflow_dispatch` (no tag input) | Full `pre-release-gate.sh` dry-run before next release |
 | `workflow_dispatch` (with `tag` input) | SBOM upload only — backfill assets on an existing release |
-| `release` published | Polls full CI rollup (`check-github-ci.sh --wait 3600`) then SBOM + Winget stub upload |
+| `release` published | Polls full CI rollup (`check-github-ci.sh --wait 3600`) then SBOM + OpenVEX + Winget stub upload |
 | Tag push `v*` | Lightweight gate only: tag must match `.template-version`; polls **Repo Hygiene** + **Feature Gate** via `check-github-ci.sh --skip-workflows` (does **not** wait on CI/CodeQL rollup or emulator jobs) |
 Release Please publishes the GitHub Release; the `release` published event attaches SBOM assets. Use `workflow_dispatch` (no tag input) for maintainer dry-runs before merging the Release Please PR.
 
@@ -127,6 +127,7 @@ When the product exposes agents, run the compact walk in [`THREAT_MODEL.md`](THR
 | `scripts/validate-workflow-actions.sh` | Resolve action refs via GitHub API |
 | `scripts/check-workflow-action-ref-format.sh` | Local bare-semver guard |
 | `scripts/check-security-triage.sh` | Weekly Dependabot + workflow + Scorecard gate |
+| `schemas/golden-path/openvex.example.json` | OpenVEX template attached next to `sbom.cyclonedx.json` |
 | `scripts/pre-release-gate.sh` | `--local` for `/prerelease`/`/ship`; default (full GH) for `/regress` and `release.yml` |
 | `.github/workflows/scorecard.yml` | OpenSSF Scorecard SARIF upload |
 | `scripts/setup-github-repo.sh` | One-time Dependabot + reporting + branch protection setup |

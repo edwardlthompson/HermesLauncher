@@ -44,9 +44,12 @@ FOSS coding-agent bootstrap template: labeled BUILD_PLAN sprints, Golden Path ex
 
 ## Session Retrospectives
 
-| Date | Milestone | What worked | What to improve |
-|------|-----------|-------------|-----------------|
-| 2026-08-27 | v0.25.0 /ship | M42+M43 feat; `--max-bump minor`; About restore retry; RP #77 admin-merge; CI+CodeQL+Security Scan green | Empty Unreleased before push; child Go skip when FEATURE_GATE_CHILD=1; do not trust env GITHUB_TOKEN for GraphQL |
+| 2026-08-28 | /build Slack | `--lane auto` on this template; next AGENT is M46-44+ after merge with PC M46 board | Do not run child Sprint 0 init-project on this repo |
+| 2026-08-27 | /build scoped gates | Per-row `--scope auto`; failed-stack `--skip-preamble` retry; `/gates` wrap-up stays full | Do not treat docs-only as a skip of Sprint wrap-up `/gates` |
+| 2026-08-27 | /build M46 P0 | Force-push deny; go/cargo PATH; System32 bash; Sacred upgrade sim; plugin version; GP JSON schemas | Next: Node/Python About+crash; do not treat /push as force-push approval |
+| 2026-08-27 | M46 /allideas board | Uncapped dump command + 75 BUILD_PLAN rows; `/build --lane auto` reads maintainer board | `/ideas` stays the short ranked menu; HUMAN leftovers (Ollama, DPIA, CII) stay off the AGENT queue |
+| 2026-08-27 | M45 /ideas round 2 | Health CI filter; init hooks; gates status script; Gradle pins apply; SBOM wait; plugin pack; Rust/Go About+crash; F-Droid+Lightroom gates | Crash-proxy stays off until DPIA; `--force` still matches `git push` approval |
+| 2026-08-27 | M44 /ideas ship hygiene | docs/chore no RP bump; Unreleased-first; worktree skip; session-state.json ignore; RP Dependency Review check; Gradle pins; /gates canvas; commit-msg hook | Closed leftover 0.25.1 (#80); local `/gates` needs `pre-commit install --hook-type commit-msg` |
 | 2026-08-27 | M43 local resource packing | RAM-capped parallel feature-gate; `/best-of-n` + `/emulator`; Ollama docs no keys | Do not require Ollama/emulator on `/ship`; CI slot cap 2; dummy GUI string never in git |
 | 2026-08-27 | M42 local-first deps | `/update-deps` + `upd-cli==0.6.2`; `/ship` uses `--local` gate; Dependabot weekly backup; RP dry-run preview | Do not wait on Dependabot PRs before push; full GH gate stays on `/regress` |
 | 2026-08-23 | v0.24.0 /ship | Privacy-feedback feat + TEMPLATE_INDEX fix; RP #72 admin-merge; emptied Unreleased before merge | About-without forbids imports of `about/`; never run that gate via WSL1 `bash` |
@@ -57,7 +60,6 @@ FOSS coding-agent bootstrap template: labeled BUILD_PLAN sprints, Golden Path ex
 | 2026-08-17 | M38 /ideas ship-hardening | Branch protection now includes Windows upgrade-sim; Python TEMPLATE_INDEX; RP wait skip; lib files ≤150 | `gh` is not on Git Bash PATH unless Program Files is exported |
 | 2026-08-17 | v0.20.0 /ship | Three /ideas rounds + Windows upgrade-sim required; RP #68 admin-merge after CI green on 812a2db | Empty Unreleased before RP; jq.exe CRLF breaks template-index; wait for `release` SBOM |
 | 2026-08-17 | /ideas pass 3 | Windows required check; COACH.md; dirty Unreleased notes; weekly AUTO skip; Codespaces verify; citation date; setup-python pin; build_sprint split | Allowlist leftover oversized lib modules; do not pretend they are under 150 |
-| 2026-08-28 | /build Slack | `--lane auto` so template skips child Sprint 0 init; ran radar, security triage, patch deps | Recurring weekly rows stay 🔲; do not init-project this repo |
 | 2026-08-17 | /ideas pass 2 | Health template-vs-child; pwsh skip; Windows upgrade-sim CI; UTF-8 health; hint JSON split; root md links; Q&A category; pre-commit | Recurring 🔲 maintenance rows are the honest template next-row |
 | 2026-08-17 | /ideas implement-all | Eight ranked items: Windows REPL hang, citation sync, glossary, portable stamp, verify hints, welcome hook, docs links, Discussions | Keep welcome/Discussions opt-in or best-effort; do not fail init when `gh` is missing |
 | 2026-08-16 | v0.19.0 /ship | Tour + portable adapters; CI green after push of unpushed feat; RP #67 admin-merge | Hard gate cannot see CI until HEAD is on origin; wait for `release` published SBOM |

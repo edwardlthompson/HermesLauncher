@@ -14,6 +14,7 @@
     <string name="about_close">Close</string>
     <string name="about_version">Version: %1$s</string>
     <string name="about_format">Installed format: %1$s</string>
+    <string name="about_donations_heading">Support development</string>
     <string name="about_donations_message">If this project helps you, consider supporting development.</string>
     <string name="about_update_current">You are on the latest version.</string>
     <string name="about_update_available">Update available: %1$s</string>
@@ -40,11 +41,15 @@
     <string name="nav_mode_gesture">Gesture</string>
     <string name="nav_mode_unknown">Unknown</string>
     <string name="settings_feedback_save_crashes">Save crash details for me to review</string>
+    <string name="settings_export">Export settings</string>
+    <string name="settings_import">Import settings</string>
     <string name="feedback_bug_title">Report a bug</string>
     <string name="feedback_feature_title">Request a feature</string>
     <string name="feedback_description">Description</string>
     <string name="feedback_copy">Copy report</string>
     <string name="feedback_open">Open GitHub</string>
     <string name="feedback_discard">Discard</string>
+    <string name="feedback_offline">You are offline. Copy still works; Open GitHub needs a network.</string>
     <string name="feedback_clipboard_hint">Review the sanitized preview. The OS clipboard may keep a copy after Discard.</string>
+    <string name="feedback_crash_title">The app recovered. Review and send a report?</string>
 </resources>

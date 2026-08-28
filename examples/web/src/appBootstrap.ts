@@ -14,6 +14,7 @@ import { installCrashHandler } from "./crash-capture/installHandler";
 import { readPendingCrash } from "./crash-capture/pendingCrash";
 import { getSaveCrashes } from "./feedback/saveCrashes";
 import { t } from "./i18n";
+import { shareTargetDescription } from "./share-target";
 import { initTheme, subscribeThemeChange } from "./theme";
 
 export function bootstrapApp(appRoot: HTMLDivElement): void {
@@ -75,6 +76,10 @@ export function bootstrapApp(appRoot: HTMLDivElement): void {
   installCrashHandler(() => getSaveCrashes());
   if (readPendingCrash()) {
     state = { ...state, showFeedback: "bug" };
+  }
+  const shared = shareTargetDescription(new URLSearchParams(window.location.search));
+  if (shared) {
+    state = { ...state, showFeedback: "feature", feedbackPrefill: shared };
   }
   render();
   void loadDonations().then((d) => {

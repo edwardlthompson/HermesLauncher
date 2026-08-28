@@ -39,7 +39,15 @@ Remove the archived ✅ rows from the active board.
 
 **Playbook templates** (Child Repo Sprint 0/1/2+ boilerplate): leave 🔲 template rows in place — only archive rows that were actually executed.
 
-## Step 4 — Verify
+## Step 4 — Stale parallel lock
+
+```bash
+python3 scripts/agent-run.py gc-parallel-lock
+python3 scripts/agent-run.py gc-worktrees -- --apply
+
+```
+
+## Step 5 — Verify
 
 ```bash
 python3 scripts/check-file-encoding.py BUILD_PLAN.md COMPLETED_TASKS.md

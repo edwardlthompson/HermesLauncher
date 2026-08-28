@@ -17,11 +17,13 @@ from update_deps import (  # noqa: E402
     audit_jobs,
     discover_langs,
     gradle_fallback_message,
+    gradle_pin_lines,
     kotlin_guard_error,
     parse_kotlin_versions,
     pre_release_steps,
     release_please_dry_argv,
     upd_argv,
+    with_github_token,
 )
 from update_deps_cli import parse_mode, run_cmd  # noqa: E402
 
@@ -89,6 +91,23 @@ class GradleFallbackTests(unittest.TestCase):
             (path / "build.gradle.kts").write_text("// gradle\n", encoding="utf-8")
             self.assertEqual(gradle_fallback_message(root), GRADLE_FALLBACK)
 
+    def test_lists_plugin_pins(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            path = root / "examples" / "android"
+            path.mkdir(parents=True)
+            (path / "build.gradle.kts").write_text(
+                'id("org.jetbrains.kotlin.plugin.compose") version "2.3.21"\n',
+                encoding="utf-8",
+            )
+            self.assertEqual(
+                gradle_pin_lines(root),
+                ["org.jetbrains.kotlin.plugin.compose=2.3.21"],
+            )
+            msg = gradle_fallback_message(root) or ""
+            self.assertIn("2.3.21", msg)
+            self.assertIn(GRADLE_FALLBACK, msg)
+
     def test_no_message_without_android(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             self.assertIsNone(gradle_fallback_message(Path(tmp)))
@@ -118,6 +137,14 @@ class ReleasePleaseDryTests(unittest.TestCase):
         self.assertIn("--dry-run", argv)
         self.assertIn("--repo-url", argv)
         self.assertNotIn("github-release", argv)
+
+    def test_token_appended_when_present(self) -> None:
+        argv = with_github_token(release_please_dry_argv("owner/repo"), "ghp_test")
+        self.assertEqual(argv[-2:], ["--token", "ghp_test"])
+
+    def test_token_omitted_when_empty(self) -> None:
+        argv = with_github_token(release_please_dry_argv("owner/repo"), "")
+        self.assertNotIn("--token", argv)
 
 
 class PreReleaseStepsTests(unittest.TestCase):

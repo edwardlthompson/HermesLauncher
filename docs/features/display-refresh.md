@@ -23,6 +23,14 @@ Window requests the fastest same-resolution display mode. Scroll surfaces vote H
 | Adapter | `examples/android/.../display/WindowRefresh.kt`, `HighRefreshScroll.kt` |
 | Tests | `examples/android/app/src/test/.../display/DisplayModeSelectorTest.kt` |
 | Wiring | `MainActivity` one call; About/Settings scroll modifiers |
+## Tests
+
+- Automated: yes — `DisplayModeSelectorTest.kt`
+
+## Fallback validation
+
+- Why tests are not feasible: N/A (automated tests exist)
+- Command: `python3 scripts/agent-run.py feature-gate --stack android`
 
 ## Notes
 

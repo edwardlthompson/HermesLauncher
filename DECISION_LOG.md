@@ -20,9 +20,51 @@
 ### 2026-08-28 — /build uses auto lane on the template
 - **Status:** Accepted
 - **Context:** Slack `/build` (bare word `build`) hardcoded `--lane child`, so the next row was Sprint 0 `init-project.sh` on this template.
-- **Decision:** `/build`, `AGENTS.md`, and `docs/FOR_AGENTS.md` use `--lane auto`. On the template that selects Ongoing Maintenance; child repos still walk the Child Repo Playbook. Do not run `init-project.sh` here.
-- **Alternatives considered:** Run child Sprint 0 on the template (rejected: destroys template branding). Idle-exit without maintenance (rejected: weekly AUTO/AGENT rows are the real next work).
-- **Consequences:** Recurring weekly rows stay 🔲. HUMAN leftovers remain on the board (Ollama, mcp.json, Dependabot, Codeowners, product smoke, Android SDK). Skipped bogus `codeql-action@vcodeql-bundle-*` tag from upd.
+- **Decision:** `/build`, `AGENTS.md`, and `docs/FOR_AGENTS.md` use `--lane auto`. On this template auto prefers Template Maintainer 🔲 AGENT rows (M46); child repos still walk the playbook. Do not run `init-project.sh` here.
+- **Alternatives considered:** Run child Sprint 0 on the template (rejected: destroys template branding). Idle-exit without maintenance (rejected: M46 AGENT rows are the real next work).
+- **Consequences:** M46 remaining rows stay 🔲. HUMAN leftovers remain (Ollama, DPIA, mcp.json, Dependabot, Codeowners, product smoke, Android SDK). Skipped bogus `codeql-action@vcodeql-bundle-*` tag from upd.
+
+### 2026-08-27 — /build scoped feature-gate
+- **Status:** Accepted
+- **Context:** `/build` re-ran all Golden Path stacks after every AGENT row. Android weight 2 plus three RAM-capped slots made a docs-only or web-only row take several minutes.
+- **Decision:** `gate_scope.py` maps git-dirty paths to `docs` (preamble only), `stacks` (touched `examples/{name}/`), or `full` (scripts/schemas/modules/shared). `/build` `/feature` `/fix` pass `--scope auto`. Autofix retries the failed stack with `--skip-preamble`. `/gates` and `/prerelease` stay full. `FEATURE_GATE_ONLY` filters the multi-stack parent.
+- **Alternatives considered:** Always skip Android locally (rejected: still required when android files change). Default watch-agent-gates to auto (rejected: `/prerelease` must not silently skip stacks).
+- **Consequences:** Shared script edits still run every stack. Sprint wrap-up `/gates` remains the honesty backstop.
+
+### 2026-08-27 — /build M46 Golden Path + agent UX (rows 9–22)
+- **Status:** Accepted
+- **Context:** Continued `/build` on M46 after P0/schemas/Node/Python About. Android sanitizer JVM tests cannot use unmocked `org.json.JSONObject`.
+- **Decision:** Robolectric for `SanitizeReportTest`. `verify-about-feature-gate` strips rust/go/node/python About via `about_lego_cli.py`. Feature specs require Tests + Fallback validation. Web↔Android i18n parity. Playwright RTL/reduced-motion/keyboard. WCAG token contrast (dark primary `#D3304E`). CSP on Vite preview + production meta. PWA share-target. UnifiedPush FOSS hook (no FCM). Settings JSON export. Lightroom `LrExportServiceProvider`. `/ideas` refuses silent `do all`; `/build` gate-locks the next feature.
+- **Alternatives considered:** JSONObject on plain JVM (rejected: Android stub). CSP meta in source `index.html` (rejected: breaks Vite HMR). UnifiedPush connector Maven dep (deferred: hook + gradle ban until a distributor is in-tree).
+- **Consequences:** Next `/build` row is M46-24 (debug recipe + `last-feature-gate.json` + 3-strike). Go About-without is skipped locally when `go` is missing (CI still runs it). HUMAN Scorecard/CII/DPIA remain after AGENT work.
+
+### 2026-08-27 — /build M46 P0 + shared schemas
+- **Status:** Accepted
+- **Context:** `/build` on the M46 `/allideas` board. P0 was force-push honesty, Windows tool PATH, WSL1 bash, Sacred upgrade sim, plugin version.
+- **Decision:** Deny `git push --force` even when session approved `git push`. Prepend `go`/`cargo` in `resolve-tools.sh`. Skip `System32` bash case-insensitively. Upgrade sim cherry-picks AREAS then asserts a child `AGENTS.md` marker. Plugin pack version follows `.template-version`. Shared Golden Path JSON schemas live under `schemas/golden-path/`.
+- **Alternatives considered:** Allow force-push when `git push --force` is listed in session state (rejected for P0: `/push` never grants force). jsonschema PyPI dep (rejected: stdlib contract tests).
+- **Consequences:** Next `/build` row is Node About + crash sanitize. HUMAN leftovers (Ollama, DPIA, CII, Scorecard) stay after AGENT work.
+
+### 2026-08-27 — /allideas + M46 board
+- **Status:** Accepted
+- **Context:** `/ideas` caps at 5–8 (20 when asked). Sizeable automated progress needs an uncapped dump that can fill BUILD_PLAN, then `/build` on this template.
+- **Decision:** Add `/allideas` (`allideas.md`, bare word `allideas`, `/AllIdeas` alias) with a `docs/help/ALLIDEAS.md` twin. Put the 2026-08-27 dump on the Template Maintainer board as M46. `/build --lane auto` prefers those 🔲 AGENT rows over weekly AUTO. Crash-proxy DPIA stays on M43; Scorecard badge and CII stay HUMAN.
+- **Alternatives considered:** Raise `/ideas` cap (rejected: keeps a short ranked menu). Filename `all-ideas.md` (rejected: bare-word triggers are one word with no punctuation).
+- **Consequences:** Next `/build` on this repo executes M46-1 (deny `git push --force`). Do not implement `/allideas` dumps until the user names numbers or says `board`.
+
+### 2026-08-27 — /ideas round 2 (M45)
+- **Status:** Accepted
+- **Context:** `/ideas` asked for 20 in-scope items after M44. Health still showed closed RP #80 CI. Crash-proxy remains a DPIA item.
+- **Decision:** Filter health CI off `release-please--branches--*`. Init installs commit-msg + sandbox copy. `--quick` runs action-ref format (API resolve stays full). Local Gradle patch apply via `UPDATE_GRADLE_PINS`. Rust/Go About+crash sanitize without extra crates. F-Droid and Lightroom in feature-gate. Plugin pack + Winget stub in CI. Radar writes gitignored AGENT suggestions. Encoding fail-closed is opt-in. Crash proxy stays disabled (`docs/CRASH_PROXY.md`).
+- **Alternatives considered:** Live GitHub App proxy now (rejected: DPIA). `regex` crate on Rust Golden Path (rejected: keep zero-dep). Full GitHub API action resolve in `--quick` (rejected: needs network).
+- **Consequences:** `--force` remains allowed when `git push` is session-approved (honesty test). HUMAN DPIA before crash-proxy enable.
+
+### 2026-08-27 — /ideas ship hygiene (M44)
+- **Status:** Accepted
+- **Context:** Archive `docs(release)` opened 0.25.1; RP merge CI failed Unreleased order; worktree setup `npm ci`'d the primary tree; `.cursor-session-state.json` was untracked; RP PRs showed Dependency Review `ACTION_REQUIRED`.
+- **Decision:** Drop `docs`/`chore` from `changelog-sections` so only feat/fix/perf/revert bump. `changelog_unreleased.move_unreleased_first` on `sync-template-version.sh`. Skip worktree installs unless `ROOT_WORKTREE_PATH` resolves to a different directory. Gitignore the JSON session file. Run `dependency-review-action` from `release-please.yml` and attach a check to the PR head. Print Android plugin pins beside the Gradle fallback. `/gates` always uses the canvas skill; `check-pre-commit-hooks.sh` fails locally, skips in CI.
+- **Alternatives considered:** `hidden: true` for docs/chore (rejected: still bumps). `pull_request_target` for Dependency Review (rejected: untrusted checkout).
+- **Consequences:** Closed leftover 0.25.1 (#80). Local `/gates` needs `pre-commit install --hook-type commit-msg`.
 
 ### 2026-08-27 — Ship v0.25.0 (/ship)
 - **Status:** Accepted

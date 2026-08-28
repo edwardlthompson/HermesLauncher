@@ -34,6 +34,14 @@ def _bash() -> str:
     return shutil.which("bash") or "bash"
 
 
+def select_stacks(discovered: list[str], only_csv: str | None = None) -> list[str]:
+    raw = (only_csv if only_csv is not None else os.environ.get("FEATURE_GATE_ONLY", "")).strip()
+    if not raw:
+        return discovered
+    wanted = {s.strip() for s in raw.split(",") if s.strip()}
+    return [s for s in discovered if s in wanted]
+
+
 def run_child(stack: str, extra: list[str], env: dict[str, str]) -> tuple[str, int, str]:
     cmd = [_bash(), str(SCRIPT.relative_to(ROOT).as_posix()), "--stack", stack, "--skip-preamble", *extra]
     child_env = dict(env)
@@ -58,12 +66,14 @@ def main(argv: list[str] | None = None) -> int:
     except InvalidJobs as exc:
         print(f"FAIL: {exc}", file=sys.stderr)
         return 2
-    stacks = discover_stacks(ROOT)
+    stacks = select_stacks(discover_stacks(ROOT))
     if not stacks:
         print("WARN: no stack markers found", file=sys.stderr)
         return 0
     waves = schedule_waves(stacks, slots)
-    print(f"Parallel stacks: {stacks} slots={slots} waves={waves}", flush=True)
+    only = os.environ.get("FEATURE_GATE_ONLY", "").strip()
+    scoped = f" only={only}" if only else ""
+    print(f"Parallel stacks: {stacks} slots={slots} waves={waves}{scoped}", flush=True)
     failed: list[str] = []
     logs: dict[str, str] = {}
     env = os.environ.copy()

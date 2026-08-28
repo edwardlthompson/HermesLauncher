@@ -16,6 +16,7 @@ export type AppShellState = {
   showAbout: boolean;
   showSettings: boolean;
   showFeedback: FeedbackKind | null;
+  feedbackPrefill?: string;
   updateStatus: string;
   donations: DonationConfig;
   launchPrompt: LaunchPrompt | null;
@@ -93,8 +94,9 @@ export function createAppShell(
 
   if (state.showFeedback) {
     const panel = createFeedbackPanel(state.showFeedback, {
-      onClose: () => callbacks.onState({ showFeedback: null }),
+      onClose: () => callbacks.onState({ showFeedback: null, feedbackPrefill: undefined }),
       releaseRepo: state.releaseRepo ?? "",
+      description: state.feedbackPrefill,
     });
     mount.appendChild(panel);
     dialogCleanup = bindPanelDialog(panel, () => callbacks.onState({ showFeedback: null }));

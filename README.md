@@ -34,7 +34,7 @@ Start here, then [`CONTRIBUTING.md`](CONTRIBUTING.md) and [`SUPPORT.md`](SUPPORT
 
 ## For agents
 
-Read [`docs/START_HERE.md`](docs/START_HERE.md) and [`AGENTS.md`](AGENTS.md). Cursor: `/tour` or `/bootstrap`. Any other IDE: `Read docs/help/TOUR.md and walk me through it.` Later sessions: `/coach`. For a ranked backlog: `/ideas` or [`docs/help/IDEAS.md`](docs/help/IDEAS.md).
+Read [`docs/START_HERE.md`](docs/START_HERE.md) and [`AGENTS.md`](AGENTS.md). Cursor: `/tour` or `/bootstrap`. Any other IDE: `Read docs/help/TOUR.md and walk me through it.` Later sessions: `/coach`. For a ranked backlog: `/ideas` or [`docs/help/IDEAS.md`](docs/help/IDEAS.md). For a complete dump: `/allideas` or [`docs/help/ALLIDEAS.md`](docs/help/ALLIDEAS.md).
 
 ## Contents
 
@@ -152,17 +152,19 @@ Shipped in the template (not generated): `docs/spec.md`, `docs/plan.md`, `docs/B
 
 ## Agent shortcuts (cheat sheet)
 
-**[docs/help/BATCH_COMMANDS.md](docs/help/BATCH_COMMANDS.md)** — shortcut recipes. In Cursor type `/`. In any other IDE, paste the matching `docs/help/` file.
+**[docs/help/BATCH_COMMANDS.md](docs/help/BATCH_COMMANDS.md)** — shortcut recipes. In Cursor type `/`. In any other IDE, paste the matching `docs/help/` file. **Print:** open [`docs/help/batch-commands-print.html`](docs/help/batch-commands-print.html) in a browser and use Print.
 
 - `/tour` — 10-minute first-run walk (`docs/help/TOUR.md`)
 - `/bootstrap` — new project Sprint 0, then the tour
 - `/coach` — next action and the industry why
 - `/ideas` — ranked in-scope backlog (does not implement)
+- `/allideas` — complete in-scope dump to fill BUILD_PLAN (does not implement until you say `board`)
+- `/upgrade` — child: plan template catch-up without overwriting the app; this template: upgrade sim
 - `/build` — plan and implement a feature
 - `/verify` — checks before merge
 - `/ship` — publish a release to GitHub
 
-*Bookmark the cheat sheet for when you come back after a break.*
+*Bookmark the cheat sheet for when you come back after a break. Print the novice list from the HTML file above.*
 
 ## Stack Selection (Sprint 0)
 

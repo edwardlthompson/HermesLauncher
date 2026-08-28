@@ -262,11 +262,12 @@ Only when all quality checks return clean may you update the `CHANGELOG.md` (Kee
 
 When a build, test, or CI job fails and root cause is unclear:
 
-- Switch to Debug Mode; collect runtime evidence first (command output, CI log URL, repro steps)
+- Switch to Debug Mode; read `.cursor/last-feature-gate.json` first (`failed_stage`, `log_tail`, `human_hint`) when present
+- Read `.cursor/agent-progress.json` `strikes` — if `>= 3`, halt and escalate with that evidence (not a fourth guess)
+- If the JSON file is missing, collect runtime evidence (command output, CI log URL, repro steps)
 - Check `KNOWLEDGE_BASE.md` (KB-001–KB-008) and `docs/FOR_AGENTS.md` Failure Playbook
 - Confirm repro locally before editing production code
 - After root cause identified, switch to Agent Mode to apply the fix
-- 3-strike: escalate to human with evidence summary (not hypotheses)
 
 ## 8. Startup Sequence
 

@@ -38,7 +38,7 @@ def load_registry(root: Path) -> dict:
 
 def save_registry(root: Path, data: dict) -> None:
     path = root / "docs/CURSOR_FEATURE_REGISTRY.json"
-    path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+    path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8", newline="\n")
 
 
 def score_new(url: str, tier: str) -> int:
@@ -58,6 +58,26 @@ def read_backlog(root: Path) -> set[str]:
     if not path.is_file():
         return set()
     return set(re.findall(r"https://cursor\.com/docs/[^\s)]+", path.read_text(encoding="utf-8")))
+
+
+def write_suggestions(root: Path, scored: list[tuple[str, int]]) -> None:
+    path = root / "CURSOR_RADAR_SUGGESTIONS.md"
+    lines = [
+        "# Suggested AGENT rows (gitignored)",
+        "",
+        "Paste into BUILD_PLAN after `/ideas` review. Not auto-applied.",
+        "",
+    ]
+    ranked = [item for item in sorted(scored, key=lambda x: -x[1]) if item[1] >= 7]
+    if not ranked:
+        lines.append("No new URLs scored >= 7.")
+        lines.append("")
+        path.write_text("\n".join(lines), encoding="utf-8", newline="\n")
+        return
+    for url, score in ranked[:8]:
+        lines.append(f"1. 🔲 [AGENT] Review Cursor doc ({score}): {url}")
+    lines.append("")
+    path.write_text("\n".join(lines), encoding="utf-8", newline="\n")
 
 
 def append_backlog(root: Path, url: str, score: int) -> None:

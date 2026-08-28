@@ -52,4 +52,11 @@ if [ -z "$CFF_DATE" ]; then
   exit 1
 fi
 
+PLUGIN="$(python3 -c "import json; print(json.load(open('.cursor-plugin/plugin.json', encoding='utf-8')).get('version',''))")"
+if [ "$PLUGIN" != "$VERSION" ]; then
+  echo "FAIL: .cursor-plugin/plugin.json version ($PLUGIN) != .template-version ($VERSION)"
+  echo "Fix: bash scripts/sync-template-version.sh"
+  exit 1
+fi
+
 echo "Template version sync OK ($VERSION)"

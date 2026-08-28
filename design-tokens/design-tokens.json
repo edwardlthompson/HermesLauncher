@@ -5,7 +5,7 @@
     "themeColorDark": "#1a1a2e"
   },
   "color": {
-    "primary": { "light": "#B3263E", "dark": "#e94560" },
+    "primary": { "light": "#B3263E", "dark": "#D3304E" },
     "onPrimary": { "light": "#FFFFFF", "dark": "#FFFFFF" },
     "primaryContainer": { "light": "#FFDAD6", "dark": "#8B1A35" },
     "onPrimaryContainer": { "light": "#410009", "dark": "#FFDAD6" },

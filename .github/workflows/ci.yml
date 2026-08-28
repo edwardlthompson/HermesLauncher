@@ -167,6 +167,17 @@ jobs:
       - name: Run feature gate (strict multi-stack)
         run: bash scripts/feature-gate.sh --stack multi --strict --json
 
+  plugin-pack:
+    name: Cursor plugin pack
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Pack and validate plugin layout
+        run: |
+          bash scripts/pack-cursor-plugin.sh
+          test -f dist/cursor-plugin/.cursor-plugin/plugin.json
+          test -f dist/cursor-plugin/hooks.json
+
   validate-index:
     name: Validate Template Index
     runs-on: ubuntu-latest
@@ -190,6 +201,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+      - name: Install actionlint, zizmor, shellcheck, PSScriptAnalyzer
+        run: |
+          set -euo pipefail
+          ACTIONLINT_VERSION="1.7.7"
+          curl -fsSL "https://raw.githubusercontent.com/rhysd/actionlint/v${ACTIONLINT_VERSION}/scripts/download-actionlint.bash" | bash -s -- "${ACTIONLINT_VERSION}"
+          sudo mv ./actionlint /usr/local/bin/actionlint
+          python3 -m pip install --user "zizmor==1.29.0"
+          echo "${HOME}/.local/bin" >> "${GITHUB_PATH}"
+          sudo apt-get update
+          sudo apt-get install -y shellcheck
+          pwsh -NoProfile -Command "Install-Module -Name PSScriptAnalyzer -Force -SkipPublisherCheck -Scope CurrentUser"
+          curl -fsSL -o /tmp/hadolint \
+            "https://github.com/hadolint/hadolint/releases/download/v2.12.0/hadolint-Linux-x86_64"
+          sudo mv /tmp/hadolint /usr/local/bin/hadolint
+          sudo chmod +x /usr/local/bin/hadolint
+          npm install -g markdownlint-cli
+          python3 -m pip install --user yamllint
+          python3 -m pip install --user reuse
       - name: Check Sprint 0 artifacts exist
         env:
           GH_TOKEN: ${{ github.token }}
@@ -526,17 +555,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Validate Lr* SDK compliance
-        run: |
-          set -euo pipefail
-          test -f examples/lightroom/Info.lua
-          grep -q 'LrSdkVersion' examples/lightroom/Info.lua
-          while IFS= read -r -d '' f; do
-            if grep -nE "require\s*\(\s*['\"]" "$f" | grep -vE '^[[:space:]]*--'; then
-              echo "ERROR: Generic Lua require() forbidden in $f (use Lr* SDK only)"
-              exit 1
-            fi
-          done < <(find examples/lightroom -name '*.lua' -print0)
-          echo "Lightroom SDK namespace check passed"
+        run: bash scripts/verify-lightroom.sh
 
   rust:
     name: Rust - Fmt, Clippy, Test

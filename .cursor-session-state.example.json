@@ -20,5 +20,8 @@
   "last_gate_exit": null,
   "strikes": 0,
   "destructive_ops_approved": [],
-  "notes": "Optional free-text checkpoint. Mirror .cursor/agent-progress.json when running watch-agent-gates. parallel_tasks_in_flight: [{ id, task, scope, branch, status }]. destructive_ops_approved: set by /push or /ship via /compact (e.g. [\"git push\"])."
+  "unreleased_has_entries": false,
+  "unreleased_excerpt": [],
+  "open_human_adb_rows": [],
+  "notes": "Optional free-text checkpoint. Mirror .cursor/agent-progress.json when running watch-agent-gates. parallel_tasks_in_flight: [{ id, task, scope, branch, status }]. destructive_ops_approved: set by /push or /ship via /compact (e.g. [\"git push\"]). unreleased_* and open_human_adb_rows: written by python3 scripts/agent-run.py compact-session-state."
 }

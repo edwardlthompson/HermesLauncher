@@ -9,10 +9,11 @@ from pathlib import Path
 
 GIB = 1024**3
 OLLAMA_URL = "http://127.0.0.1:11434/api/tags"
-SINGLE_STACKS = ("android", "go", "node", "python", "rust", "web")
+SINGLE_STACKS = ("android", "go", "lightroom", "node", "python", "rust", "web")
 MARKERS = {
     "android": "examples/android/gradlew",
     "go": "examples/go/go.mod",
+    "lightroom": "examples/lightroom/Info.lua",
     "node": "examples/node/package.json",
     "python": "examples/python/pyproject.toml",
     "rust": "examples/rust/Cargo.toml",

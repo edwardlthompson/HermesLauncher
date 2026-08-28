@@ -8,8 +8,18 @@ disable-model-invocation: false
 
 See also: `.cursor/commands/fix.md`
 
+Print strike/stage **first**:
+
 ```bash
-python3 scripts/agent-run.py watch-agent-gates --once --autofix
+python3 scripts/agent-run.py render-gates-status -- --fix-banner
+
+```
+
+If `strikes >= 3`, halt (`/debug`). Then:
+
+```bash
+python3 scripts/agent-run.py watch-agent-gates --once --autofix --scope auto
+
 ```
 
 Exit 1: read `.cursor/agent-progress.json` and gate JSON; fix lint/tests in active feature scope; re-run (max 3 strikes).

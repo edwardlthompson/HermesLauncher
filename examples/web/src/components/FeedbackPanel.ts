@@ -9,6 +9,7 @@ export type FeedbackKind = "bug" | "feature";
 export type FeedbackPanelCallbacks = {
   onClose: () => void;
   releaseRepo: string;
+  description?: string;
   stack?: string;
   fingerprint?: string;
   osFamily?: string;
@@ -37,6 +38,9 @@ export function createFeedbackPanel(
   const area = document.createElement("textarea");
   area.dataset.testid = "feedback-description";
   area.setAttribute("aria-label", t("feedback.description"));
+  if (callbacks.description) {
+    area.value = callbacks.description;
+  }
 
   const preview = document.createElement("pre");
   preview.dataset.testid = "feedback-preview";

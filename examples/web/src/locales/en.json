@@ -33,6 +33,8 @@
   "settings.theme.mode.light": "Light theme",
   "settings.theme.mode.dark": "Dark theme",
   "settings.feedback.save_crashes": "Save crash details for me to review",
+  "settings.export": "Export settings",
+  "settings.import": "Import settings",
   "feedback.bug.title": "Report a bug",
   "feedback.feature.title": "Request a feature",
   "feedback.description": "Description",

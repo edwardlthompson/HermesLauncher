@@ -16,4 +16,14 @@ describe("createFeedbackPanel", () => {
     expect(preview!.innerHTML.includes("<script>")).toBe(false);
     expect(preview!.textContent || "").toContain("hello");
   });
+
+  it("prefills description from share target", () => {
+    const panel = createFeedbackPanel("feature", {
+      onClose: () => {},
+      releaseRepo: "acme/app",
+      description: "shared text",
+    });
+    const area = panel.querySelector<HTMLTextAreaElement>("[data-testid=feedback-description]");
+    expect(area?.value).toBe("shared text");
+  });
 });

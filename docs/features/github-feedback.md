@@ -22,6 +22,14 @@
 | Logic | `examples/web/src/github-feedback/` | `examples/android/.../githubfeedback/` |
 | Tests | `*.test.ts` | `src/test/.../githubfeedback/` |
 | Wiring | none (Feedback UI calls this) |
+## Tests
+
+- Automated: yes — `*.test.ts` and Android `src/test/.../githubfeedback/`
+
+## Fallback validation
+
+- Why tests are not feasible: N/A (automated tests exist)
+- Command: `python3 scripts/agent-run.py feature-gate --stack web`
 
 ## Definition of Done
 

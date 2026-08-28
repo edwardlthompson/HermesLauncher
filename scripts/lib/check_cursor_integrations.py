@@ -6,6 +6,7 @@ import sys
 from pathlib import Path
 
 from check_cursor_integrations_tier import validate_tier
+from cursor_rule_audit import audit_rules
 
 SKILLS = (
     "validate-bootstrap",
@@ -101,6 +102,7 @@ def main() -> int:
 
     errors = validate_artifacts(root)
     errors.extend(validate_tier(root, args.tier))
+    errors.extend(audit_rules(root))
 
     if errors:
         for err in errors:

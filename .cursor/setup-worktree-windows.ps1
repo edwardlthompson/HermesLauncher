@@ -46,6 +46,39 @@ if ($RootSrc -and (Test-Path -LiteralPath $RootSrc -PathType Container)) {
   Write-Host 'SKIP env examples (ROOT_WORKTREE_PATH unset or missing)'
 }
 
+$env:ROOT_WORKTREE_PATH = $RootSrc
+function Resolve-PythonExe {
+  $pyLauncher = Get-Command py -ErrorAction SilentlyContinue
+  if ($pyLauncher) {
+    try {
+      $exe = & py -3 -c "import sys; print(sys.executable)" 2>$null
+      if ($exe -and ($exe -notmatch 'WindowsApps')) { return $exe }
+    } catch {}
+  }
+  foreach ($name in @('python3', 'python')) {
+    $cmd = Get-Command $name -ErrorAction SilentlyContinue
+    if ($cmd -and $cmd.Source -and ($cmd.Source -notmatch 'WindowsApps')) {
+      return $cmd.Source
+    }
+  }
+  return 'python3'
+}
+$Python = Resolve-PythonExe
+& $Python -c @"
+from pathlib import Path
+import os, sys
+root = os.environ.get('ROOT_WORKTREE_PATH') or ''
+try:
+    ok = bool(root) and Path(root).is_dir() and Path(root).resolve() != Path('.').resolve()
+except OSError:
+    ok = False
+raise SystemExit(0 if ok else 1)
+"@
+if ($LASTEXITCODE -ne 0) {
+  Write-Host 'SKIP stack install (not a Cursor worktree; set ROOT_WORKTREE_PATH to the primary repo)'
+  exit 0
+}
+
 $StackFile = Join-Path $Wt '.cursor\stack-selection.json'
 if (-not (Test-Path -LiteralPath $StackFile) -and $RootSrc) {
   $alt = Join-Path $RootSrc '.cursor\stack-selection.json'

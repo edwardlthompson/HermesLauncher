@@ -66,6 +66,7 @@ Allowed FOSS dependencies: `androidx.compose.material3`, `androidx.compose.mater
 - Use `var(--gp-color-*)`, `var(--gp-space-*)`, `var(--gp-text-*)`.
 - Layout: `margin-inline`, `padding-block`, `text-align: start` for RTL safety.
 - Respect `prefers-reduced-motion: reduce` (see `style.css`).
+- Contrast: `python3 scripts/agent-run.py check-token-contrast` (WCAG 2.2 AA on token pairs).
 - Initialize theme with `initTheme()` before first paint when possible.
 
 ## Localization

@@ -16,6 +16,7 @@ if str(LIB) not in sys.path:
 
 from local_resources import schedule_waves  # noqa: E402
 from run_feature_stacks import main as stacks_main  # noqa: E402
+from run_feature_stacks import select_stacks  # noqa: E402
 
 
 def _bash() -> str | None:
@@ -43,6 +44,11 @@ class WaveTests(unittest.TestCase):
 
 
 class DispatcherTests(unittest.TestCase):
+    def test_feature_gate_only_filters(self) -> None:
+        self.assertEqual(select_stacks(["web", "android", "node"], "web,node"), ["web", "node"])
+        self.assertEqual(select_stacks(["web", "android"], ""), ["web", "android"])
+        self.assertEqual(select_stacks(["web"], "rust"), [])
+
     def test_strips_json_flag(self) -> None:
         seen: list[list[str]] = []
 

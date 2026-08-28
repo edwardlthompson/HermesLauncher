@@ -51,12 +51,29 @@ def emptied(text: str) -> str:
     return f"{prefix}## [Unreleased]\n\n{rest}"
 
 
+def move_unreleased_first(text: str) -> str:
+    if unreleased_is_first(text):
+        return text
+    match = SECTION.search(text)
+    if not match:
+        return text
+    block = match.group(0).rstrip() + "\n"
+    rest = text[: match.start()] + text[match.end() :]
+    first = VERSION.search(rest)
+    if first is None:
+        return text
+    return rest[: first.start()] + block + "\n" + rest[first.start() :]
+
+
 def fold(path: Path) -> str:
     text = path.read_text(encoding="utf-8")
     if section_body(text) is None or unreleased_is_empty(text):
+        moved = move_unreleased_first(text)
+        if moved != text:
+            path.write_text(moved, encoding="utf-8", newline="\n")
         return ""
     notes = extract_notes(text)
-    path.write_text(emptied(text), encoding="utf-8", newline="\n")
+    path.write_text(move_unreleased_first(emptied(text)), encoding="utf-8", newline="\n")
     return notes
 
 
@@ -76,13 +93,21 @@ def check(path: Path, *, require_empty: bool = False) -> list[str]:
 
 def main(argv: list[str] | None = None) -> int:
     args = argv if argv is not None else sys.argv[1:]
+    flags = {"--require-empty", "--fold", "--move-first"}
     require_empty = "--require-empty" in args
     do_fold = "--fold" in args
+    do_move = "--move-first" in args
     path = Path("CHANGELOG.md")
     for item in args:
-        if item not in {"--require-empty", "--fold"}:
+        if item not in flags:
             path = Path(item)
             break
+    if do_move and not do_fold:
+        path.write_text(
+            move_unreleased_first(path.read_text(encoding="utf-8")),
+            encoding="utf-8",
+            newline="\n",
+        )
     if do_fold:
         notes = fold(path)
         if notes:

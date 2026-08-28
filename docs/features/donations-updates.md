@@ -31,6 +31,14 @@
 | View | `AppShell.ts`, `AboutPanel.ts`, `launchPrompt.ts` | `ui/GoldenPathScreen.kt`, `ui/about/` |
 | Tests | `productUpdate.test.ts`, `runAppUpdates.test.ts` | `ProductUpdateTest.kt` |
 | Wiring | `appBootstrap.ts` ≤10 lines | `GoldenPathApp.kt` ≤10 lines |
+## Tests
+
+- Automated: yes — `productUpdate.test.ts`, `runAppUpdates.test.ts`, `ProductUpdateTest.kt`
+
+## Fallback validation
+
+- Why tests are not feasible: N/A (automated tests exist)
+- Command: `python3 scripts/agent-run.py watch-agent-gates --once --autofix`
 
 ## Definition of Done
 

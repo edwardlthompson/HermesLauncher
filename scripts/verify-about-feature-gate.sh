@@ -13,6 +13,23 @@ WEB_SRC="$ROOT/examples/web/src"
 WEB_E2E="$ROOT/examples/web/e2e"
 BACKUP="$(mktemp -d)"
 
+CLI_TRACKED=(
+  examples/rust/src/lib.rs
+  examples/rust/src/main.rs
+  examples/rust/src/about.rs
+  examples/go/main.go
+  examples/go/about.go
+  examples/go/about_test.go
+  examples/node/src/app.ts
+  examples/node/src/about.ts
+  examples/node/src/about.test.ts
+  examples/node/src/app.test.ts
+  examples/python/src/hello/cli.py
+  examples/python/src/hello/about.py
+  examples/python/tests/test_about.py
+  examples/python/tests/test_cli.py
+)
+
 ABOUT_TRACKED=(
   examples/web/src/about
   examples/web/src/main.ts
@@ -71,6 +88,10 @@ PY
     echo "WARN: About backup missing; restoring tracked slice from HEAD"
     git checkout HEAD -- "${ABOUT_TRACKED[@]}" || true
   fi
+  if [ -d "$BACKUP/cli" ]; then
+    "$PY" "$ROOT/scripts/lib/about_lego_cli.py" restore "$BACKUP/cli" \
+      || git checkout HEAD -- "${CLI_TRACKED[@]}" || true
+  fi
   rm -rf "$BACKUP"
   return 0
 }
@@ -78,7 +99,7 @@ trap restore EXIT
 
 echo "=== About feature gate verification ==="
 
-echo "1/2 Gate with About feature present..."
+echo "1/4 Gate with About feature present..."
 bash scripts/feature-gate.sh --stack web --step about-with
 
 if [ ! -d "$WEB_SRC/about" ]; then
@@ -205,7 +226,7 @@ if command -v npm >/dev/null 2>&1 && [ -f examples/web/package.json ]; then
   (cd examples/web && npm run format >/dev/null 2>&1) || true
 fi
 
-echo "2/2 Gate after About removal (in-place, restored on exit)..."
+echo "2/4 Gate after web About removal (in-place, restored on exit)..."
 set +e
 ABOUT_WITHOUT_JSON="$(bash scripts/feature-gate.sh --stack web --step about-without --json)"
 ABOUT_WITHOUT_EXIT=$?
@@ -216,4 +237,41 @@ if [ "$ABOUT_WITHOUT_EXIT" -ne 0 ]; then
   exit "$ABOUT_WITHOUT_EXIT"
 fi
 
-echo "About add/remove verification passed"
+cli_gate() {
+  local stack="$1"
+  local step="$2"
+  case "$stack" in
+    rust) command -v cargo >/dev/null 2>&1 || { echo "SKIP rust About $step (cargo not found)"; return 0; } ;;
+    go) command -v go >/dev/null 2>&1 || { echo "SKIP go About $step (go not found)"; return 0; } ;;
+    node) command -v npm >/dev/null 2>&1 || { echo "SKIP node About $step (npm not found)"; return 0; } ;;
+    python) command -v uv >/dev/null 2>&1 || { echo "SKIP python About $step (uv not found)"; return 0; } ;;
+  esac
+  bash scripts/feature-gate.sh --stack "$stack" --skip-preamble --step "$step"
+}
+
+echo "3/4 CLI stacks with About present..."
+"$PY" "$ROOT/scripts/lib/about_lego_cli.py" backup "$BACKUP/cli"
+for stack in rust go node python; do
+  cli_gate "$stack" "about-with-$stack"
+done
+
+echo "4/4 CLI stacks after About removal..."
+"$PY" "$ROOT/scripts/lib/about_lego_cli.py" strip
+if command -v npm >/dev/null 2>&1 && [ -f examples/node/package.json ]; then
+  (cd examples/node && npm run format >/dev/null 2>&1) || true
+fi
+if command -v uv >/dev/null 2>&1 && [ -f examples/python/pyproject.toml ]; then
+  (cd examples/python && uv run ruff format src tests >/dev/null 2>&1) || true
+fi
+if command -v cargo >/dev/null 2>&1 && [ -f examples/rust/Cargo.toml ]; then
+  (cd examples/rust && cargo fmt >/dev/null 2>&1) || true
+fi
+if command -v gofmt >/dev/null 2>&1; then
+  gofmt -w examples/go/main.go examples/go/about_test.go >/dev/null 2>&1 || true
+fi
+for stack in rust go node python; do
+  cli_gate "$stack" "about-without-$stack"
+done
+"$PY" "$ROOT/scripts/lib/about_lego_cli.py" restore "$BACKUP/cli"
+
+echo "About add/remove verification passed (web + rust/go/node/python)"

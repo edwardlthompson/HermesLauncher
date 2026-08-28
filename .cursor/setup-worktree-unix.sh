@@ -8,6 +8,14 @@ ROOT_SRC="${ROOT_WORKTREE_PATH:-}"
 WT="$(pwd)"
 echo "worktree setup: cwd=$WT root=${ROOT_SRC:-unset}"
 
+RESOLVE=""
+for d in "$WT" "$ROOT_SRC"; do
+  if [ -n "$d" ] && [ -f "$d/scripts/lib/resolve-python.sh" ]; then
+    RESOLVE="$d/scripts/lib/resolve-python.sh"
+    break
+  fi
+done
+
 copy_env_examples() {
   local src="$1"
   local dest="$2"
@@ -35,6 +43,35 @@ else
   echo "SKIP env examples (ROOT_WORKTREE_PATH unset or missing)"
 fi
 
+RESOLVE=""
+for d in "$WT" "$ROOT_SRC"; do
+  if [ -n "$d" ] && [ -f "$d/scripts/lib/resolve-python.sh" ]; then
+    RESOLVE="$d/scripts/lib/resolve-python.sh"
+    break
+  fi
+done
+if [ -n "$RESOLVE" ]; then
+  # shellcheck source=/dev/null
+  . "$RESOLVE"
+else
+  PY="${PY:-python3}"
+fi
+
+export ROOT_WORKTREE_PATH="${ROOT_SRC}"
+if ! "$PY" -c "
+from pathlib import Path
+import os, sys
+root = os.environ.get('ROOT_WORKTREE_PATH') or ''
+try:
+    ok = bool(root) and Path(root).is_dir() and Path(root).resolve() != Path('.').resolve()
+except OSError:
+    ok = False
+raise SystemExit(0 if ok else 1)
+"; then
+  echo "SKIP stack install (not a Cursor worktree; set ROOT_WORKTREE_PATH to the primary repo)"
+  exit 0
+fi
+
 STACK_FILE="$WT/.cursor/stack-selection.json"
 if [ ! -f "$STACK_FILE" ] && [ -n "$ROOT_SRC" ] && [ -f "$ROOT_SRC/.cursor/stack-selection.json" ]; then
   STACK_FILE="$ROOT_SRC/.cursor/stack-selection.json"
@@ -46,7 +83,7 @@ if [ ! -f "$STACK_FILE" ]; then
 fi
 
 STACK_ERR="$(mktemp)"
-STACK="$(python3 -c "
+STACK="$( "$PY" -c "
 import json, sys
 from pathlib import Path
 p = Path(sys.argv[1])

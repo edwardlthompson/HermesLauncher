@@ -11,6 +11,7 @@ Peer to `/audit` for model-diverse review. Codex is **read-only** — you apply 
 
 ```bash
 python3 scripts/agent-run.py run-codex-review
+
 ```
 
 - Exit `0`: wrote gitignored `CODE_REVIEW.md` (may have zero findings).
@@ -22,7 +23,8 @@ python3 scripts/agent-run.py run-codex-review
 3. Implement AGENT rows top-to-bottom. After each:
 
 ```bash
-python3 scripts/agent-run.py watch-agent-gates --once --autofix --step none
+python3 scripts/agent-run.py watch-agent-gates --once --autofix --scope full --step none
+
 ```
 
 4. Stop at 3-strike / exit `2`. Do not call Codex again to patch.

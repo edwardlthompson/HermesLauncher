@@ -1,12 +1,17 @@
 """Adapter write + drift checks."""
 from __future__ import annotations
 
+import sys
 import tempfile
 import unittest
 from pathlib import Path
 
-from adapter_templates import ADAPTERS, GENERATED, POINTER_KEYS, POINTER_MAX_LINES
-from agent_adapters import check_adapters, expected_text, write_adapters
+LIB = Path(__file__).resolve().parent.parent / "scripts" / "lib"
+if str(LIB) not in sys.path:
+    sys.path.insert(0, str(LIB))
+
+from adapter_templates import ADAPTERS, ADAPTER_MAX_BYTES, GENERATED, POINTER_KEYS, POINTER_MAX_LINES  # noqa: E402
+from agent_adapters import check_adapters, expected_text, write_adapters  # noqa: E402
 
 
 class AdapterWriteTests(unittest.TestCase):
@@ -61,6 +66,14 @@ class AdapterWriteTests(unittest.TestCase):
                 continue
             lines = expected_text(body).count("\n")
             self.assertLessEqual(lines, POINTER_MAX_LINES, key)
+
+    def test_copilot_cline_byte_budget(self) -> None:
+        for key, _rel, body in ADAPTERS:
+            cap = ADAPTER_MAX_BYTES.get(key)
+            if cap is None:
+                continue
+            n = len(expected_text(body).encode("utf-8"))
+            self.assertLessEqual(n, cap, f"{key} {n} > {cap}")
 
 
 if __name__ == "__main__":

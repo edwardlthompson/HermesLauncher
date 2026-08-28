@@ -23,6 +23,14 @@
 | CLI | `scripts/feedback-inbox.sh` |
 | Tests | `tests/test_feedback_inbox.py` |
 | Recipes | `.cursor/commands/audit.md`, `ideas.md`, `coach.md`, `docs/help/IDEAS.md` |
+## Tests
+
+- Automated: yes — `tests/test_feedback_inbox.py`
+
+## Fallback validation
+
+- Why tests are not feasible: N/A (automated tests exist)
+- Command: `python3 scripts/agent-run.py feature-gate --stack python`
 
 ## Definition of Done
 

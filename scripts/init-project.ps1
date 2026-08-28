@@ -260,6 +260,9 @@ bash scripts/bootstrap-lifecycle.sh --post `
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 Write-Host "Wrote .cursor/stack-selection.json (tier=$DistributionTier) and synced AGENT_MEMORY active modules."
 
+bash scripts/install-commit-msg-hook.sh 2>$null
+bash scripts/copy-sandbox-config.sh 2>$null
+
 Write-Host ""
 Write-Host "=== Workflow validation ===" -ForegroundColor Cyan
 if (Get-Command gh -ErrorAction SilentlyContinue) {
@@ -291,8 +294,8 @@ Write-Host ""
 Write-Host "  4. After first push to main, poll required workflows:"
 Write-Host "     pwsh scripts/check-github-ci.ps1 -WaitSeconds 300"
 Write-Host ""
-Write-Host "  5. Install pre-commit hooks and preview ephemeral purge:"
-Write-Host "     pip install pre-commit; pre-commit install"
+Write-Host "  5. Install pre-commit hooks (also attempted above) and preview ephemeral purge:"
+Write-Host "     pip install pre-commit; pre-commit install --hook-type commit-msg"
 Write-Host "     bash scripts/purge-ephemeral.sh"
 Write-Host ""
 Write-Host "What was set up and why:"

@@ -10,6 +10,7 @@ FULL=false
 for arg in "$@"; do
   case "$arg" in
     --full) FULL=true ;;
+    --quick) FULL=false ;;
   esac
 done
 

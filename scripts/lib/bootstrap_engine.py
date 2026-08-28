@@ -63,6 +63,7 @@ def default_config(
             "post_run_tests": False,
             "post_welcome_issue": False,
         },
+        "crash_proxy": {"enabled": False},
     }
 
 

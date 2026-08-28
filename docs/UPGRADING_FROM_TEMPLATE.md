@@ -2,9 +2,11 @@
 
 Child repos do not auto-sync with the upstream template. Use this guide when the update checker notifies you of a new release.
 
+In Cursor, type `/upgrade`. On a **child** the agent compares this project to the template and writes a plan. It does not apply changes until you name item numbers. Other IDEs: [`docs/help/UPGRADE.md`](help/UPGRADE.md). On **this** template repo, `/upgrade` still runs the upgrade simulation.
+
 ## Step 1: Read the Notification
 
-Run `scripts/check-template-updates.sh` or check the devcontainer postStart output.
+Run `scripts/check-template-updates.sh` or check the devcontainer postStart output. The agent entry is `/upgrade` (also runs `check-template-gaps`).
 
 ## Step 2: Review CHANGELOG
 

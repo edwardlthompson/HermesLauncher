@@ -23,6 +23,14 @@
 | Logic | `examples/web/src/crash-capture/` | `examples/android/.../crashcapture/` |
 | Tests | `pendingCrash.test.ts` | `PendingCrashTest.kt` |
 | Wiring | `appBootstrap.ts` ≤10 lines | `GoldenPathApp.kt` / `MainActivity` ≤10 lines |
+## Tests
+
+- Automated: yes — `pendingCrash.test.ts` and `PendingCrashTest.kt`
+
+## Fallback validation
+
+- Why tests are not feasible: N/A (automated tests exist)
+- Command: `python3 scripts/agent-run.py feature-gate --stack <active>`
 
 ## Definition of Done
 
