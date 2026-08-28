@@ -77,6 +77,45 @@ class RepoModeTests(unittest.TestCase):
             task = (status.get("next_row") or {}).get("task", "")
             self.assertNotIn("init-project", task)
 
+    def test_auto_lane_prefers_maintainer_board_agent(self) -> None:
+        plan = """# Build Plan
+
+## Template Maintainer — Active Board
+
+### M46 — /allideas template backlog
+
+1. 🔲 [AGENT] Deny git push --force when session only approved git push
+
+## Child Repo Playbook (copy after Use this template)
+
+### Sprint 0 — Template Customization
+
+#### Sequential
+
+1. 🔲 [AGENT] Run init-project
+
+## Ongoing Maintenance (recurring)
+
+- 🔲 [AUTO] `cursor-feature-radar.sh` (non-blocking; artifact in weekly-health-check)
+"""
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "bootstrap.config.json").write_text(
+                json.dumps(
+                    {
+                        "project_name": "agent-project-bootstrap",
+                        "purpose": "GitHub Template for FOSS coding-agent projects",
+                        "stack": "multi",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (root / "BUILD_PLAN.md").write_text(plan, encoding="utf-8")
+            status = build_status(root, lane="auto")
+            self.assertEqual(status["lane"], "maintainer")
+            self.assertIn("git push --force", status["next_row"]["task"])
+            self.assertEqual(status["sprint"], "M46 — /allideas template backlog")
+
     def test_auto_lane_child_still_sees_sprint0(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

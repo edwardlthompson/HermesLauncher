@@ -186,9 +186,11 @@ After merging a Release Please release PR or tagging vX.Y.Z:
 **Prompt:**
 
 ```
-Run scripts/simulate-template-upgrade.sh before marking Sprint M2 complete.
-If it fails, follow docs/UPGRADING_FROM_TEMPLATE.md cherry-pick table and fix
-validate-bootstrap or validate-template-index gaps before bumping .template-version.
+On this template repo, run scripts/simulate-template-upgrade.sh (or /upgrade).
+On a child repo, run /upgrade (check-template-updates + check-template-gaps) and
+write a Plan only — never overwrite Sacred files. Follow docs/UPGRADING_FROM_TEMPLATE.md.
+If the sim fails, fix validate-bootstrap or validate-template-index gaps before
+bumping .template-version.
 Use action.yml in downstream repos: uses: owner/agent-project-bootstrap/.github/actions/validate-bootstrap@main
 (or path: ./ with action.yml at repo root for this template).
 
@@ -237,7 +239,9 @@ For BUILD_PLAN sprints: maximize agent_count; run check-build-plan-parallel.sh b
 
 ```
 Read @docs/CURSOR_MODES.md and INITIALIZATION_PROMPT.md Section 7b.
-Collect runtime evidence first (command output, CI log URL, repro steps).
+Read .cursor/last-feature-gate.json first (failed_stage, log_tail, human_hint).
+Read .cursor/agent-progress.json strikes — halt if >= 3 (evidence summary, not a fourth guess).
+If the JSON is missing: collect command output, CI log URL, repro steps.
 Check KNOWLEDGE_BASE.md and docs/FOR_AGENTS.md Failure Playbook.
 Confirm repro locally before editing code. Switch to Agent Mode to apply fix.
 
@@ -421,14 +425,15 @@ Execute @.cursor/commands/docs.md — readme health, markdown tables, file encod
 
 ```
 
-## Entry 33 — Upgrade sim (`/upgrade`)
+## Entry 33 — Upgrade (`/upgrade`)
 
-**Slash command:** `.cursor/commands/upgrade.md` · See also Entry 16.
+**Slash command:** `.cursor/commands/upgrade.md` · See also Entry 16. Other IDEs: `docs/help/UPGRADE.md`.
 
 **Prompt:**
 
 ```
-Execute @.cursor/commands/upgrade.md — simulate-template-upgrade.sh.
+Execute @.cursor/commands/upgrade.md — template: simulate-template-upgrade.sh;
+child: check-template-gaps Plan only (refuse do all).
 
 ```
 

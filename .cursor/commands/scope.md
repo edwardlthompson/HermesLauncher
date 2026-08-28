@@ -52,16 +52,16 @@ Use **`.cursor/agents/gate-fixer.md`** (or Task with matching prompt). Each suba
 - Optional: copy `docs/features/_handoff.md` → gitignored `.cursor/handoff-<scope>.md` (from/to, scope, acceptance). Do not edit BUILD_PLAN.
 - Branch: `feature/agent-<task-slug>` (document in commit messages if branch not checked out).
 - Task: BUILD_PLAN Parallel row description.
-- After work: `python3 scripts/agent-run.py watch-agent-gates --once --autofix --step tests` or `--step wire` as appropriate.
+- After work: `python3 scripts/agent-run.py watch-agent-gates --once --autofix --scope auto --step tests` or `--step wire` as appropriate.
 - Report completion: `python3 scripts/agent-run.py agent-progress set-step --name tests` (or `view`, `e2e`, matching the task).
 
 ## 5. Orchestrator merge
 
 1. Wait for all subagents to complete.
 2. Resolve conflicts if any (sequential owner only).
-3. Run `python3 scripts/agent-run.py watch-agent-gates --once --autofix`.
+3. Run `python3 scripts/agent-run.py watch-agent-gates --once --autofix --scope auto`.
 4. Mark Parallel rows ✅ in BUILD_PLAN (Parallel agents never edit BUILD_PLAN).
-5. Delete or archive `.cursor/parallel-scope-lock.json` when done.
+5. Delete or archive `.cursor/parallel-scope-lock.json` when done (`python3 scripts/agent-run.py gc-parallel-lock` removes empty/invalid/24h-stale locks; keeps a stale lock if `git status` is still dirty under an agent `scope`).
 6. If the sprint block is fully ✅, read @.cursor/commands/cleanup.md — execute fully.
 
 Optional hard isolation: `python3 scripts/agent-run.py setup-agent-worktrees` (see @docs/PARALLEL_AGENT_SCOPES.md).

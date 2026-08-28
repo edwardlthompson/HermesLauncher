@@ -2,11 +2,13 @@
 from __future__ import annotations
 
 import argparse
+import os
 import shutil
 import subprocess
 import sys
 from pathlib import Path
 
+from gradle_apply import HINT as GRADLE_PIN_HINT, apply_env_pins
 from update_deps import (
     audit_jobs,
     discover_langs,
@@ -55,6 +57,11 @@ def main(argv: list[str] | None = None, root: Path | None = None) -> int:
     hint = gradle_fallback_message(root)
     if hint:
         print(hint, file=sys.stderr, flush=True)
+        print(GRADLE_PIN_HINT, file=sys.stderr, flush=True)
+    pins = os.environ.get("UPDATE_GRADLE_PINS", "")
+    if pins and mode == "dry-run":
+        for line in apply_env_pins(root, pins, write=False):
+            print(f"Gradle pin (dry-run): {line}", file=sys.stderr, flush=True)
     if mode == "audit":
         jobs = audit_jobs(root)
         if not jobs:
@@ -99,6 +106,13 @@ def main(argv: list[str] | None = None, root: Path | None = None) -> int:
     if err:
         print(f"FAIL: {err}", file=sys.stderr)
         return 1
+    if pins:
+        for line in apply_env_pins(root, pins, write=True):
+            print(f"Gradle pin: {line}", file=sys.stderr, flush=True)
+        err = kotlin_guard_error(root)
+        if err:
+            print(f"FAIL: {err}", file=sys.stderr)
+            return 1
     fmt = root / "scripts" / "check-workflow-action-ref-format.sh"
     if fmt.is_file() and "actions" in langs:
         if run_cmd(["bash", str(fmt)], timeout, root) != 0:

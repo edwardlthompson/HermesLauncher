@@ -10,7 +10,7 @@ LIB = Path(__file__).resolve().parent.parent / "scripts" / "lib"
 if str(LIB) not in sys.path:
     sys.path.insert(0, str(LIB))
 
-from changelog_unreleased import check, emptied, fold  # noqa: E402
+from changelog_unreleased import check, emptied, fold, move_unreleased_first  # noqa: E402
 
 
 class ChangelogUnreleasedTests(unittest.TestCase):
@@ -50,3 +50,16 @@ class ChangelogUnreleasedTests(unittest.TestCase):
             self.assertEqual(check(path, require_empty=True), [])
             dirty = "# Changelog\n\n## [Unreleased]\n\n* leftover\n\n## [0.1.0]\n"
             self.assertIn("## [Unreleased]\n\n## [0.1.0]", emptied(dirty))
+
+    def test_move_unreleased_first_after_version(self) -> None:
+        text = (
+            "# Changelog\n\n## [0.2.0]\n\n* new\n\n"
+            "## [Unreleased]\n\n## [0.1.0]\n"
+        )
+        moved = move_unreleased_first(text)
+        self.assertTrue(moved.index("## [Unreleased]") < moved.index("## [0.2.0]"))
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "CHANGELOG.md"
+            path.write_text(text, encoding="utf-8")
+            self.assertEqual(fold(path), "")
+            self.assertEqual(check(path, require_empty=True), [])

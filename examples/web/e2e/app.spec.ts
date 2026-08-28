@@ -1,11 +1,81 @@
 import AxeBuilder from "@axe-core/playwright";
-import { expect, test } from "@playwright/test";
+import { expect, type Page, test } from "@playwright/test";
+
+test("preview sends CSP and referrer policy", async ({ page }) => {
+  const response = await page.goto("/");
+  expect(response).toBeTruthy();
+  const headers = response?.headers() ?? {};
+  expect(headers["content-security-policy"] ?? "").toContain("default-src 'self'");
+  expect(headers["referrer-policy"]).toBe("no-referrer");
+  expect(headers["permissions-policy"] ?? "").toContain("camera=()");
+});
 
 test("renders golden path heading", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { name: "Golden Path PWA" })).toBeVisible();
   await expect(page.getByText("Hello, FOSS!")).toBeVisible();
   await expect(page.getByTestId("status")).toContainText("Golden Path PWA");
+});
+
+test("rtl dir places the title after header actions", async ({ page }) => {
+  await page.goto("/");
+  await page.evaluate(() => {
+    document.documentElement.setAttribute("dir", "rtl");
+  });
+  await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
+  await expect(page.getByRole("heading", { name: "Golden Path PWA" })).toBeVisible();
+  const title = await page.locator(".gp-title").boundingBox();
+  const actions = await page.locator(".gp-header-actions").boundingBox();
+  expect(title).toBeTruthy();
+  expect(actions).toBeTruthy();
+  expect(title!.x).toBeGreaterThan(actions!.x);
+});
+
+test("reduced motion shortens theme-toggle transitions", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  const duration = await page.locator(".gp-theme-toggle").evaluate((el) => {
+    return Number.parseFloat(getComputedStyle(el).transitionDuration);
+  });
+  expect(duration).toBeLessThan(0.02);
+});
+
+async function tabUntil(page: Page, name: string): Promise<void> {
+  const target = page.getByRole("button", { name });
+  for (let i = 0; i < 12; i++) {
+    if (await target.evaluate((el) => el === document.activeElement)) {
+      return;
+    }
+    await page.keyboard.press("Tab");
+  }
+  await expect(target).toBeFocused();
+}
+
+test("keyboard-only opens Settings, About, and Feedback", async ({ page }) => {
+  await page.goto("/");
+  await page.locator("body").click({ position: { x: 0, y: 0 } });
+  await tabUntil(page, "Settings");
+  await page.keyboard.press("Enter");
+  await expect(page.getByTestId("settings-panel")).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(page.getByTestId("settings-panel")).toHaveCount(0);
+
+  await tabUntil(page, "About");
+  await page.keyboard.press("Enter");
+  await expect(page.getByTestId("about-panel")).toBeVisible();
+
+  const bug = page.getByRole("button", { name: "Report a bug" });
+  for (let i = 0; i < 12; i++) {
+    if (await bug.evaluate((el) => el === document.activeElement)) {
+      break;
+    }
+    await page.keyboard.press("Tab");
+  }
+  await expect(bug).toBeFocused();
+  await page.keyboard.press("Enter");
+  await expect(page.getByTestId("feedback-panel")).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(page.getByTestId("feedback-panel")).toHaveCount(0);
 });
 
 test("passes accessibility audit", async ({ page }) => {

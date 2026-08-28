@@ -9,7 +9,8 @@ When invoked from @.cursor/commands/build.md: execute all open rows for the acti
 After each AGENT step:
 
 ```bash
-python3 scripts/agent-run.py watch-agent-gates --once --autofix --step scaffold
+python3 scripts/agent-run.py watch-agent-gates --once --autofix --scope auto --step scaffold
+
 ```
 
 Use `--step tests` or `--step wire` when appropriate. On exit 2, use `/debug` or escalate.

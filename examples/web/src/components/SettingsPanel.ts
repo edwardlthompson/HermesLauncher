@@ -1,6 +1,7 @@
 import { onSaveCrashesChanged } from "../crash-capture/pendingCrash";
 import { getSaveCrashes, setSaveCrashes } from "../feedback/saveCrashes";
 import { t } from "../i18n";
+import { applySettingsBundle, parseSettings, snapshotSettings } from "../settings/export";
 import { applySettingsThemeMode, getSettingsThemeMode } from "../settings/preferences";
 import type { ThemeMode } from "../theme";
 
@@ -33,6 +34,11 @@ export function createSettingsPanel(callbacks: SettingsPanelCallbacks): HTMLElem
       <input type="checkbox" data-save-crashes />
       <span>${t("settings.feedback.save_crashes")}</span>
     </label>
+    <div class="gp-settings-field">
+      <button type="button" data-settings-export>${t("settings.export")}</button>
+      <button type="button" data-settings-import>${t("settings.import")}</button>
+      <input type="file" accept="application/json" hidden data-settings-import-file />
+    </div>
   `;
 
   const themeSelect = panel.querySelector<HTMLSelectElement>("[data-settings-theme]");
@@ -53,5 +59,29 @@ export function createSettingsPanel(callbacks: SettingsPanelCallbacks): HTMLElem
   }
 
   panel.querySelector(".gp-settings-close")?.addEventListener("click", callbacks.onClose);
+
+  const fileInput = panel.querySelector<HTMLInputElement>("[data-settings-import-file]");
+  panel.querySelector("[data-settings-export]")?.addEventListener("click", () => {
+    const blob = new Blob([JSON.stringify(snapshotSettings(), null, 2)], {
+      type: "application/json",
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "golden-path-settings.json";
+    link.click();
+    URL.revokeObjectURL(url);
+  });
+  panel.querySelector("[data-settings-import]")?.addEventListener("click", () => {
+    fileInput?.click();
+  });
+  fileInput?.addEventListener("change", () => {
+    const file = fileInput.files?.[0];
+    if (!file) return;
+    void file.text().then((raw) => {
+      const bundle = parseSettings(raw);
+      if (bundle) applySettingsBundle(bundle);
+    });
+  });
   return panel;
 }

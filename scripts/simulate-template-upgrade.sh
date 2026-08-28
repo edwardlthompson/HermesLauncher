@@ -89,6 +89,29 @@ if ! grep -q 'Upgrade Sim' AGENTS.md; then
   exit 1
 fi
 
+SACRED_MARK="upgrade-sim-sacred-agents-md"
+printf '\n<!-- %s -->\n' "$SACRED_MARK" >> AGENTS.md
+for path in "${AREAS[@]}"; do
+  case "$path" in
+    AGENTS.md|docs/spec.md|docs/plan.md|docs/INITIALIZATION_PROMPT.md)
+      echo "FAIL: Sacred path $path must not be in upgrade AREAS"
+      exit 1
+      ;;
+  esac
+  if [ -f "$ROOT/$path" ]; then
+    mkdir -p "$(dirname "$path")"
+    cp "$ROOT/$path" "$path"
+  fi
+done
+if ! grep -q "$SACRED_MARK" AGENTS.md; then
+  echo "FAIL: Sacred AGENTS.md was overwritten during upgrade cherry-pick"
+  exit 1
+fi
+if ! grep -q 'Upgrade Sim' AGENTS.md; then
+  echo "FAIL: stamped project name lost from AGENTS.md"
+  exit 1
+fi
+
 bash scripts/validate-bootstrap.sh --quick
 
 echo "==> Non-interactive init smoke with --prune --prune-optional"

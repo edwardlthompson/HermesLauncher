@@ -8,7 +8,7 @@ After `scripts/init-project.sh --distribution-tier foss`:
 
 | Layer | Artifact | Status |
 |-------|----------|--------|
-| Rules | `.cursor/rules/*.mdc` | Shipped (16) |
+| Rules | `.cursor/rules/*.mdc` | Shipped (16). `alwaysApply: true` is allowlisted in `scripts/lib/cursor_rule_audit.py`; glob-scoped rules must set `alwaysApply: false`. |
 | Commands | `.cursor/commands/*.md` | Shipped (33) |
 | Hooks | `.cursor/hooks.json` + `.cursor/hooks/` | Shipped |
 | Skills | `.cursor/skills/` (11) | Shipped |
@@ -42,7 +42,7 @@ Enforcement complement to rules (M27 — no `beforeSubmitPrompt`):
 |-------|--------|----------|
 | `sessionStart` | `session_start_context.py` | Stack/tier one-liner |
 | `beforeShellExecution` | `before_shell_guard.py` | Denylist + session `destructive_ops_approved` |
-| `afterFileEdit` | `after_edit_encoding.py` | UTF-8 check, fail-open |
+| `afterFileEdit` | `after_edit_encoding.py` | UTF-8 check, fail-open (opt-in fail-closed: `CURSOR_ENCODING_STRICT=1` or `.cursor/encoding-strict`) |
 | `subagentStart` | `subagent_scope_inject.py` | Parallel lock scope |
 | `beforeMCPExecution` | `mcp_audit.py` | Append audit log only |
 Hooks are Python modules (not `.sh`) so Cursor Agent shell execution does not open hook scripts in the editor.
@@ -62,10 +62,10 @@ Hooks **fail-open** (KB-012). Label each control so agents do not over-claim enf
 | Control | Label | Notes |
 |---------|-------|-------|
 | `git push` | Enforced (best-effort) | Denylist unless `/push` or `/ship` session override |
-| `git push --force` | Instructed + denylist | Override may match `git push` substring; not a hard deny |
+| `git push --force` | Enforced (best-effort) | `--force`/`-f` denied even when `git push` is session-approved |
 | `terraform apply`, `DROP TABLE`, `DELETE FROM`, `rm -rf /`, `rm -rf ~`, skip-hooks flags | Enforced (best-effort) | `shell-denylist.txt` + `before_shell_guard.py` |
 | Production deploys, disabling CI gates, committing secrets | Instructed | Auto-review steers; Gitleaks is pre-commit when installed |
-| UTF-8 `afterFileEdit` | Instructed + best-effort | Fail-open on parse/tool errors |
+| UTF-8 `afterFileEdit` | Instructed + best-effort | Fail-open on parse/tool errors. Opt-in fail-closed: `CURSOR_ENCODING_STRICT=1` or `.cursor/encoding-strict` |
 | `<!-- cursor-hooks: off -->` | Instructed | Disables shell guards for the session |
 Validate: `python3 scripts/agent-run.py check-cursor-hooks -- --smoke`
 
@@ -76,7 +76,7 @@ On **This Computer**, maximize local parallelism before Cloud:
 - Rule: [`.cursor/rules/local-compute.mdc`](../.cursor/rules/local-compute.mdc)
 - Parallel `/scope` Task subagents + worktrees + `/best-of-n`
 - `validate-bootstrap` runs independent checks via `scripts/lib/run_checks_parallel.py` (RAM-capped workers, override with `BOOTSTRAP_CHECK_JOBS`)
-- Multi-stack `feature-gate` runs independent stacks in parallel (`FEATURE_GATE_JOBS`; CI cap 2)
+- Multi-stack `feature-gate` runs independent stacks in parallel (`FEATURE_GATE_JOBS`; CI cap 2). `/build` passes `--scope auto` so per-row gates only dirty stacks; `/gates` stays full.
 - `/best-of-n` and `/emulator` are slash commands; Ollama recipe: [`docs/LOCAL_MODELS.md`](LOCAL_MODELS.md)
 - Session start hook reminds agents of `local-first cpus=N ram= jobs= ollama=`
 

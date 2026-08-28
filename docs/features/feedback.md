@@ -23,6 +23,14 @@
 | Logic | `examples/web/src/feedback/` | `examples/android/.../feedback/` |
 | Tests | `FeedbackPanel.test.ts`, `preview.test.ts` | `FeedbackPreviewTest.kt` |
 | Wiring | `appBootstrap.ts` / `AppShell.ts` ≤10 lines | `GoldenPathApp.kt` ≤10 lines |
+## Tests
+
+- Automated: yes — `FeedbackPanel.test.ts`, `preview.test.ts`, `FeedbackPreviewTest.kt`
+
+## Fallback validation
+
+- Why tests are not feasible: N/A (automated tests exist)
+- Command: `python3 scripts/agent-run.py feature-gate --stack <active>`
 
 ## Definition of Done
 

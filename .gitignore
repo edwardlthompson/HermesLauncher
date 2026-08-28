@@ -27,6 +27,7 @@ Thumbs.db
 !.vscode/extensions.json
 *.swp
 .cursor-session-state
+.cursor-session-state.json
 .cursor/agent-progress.json
 .cursor/last-feature-gate.json
 .cursor/parallel-scope-lock.json
@@ -37,6 +38,9 @@ Thumbs.db
 .cursor/sandbox.json
 CURSOR_RADAR_REPORT.md
 CURSOR_RADAR_BACKLOG.md
+CURSOR_RADAR_SUGGESTIONS.md
+.cursor/gates-status.md
+.cursor/encoding-strict
 
 # Cursor plugin pack output (see scripts/pack-cursor-plugin.sh)
 dist/cursor-plugin/
@@ -54,6 +58,7 @@ playwright-report/
 # Live user configs (examples committed; copies from init)
 .app-update.json
 donations.json
+openvex.json
 examples/web/public/app-update.json
 examples/web/public/donations.json
 examples/android/app/src/main/assets/app-update.json

@@ -22,6 +22,14 @@
 | Logic | `examples/web/src/privacy-report/`, `examples/android/.../privacyreport/`, `scripts/lib/privacy_report_*.py` |
 | Tests | co-located Vitest/JUnit + `tests/privacy_report/` oracle |
 | Wiring | none |
+## Tests
+
+- Automated: yes — co-located Vitest/JUnit plus `tests/privacy_report/`
+
+## Fallback validation
+
+- Why tests are not feasible: N/A (automated tests exist)
+- Command: `python3 scripts/agent-run.py feature-gate --stack <active>`
 
 ## Definition of Done
 

@@ -2,15 +2,7 @@ import { describe, expect, it } from "vitest";
 import { fingerprintCrash } from "./fingerprint";
 import { buildReportMarkdown } from "./markdown";
 import { sanitizeReportText } from "./sanitize";
-
-const JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIn0.signaturepart";
-const STACK = [
-  "TypeError: boom",
-  "    at C:\\Users\\Ada\\secret.env:1",
-  "token=ghp_abcdefghijklmnopqrstuvwxyz012345",
-  JWT,
-  "AKIAIOSFODNN7EXAMPLE",
-].join("\n");
+import fixture from "./sanitize-fixtures.json";
 
 describe("sanitizeReportText", () => {
   it("treats null as empty", () => {
@@ -18,13 +10,13 @@ describe("sanitizeReportText", () => {
   });
 
   it("redacts secrets, JWT, AWS, and home paths", () => {
-    const out = sanitizeReportText(STACK, true);
-    expect(out).not.toContain("Ada");
-    expect(out).not.toContain("ghp_");
-    expect(out).not.toContain("eyJ");
-    expect(out).not.toContain("AKIA");
-    expect(out).toContain("<redacted-secret>");
-    expect(out).toContain("<redacted-home>");
+    const out = sanitizeReportText(fixture.stack, true);
+    for (const leak of fixture.must_not_contain) {
+      expect(out).not.toContain(leak);
+    }
+    for (const keep of fixture.must_contain) {
+      expect(out).toContain(keep);
+    }
   });
 });
 

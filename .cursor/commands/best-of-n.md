@@ -8,6 +8,7 @@ Compare models on a flaky or hard fix using **native Cursor worktrees** on This 
 
 ```bash
 python3 scripts/agent-run.py check-local-compute
+
 ```
 
 Set **N** = `min(3, slots)` from that output. If `ram_gb` is under 16, use **N = 2**. Do not spawn more agents than N.
@@ -20,6 +21,6 @@ Models come from the **Cursor picker** (cloud or the user’s local Ollama overr
 
 ## 3. Apply the winner
 
-Keep one worktree. Remove extras when done. Run `python3 scripts/agent-run.py watch-agent-gates --once --autofix` on the winner.
+Keep one worktree. Remove extras when done. Parallel-lock leftovers under `.cursor/worktrees/` (not Cursor native worktrees): `python3 scripts/agent-run.py gc-worktrees -- --apply`. Run `python3 scripts/agent-run.py watch-agent-gates --once --autofix --scope auto` on the winner.
 
 Begin now.

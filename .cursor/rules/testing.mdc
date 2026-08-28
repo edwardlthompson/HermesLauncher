@@ -1,5 +1,6 @@
 ---
 description: Test coverage budgets and snapshot conventions
+alwaysApply: false
 globs:
   - "examples/**"
   - "tests/**"
@@ -30,7 +31,7 @@ globs:
 - **E2E (few):** Playwright/Lighthouse at milestone gates, not every feature
 
 ```bash
-python3 scripts/agent-run.py watch-agent-gates --once --autofix
+python3 scripts/agent-run.py watch-agent-gates --once --autofix --scope auto
 ```
 
 Do not start feature B until feature A passes gates and `[HUMAN]` approves.

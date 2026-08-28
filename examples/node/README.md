@@ -19,6 +19,7 @@ npm run dev
 ## Routes
 
 - `GET /health` — readiness probe
+- `GET /about` — version + donate (no crash payload)
 - `GET /greet/:name?` — sample JSON handler
 
 ## CI Integration

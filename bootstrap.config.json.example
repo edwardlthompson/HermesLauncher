@@ -29,5 +29,8 @@
     "post_install_deps": false,
     "post_run_tests": false,
     "post_welcome_issue": false
+  },
+  "crash_proxy": {
+    "enabled": false
   }
 }

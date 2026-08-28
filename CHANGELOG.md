@@ -8,13 +8,65 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.25.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.24.0...v0.25.0) (2026-08-27)
+### Added
 
+* `/upgrade` on a child repo: Plan-only template catch-up (`check-template-gaps`, Canon/Mixed/Sacred + Golden Path); this template still runs the upgrade simulation
+* Novice print cheat sheet `docs/help/batch-commands-print.html` (browser Print; every super and one-step command)
+* `/debug` reads `.cursor/last-feature-gate.json` and `agent-progress.json` strikes first; 3-strike halts with evidence, not a fourth guess
+* `/fix` prints `strikes` and `failed_stage` (`render-gates-status --fix-banner`) before the autofix loop
+* Portable `/debug` twin `docs/help/DEBUG.md`; `check-batch-commands.sh` requires command ↔ help twins for tour/coach/ideas/allideas/debug
+* `/coach` picks `/build` vs `/ship` vs `/ideas` from dirty Unreleased vs empty AGENT board
+* Session start names dirty `[Unreleased]` and the next 🔲 `[AGENT]` row
+* Copilot and Cline adapters capped at 1024 bytes (`ADAPTER_MAX_BYTES`)
+* `alwaysApply` Cursor rule allowlist (`cursor_rule_audit.py`); empty `globs:` removed from always-on rules
+* `/compact` writes Unreleased excerpt + open HUMAN/ADB rows via `compact-session-state`
+* Parallel-scope lock GC after 24h / empty / invalid JSON (`gc-parallel-lock`); keeps a stale lock when `git status` is still dirty under an agent `scope`
+* Worktree GC (`gc-worktrees`): `git worktree prune` plus scoped purge of stale `.cursor/worktrees/` (24h; skips live parallel-lock paths)
+* `/tour` step 5 runs `tour-verify` (`verify.sh --quick`) and prints only the first failure
+* Glossary jargon in START_HERE / TOUR must link to `GLOSSARY.md` (`check-glossary-links`)
+* `validate-bootstrap --quick` runs offline `actionlint` + `zizmor` when installed (required in CI; local skip-if-missing; `.github/zizmor.yml` ref-pin + medium+)
+* `shellcheck -S error` on all `scripts/*.sh` in `--quick` (required in CI; local skip-if-missing)
+* PSScriptAnalyzer `-Severity Error` on `scripts/*.ps1` and worktree setup (required in CI; local skip-if-missing)
+* hadolint `--failure-threshold error` on `.devcontainer/Dockerfile` (required in CI; local skip-if-missing)
+* markdownlint + yamllint in `--quick` (non-blocking unless `MDLINT_HARD=1`; required tools in CI)
+* REUSE/SPDX: `REUSE.toml` + `LICENSES/` (`reuse lint` in CI; local skip-if-missing)
+* OpenVEX example travels with the release SBOM (`openvex.json` asset; live file gitignored)
+* `/allideas` uncapped idea dump (`/AllIdeas`); M46 board from the 2026-08-27 template dump; `/build --lane auto` prefers Template Maintainer 🔲 AGENT rows
+* `/ideas` round 2: health CI skips Release Please branches; commit-msg hook on init; `/gates` status script; Gradle patch apply; SBOM wait; plugin-pack CI; Rust/Go About+crash sanitize; F-Droid + Lightroom in feature-gate; Winget stub validate; crash-proxy docs (off); encoding strict opt-in; radar AGENT suggestions; sandbox copy
+* `/ideas` ship hygiene: docs/chore no longer bump Release Please; Unreleased-first on RP PRs; worktree setup no-op on the primary checkout; Gradle pins on `update-deps` dry-run; Dependency Review check on RP heads; `/gates` canvas report; local commit-msg hook gate
+
+### Changed
+
+* `/build` per-row `watch-agent-gates --scope auto` (dirty stacks vs `HEAD`; docs-only preamble; shared scripts still full). Autofix retries the failed stack with `--skip-preamble`. Sprint wrap-up `/gates` stays full multi-stack.
+
+### Fixed
+
+* `/push` session approval of `git push` no longer allows `git push --force` (hook + tests)
+* `resolve-tools.sh` prepends Windows `go` / `cargo` dirs the same way as `gh`
+* `agent-run.py` never selects WSL1 `System32\\bash` (case-insensitive)
+* Upgrade simulation asserts child `AGENTS.md` is Sacred (not in cherry-pick AREAS)
+* Plugin pack `version` tracks `.template-version`
+* Shared Golden Path donations/crash/app-update JSON schemas + contract tests
+* Node Golden Path `GET /about` + crash text sanitizer
+* Python Golden Path `--about` + crash text sanitizer
+* Shared web/Android sanitizer fixtures (`schemas/golden-path/sanitize-fixtures.json`)
+* `verify-about-feature-gate` also strips/restores rust, Go, Node, and Python About slices
+* Feature `_template.md` Tests + Fallback validation contract (`schemas/features/feature-spec.schema.json`)
+* Web ↔ Android i18n key parity gate (`schemas/golden-path/i18n-parity.allowlist.json`)
+* Playwright coverage for `dir=rtl` header order and `prefers-reduced-motion`
+* WCAG 2.2 AA contrast gate on design-token pairs; dark primary `#D3304E`
+* Keyboard-only Playwright path for Settings, About, and Feedback
+* Web CSP, Referrer-Policy, and Permissions-Policy on Vite preview plus production CSP meta
+* PWA Web Share Target GET params open Feedback with prefilled text
+* UnifiedPush FOSS hook (no FCM); settings JSON export/import; Lightroom `LrExportServiceProvider`
+* `/ideas` refuses silent `do all`; `/build` gate-locks the next feature until `watch-agent-gates` exits 0
+* `watch-agent-gates` writes `last-feature-gate.json` and runs `render-gates-status` after every attempt
+
+## [0.25.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.24.0...v0.25.0) (2026-08-27)
 
 ### Added
 
 * add local-first deps updater and resource packing ([50a3a7f](https://github.com/edwardlthompson/agent-project-bootstrap/commit/50a3a7f7b4c1109441084ce5e07987e9fb5805c1))
-
 
 ### Documentation
 

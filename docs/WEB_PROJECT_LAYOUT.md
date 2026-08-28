@@ -11,7 +11,6 @@
 | `examples/web/dist/` | Production **build output** | **Yes** (via GitHub Actions artifact) |
 | `site/` or `website/` | Optional static/markdown site (no Vite bundler) | Only with a separate workflow |
 | [`design-tokens/`](../design-tokens/) | Colors, spacing, typography tokens | **No** |
-
 **`docs/` is not your public website.** Agents are instructed to read `docs/` for project instructions. Putting HTML, marketing pages, or PWA assets in `docs/` breaks that contract and conflicts with GitHub's legacy "Publish from `/docs`" Pages source.
 
 ## Golden Path (this template)
@@ -28,6 +27,7 @@ examples/web/          # edit source here
 
 .github/workflows/pages.yml   # build + deploy dist/ to GitHub Pages
 docs/                         # agent documentation only — never deploy
+
 ```
 
 Flow:
@@ -37,13 +37,14 @@ Flow:
 3. The workflow uploads `examples/web/dist` as the Pages artifact.
 4. GitHub Pages serves the built static files.
 
+Security headers: Vite `preview` sets CSP, Referrer-Policy, and Permissions-Policy. GitHub Pages cannot set HTTP headers, so production `index.html` gets a CSP meta tag from the Vite `inject-csp-meta` plugin (skipped in `vite` HMR). Source `index.html` still has `referrer` and Permissions-Policy meta.
+
 ## GitHub repository settings
 
 | Setting | Required value |
 |---------|----------------|
 | **Pages source** | **GitHub Actions** (not "Deploy from `/docs` branch folder") |
 | **Analytics** | None in template workflow (FOSS, no tracking scripts) |
-
 `[HUMAN]` enables Pages under **Settings → Pages** and selects **GitHub Actions** as the source. If "Deploy from `/docs`" is enabled instead, agent documentation may be exposed as a public site and the PWA deploy will conflict.
 
 ## Localization vs styles (web)
@@ -55,7 +56,6 @@ Keep user-visible copy out of stylesheets and theme code.
 | **Strings** | `src/locales/en.json` | `t(key)` from `src/i18n/index.ts` |
 | **Styles** | `style.css`, `design-tokens.css` | CSS variables `var(--gp-*)` |
 | **Theme** | `theme.ts`, `ThemeToggle.ts` | Preference only; labels from `t()` |
-
 Default locale is **English only** at bootstrap. Add `src/locales/{lang}.json` when you ship translations.
 
 See [`docs/DESIGN_GUIDE.md`](DESIGN_GUIDE.md) for cross-stack i18n rules, shared key naming, and layout guidance for long strings and RTL.
@@ -82,7 +82,6 @@ If `init-project` removes the web stack:
 | Put user-facing copy in CSS | Breaks localization; use `locales/*.json` |
 | Hardcode strings in `main.ts` markup | Use `t()`; CI cohesion check flags literals |
 | Enable "Publish from `/docs`" | Serves agent markdown as a website; wrong content |
-
 ## Related docs
 
 - [`docs/DESIGN_GUIDE.md`](DESIGN_GUIDE.md) — tokens, themes, Android `strings.xml`, web `t()`

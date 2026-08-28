@@ -10,8 +10,9 @@ Short definitions for first-timers. Why the files exist: [`BEST_PRACTICES.md`](.
 | **Canon** | The checked-in contract (`AGENTS.md`, `BUILD_PLAN.md`, gates). Adapters are thin pointers, not extra rules. |
 | **Bootstrap vs Reference** | New child repo vs using this template as rules-only. See [`START_HERE.md`](../START_HERE.md). |
 | **Golden Path** | The runnable `examples/{stack}/` slice you copy for the next feature. |
+| **`/ideas` vs `/allideas`** | Ranked 5–8 next features vs a complete in-scope dump to fill BUILD_PLAN. Neither implements until you name numbers or say `board`. |
+| **`/upgrade` (child)** | Compare this app to the parent template and **plan** updates. Does not overwrite your work until you name item numbers. On the template repo it runs a simulation instead. |
 | **Adapters** | Generated files (`CLAUDE.md`, `.cursor/rules/main.mdc`, and others) that point at `AGENTS.md`. |
-
 ## BUILD_PLAN labels
 
 | Term | Meaning |
@@ -23,7 +24,6 @@ Short definitions for first-timers. Why the files exist: [`BEST_PRACTICES.md`](.
 | **🔲** | Open |
 | **✅** | Done |
 | **❌** | Blocked |
-
 Status uses those emoji. Do not convert them to GitHub `- [ ]` checkboxes. Legend: [`BUILD_PLAN.md`](../../BUILD_PLAN.md).
 
 ## Gates
@@ -31,9 +31,8 @@ Status uses those emoji. Do not convert them to GitHub `- [ ]` checkboxes. Legen
 | Term | Meaning |
 |------|---------|
 | **Gate** | A local check that matches CI (`bash scripts/verify.sh`). |
-| **Feature gate** | Stack tests for the active Golden Path. |
-| **3-strike** | After three failed auto-fixes, stop and ask a human. |
-
+| **Feature gate** | Stack tests for the active Golden Path. `/build` uses `--scope auto` (dirty stacks); `/gates` is full multi-stack. |
+| **3-strike** | After three failed auto-fixes, stop and ask a human. `/debug` reads `strikes` in `.cursor/agent-progress.json`. |
 ## Destructive ops
 
 `git push`, production deploys, and history rewrites need a human or an explicit `/push` / `/ship`. See [`.cursor/rules/destructive-ops.mdc`](../../.cursor/rules/destructive-ops.mdc).

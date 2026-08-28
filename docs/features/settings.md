@@ -25,6 +25,15 @@
 | View | `examples/web/src/components/SettingsPanel.ts` | `examples/android/.../ui/settings/` |
 | Tests | `settings/*.test.ts` | `src/test/.../settings/` |
 | Wiring | `appBootstrap.ts` + `AppShell.ts` | `GoldenPathApp.kt` (composition root) |
+## Tests
+
+- Automated: yes — `examples/web/src/settings/` and Android `src/test/.../settings/`
+
+## Fallback validation
+
+- Why tests are not feasible: N/A (automated tests exist)
+- Command: `python3 scripts/agent-run.py feature-gate --stack <active>`
+
 ## Out of scope (Sprint 2)
 
 - Account sync, cloud backup, analytics

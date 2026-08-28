@@ -1,0 +1,10 @@
+# Offline zizmor for validate-bootstrap --quick.
+# unpinned-uses: ref-pin matches check-workflow-action-ref-format (@vX / SHA, not @main).
+# artipacked (persist-credentials) is low-confidence noise across every checkout; follow-up separately.
+rules:
+  artipacked:
+    disable: true
+  unpinned-uses:
+    config:
+      policies:
+        "*": ref-pin

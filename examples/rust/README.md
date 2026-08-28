@@ -1,6 +1,6 @@
 # Golden Path Rust
 
-Minimal `hello` binary stub for agent-project-bootstrap.
+Minimal `hello` binary stub plus About (version + donate) and crash-text sanitizer (std-only).
 
 ## Commands
 
@@ -9,6 +9,7 @@ cargo fmt --check
 cargo clippy -- -D warnings
 cargo test
 cargo run
+
 ```
 
 ## CI Integration

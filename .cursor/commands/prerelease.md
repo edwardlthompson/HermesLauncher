@@ -44,7 +44,7 @@ python3 scripts/agent-run.py run-codex-review
 - Exit `0`: if `CODE_REVIEW.md` has Critical/High findings, append 🔲 `[AGENT]` rows to @BUILD_PLAN.md, implement them, then:
 
 ```bash
-python3 scripts/agent-run.py watch-agent-gates --once --autofix --step none
+python3 scripts/agent-run.py watch-agent-gates --once --autofix --scope full --step none
 
 ```
 

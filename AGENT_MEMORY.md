@@ -44,9 +44,11 @@ FOSS coding-agent bootstrap template: labeled BUILD_PLAN sprints, Golden Path ex
 
 ## Session Retrospectives
 
-| Date | Milestone | What worked | What to improve |
-|------|-----------|-------------|-----------------|
-| 2026-08-27 | v0.25.0 /ship | M42+M43 feat; `--max-bump minor`; About restore retry; RP #77 admin-merge; CI+CodeQL+Security Scan green | Empty Unreleased before push; child Go skip when FEATURE_GATE_CHILD=1; do not trust env GITHUB_TOKEN for GraphQL |
+| 2026-08-27 | /build scoped gates | Per-row `--scope auto`; failed-stack `--skip-preamble` retry; `/gates` wrap-up stays full | Do not treat docs-only as a skip of Sprint wrap-up `/gates` |
+| 2026-08-27 | /build M46 P0 | Force-push deny; go/cargo PATH; System32 bash; Sacred upgrade sim; plugin version; GP JSON schemas | Next: Node/Python About+crash; do not treat /push as force-push approval |
+| 2026-08-27 | M46 /allideas board | Uncapped dump command + 75 BUILD_PLAN rows; `/build --lane auto` reads maintainer board | `/ideas` stays the short ranked menu; HUMAN leftovers (Ollama, DPIA, CII) stay off the AGENT queue |
+| 2026-08-27 | M45 /ideas round 2 | Health CI filter; init hooks; gates status script; Gradle pins apply; SBOM wait; plugin pack; Rust/Go About+crash; F-Droid+Lightroom gates | Crash-proxy stays off until DPIA; `--force` still matches `git push` approval |
+| 2026-08-27 | M44 /ideas ship hygiene | docs/chore no RP bump; Unreleased-first; worktree skip; session-state.json ignore; RP Dependency Review check; Gradle pins; /gates canvas; commit-msg hook | Closed leftover 0.25.1 (#80); local `/gates` needs `pre-commit install --hook-type commit-msg` |
 | 2026-08-27 | M43 local resource packing | RAM-capped parallel feature-gate; `/best-of-n` + `/emulator`; Ollama docs no keys | Do not require Ollama/emulator on `/ship`; CI slot cap 2; dummy GUI string never in git |
 | 2026-08-27 | M42 local-first deps | `/update-deps` + `upd-cli==0.6.2`; `/ship` uses `--local` gate; Dependabot weekly backup; RP dry-run preview | Do not wait on Dependabot PRs before push; full GH gate stays on `/regress` |
 | 2026-08-23 | v0.24.0 /ship | Privacy-feedback feat + TEMPLATE_INDEX fix; RP #72 admin-merge; emptied Unreleased before merge | About-without forbids imports of `about/`; never run that gate via WSL1 `bash` |

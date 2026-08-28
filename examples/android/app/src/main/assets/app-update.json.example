@@ -1,5 +1,6 @@
 {
   "release_repo": "OWNER/REPO",
+  "check_interval": "weekly",
   "installed_artifact_format": "apk",
   "product_asset_prefix": "Golden-Path"
 }

@@ -17,7 +17,7 @@ Open `crash` / `bug` issues are picked up by `/audit` (and `/maintain`) as immed
 
 ## Feature requests
 
-Use the **Feature Request** (template contributors) or **Product idea** (end users) form, or a Discussions **Ideas** thread. `/ideas` ranks these and does **not** add a BUILD_PLAN row until a maintainer names a number.
+Use the **Feature Request** (template contributors) or **Product idea** (end users) form, or a Discussions **Ideas** thread. `/ideas` ranks a short list and `/allideas` dumps the full in-scope set. Neither adds a BUILD_PLAN row until a maintainer names numbers or says `board`.
 
 ## Template improvements
 

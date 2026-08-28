@@ -51,10 +51,22 @@ def kotlin_guard_error(root: Path) -> str | None:
     return "Kotlin >= 2.3.30 blocked (CodeQL): " + "; ".join(blocked)
 
 
+PLUGIN_RE = re.compile(r'id\("([^"]+)"\)\s+version\s+"([^"]+)"')
+
+
+def gradle_pin_lines(root: Path) -> list[str]:
+    path = root / "examples" / "android" / "build.gradle.kts"
+    if not path.is_file():
+        return []
+    return [f"{name}={ver}" for name, ver in PLUGIN_RE.findall(path.read_text(encoding="utf-8"))]
+
+
 def gradle_fallback_message(root: Path) -> str | None:
-    if (root / "examples" / "android" / "build.gradle.kts").is_file():
-        return GRADLE_FALLBACK
-    return None
+    if not (root / "examples" / "android" / "build.gradle.kts").is_file():
+        return None
+    pins = gradle_pin_lines(root)
+    extra = f" Pins: {', '.join(pins)}." if pins else ""
+    return GRADLE_FALLBACK + extra
 
 
 def discover_langs(root: Path) -> list[str]:
@@ -91,6 +103,12 @@ def release_please_dry_argv(repo_url: str) -> list[str]:
         "--config-file", "release-please-config.json",
         "--manifest-file", ".release-please-manifest.json",
     ]
+
+
+def with_github_token(argv: list[str], token: str) -> list[str]:
+    if token:
+        return argv + ["--token", token]
+    return list(argv)
 
 
 def pre_release_steps(local: bool) -> list[str]:

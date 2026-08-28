@@ -1,5 +1,6 @@
 ---
 description: Design system rules for UI work — tokens, themes, i18n separation
+alwaysApply: false
 globs:
   - examples/web/**
   - examples/android/**

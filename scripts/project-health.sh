@@ -23,9 +23,7 @@ bash scripts/build-sprint-status.sh --lane auto || true
 echo ""
 echo "--- CI (best effort) ---"
 if command -v gh >/dev/null 2>&1; then
-  if ! gh run list --limit 1 2>/dev/null; then
-    echo "WARN: gh could not read workflow runs (offline or unauthenticated)."
-  fi
+  python3 "$ROOT/scripts/lib/health_ci.py" || true
 else
   echo "WARN: gh not installed; skip remote CI. After push: bash scripts/check-github-ci.sh --wait 300"
 fi

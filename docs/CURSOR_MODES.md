@@ -11,7 +11,7 @@ If you are not in Cursor, treat those four names as **roles**: explore / design 
 | **Ask** | Read-only exploration, architecture questions, index lookup | [`TEMPLATE_INDEX.json`](../TEMPLATE_INDEX.json), [`KNOWLEDGE_BASE.md`](../KNOWLEDGE_BASE.md) | Editing files |
 | **Plan** | Non-trivial work: features, ADRs, parallel scope, schema changes | BUILD_PLAN row + resolved `### Critique` (Issue→Resolution) + `### Parallelization` | Mechanical lint fixes |
 | **Agent** | Approved plan execution, `[AGENT]` BUILD_PLAN rows, gate autofix | [`watch-agent-gates.sh`](../scripts/watch-agent-gates.sh) | Unapproved architecture |
-| **Debug** | Unknown root cause: CI red, flaky tests, 3-strike failures | Runtime logs + KB + [`FOR_AGENTS.md`](FOR_AGENTS.md) Failure Playbook | Pre-release checklists |
+| **Debug** | Unknown root cause: CI red, flaky tests, 3-strike failures | `.cursor/last-feature-gate.json` + `strikes` + KB + [`FOR_AGENTS.md`](FOR_AGENTS.md) Failure Playbook | Pre-release checklists |
 Full BUILD_PLAN owner labels (`AGENT`/`HUMAN`/`ADB`/`AUTO`) are orthogonal — see [`BUILD_PLAN.md`](../BUILD_PLAN.md).
 
 ## Resolved Critique

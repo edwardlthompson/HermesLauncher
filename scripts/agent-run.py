@@ -57,7 +57,7 @@ def resolve_bash() -> str | None:
             if path.is_file():
                 return str(path)
         which = shutil.which("bash")
-        if which and "System32" not in which.replace("/", "\\"):
+        if which and "system32" not in which.replace("/", "\\").lower():
             return which
         return None
     return shutil.which("bash")

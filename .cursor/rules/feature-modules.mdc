@@ -1,6 +1,5 @@
 ---
 description: Vertical-slice feature containers; one feature per task; autonomous gates
-globs:
 alwaysApply: true
 ---
 
@@ -16,7 +15,7 @@ alwaysApply: true
 ## After every AGENT step
 
 ```bash
-python3 scripts/agent-run.py watch-agent-gates --once --autofix
+python3 scripts/agent-run.py watch-agent-gates --once --autofix --scope auto
 ```
 
 On exit `1`: read gate JSON + `.cursor/agent-progress.json`; **auto-fix** lint/tests in feature scope; re-run until pass or 3-strike.

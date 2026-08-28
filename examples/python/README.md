@@ -16,6 +16,7 @@ uv run ruff check .
 uv run ruff format --check .
 uv run mypy src
 uv run hello FOSS
+uv run hello --about
 
 ```
 
@@ -30,7 +31,7 @@ uv locks installs, ruff is fast lint/format, mypy catches type bugs before pytes
 - Strict type hints validated by mypy
 - ruff lint and format checks
 - pytest with 90% coverage budget and pytest-xdist (`-n auto`)
-- Pure business logic in `greet.py`, CLI in `cli.py`
+- Pure business logic in `greet.py`, About in `about.py`, crash sanitize in `crash.py`, CLI in `cli.py`
 
 ## CI Integration
 

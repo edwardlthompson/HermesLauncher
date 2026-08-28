@@ -11,7 +11,10 @@
     "ideas": "docs/help/IDEAS.md",
     "glossary": "docs/help/GLOSSARY.md",
     "coach": "docs/help/COACH.md",
-    "agent_portability": "docs/AGENT_PORTABILITY.md"
+    "agent_portability": "docs/AGENT_PORTABILITY.md",
+    "allideas": "docs/help/ALLIDEAS.md",
+    "upgrade": "docs/help/UPGRADE.md",
+    "batch_commands_print": "docs/help/batch-commands-print.html"
   },
   "files": [
     {
@@ -43,8 +46,22 @@
       "owner": "maintainer"
     },
     {
+      "path": "docs/help/batch-commands-print.html",
+      "purpose": "Novice printer-friendly list of every super and one-step command",
+      "read_when": "bootstrap_session_start",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "docs/help/UPGRADE.md",
+      "purpose": "Child-repo template catch-up recipe (Plan only; other IDEs)",
+      "read_when": "template_upgrade",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": "docs/BATCH_COMMANDS.md",
-      "purpose": "Agent registry for 26 batch slash commands and super chains",
+      "purpose": "Agent registry for 34 batch slash commands and super chains",
       "read_when": "prompt_needed",
       "update_when": "milestone_boundary",
       "owner": "maintainer"
@@ -638,6 +655,20 @@
       "owner": "maintainer"
     },
     {
+      "path": "docs/help/ALLIDEAS.md",
+      "purpose": "Tool-agnostic uncapped in-scope backlog dump",
+      "read_when": "prompt_needed",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": ".cursor/commands/allideas.md",
+      "purpose": "Cursor /allideas slash command (uncapped dump, do not implement until asked)",
+      "read_when": "prompt_needed",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": "SUPPORT.md",
       "purpose": "Questions vs bugs vs vulns vs template improvements",
       "read_when": "prompt_needed",
@@ -785,6 +816,27 @@
       "owner": "maintainer"
     },
     {
+      "path": "schemas/golden-path/upgrade-policy.json",
+      "purpose": "Canon/Mixed/Sacred path globs for child /upgrade gap reports",
+      "read_when": "template_upgrade",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "schemas/golden-path/feature-catalog.json",
+      "purpose": "Stack-filtered Golden Path feature detect globs for /upgrade",
+      "read_when": "template_upgrade",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "schemas/batch-commands-print.json",
+      "purpose": "Novice captions for the print cheat sheet renderer",
+      "read_when": "validation",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": "SECURITY.md",
       "purpose": "Vulnerability reporting policy and supported versions",
       "read_when": "security_report",
@@ -883,8 +935,15 @@
       "owner": "maintainer"
     },
     {
+      "path": "scripts/check-pre-commit-hooks.sh",
+      "purpose": "Require a local commit-msg hook; skip in CI",
+      "read_when": "bootstrap_session_start",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": ".github/workflows/dependency-review.yml",
-      "purpose": "PR dependency review — fail on new High/Critical vulnerabilities",
+      "purpose": "PR dependency review \u2014 fail on new High/Critical vulnerabilities",
       "read_when": "contributing",
       "update_when": "milestone_boundary",
       "owner": "maintainer"
@@ -1429,6 +1488,41 @@
       "owner": "human+agent"
     },
     {
+      "path": "schemas/golden-path/donations.schema.json",
+      "purpose": "Shared donations.json contract for Golden Path stacks",
+      "read_when": "feature_work",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "schemas/golden-path/crash-report.schema.json",
+      "purpose": "Shared pending crash payload contract for Golden Path stacks",
+      "read_when": "feature_work",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "schemas/golden-path/sanitize-fixtures.json",
+      "purpose": "Shared web/Android crash sanitizer fixtures",
+      "read_when": "feature_work",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "schemas/golden-path/i18n-parity.allowlist.json",
+      "purpose": "Web/Android i18n key aliases and platform-only names",
+      "read_when": "feature_work",
+      "update_when": "feature_work",
+      "owner": "maintainer"
+    },
+    {
+      "path": "schemas/golden-path/app-update.schema.json",
+      "purpose": "Shared app-update.json contract for Golden Path stacks",
+      "read_when": "feature_work",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": ".gitattributes",
       "purpose": "Line endings, binary files, linguist-generated markers",
       "read_when": "contributing",
@@ -1549,7 +1643,7 @@
     },
     {
       "path": "scripts/run-codex-review.sh",
-      "purpose": "Local Codex CLI review → CODE_REVIEW.md",
+      "purpose": "Local Codex CLI review \u2192 CODE_REVIEW.md",
       "read_when": "audit",
       "update_when": "milestone_boundary",
       "owner": "maintainer"
@@ -1577,7 +1671,7 @@
     },
     {
       "path": "scripts/watch-agent-gates.sh",
-      "purpose": "Gate loop with autofix, progress tracking, 3-strike escalation",
+      "purpose": "Gate loop with autofix; --scope auto dirty stacks, --scope full all stacks",
       "read_when": "milestone_boundary",
       "update_when": "milestone_boundary",
       "owner": "maintainer"
@@ -1605,7 +1699,7 @@
     },
     {
       "path": "scripts/verify-about-feature-gate.sh",
-      "purpose": "About add/remove lego verification for feature-gate",
+      "purpose": "About add/remove lego verification for web plus rust/go/node/python",
       "read_when": "milestone_boundary",
       "update_when": "milestone_boundary",
       "owner": "maintainer"
@@ -1751,6 +1845,69 @@
       "owner": "human+agent"
     },
     {
+      "path": "schemas/features/feature-spec.schema.json",
+      "purpose": "JSON Schema for the feature spec heading contract",
+      "read_when": "feature_work",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "schemas/features/feature-spec.contract.json",
+      "purpose": "Required Tests and Fallback validation headings for docs/features",
+      "read_when": "feature_work",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-token-contrast.sh",
+      "purpose": "Gate: WCAG 2.2 contrast for design-token color pairs",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/lib/token_contrast.py",
+      "purpose": "Relative-luminance contrast ratios for design-tokens.json",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-i18n-parity.sh",
+      "purpose": "Gate: web locale keys map to Android strings.xml names",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/lib/i18n_parity.py",
+      "purpose": "Compare examples/web locales to Android strings.xml",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-feature-specs.sh",
+      "purpose": "Gate: feature specs name tests or a fallback validation command",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/lib/feature_spec.py",
+      "purpose": "Parse docs/features/*.md against the feature-spec contract",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/lib/about_lego_cli.py",
+      "purpose": "Backup/strip/restore rust/go/node/python About slices for verify-about-feature-gate",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": "docs/features/_handoff.md",
       "purpose": "Parallel-agent handoff stub (from/to, scope, acceptance); live copies gitignored",
       "read_when": "feature_work",
@@ -1824,6 +1981,13 @@
       "path": "scripts/check-template-updates.sh",
       "purpose": "Poll upstream template for updates",
       "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-template-gaps.sh",
+      "purpose": "Classify template vs child gaps (Plan-only JSON; Sacred never apply)",
+      "read_when": "template_upgrade",
       "update_when": "milestone_boundary",
       "owner": "maintainer"
     },
@@ -1903,6 +2067,132 @@
       "read_when": "release",
       "update_when": "milestone_boundary",
       "owner": "maintainer"
+    },
+    {
+      "path": "scripts/install-commit-msg-hook.sh",
+      "purpose": "Best-effort local commit-msg hook install",
+      "read_when": "bootstrap_session_start",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/copy-sandbox-config.sh",
+      "purpose": "Copy sandbox.json.example to gitignored sandbox.json",
+      "read_when": "bootstrap_session_start",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/render-gates-status.sh",
+      "purpose": "Write /gates status markdown (and Canvas when available)",
+      "read_when": "bootstrap_session_start",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/wait-release-sbom.sh",
+      "purpose": "Poll GitHub Release for sbom.cyclonedx.json",
+      "read_when": "bootstrap_session_start",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/validate-winget-stub.sh",
+      "purpose": "Schema-check Winget manifest stub without submitting",
+      "read_when": "bootstrap_session_start",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/verify-lightroom.sh",
+      "purpose": "Lightroom Classic Lr* SDK namespace gate",
+      "read_when": "bootstrap_session_start",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-action-workflows.sh",
+      "purpose": "Gate: offline actionlint + zizmor on GitHub workflows",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-glossary-links.sh",
+      "purpose": "Gate: bold glossary jargon in START_HERE/TOUR links to GLOSSARY.md",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-hadolint.sh",
+      "purpose": "Gate: hadolint on .devcontainer/Dockerfile",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-md-yaml-lint.sh",
+      "purpose": "Gate: markdownlint + yamllint (non-blocking unless MDLINT_HARD)",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-openvex.sh",
+      "purpose": "Gate: OpenVEX example next to the release SBOM",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-psscriptanalyzer.sh",
+      "purpose": "Gate: PSScriptAnalyzer -Severity Error on scripts/*.ps1",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-reuse.sh",
+      "purpose": "Gate: REUSE/SPDX lint (skip if reuse CLI missing locally)",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-shellcheck.sh",
+      "purpose": "Gate: shellcheck -S error on scripts/*.sh",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/compact-session-state.sh",
+      "purpose": "Merge Unreleased + HUMAN/ADB rows into session state (/compact)",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/gc-parallel-lock.sh",
+      "purpose": "Delete stale .cursor/parallel-scope-lock.json after /scope",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/gc-worktrees.sh",
+      "purpose": "Prune stale .cursor/worktrees/ from parallel-lock isolation",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/tour-verify.sh",
+      "purpose": "/tour: run verify.sh --quick and print the first failure",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
     }
   ],
   "modules": {
@@ -1943,7 +2233,7 @@
     }
   },
   "roadmap": {
-    "active": "BUILD_PLAN.md — maintenance + human open items",
+    "active": "BUILD_PLAN.md \u2014 M46 /allideas backlog + human leftovers",
     "completed_archive": "COMPLETED_TASKS.md",
     "batch_commands": [
       ".cursor/commands/audit.md",
@@ -1973,7 +2263,8 @@
       ".cursor/commands/verify.md",
       ".cursor/commands/build.md",
       ".cursor/commands/ship.md",
-      ".cursor/commands/maintain.md"
+      ".cursor/commands/maintain.md",
+      ".cursor/commands/allideas.md"
     ],
     "key_exemplars": [
       "examples/web/src/panelDialog.ts",

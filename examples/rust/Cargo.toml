@@ -5,6 +5,10 @@ edition = "2021"
 license = "MIT"
 description = "Golden Path Rust hello stub for agent-project-bootstrap"
 
+[lib]
+name = "hello"
+path = "src/lib.rs"
+
 [[bin]]
 name = "hello"
 path = "src/main.rs"

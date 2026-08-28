@@ -24,7 +24,7 @@
 - Payload must not include: email, name, user/device/advertising ids, IP, GPS, screenshots, logcat, cookies, tokens, `.env` values, or home-directory paths
 - Capture is off by default. The user reviews sanitized markdown, then taps Open GitHub or Copy
 - A self-hosted crash inbox (GlitchTip / Bugsink) is a child escape hatch only — do not enable without a DPIA
-- Anonymous intake (GitHub App proxy) is a named follow-up and needs a new DPIA before enable
+- Anonymous intake (GitHub App proxy) is a named follow-up — see [`CRASH_PROXY.md`](CRASH_PROXY.md) — and needs a new DPIA before enable
 
 ## Data We Do Not Collect
 

@@ -33,16 +33,17 @@ from pathlib import Path
 root = Path(sys.argv[1])
 sys.path.insert(0, str(root / "scripts" / "lib"))
 from agent_run_env import child_env
-from update_deps import release_please_dry_argv
-argv = release_please_dry_argv(os.environ["RELEASE_PLEASE_REPO_URL"])
+from update_deps import release_please_dry_argv, with_github_token
+argv = with_github_token(
+    release_please_dry_argv(os.environ["RELEASE_PLEASE_REPO_URL"]),
+    os.environ.get("GITHUB_TOKEN", ""),
+)
 env = child_env()
 token = os.environ.get("GITHUB_TOKEN", "")
 env["GITHUB_TOKEN"] = token
 env.pop("GH_TOKEN", None)
 resolved = shutil.which(argv[0], path=env.get("PATH"))
 cmd = [resolved, *argv[1:]] if resolved else argv
-if token:
-    cmd.extend(["--token", token])
 print("===", " ".join(argv), flush=True)
 code = subprocess.call(cmd, cwd=root, env=env)
 if code != 0:

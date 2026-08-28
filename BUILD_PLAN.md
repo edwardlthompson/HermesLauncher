@@ -55,7 +55,7 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 **Autonomous `/build`:** Runs all `[AGENT]`/`[AUTO]` and Parallel work first, then attempts the grouped **Human & device (after automation)** section via `scripts/attempt-build-plan-row.sh`. Success marks ✅; failure appends `HUMAN_BACKLOG.md` and continues — never halts on human labels. Humans review the grouped section (and backlog) after automation finishes. Status: `bash scripts/build-sprint-status.sh --json`.
 
-> **Template maintainer:** no active AGENT sprint — last ship **v0.25.0**. **Child repos:** copy the playbook.
+> **Template maintainer:** active AGENT sprint **M46** (`/allideas` backlog). Last ship **v0.25.0**. **Child repos:** copy the playbook.
 
 ---
 
@@ -63,12 +63,131 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 > **v0.25.0** archived in COMPLETED_TASKS.md @ `7670444`. **M43/M42** AGENT rows archived; HUMAN/ADB leftovers remain. **v0.24.0** archived in COMPLETED_TASKS.md @ `c0f0dee`. **M41** AGENT/AUTO archived in COMPLETED_TASKS.md. **v0.23.0** @ `b85cd74`. **M40** archived in `COMPLETED_TASKS.md`. **v0.22.0** @ `9a18276`. **M39** archived in `COMPLETED_TASKS.md`. **v0.21.0** @ `1525cd6`. **M38** archived in `COMPLETED_TASKS.md`. **Coach / M37 / M36** archived in `COMPLETED_TASKS.md`. **v0.20.0** @ `b570f07`. **v0.19.0** archived in `COMPLETED_TASKS.md` @ `2bef8ac`. **v0.18.3** archived in `COMPLETED_TASKS.md` @ `013e688`. **v0.18.2** archived in `COMPLETED_TASKS.md` @ `7d46e68`. **M35 HUMAN** (Scorecard + Dependabot + radar) archived in `COMPLETED_TASKS.md`. **v0.18.1** archived in `COMPLETED_TASKS.md` @ `fe80fea`. **M35** AGENT rows archived in `COMPLETED_TASKS.md`. **v0.18.0** archived in `COMPLETED_TASKS.md` @ `3f0b5a3`. **M34** (prior-art thin steals) archived in `COMPLETED_TASKS.md`. **v0.17.0** archived in `COMPLETED_TASKS.md` @ `701cd24`. **v0.16.0** @ `90ce3db`. **v0.15.2** archived in `COMPLETED_TASKS.md` @ `634d06d`. **v0.15.0** archived in `COMPLETED_TASKS.md` @ `2e010ae`. **M33** archived in `COMPLETED_TASKS.md` @ `5d2d129`. **v0.14.1** archived in `COMPLETED_TASKS.md` @ `a6c6be1`. **M32** archived in `COMPLETED_TASKS.md` @ `e532c20`. **M31** archived in `COMPLETED_TASKS.md` @ `cd21e5a`. **v0.14.0** @ `4b94298`. **v0.13.2** @ `ff8e4e6`. **M19–M30** archived in `COMPLETED_TASKS.md`. **M18** @ `d6b92a2`. **M30** @ `508a541`.
 
-> **M43/M42** AGENT archived in COMPLETED_TASKS.md @ `7670444`. **M41** archived in COMPLETED_TASKS.md @ `c0f0dee`.
+> **M46** `/allideas` backlog open. **M45** `/ideas` round 2 done. **M44** `/ideas` ship hygiene done. **M43/M42** AGENT archived in COMPLETED_TASKS.md @ `7670444`. **M41** archived in COMPLETED_TASKS.md @ `c0f0dee`.
+
+### M46 — /allideas command
+
+1. ✅ [AGENT] Ship `/allideas` (uncapped idea dump) + `docs/help/ALLIDEAS.md` + batch registry; `/build --lane auto` reads this board
+
+### M46 — /allideas template backlog
+
+> Source: 2026-08-27 uncapped dump. One Sequential `[AGENT]` row per `/build`/`/feature` cycle. Crash-proxy DPIA stays on M43 (do not duplicate). After P0 (rows 1–5), Golden Path rows may `/scope` by non-overlapping `examples/{stack}/` paths.
+
+#### Sequential — P0 ship honesty
+
+1. ✅ [AGENT] P0: Deny `git push --force` even when the session only approved `git push` (hooks + tests)
+2. ✅ [AGENT] P0: `resolve-tools.sh` adds `go` and `cargo` the same way as `gh` / `python`
+3. ✅ [AGENT] P0: `agent-run.py` never selects System32/`bash` (WSL1)
+4. ✅ [AGENT] P0: Upgrade simulation asserts Sacred files are never overwritten (child `AGENTS.md`)
+5. ✅ [AGENT] P0: Plugin pack `version` tracks `.template-version`
+
+#### Sequential — Golden Path parity
+
+6. ✅ [AGENT] P1: Shared About/crash/donate JSON schema + contract tests
+7. ✅ [AGENT] P1: Node Golden Path About + crash sanitize
+8. ✅ [AGENT] P1: Python Golden Path About + crash sanitize
+9. ✅ [AGENT] P1: Android vs web sanitizer fixture parity
+10. ✅ [AGENT] P1: `verify-about-feature-gate` for rust/go/node/python
+11. ✅ [AGENT] P1: Feature `_template.md` schema + fallback validation command
+12. ✅ [AGENT] P1: i18n key parity web ↔ Android
+13. ✅ [AGENT] P1: RTL + reduced-motion Playwright coverage
+14. ✅ [AGENT] P1: WCAG contrast check on design tokens
+15. ✅ [AGENT] P1: Keyboard-only e2e for About / Settings / Feedback
+16. ✅ [AGENT] P1: CSP + Referrer-Policy + Permissions-Policy on web
+17. ✅ [AGENT] P2: PWA share-target
+18. ✅ [AGENT] P2: UnifiedPush Android FOSS
+19. ✅ [AGENT] P2: Settings export/import as a file
+20. ✅ [AGENT] P2: Lightroom one real `Lr*` export
+
+#### Sequential — Agent UX
+
+21. ✅ [AGENT] P1: `/ideas` waits for confirmation (no silent `do all`)
+22. ✅ [AGENT] P1: `/build` refuses a second feature until gates pass
+23. ✅ [AGENT] P1: Gate JSON → `render-gates-status` after `watch-agent-gates`
+24. ✅ [AGENT] P1: Debug recipe uses `last-feature-gate.json` + 3-strike
+25. ✅ [AGENT] P1: `/fix` prints strike/stage first
+26. ✅ [AGENT] P1: Portability gate for command ↔ `docs/help` twins
+27. ✅ [AGENT] P1: `/coach` dirty-Unreleased vs empty-board
+28. ✅ [AGENT] P1: Session-start dirty Unreleased + next AGENT row
+29. ✅ [AGENT] P1: Copilot/Cline adapter byte-budget
+30. ✅ [AGENT] P1: `alwaysApply` rule audit
+31. ✅ [AGENT] P2: `/compact` writes Unreleased + HUMAN rows into session state
+32. ✅ [AGENT] P2: Parallel-lock GC
+33. ✅ [AGENT] P2: Worktree GC
+34. ✅ [AGENT] P2: `/tour` runs verify and interprets the first failure
+35. ✅ [AGENT] P2: Glossary term linter
+
+#### Sequential — Ship / CI
+
+36. ✅ [AGENT] P1: actionlint + zizmor in `validate-bootstrap --quick`
+37. ✅ [AGENT] P1: shellcheck all `scripts/*.sh`
+38. ✅ [AGENT] P1: PSScriptAnalyzer on `*.ps1`
+39. ✅ [AGENT] P2: hadolint
+40. ✅ [AGENT] P2: markdownlint + yamllint
+41. 🔲 [HUMAN] P2: Scorecard badge; keep `/ship --local` non-blocking on the live score
+42. ✅ [AGENT] P2: REUSE / SPDX
+43. ✅ [AGENT] P2: VEX with SBOM
+44. 🔲 [AGENT] P2: npm/uv attestation docs
+45. 🔲 [AGENT] P2: GitHub `settings.yml`
+46. 🔲 [AGENT] P2: Merge queue docs
+47. 🔲 [AGENT] P1: `/regress` fails if Pages has analytics
+48. 🔲 [AGENT] P1: README badge accuracy gate
+49. 🔲 [AGENT] P1: Release Please extra-files includes plugin.json version
+50. 🔲 [AGENT] P0: `/push` always runs Unreleased `--require-empty` before `git push`
+
+#### Sequential — Local compute
+
+51. 🔲 [AGENT] P1: Gradle `--offline` after first worktree success
+52. 🔲 [AGENT] P1: Playwright cache-hash skip
+53. 🔲 [AGENT] P1: depsonar Gradle apply with Kotlin cap
+54. 🔲 [AGENT] P2: upd dry-run canvas
+55. 🔲 [AGENT] P1: Per-stack feature-gate timeout
+56. 🔲 [AGENT] P2: Check-name manifest instead of content-hash cache
+57. 🔲 [AGENT] P2: Devcontainer Android cmdline-tools (no auto-license)
+58. 🔲 [AGENT] P2: Optional Nix flake wrapping existing scripts only (not a second generator CLI)
+
+#### Sequential — Security
+
+59. 🔲 [AGENT] P1: Prompt-injection fixtures for crash/feedback text
+60. 🔲 [AGENT] P1: Denylist unit tests for every line
+61. 🔲 [AGENT] P2: Auto-review fixtures
+62. 🔲 [AGENT] P2: Gitleaks baseline
+63. 🔲 [AGENT] P2: Semgrep FOSS
+64. 🔲 [AGENT] P1: `beforeMCPExecution` allowlist servers
+65. 🔲 [AGENT] P1: Crash payload allowlist tests on every sanitizing stack
+
+#### Sequential — Docs / community
+
+66. 🔲 [AGENT] P2: FIRST_30_DAYS from health JSON
+67. 🔲 [AGENT] P1: CONTRIBUTING agent edition
+68. 🔲 [AGENT] P1: Issue form for template-upgrade Sacred/Canon/Mixed
+69. 🔲 [AGENT] P2: Discussion template for `/ideas`
+70. 🔲 [AGENT] P2: `/adr` command
+71. 🔲 [AGENT] P2: Mermaid in generated README
+72. 🔲 [AGENT] P2: OG / social preview from tokens
+73. 🔲 [AGENT] P2: F-Droid screenshot dummy fail
+74. 🔲 [AGENT] P2: Winget publish runbook
+75. 🔲 [HUMAN] P2: CII Best Practices checklist (login + public badge)
+
+### M45 — /ideas round 2
+
+1. ✅ [AGENT] Health CI ignores Release Please branches; init installs commit-msg hook; `--quick` runs action-ref format; JSON writes stay LF
+2. ✅ [AGENT] `/gates` status script; worktree `resolve-python`; Gradle patch apply; SBOM wait; plugin-pack CI
+3. ✅ [AGENT] Rust/Go About + crash sanitize; F-Droid in Android feature-gate; Lightroom in stack waves
+4. ✅ [AGENT] Winget stub validate; crash-proxy docs (DPIA HUMAN); encoding strict opt-in; radar AGENT stub; sandbox copy; `--force` denylist test; citation date-only
+
+### M44 — /ideas ship hygiene
+
+1. ✅ [AGENT] Stop Release Please patch bumps for `docs`/`chore`; keep `[Unreleased]` first on the RP PR
+2. ✅ [AGENT] Skip worktree stack installs unless `ROOT_WORKTREE_PATH` is a different checkout
+3. ✅ [AGENT] Ignore `.cursor-session-state.json`; Gradle pins on `update-deps` dry-run; Dependency Review check on RP PRs
+4. ✅ [AGENT] `/gates` always reports via canvas skill; local `commit-msg` hook check (skip in CI)
 
 ### M43 leftovers (human/device)
 
 1. 🔲 [HUMAN] Optional: install Ollama and point Cursor Models at `http://127.0.0.1:11434/v1` (`docs/LOCAL_MODELS.md`)
-2. 🔲 [ADB] Optional: Android SDK licenses + first AVD (`/emulator` or `just android-instrumented`)
+2. 🔲 [HUMAN] Crash-proxy GitHub App: DPIA before enable (`docs/CRASH_PROXY.md`)
+3. 🔲 [ADB] Optional: Android SDK licenses + first AVD (`/emulator` or `just android-instrumented`)
 
 ### M42 leftovers (human only)
 

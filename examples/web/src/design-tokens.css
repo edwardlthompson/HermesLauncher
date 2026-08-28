@@ -1,5 +1,5 @@
 /* GENERATED — do not edit; run scripts/sync-design-tokens.py */
-/* source-hash: 2110b67bfb84 */
+/* source-hash: 091bb9f1760f */
 
 :root,
 [data-theme="light"] {
@@ -49,7 +49,7 @@
 }
 
 [data-theme="dark"] {
-  --gp-color-primary: #e94560;
+  --gp-color-primary: #D3304E;
   --gp-color-on-primary: #FFFFFF;
   --gp-color-primary-container: #8B1A35;
   --gp-color-on-primary-container: #FFDAD6;
@@ -142,7 +142,7 @@
 
 @media (prefers-color-scheme: dark) {
   [data-theme="system"] {
-  --gp-color-primary: #e94560;
+  --gp-color-primary: #D3304E;
   --gp-color-on-primary: #FFFFFF;
   --gp-color-primary-container: #8B1A35;
   --gp-color-on-primary-container: #FFDAD6;

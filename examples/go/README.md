@@ -1,6 +1,6 @@
 # Golden Path Go
 
-Minimal `hello` command stub for agent-project-bootstrap.
+Minimal `hello` command stub plus About (version + donate) and crash-text sanitizer (no PII, no network).
 
 ## Commands
 
@@ -9,6 +9,7 @@ gofmt -l .
 go vet ./...
 go test ./...
 go run .
+
 ```
 
 ## Module pinning

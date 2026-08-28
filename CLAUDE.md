@@ -11,7 +11,7 @@ Do not complete a feature task without corresponding tests, or an explicit justi
 ## Do
 
 - Follow BUILD_PLAN Sequential then Parallel
-- Run `python3 scripts/agent-run.py watch-agent-gates --once --autofix` after AGENT steps
+- Run `python3 scripts/agent-run.py watch-agent-gates --once --autofix --scope auto` after AGENT steps
 - Keep edits inside the active feature container
 
 ## Do not

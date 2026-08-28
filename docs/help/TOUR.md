@@ -8,9 +8,9 @@ Do not dump whole files. After each stop, pause for a question.
 
 Read [`docs/START_HERE.md`](../START_HERE.md).
 
-- Pick **Bootstrap** (new project from this template) or **Reference** (rules only).
+- Pick [**Bootstrap**](GLOSSARY.md) (new project from this template) or [**Reference**](GLOSSARY.md) (rules only).
 - This repo works in Cursor, Windsurf, Antigravity, Claude Code, Copilot, Gemini CLI, Aider, and Cline. The shared contract is [`AGENTS.md`](../../AGENTS.md). See [`docs/AGENT_PORTABILITY.md`](../AGENT_PORTABILITY.md).
-- Word list: [`GLOSSARY.md`](GLOSSARY.md) (Sacred, Canon, AGENT / HUMAN / ADB / AUTO, 🔲 status).
+- Word list: [`GLOSSARY.md`](GLOSSARY.md) ([**Sacred**](GLOSSARY.md), [**Canon**](GLOSSARY.md), [**AGENT**](GLOSSARY.md) / [**HUMAN**](GLOSSARY.md) / [**ADB**](GLOSSARY.md) / [**AUTO**](GLOSSARY.md), 🔲 status).
 
 **Paste prompt:** `Read docs/START_HERE.md and tell me which repo mode I am in.`
 
@@ -37,3 +37,16 @@ That folder is the runnable slice you copy for the next feature.
 Read [`docs/FIRST_30_DAYS.md`](../FIRST_30_DAYS.md) **Week 1 only**. Check off what you have already done.
 
 Later sessions: in Cursor type `/coach`. In any other tool, ask it to follow [`COACH.md`](COACH.md).
+
+## 5. First verify (2 min)
+
+Run the local harness (`verify.sh --quick`) and interpret only the first failure:
+
+```bash
+python3 scripts/agent-run.py tour-verify
+```
+
+- Pass: Week 1 gates are green. Next: [`COACH.md`](COACH.md).
+- Fail: quote the `Tour verify: first failure` block. Next: `/fix`, or `/debug` if strikes ≥ 3.
+
+**Paste prompt:** `Run python3 scripts/agent-run.py tour-verify and explain the first failure only.`

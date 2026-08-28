@@ -19,4 +19,12 @@ describe("createApp", () => {
     const res = await createApp().request("/greet");
     expect(await res.json()).toEqual({ message: "Hello, world!" });
   });
+
+  it("returns About payload", async () => {
+    const res = await createApp().request("/about");
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body).toMatchObject({ version: "0.1.0" });
+    expect(String(body.summary)).toContain("donate");
+  });
 });

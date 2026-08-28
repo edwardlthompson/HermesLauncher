@@ -50,7 +50,7 @@ Encourage `template_improvement` issues. Triage labels:
 
 - Why catalog: [`docs/BEST_PRACTICES.md`](BEST_PRACTICES.md). 30-day playbook: [`docs/FIRST_30_DAYS.md`](FIRST_30_DAYS.md). Slash command: `/coach`.
 - Root and Golden Path `justfile`s are optional DX. CI must keep calling `uv` / `npm` / `gradlew` / `scripts/verify.sh` directly.
-- Adding a slash command requires updating `scripts/check-batch-commands.sh` ATOMIC, `validate-bootstrap.sh` BATCH_COMMANDS, `.cursor/rules/batch-commands.mdc`, and both BATCH_COMMANDS docs.
+- Adding a slash command requires updating `scripts/check-batch-commands.sh` ATOMIC, `validate-bootstrap.sh` BATCH_COMMANDS, `.cursor/rules/batch-commands.mdc`, both BATCH_COMMANDS docs, `schemas/batch-commands-print.json` (then `python3 scripts/lib/batch_commands_print.py --write`), and a `docs/help/` twin.
 
 ## Regression
 

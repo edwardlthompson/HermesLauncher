@@ -6,7 +6,7 @@ One project law: **[`AGENTS.md`](../AGENTS.md)**. Every supported tool either re
 
 | Your tool | What it reads | What you type |
 |-----------|---------------|---------------|
-| Cursor | `AGENTS.md` + `.cursor/rules/main.mdc` | `/tour`, `/bootstrap`, or `/ideas` |
+| Cursor | `AGENTS.md` + `.cursor/rules/main.mdc` | `/tour`, `/bootstrap`, `/ideas`, or `/allideas` |
 | Windsurf | `AGENTS.md` + `.windsurf/rules/agents-pointer.md` | “Read `docs/help/TOUR.md` and walk me through it.” |
 | Antigravity / Gemini CLI | `AGENTS.md` + pointer-only `GEMINI.md` | Same `docs/help/TOUR.md` prompt |
 | Claude Code | `AGENTS.md` + `CLAUDE.md` | Same, or Claude’s `/` menu if you add a skill |
@@ -15,7 +15,7 @@ One project law: **[`AGENTS.md`](../AGENTS.md)**. Every supported tool either re
 | Cline / Roo | `AGENTS.md` + `.clinerules` | Same tour prompt |
 | Continue | `AGENTS.md` + `.continue/rules/agents.md` | Same tour prompt |
 | Codex / other AGENTS.md readers | `AGENTS.md` | Same tour prompt |
-Slash commands under `.cursor/commands/` are Cursor-native. The same recipes live in [`docs/help/`](help/) so any agent can follow them. Backlog: [`docs/help/IDEAS.md`](help/IDEAS.md).
+Slash commands under `.cursor/commands/` are Cursor-native. Portable twins (same recipe, any IDE): [`docs/help/TOUR.md`](help/TOUR.md), [`COACH.md`](help/COACH.md), [`IDEAS.md`](help/IDEAS.md), [`ALLIDEAS.md`](help/ALLIDEAS.md), [`DEBUG.md`](help/DEBUG.md). Ranked backlog: [`docs/help/IDEAS.md`](help/IDEAS.md). Complete dump: [`docs/help/ALLIDEAS.md`](help/ALLIDEAS.md). `scripts/check-batch-commands.sh` fails if a portable command is missing its twin.
 
 ## Edit once, re-sync
 

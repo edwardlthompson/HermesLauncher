@@ -26,3 +26,11 @@ def test_main_invalid_name_exits(capsys: pytest.CaptureFixture[str]) -> None:
             main()
     assert exc.value.code == 1
     assert "Error:" in capsys.readouterr().err
+
+
+def test_main_about(capsys: pytest.CaptureFixture[str]) -> None:
+    with patch.object(sys, "argv", ["hello", "--about"]):
+        main()
+    out = capsys.readouterr().out
+    assert "0.1.0" in out
+    assert "donate" in out
