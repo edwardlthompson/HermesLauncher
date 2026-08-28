@@ -809,6 +809,13 @@
       "owner": "maintainer"
     },
     {
+      "path": ".github/required-checks.json",
+      "purpose": "Named required GitHub checks (not a workflow content-hash cache)",
+      "read_when": "security_triage",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": "docs/LOCAL_MODELS.md",
       "purpose": "Local Ollama/LM Studio Cursor setup without cloud API keys",
       "read_when": "session_start",
@@ -2211,6 +2218,20 @@
     {
       "path": "scripts/check-playwright-cache.sh",
       "purpose": "Gate: CI skips Playwright --with-deps when lockfile cache hits",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-android-cmdline-tools.sh",
+      "purpose": "Gate: devcontainer Android cmdline-tools never auto-accept licenses",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/install-android-cmdline-tools.sh",
+      "purpose": "Download pinned Android cmdline-tools without accepting licenses",
       "read_when": "milestone_boundary",
       "update_when": "milestone_boundary",
       "owner": "maintainer"

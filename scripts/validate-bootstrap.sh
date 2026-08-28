@@ -180,7 +180,8 @@ if ! python3 scripts/lib/run_checks_parallel.py \
   check-merge-queue-docs.sh \
   check-pages-analytics.sh \
   check-readme-badges.sh \
-  check-playwright-cache.sh
+  check-playwright-cache.sh \
+  check-android-cmdline-tools.sh
 then
   ERRORS=$((ERRORS + 1))
 fi
