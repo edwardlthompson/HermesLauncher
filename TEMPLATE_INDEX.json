@@ -2279,6 +2279,20 @@
       "owner": "maintainer"
     },
     {
+      "path": "scripts/check-mcp-allowlist.sh",
+      "purpose": "Gate: beforeMCPExecution allowlists FOSS MCP servers",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": ".cursor/mcp-allowlist.json",
+      "purpose": "FOSS + built-in Cursor MCP server allowlist",
+      "read_when": "bootstrap_session_start",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": "flake.nix",
       "purpose": "Optional Nix apps wrapping verify/validate-bootstrap/feature-gate/update-deps",
       "read_when": "milestone_boundary",

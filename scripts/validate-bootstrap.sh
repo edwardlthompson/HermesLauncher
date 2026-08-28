@@ -185,7 +185,8 @@ if ! python3 scripts/lib/run_checks_parallel.py \
   check-nix-flake.sh \
   check-auto-review.sh \
   check-gitleaks-baseline.sh \
-  check-semgrep.sh
+  check-semgrep.sh \
+  check-mcp-allowlist.sh
 then
   ERRORS=$((ERRORS + 1))
 fi
