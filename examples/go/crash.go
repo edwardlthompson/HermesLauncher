@@ -28,3 +28,8 @@ func SanitizeCrashText(text string) string {
 	}
 	return strings.Join(lines, "\n")
 }
+
+// SanitizeCrashPayload keep only message and stack (schema allowlist).
+func SanitizeCrashPayload(message, stack string) (string, string) {
+	return SanitizeCrashText(message), SanitizeCrashText(stack)
+}

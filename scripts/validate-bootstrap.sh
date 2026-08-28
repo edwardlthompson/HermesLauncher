@@ -186,7 +186,8 @@ if ! python3 scripts/lib/run_checks_parallel.py \
   check-auto-review.sh \
   check-gitleaks-baseline.sh \
   check-semgrep.sh \
-  check-mcp-allowlist.sh
+  check-mcp-allowlist.sh \
+  check-crash-payload-allowlist.sh
 then
   ERRORS=$((ERRORS + 1))
 fi

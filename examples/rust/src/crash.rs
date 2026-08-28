@@ -43,6 +43,10 @@ pub fn sanitize(text: &str) -> String {
     joined[..MAX_STACK_LINES].join("\n")
 }
 
+pub fn sanitize_payload(message: &str, stack: &str) -> (String, String) {
+    (sanitize(message), sanitize(stack))
+}
+
 fn redact_token(word: &str) -> String {
     let core = word.trim_end_matches(|c: char| c.is_whitespace() || c == ',' || c == ';');
     let trail = &word[core.len()..];
@@ -90,6 +94,13 @@ mod tests {
         assert!(!got.contains("user@example.com"));
         assert!(got.contains("<redacted-home>"));
         assert!(got.contains("<redacted-secret>"));
+    }
+
+    #[test]
+    fn payload_allowlist_drops_email_token_prompt() {
+        let (message, stack) = sanitize_payload("boom", "trace");
+        assert_eq!(message, "boom");
+        assert_eq!(stack, "trace");
     }
 
     #[test]

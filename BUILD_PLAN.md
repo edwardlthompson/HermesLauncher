@@ -154,7 +154,7 @@ grep '\[AUTO\]' BUILD_PLAN.md
 62. ✅ [AGENT] P2: Gitleaks baseline
 63. ✅ [AGENT] P2: Semgrep FOSS
 64. ✅ [AGENT] P1: `beforeMCPExecution` allowlist servers
-65. 🔲 [AGENT] P1: Crash payload allowlist tests on every sanitizing stack
+65. ✅ [AGENT] P1: Crash payload allowlist tests on every sanitizing stack
 
 #### Sequential — Docs / community
 

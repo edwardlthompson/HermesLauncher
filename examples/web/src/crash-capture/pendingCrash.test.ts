@@ -1,5 +1,10 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { onSaveCrashesChanged, persistPendingCrash, readPendingCrash } from "./pendingCrash";
+import {
+  onSaveCrashesChanged,
+  persistPendingCrash,
+  readPendingCrash,
+  sanitizeCrashPayload,
+} from "./pendingCrash";
 
 describe("pendingCrash", () => {
   beforeEach(() => {
@@ -15,6 +20,18 @@ describe("pendingCrash", () => {
     const read = readPendingCrash();
     expect(read?.message).not.toContain("ghp_");
     expect(read?.stack).not.toContain("Ada");
+  });
+
+  it("drops email token prompt extras from the payload allowlist", () => {
+    const got = sanitizeCrashPayload({
+      message: "e",
+      stack: "s",
+      email: "keep-out",
+      token: "keep-out",
+      prompt: "keep-out",
+    });
+    expect(Object.keys(got).sort()).toEqual(["message", "stack"]);
+    expect(JSON.stringify(got)).not.toContain("keep-out");
   });
 
   it("does not write localStorage unless saveLocal", () => {

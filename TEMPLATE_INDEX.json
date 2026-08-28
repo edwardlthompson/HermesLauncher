@@ -2293,6 +2293,20 @@
       "owner": "maintainer"
     },
     {
+      "path": "scripts/check-crash-payload-allowlist.sh",
+      "purpose": "Gate: crash payload allowlist tests exist on every sanitizing stack",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "schemas/golden-path/crash-payload-allowlist.json",
+      "purpose": "Allowed crash JSON keys (message, stack) vs rejected extras",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": "flake.nix",
       "purpose": "Optional Nix apps wrapping verify/validate-bootstrap/feature-gate/update-deps",
       "read_when": "milestone_boundary",

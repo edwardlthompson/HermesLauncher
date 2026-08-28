@@ -15,12 +15,12 @@ export function sanitizeCrashText(text: string): string {
   return out.split("\n").slice(0, MAX_STACK_LINES).join("\n");
 }
 
-export function sanitizeCrashPayload(raw: { message: string; stack: string }): {
+export function sanitizeCrashPayload(raw: Record<string, unknown>): {
   message: string;
   stack: string;
 } {
   return {
-    message: sanitizeCrashText(raw.message),
-    stack: sanitizeCrashText(raw.stack),
+    message: sanitizeCrashText(String(raw.message ?? "")),
+    stack: sanitizeCrashText(String(raw.stack ?? "")),
   };
 }

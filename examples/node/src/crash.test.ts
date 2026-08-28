@@ -29,9 +29,13 @@ describe("sanitizeCrashText", () => {
     const got = sanitizeCrashPayload({
       message: "boom user@example.com",
       stack: String.raw`at C:\Users\ada\x.ts`,
+      email: "keep-out",
+      token: "keep-out",
+      prompt: "keep-out",
     });
+    expect(Object.keys(got).sort()).toEqual(["message", "stack"]);
     expect(got.message).toContain("<redacted-email>");
     expect(got.stack).toContain("<redacted-home>");
-    expect(got).not.toHaveProperty("email");
+    expect(JSON.stringify(got)).not.toContain("keep-out");
   });
 });

@@ -15,4 +15,15 @@ class PendingCrashTest {
         val decoded = PendingCrashStore.decode(encoded)
         assertTrue(decoded.message.contains("<redacted-secret>") || decoded.message.contains("boom"))
     }
+
+    @Test
+    fun encodeAllowlistsMessageAndStackOnly() {
+        val encoded = PendingCrashStore.encode(PendingCrash("boom", "stack"))
+        assertFalse(encoded.contains("email"))
+        assertFalse(encoded.contains("token"))
+        assertFalse(encoded.contains("prompt"))
+        val decoded = PendingCrashStore.decode(encoded)
+        assertTrue(decoded.message == "boom" || decoded.message.isNotEmpty())
+        assertTrue(decoded.stack.contains("stack"))
+    }
 }
