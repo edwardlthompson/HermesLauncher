@@ -61,7 +61,7 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 ## Template Maintainer — Active Board
 
-> **M46** AGENT/AUTO archived in COMPLETED_TASKS.md @ `6229822`. Closed HUMAN leftovers archived in COMPLETED_TASKS.md. Still open: CII login, optional Ollama, Android SDK licenses. **M45** and **M44** archived in COMPLETED_TASKS.md. **v0.25.0** archived in COMPLETED_TASKS.md @ `7670444`. **v0.24.0** archived in COMPLETED_TASKS.md @ `c0f0dee`.
+> **M46** AGENT/AUTO archived in COMPLETED_TASKS.md @ `6229822`. Closed HUMAN leftovers archived in COMPLETED_TASKS.md @ `c61d249`. Still open: CII login, optional Ollama, Android SDK licenses. **M45** and **M44** archived in COMPLETED_TASKS.md. **v0.25.0** archived in COMPLETED_TASKS.md @ `7670444`. **v0.24.0** archived in COMPLETED_TASKS.md @ `c0f0dee`.
 
 ### M46 leftovers (human only)
 
@@ -202,7 +202,7 @@ When **Sprint 0** ends: stop re-reading `docs/INITIALIZATION_PROMPT.md` as the d
 
 | Sprint                                                            | Status   | Archive                          |
 | ----------------------------------------------------------------- | -------- | -------------------------------- |
-| HUMAN leftover automation                                         | Complete | `COMPLETED_TASKS.md`             |
+| HUMAN leftover automation                                         | Complete | `COMPLETED_TASKS.md` @ `c61d249` |
 | M46 — /allideas template backlog                                  | Complete | `COMPLETED_TASKS.md` @ `6229822` |
 | M45 — /ideas round 2                                             | Complete | `COMPLETED_TASKS.md`             |
 | M44 — /ideas ship hygiene                                        | Complete | `COMPLETED_TASKS.md`             |
