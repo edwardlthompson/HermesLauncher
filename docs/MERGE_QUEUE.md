@@ -6,7 +6,7 @@ This template does **not** turn on a merge queue. Classic branch protection plus
 
 Use a merge queue when several PRs target `main` at once and you need each to re-run required checks on a temporary merge commit before it lands. Personal repos and quiet template traffic do not need it.
 
-Required check names must stay the same as [`.github/settings.yml`](../.github/settings.yml) / `verify-branch-protection.sh`:
+Required check names come from [`.github/required-checks.json`](../.github/required-checks.json) (a name manifest, not a workflow content-hash cache) and must stay the same as [`.github/settings.yml`](../.github/settings.yml) / `verify-branch-protection.sh`:
 
 - CI
 - Security Scan

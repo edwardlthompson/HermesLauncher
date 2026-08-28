@@ -803,7 +803,7 @@
     },
     {
       "path": "docs/MERGE_QUEUE.md",
-      "purpose": "Optional GitHub merge queue; required checks stay in settings.yml",
+      "purpose": "Optional GitHub merge queue; required checks stay in required-checks.json",
       "read_when": "security_triage",
       "update_when": "milestone_boundary",
       "owner": "maintainer"

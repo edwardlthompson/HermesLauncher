@@ -1,5 +1,6 @@
 # Desired GitHub repo settings (documentation + optional Settings GitHub App).
 # Live apply on FOSS path: bash scripts/setup-github-repo.sh
+# Required check *names* live in .github/required-checks.json (not a workflow content hash).
 # Optional: install https://github.com/apps/settings and keep this file in sync.
 # Merge queue stays off by default: docs/MERGE_QUEUE.md
 repository:

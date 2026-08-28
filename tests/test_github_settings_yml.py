@@ -9,7 +9,8 @@ LIB = Path(__file__).resolve().parent.parent / "scripts" / "lib"
 if str(LIB) not in sys.path:
     sys.path.insert(0, str(LIB))
 
-from github_settings_yml import CHECKS, check_repo  # noqa: E402
+from github_settings_yml import check_repo  # noqa: E402
+from required_checks import load_names  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -19,9 +20,16 @@ class GithubSettingsYmlTests(unittest.TestCase):
         self.assertEqual(check_repo(ROOT), [])
 
     def test_setup_script_lists_same_checks(self) -> None:
+        names = load_names(ROOT)
+        self.assertTrue(names)
         setup = (ROOT / "scripts" / "setup-github-repo.sh").read_text(encoding="utf-8")
-        for name in CHECKS:
-            self.assertIn(name, setup)
+        self.assertIn("required_checks.py", setup)
+        verify = (ROOT / "scripts" / "verify-branch-protection.sh").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("required_checks.py", verify)
+        for name in names:
+            self.assertIn(name, (ROOT / ".github" / "settings.yml").read_text(encoding="utf-8"))
 
 
 if __name__ == "__main__":

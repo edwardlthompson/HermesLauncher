@@ -30,7 +30,7 @@ BRANCH="${GITHUB_DEFAULT_BRANCH:-main}"
 if [ -n "${GITHUB_REQUIRED_CHECKS:-}" ]; then
   IFS=',' read -ra REQUIRED_CHECKS <<< "$GITHUB_REQUIRED_CHECKS"
 else
-  REQUIRED_CHECKS=("CI" "Security Scan" "CodeQL" "Repo Hygiene" "Feature Gate" "Template Upgrade Simulation (Windows)")
+  mapfile -t REQUIRED_CHECKS < <("$PY" "$ROOT/scripts/lib/required_checks.py")
 fi
 TRANSIENT=0
 FAILED=0

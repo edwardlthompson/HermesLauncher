@@ -10,6 +10,7 @@ REQUIRED = (
     "Template Upgrade Simulation (Windows)",
     "setup-github-repo.sh",
     ".github/settings.yml",
+    ".github/required-checks.json",
 )
 
 
