@@ -347,6 +347,20 @@
       "owner": "maintainer"
     },
     {
+      "path": ".github/ISSUE_TEMPLATE/template_upgrade.yml",
+      "purpose": "Issue form to classify template-upgrade paths as Sacred/Canon/Mixed",
+      "read_when": "prompt_needed",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-template-upgrade-form.sh",
+      "purpose": "Gate: template-upgrade issue form lists Sacred/Canon/Mixed",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": ".cursor/commands/coach.md",
       "purpose": "Coach slash command: health + next action + why",
       "read_when": "prompt_needed",
