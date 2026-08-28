@@ -32,6 +32,7 @@ When the session runs on **This Computer** (local IDE / local CLI), maximize the
 
 - `BOOTSTRAP_CHECK_JOBS` — override parallel bootstrap check workers (default: RAM-capped CPU count)
 - `FEATURE_GATE_JOBS` — override parallel feature-gate stack slots (CI caps at 2; Android weight 2). Use `1` on low-RAM machines
+- `FEATURE_GATE_TIMEOUT` — global seconds cap per feature-gate command; or `FEATURE_GATE_TIMEOUT_{WEB,PYTHON,ANDROID,NODE,RUST,GO,LIGHTROOM,DOCS}`
 - `FEATURE_GATE_SCOPE=auto|full` — `/build` `/feature` `/fix` pass `--scope auto` (dirty stacks vs `HEAD`). `/gates` and `/prerelease` stay full. Escape hatch: `--scope full`
 - `FEATURE_GATE_ONLY=web,node` — parent multi-stack subset (used by scoped autofix retries)
 - `VITEST_MAX_WORKERS` — escape hatch if Golden Path vitest races (default 50%)

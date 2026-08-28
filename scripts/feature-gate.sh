@@ -190,8 +190,24 @@ skip_or_block() {
 run_cmd() {
   local stage="$1"
   shift
-  local logfile
+  local logfile secs rc
   logfile="$(mktemp)"
+  secs="$("$PY" "$ROOT/scripts/lib/feature_gate_timeout.py" --stage "$stage" 2>/dev/null || echo 180)"
+  if command -v timeout >/dev/null 2>&1; then
+    set +e
+    timeout --signal=TERM "$secs" "$@" >"$logfile" 2>&1
+    rc=$?
+    set -e
+    if [ "$rc" -eq 0 ]; then
+      GATES_PASSED+=("$stage")
+      rm -f "$logfile"
+      return 0
+    fi
+    if [ "$rc" -eq 124 ]; then
+      fail_gate "$stage" "timeout after ${secs}s (FEATURE_GATE_TIMEOUT / FEATURE_GATE_TIMEOUT_${stage%%-*})"
+    fi
+    fail_gate "$stage" "$(tail -n 40 "$logfile")"
+  fi
   if "$@" >"$logfile" 2>&1; then
     GATES_PASSED+=("$stage")
     rm -f "$logfile"
