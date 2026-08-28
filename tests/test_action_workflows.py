@@ -38,6 +38,18 @@ class ActionWorkflowsTests(unittest.TestCase):
         self.assertIn("actionlint", ci)
         self.assertIn("zizmor", ci)
 
+    def test_actionlint_argv_omits_bare_never(self) -> None:
+        seen: list[list[str]] = []
+
+        def runner(cmd: list[str], _cwd: Path) -> tuple[int, str]:
+            seen.append(cmd)
+            return 0, ""
+
+        code = check_action_workflows(ROOT, which=lambda name: name, runner=runner)
+        self.assertEqual(code, 0)
+        lint = next(cmd for cmd in seen if cmd and cmd[0] == "actionlint")
+        self.assertNotIn("never", lint)
+
 
 if __name__ == "__main__":
     unittest.main()

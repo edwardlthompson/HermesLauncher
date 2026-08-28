@@ -60,7 +60,8 @@ def check_action_workflows(
         return 0
     failed = 0
     if actionlint:
-        code, out = runner([actionlint, "-color", "never", *map(str, files)], root)
+        # actionlint treats a bare "never" as a workflow path; omit -color.
+        code, out = runner([actionlint, *map(str, files)], root)
         if out.strip():
             print(out.rstrip())
         if code != 0:
