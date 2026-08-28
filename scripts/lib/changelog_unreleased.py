@@ -87,7 +87,7 @@ def check(path: Path, *, require_empty: bool = False) -> list[str]:
     if not unreleased_is_first(text):
         errors.append("## [Unreleased] must be the first version heading")
     if require_empty and not unreleased_is_empty(text):
-        errors.append("## [Unreleased] must be empty before Release Please merge")
+        errors.append("## [Unreleased] must be empty before git push or Release Please merge")
     return errors
 
 

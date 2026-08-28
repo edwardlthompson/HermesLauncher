@@ -63,3 +63,15 @@ class ChangelogUnreleasedTests(unittest.TestCase):
             path.write_text(text, encoding="utf-8")
             self.assertEqual(fold(path), "")
             self.assertEqual(check(path, require_empty=True), [])
+
+    def test_push_command_requires_empty_before_git_push(self) -> None:
+        root = Path(__file__).resolve().parent.parent
+        push = (root / ".cursor" / "commands" / "push.md").read_text(encoding="utf-8")
+        step3 = push.split("## Step 3", 1)[1]
+        require_at = step3.index("--require-empty")
+        push_at = step3.index("git push origin main")
+        self.assertLess(require_at, push_at)
+        wrapper = (root / "scripts" / "check-changelog-unreleased.sh").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn('"$@"', wrapper)
