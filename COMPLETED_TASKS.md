@@ -2,6 +2,14 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## HUMAN leftover automation (2026-08-28)
+
+- ✅ [HUMAN] P2: Scorecard badge; keep `/ship --local` non-blocking on the live score
+- ✅ [HUMAN] Crash-proxy GitHub App: DPIA before enable (`docs/CRASH_PROXY.md`)
+- ✅ [HUMAN] Optional: copy `.cursor/mcp.foss.example` → `.cursor/mcp.json` and restart Cursor
+- ✅ [HUMAN] Optional: reduce Dependabot interval or disable automerge
+- ✅ [HUMAN] Watch repo Issues + add CODEOWNERS as collaborator; optional About smoke
+
 ## Sprint M46 — /allideas template backlog (2026-08-28)
 
 - ✅ [AGENT] Ship `/allideas` (uncapped idea dump) + `docs/help/ALLIDEAS.md` + batch registry; `/build --lane auto` reads this board

@@ -44,6 +44,7 @@ FOSS coding-agent bootstrap template: labeled BUILD_PLAN sprints, Golden Path ex
 
 ## Session Retrospectives
 
+| 2026-08-28 | /cleanup HUMAN leftovers | Archived 5 script-closed HUMAN rows; CII, Ollama, Android SDK stay 🔲 | Recurring weekly AUTO stays 🔲 |
 | 2026-08-28 | HUMAN leftover automation | Scripts close Scorecard, crash-proxy-off, mcp.json copy, weekly Dependabot, CODEOWNERS | CII login, Ollama install, and Android licenses stay HUMAN/ADB |
 | 2026-08-28 | /cleanup M46 | Archived M46/M45/M44 AGENT rows; HUMAN leftovers (Scorecard, CII) stay on the board | Recurring weekly AUTO stays 🔲; do not archive Child Playbook templates |
 | 2026-08-28 | /build Slack | `--lane auto` on this template; next AGENT is M46-44+ after merge with PC M46 board | Do not run child Sprint 0 init-project on this repo |
