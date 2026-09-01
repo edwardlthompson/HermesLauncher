@@ -4,11 +4,10 @@
 > Walk this with `/coach` or `/tour` (`docs/help/TOUR.md` in other IDEs). Industry **why** lives in [`BEST_PRACTICES.md`](BEST_PRACTICES.md).
 
 <!-- bootstrap-project-card -->
-**Product:** agent-project-bootstrap
-**Purpose:** GitHub Template for FOSS coding-agent projects
-**Stack:** multi
+**Product:** Hermes Launcher
+**Purpose:** FOSS home-screen inbox for notifications, news, and podcasts
+**Stack:** android
 <!-- /bootstrap-project-card -->
-
 ## Week 1 — Make it yours
 
 - 🔲 Run `scripts/init-project.sh` (or `.ps1`) if you have not already

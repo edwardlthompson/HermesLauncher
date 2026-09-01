@@ -124,7 +124,7 @@ if [ -d examples/web ]; then
 fi
 if [ -d examples/android ]; then
   REQUIRED_OUTPUTS+=(
-    examples/android/app/src/main/java/dev/foss/goldenpath/ui/theme/Color.kt
+    examples/android/app/src/main/java/org/hermeslauncher/app/ui/theme/Color.kt
     examples/android/app/src/main/res/drawable/ic_brand_mark.xml
   )
 fi

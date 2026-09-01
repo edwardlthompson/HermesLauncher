@@ -6,8 +6,14 @@
 
 | Data | Purpose | Lawful Basis | Retention |
 |------|---------|--------------|-----------|
-| App settings (theme, save-crashes toggle) | Feature functionality | Legitimate interest | Until the user clears app data |
+| App settings (theme, save-crashes toggle, feed prefs) | Feature functionality | Legitimate interest | Until the user clears app data |
+| Notification metadata and, if granted, content + images | Local inbox / vault | Consent (notification access + per-app store toggles) | Until the user archives, wipes, or uninstalls |
+| Installed-app labels/icons | App drawer, dock, search | Legitimate interest (launcher) | Until the package is uninstalled |
 | Crash / bug / feature report (opt-in, user-reviewed) | Debugging and product planning | Consent | GitHub issue retention; app keeps at most one pending crash |
+
+Notification bodies and images are stored **only** for packages the user has granted store-content / store-images. Revoking a grant stops new writes. Shade dismissal does not delete vault rows.
+
+`QUERY_ALL_PACKAGES` is required so a launcher can list user-installed apps. It is not used to upload an app inventory.
 ## App update checks
 
 - Release endpoint: GitHub Releases API (`/repos/OWNER/REPO/releases/latest`), once per 24 hours

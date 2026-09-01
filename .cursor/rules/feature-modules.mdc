@@ -9,7 +9,7 @@ alwaysApply: true
 
 - **One feature per agent task** — no batching multiple BUILD_PLAN feature rows
 - **Vertical slice** — logic, view, tests, i18n in one container folder
-- **Thin wiring** — composition root (`appBootstrap.ts` / `main.ts`, `GoldenPathApp.kt` / `MainActivity`) ≤10 lines per feature
+- **Thin wiring** — composition root (`appBootstrap.ts` / `main.ts`, `HermesApp.kt` / `MainActivity`) ≤10 lines per feature
 - **Sequential before Parallel** — after scaffold step 2, parallel agents may run on **non-overlapping** scopes; orchestrator owns BUILD_PLAN + merge
 
 ## After every AGENT step

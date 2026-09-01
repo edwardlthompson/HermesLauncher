@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Golden Path</string>
-    <string name="app_title">Golden Path</string>
-    <string name="app_greeting">Hello, FOSS!</string>
-    <string name="app_status_online">Online — Golden Path PWA stub</string>
-    <string name="app_status_offline">Offline — Golden Path PWA stub</string>
+    <string name="app_name">Hermes Launcher</string>
+    <string name="app_title">Hermes Launcher</string>
+    <string name="app_greeting">Your notifications, news, and podcasts — as home.</string>
+    <string name="app_status_online">Online</string>
+    <string name="app_status_offline">Offline</string>
+    <string name="launcher_feed_placeholder">Inbox page — notifications will appear here</string>
+    <string name="launcher_widget_page_placeholder">Widget page %1$d — add widgets later</string>
+    <string name="launcher_dock_label">Dock</string>
+    <string name="launcher_drawer_open">Open app drawer</string>
+    <string name="launcher_drawer_title">Apps</string>
+    <string name="launcher_drawer_close">Close app drawer</string>
+    <string name="launcher_page_feed">Inbox</string>
+    <string name="launcher_page_widgets">Widgets</string>
     <string name="theme_toggle_label">Switch theme</string>
     <string name="theme_mode_system">System theme</string>
     <string name="theme_mode_light">Light theme</string>

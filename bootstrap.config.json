@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "project_name": "agent-project-bootstrap",
-  "purpose": "GitHub Template for FOSS coding-agent projects",
-  "stack": "multi",
+  "project_name": "Hermes Launcher",
+  "purpose": "FOSS home-screen inbox for notifications, news, and podcasts",
+  "stack": "android",
   "license": "MIT",
   "distribution_tier": "foss",
   "agent_adapters": {
@@ -29,5 +29,8 @@
     "post_install_deps": false,
     "post_run_tests": false,
     "post_welcome_issue": false
+  },
+  "crash_proxy": {
+    "enabled": false
   }
 }

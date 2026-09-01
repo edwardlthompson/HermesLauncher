@@ -10,30 +10,6 @@ updates:
       github-actions:
         patterns: ["*"]
 
-  - package-ecosystem: npm
-    directory: /examples/web
-    schedule:
-      interval: weekly
-    groups:
-      web-dependencies:
-        patterns: ["*"]
-
-  - package-ecosystem: npm
-    directory: /examples/node
-    schedule:
-      interval: weekly
-    groups:
-      node-dependencies:
-        patterns: ["*"]
-
-  - package-ecosystem: pip
-    directory: /examples/python
-    schedule:
-      interval: weekly
-    groups:
-      python-dependencies:
-        patterns: ["*"]
-
   - package-ecosystem: gradle
     directory: /examples/android
     schedule:

@@ -48,7 +48,7 @@ Print **agent_count** in one line for the user. Recommend `agent_count = min(8, 
 Use **`.cursor/agents/gate-fixer.md`** (or Task with matching prompt). Each subagent must receive:
 
 - Read `.cursor/parallel-scope-lock.json` — stay inside assigned `scope` only.
-- **Forbidden paths:** `BUILD_PLAN.md`, `COMPLETED_TASKS.md`, composition roots (`appBootstrap.ts`, `GoldenPathApp.kt`, `main.ts`). Do not edit these; return notes to orchestrator instead.
+- **Forbidden paths:** `BUILD_PLAN.md`, `COMPLETED_TASKS.md`, composition roots (`appBootstrap.ts`, `HermesApp.kt`, `main.ts`). Do not edit these; return notes to orchestrator instead.
 - Optional: copy `docs/features/_handoff.md` → gitignored `.cursor/handoff-<scope>.md` (from/to, scope, acceptance). Do not edit BUILD_PLAN.
 - Branch: `feature/agent-<task-slug>` (document in commit messages if branch not checked out).
 - Task: BUILD_PLAN Parallel row description.

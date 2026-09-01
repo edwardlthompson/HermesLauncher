@@ -8,7 +8,7 @@
 |------|-------|----------------|---------|
 | **Static data** | 300 lines | UI markup/adapters (TSX/JSX/Vue, web `components/*.ts`, Android `ui/*.kt`) + i18n (`locales/*.json`, `res/values*/strings.xml`) | Declarative content can run longer than algorithmic code |
 | **Pure logic** | 150 lines | Feature logic under `examples/` (`.ts`, `.py`, `.kt` excluding tests, UI, and wiring entrypoints) | Keep domain rules small, testable, and agent-readable |
-| **Wiring** | 10 lines/feature | Composition roots (`appBootstrap.ts`, `GoldenPathApp.kt`, etc.) | Thin composition — no feature logic in the root |
+| **Wiring** | 10 lines/feature | Composition roots (`appBootstrap.ts`, `HermesApp.kt`, etc.) | Thin composition — no feature logic in the root |
 
 Line limits are a **maintainability and agent-context proxy**. They are not a direct measure of runtime performance.
 

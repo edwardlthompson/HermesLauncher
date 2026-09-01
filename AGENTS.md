@@ -14,14 +14,13 @@
 ## Project Overview & Architecture
 
 <!-- bootstrap-project-card -->
-**Product:** agent-project-bootstrap
-**Purpose:** GitHub Template for FOSS coding-agent projects
-**Stack:** multi
+**Product:** Hermes Launcher
+**Purpose:** FOSS home-screen inbox for notifications, news, and podcasts
+**Stack:** android
 <!-- /bootstrap-project-card -->
+This repository is **Hermes Launcher**, a FOSS Android home-screen inbox seeded from agent-project-bootstrap. Shared contract for agents is this file plus `BUILD_PLAN.md`. Edit `AGENTS.md`, then `bash scripts/bootstrap-lifecycle.sh --sync-adapters` if you change the project card.
 
-This repository is a **GitHub Template** for FOSS projects with coding agents (Cursor, Windsurf, Antigravity, Claude Code, Copilot, Gemini CLI, Aider, Cline). Child repos start from **Use this template**, then `scripts/init-project.sh` (or `.ps1`). Edit `AGENTS.md`, then `bash scripts/bootstrap-lifecycle.sh --sync-adapters`.
-
-- **Composition:** stack modules (`modules/{stack}/`) + Golden Path examples (`examples/{stack}/`) + agent routing
+- **Composition:** Module A (`modules/android/`) + Android Golden Path evolved in `examples/android/` + agent routing
 - **Lifecycle:** preflight → init (stack, branding, prune) → post hooks (adapters, checklist, manifest)
 - **Manifest:** `bootstrap.config.json` (schema in `bootstrap.config.json.example`)
 - **Product spec:** `docs/spec.md` · plan stub: `docs/plan.md` · feature slices: `docs/features/`

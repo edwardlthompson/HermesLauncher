@@ -25,7 +25,7 @@
 | Static data | `src/components/{Feature}Panel.ts`, `locales/*.json` (≤300 lines/file) | `ui/{feature}/` Composable, `strings.xml` | CLI/GUI adapter | route handler / Hono router |
 | Tests | `src/{feature}/*.test.ts` | `src/test/.../{feature}/` | `tests/{feature}/` | `src/{feature}/*.test.ts` |
 | i18n | `locales/en.json` `{feature}.*` | `strings.xml` `{feature}_*` | help strings module | API error messages / OpenAPI |
-| Wiring only | `appBootstrap.ts` / `main.ts` ≤10 lines/feature | `GoldenPathApp.kt` / `MainActivity` nav hook | `main` imports | `src/index.ts` imports |
+| Wiring only | `appBootstrap.ts` / `main.ts` ≤10 lines/feature | `HermesApp.kt` / `MainActivity` nav hook | `main` imports | `src/index.ts` imports |
 See [`docs/FILE_SIZE_GUIDE.md`](FILE_SIZE_GUIDE.md) for limits rationale and responsiveness guidance.
 
 **Lego rule:** Remove a feature by deleting its folder, removing wiring lines and i18n keys, then running `bash scripts/feature-gate.sh`. Golden Path must still pass.
@@ -51,7 +51,7 @@ Status markers: 🔲 open · ✅ done · ❌ blocked (see `BUILD_PLAN.md` legend
 - 🔲 `[HUMAN]` Acceptance criteria + one smoke scenario documented
 - 🔲 `[AGENT]` Feature container scaffolded (no unrelated edits)
 - 🔲 `[AGENT]` Unit tests for pure logic (or written fallback command in the feature spec)
-- 🔲 `[AGENT]` View wired; composition root (`appBootstrap.ts` / `GoldenPathApp.kt`) diff ≤10 lines
+- 🔲 `[AGENT]` View wired; composition root (`appBootstrap.ts` / `HermesApp.kt`) diff ≤10 lines
 - 🔲 `[AUTO]` `bash scripts/watch-agent-gates.sh --once --autofix --scope auto`
 - 🔲 `[HUMAN]` Manual smoke happy path; approve before next feature
 
@@ -95,7 +95,7 @@ Progress file: `.cursor/agent-progress.json` (gitignored). See `.cursor-session-
 | Do not | Why |
 |--------|-----|
 | Batch multiple features in one PR | Breaks lego isolation |
-| Put business logic in `main.ts` or `GoldenPathApp.kt` | Prevents removal/testing |
+| Put business logic in `main.ts` or `HermesApp.kt` | Prevents removal/testing |
 | Skip gate after AGENT step | Regressions compound |
 | Refactor unrelated code during feature work | Scope creep; breaks parallel safety |
 | `git push` without human approval | `destructive-ops.mdc` |

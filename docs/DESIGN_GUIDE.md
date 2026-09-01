@@ -33,8 +33,8 @@ Both UI stacks support three modes. Default is **system** (follow OS preference)
 | Mode | Android | Web |
 |------|---------|-----|
 | System | `isSystemInDarkTheme()` | `data-theme="system"` + `prefers-color-scheme` |
-| Light | `LightGoldenPathColors` | `data-theme="light"` |
-| Dark | `DarkGoldenPathColors` | `data-theme="dark"` |
+| Light | `LightHermesColors` | `data-theme="light"` |
+| Dark | `DarkHermesColors` | `data-theme="dark"` |
 - **Android:** `ThemeToggle` in top app bar; persisted via DataStore (`ThemePreferences`).
 - **Web:** `ThemeToggle` button; persisted in `localStorage` key `gp-theme`; updates `<meta name="theme-color">`.
 
@@ -42,7 +42,7 @@ Accessibility: toggle labels come from i18n keys (`theme.toggle.label`, `theme.m
 
 ## Android (Compose Material 3)
 
-- Wrap screens in `GoldenPathTheme(themeMode) { ... }`.
+- Wrap screens in `HermesTheme(themeMode) { ... }`.
 - Use `MaterialTheme.colorScheme` and `MaterialTheme.typography` — not hardcoded colors or `sp` in composables.
 - All text via `stringResource(R.string.*)`.
 - Spacing via `SpacingMd`, `RadiusMd`, etc. from generated `Dimens.kt`.
@@ -52,7 +52,7 @@ Accessibility: toggle labels come from i18n keys (`theme.toggle.label`, `theme.m
 ### Android system bars (edge-to-edge)
 
 - Call `enableEdgeToEdge()` in `MainActivity`; keep status and navigation bar colors **transparent** via `ApplySystemBarStyle`.
-- Use `GoldenPathScaffold` (not raw `Scaffold`) — sets `contentWindowInsets = WindowInsets.safeDrawing` and an inset-aware `SnackbarHost`.
+- Use `HermesScaffold` (not raw `Scaffold`) — sets `contentWindowInsets = WindowInsets.safeDrawing` and an inset-aware `SnackbarHost`.
 - Bottom-fixed actions and snackbars: `Modifier.bottomInsetPadding()` from `ui/insets/` (includes 48dp fallback when 3-button nav reports zero inset).
 - Wrap the app in `NavigationModeProvider`; verify detected mode on About (`about.debug_navigation_mode` string).
 - **Do not use `Toast`** for in-app feedback — it ignores Compose insets and renders under the nav bar. Use `SnackbarHost` on the scaffold.
@@ -123,7 +123,7 @@ Sync also writes `branding/official-colors.css`, copies web public icons, and em
 
 ## Extending the system
 
-Add new semantic colors to `design-tokens.json` under `color`, re-run sync, then reference via `MaterialTheme` or CSS vars. For new components, copy patterns from `GoldenPathScreen` (Android) or `main.ts` + `style.css` (web) — do not introduce one-off styles.
+Add new semantic colors to `design-tokens.json` under `color`, re-run sync, then reference via `MaterialTheme` or CSS vars. For new components, copy patterns from `HermesScreen` (Android) or `main.ts` + `style.css` (web) — do not introduce one-off styles.
 
 ## About screen
 

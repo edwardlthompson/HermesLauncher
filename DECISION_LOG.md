@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-09-01 — Hermes child seed and architecture ADRs
+- **Status:** Accepted
+- **Context:** Empty `HermesLauncher` workspace; HUMAN approved the Plan Mode architecture and asked the agent to automate HUMAN items (GitHub repo, Dependabot, ADR sign-off, BATCH_COMMANDS bookmark).
+- **Decision:** Seed from vanilla agent-project-bootstrap (not AetherFeed). MIT. Package `org.hermeslauncher.app`. Original Compose launcher. ADRs 0001-0004 accepted. SQLCipher and Hilt deferred.
+- **Alternatives considered:** GPL-3.0 (HUMAN chose MIT). Fork an existing launcher (rejected: not inbox-first).
+- **Consequences:** Sprint 1 may implement the launcher shell. Listener/Room wait for Sprint 2. `template` remote is the local bootstrap clone only.
+
 ### 2026-08-28 — First stable v1.0.0
 - **Status:** Accepted
 - **Context:** Template had shipped through 0.25.0. Cloud agent `/build --lane auto` prepared `Release-As: 1.0.0` on PR #81 so Release Please would not cut 0.26.0. Upgrade-sim failed until stack-specific gates skipped after prune.

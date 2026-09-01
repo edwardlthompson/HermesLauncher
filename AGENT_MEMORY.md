@@ -7,18 +7,14 @@
 
 | Layer | Technology | Version | Notes |
 |-------|-----------|---------|-------|
-| Platform | Multi-stack template (Web, Python, Android, Node, optional Lightroom/Rust/Go) | 1.0.0 | Template maintainer repo |
+| Platform | Android (min 26, target 37), Kotlin, Jetpack Compose Material 3 | 0.1.0 | Child of agent-project-bootstrap 1.0.0 |
 | License | MIT | - | Pure FOSS |
-| Distribution | GitHub Releases + GitHub Pages demo | - | F-Droid/Winget stubs for child repos |
+| Persistence | DataStore now; Room vault in Sprint 2 | - | No SQLCipher yet |
+| Distribution | GitHub Releases + F-Droid | - | Reproducible APKs (`SOURCE_DATE_EPOCH`) |
 ## Active Modules
 
-- ✅ Web / PWA (`modules/web/MODULE.md`)
-- ✅ Python (`modules/python/MODULE.md`)
 - ✅ Android / F-Droid (`modules/android/MODULE.md`)
-- ✅ Node API (`modules/node/MODULE.md`)
-- ✅ Lightroom Classic (`modules/lightroom/MODULE.md`)
-- ✅ Rust (`modules/rust/MODULE.md`)
-- ✅ Go (`modules/go/MODULE.md`)
+- ❌ Web / Python / Node / Lightroom / Rust / Go — pruned at init
 
 ## Threat Model Checklist
 
@@ -34,7 +30,7 @@
 
 ### Project Purpose
 
-FOSS coding-agent bootstrap template: labeled BUILD_PLAN sprints, Golden Path examples, CI guardrails, workspace memory, and design-system cohesion across Web and Android.
+Hermes Launcher: FOSS Android home-screen inbox for notifications, news, and podcasts. X-only dismiss. Local vault. Extra widget pages.
 
 ### Key Constraints
 
@@ -44,6 +40,7 @@ FOSS coding-agent bootstrap template: labeled BUILD_PLAN sprints, Golden Path ex
 
 ## Session Retrospectives
 
+| 2026-09-01 | Hermes Sprint 0 seed | Cloned template, android/MIT init, `org.hermeslauncher.app`, ADRs 0001-0004 accepted, HUMAN items automated | Do not push to the `template` remote; new origin is edwardlthompson/HermesLauncher |
 | 2026-08-28 | v1.0.0 /ship | Cloud agent #81 reviewed+merged; RP #82 cut first stable; Unreleased empty; SBOM+OpenVEX on the tag | Do not merge RP while upgrade-sim still fails on pruned stacks; `Release-As: 1.0.0` beats 0.26.0 |
 | 2026-08-28 | /cleanup HUMAN leftovers | Archived 5 script-closed HUMAN rows; CII, Ollama, Android SDK stay 🔲 | Recurring weekly AUTO stays 🔲 |
 | 2026-08-28 | HUMAN leftover automation | Scripts close Scorecard, crash-proxy-off, mcp.json copy, weekly Dependabot, CODEOWNERS | CII login, Ollama install, and Android licenses stay HUMAN/ADB |
@@ -89,6 +86,6 @@ FOSS coding-agent bootstrap template: labeled BUILD_PLAN sprints, Golden Path ex
 | 2026-06-30 | Autonomous /build + HUMAN automation | Grouped human section keeps board readable; automation router backlogs failures only | Release Please PR #20 for 0.12.0 needs human merge |
 ## Template Provenance
 
-- **Source template:** `edwardlthompson/agent-project-bootstrap` (self-maintained)
+- **Source template:** `edwardlthompson/agent-project-bootstrap`
 - **Template version:** `1.0.0` (see `.template-version`)
 - **Last update check:** See `.template-update.json`

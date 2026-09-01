@@ -1,41 +1,69 @@
 # Product Specification
 
-> Spec-driven development stub. Fill after `init-project`. Feature slices still use `docs/features/{name}.md`.
-> Status markers: 🔲 open · ✅ done · ❌ blocked.
+> Spec-driven development. Feature slices use `docs/features/{name}.md`.
+> Status markers: open / done / blocked use BUILD_PLAN emoji markers.
 
 ## Overview
 
-**Product:** agent-project-bootstrap  
-**Purpose:** GitHub Template Repository that bootstraps FOSS projects with Cursor-ready agent routing, CI, and Golden Path examples.  
-**Users:** Humans and AI agents initializing or maintaining a child repo.
+**Product:** Hermes Launcher
+**Tagline:** Your notifications, news, and podcasts — as home.
+**Purpose:** FOSS Android home-screen replacement whose primary page is a persistent notification inbox mixed with news feeds and podcasts.
+**Users:** Privacy-conscious Android users, former Posidon users, people who treat a notification feed as home, FOSS/F-Droid users, OEM-skin users who struggle with notification access.
 
 ## Functional Requirements & User Stories
 
 | ID | Story | Acceptance |
 |----|-------|------------|
-| FR-1 | As a maintainer I run `scripts/init-project.sh` so the child repo is customized | Manifest, adapters, and checklist exist; unused stacks prune when asked |
-| FR-2 | As an agent I read `AGENTS.md` first so I follow architecture and test-first rules | Adapters for Cursor, Claude Code, and Copilot stay in sync |
-| FR-3 | As a reviewer I get CI + security on every PR without opting in | `ci.yml`, `security.yml`, Dependabot, issue/PR templates present |
+| FR-1 | As a user I set Hermes as Home so the inbox is my first screen | Activity declares `MAIN` + `HOME` + `DEFAULT`; system chooser lists Hermes |
+| FR-2 | As a user I scroll a mixed feed of notifications, news, and podcasts | Page 0 is a vertical `LazyColumn`; cards never swipe-dismiss |
+| FR-3 | As a user I swipe horizontally to extra widget pages | `HorizontalPager` changes page; feed cards do not consume horizontal swipe |
+| FR-4 | As a user I dismiss a card only by tapping X | X has a 48dp target and content description; one item archived |
+| FR-5 | As a user I keep chat text and images after the source app deletes them | Vault persists at post time when per-app store policy allows |
+| FR-6 | As a user I search and filter live inbox plus history | Filters: All / Messages / News / System / Podcasts / Unread / Pinned / per-app |
+| FR-7 | As a user I recover when OEM kills notification access | Banner + one-tap re-grant; no silent data collection after revoke |
+| FR-8 | As a user I play a podcast episode from a feed card | Media3 mini-player; simple RSS enclosures only |
+| FR-9 | As a user I customize dock, theme, and icon pack | DataStore prefs survive reboot; strings from `strings.xml` |
 
 ## Non-Functional Constraints
 
-- MIT default (Apache-2.0 selectable at init for child repos)
-- No proprietary SDKs on the FOSS production path
-- Opt-in telemetry only; never enabled by default
-- File budgets: 300 lines static data, 150 lines pure logic
-- Preflight fails clearly when `git` or Python is missing
+- MIT license; no proprietary SDKs (no Play Services, Firebase, or closed telemetry)
+- File budgets: 300 lines static/UI+i18n, 150 lines pure logic
+- `SOURCE_DATE_EPOCH` reproducible APKs; pinned Gradle wrapper
+- User-visible copy only in `res/values/strings.xml`
+- Local-only vault; no cloud sync
+- Do not store notification content from apps the user has not granted (or later revoked)
+
+## Non-goals
+
+- Not a 1:1 clone of Posidon or Notifications Widget
+- No swipe-to-dismiss or swipe-to-archive on cards
+- Not a full email client or heavy podcast app
+- No cloud sync of the vault
+
+## Success metrics
+
+- NotificationListener survives OEM battery optimizations with onboarding that names the OEM
+- Horizontal swipe never dismisses a card
+- Vault retains granted chat text + images after source-app deletion
+- F-Droid-ready reproducible builds
+- Compose `LazyColumn` only (no RecyclerView crash paths)
 
 ## Architecture & Data Flow
 
 ```mermaid
 flowchart LR
-  Template[GitHub Template] --> Clone[Child clone]
-  Clone --> Pre[Preflight hooks]
-  Pre --> Init[init-project]
-  Init --> Post[Post hooks]
-  Post --> Agents[AGENTS.md adapters]
-  Post --> Check[PROJECT_CHECKLIST.md]
-  Post --> Manifest[bootstrap.config.json]
+  listener[NotificationListenerService]
+  vault[(Room vault plus private images)]
+  feed[Page0 feed]
+  pager[HorizontalPager]
+  widgets[Widget host pages]
+  dock[Dock]
+  drawer[App drawer]
+  listener -->|"persist first"| vault
+  vault --> feed
+  feed --> pager
+  pager --> widgets
+  dock --> drawer
 ```
 
 ## Test-first rule

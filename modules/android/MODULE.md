@@ -28,11 +28,11 @@
 ## Design system
 
 - 🔲 Read docs/DESIGN_GUIDE.md before UI work
-- 🔲 Use Jetpack Compose Material 3 via GoldenPathTheme (see examples/android/)
+- 🔲 Use Jetpack Compose Material 3 via HermesTheme (see examples/android/)
 - 🔲 Edit tokens in design-tokens/design-tokens.json; run scripts/sync-design-tokens.py
 - 🔲 Branding: `branding/assets/` + generated `res/drawable/ic_brand_mark.xml` (store PNGs still `[ADB]`/`[HUMAN]`)
 - 🔲 Theme toggle: system / light / dark (DataStore persistence)
-- 🔲 Edge-to-edge: `GoldenPathScaffold`, `bottomInsetPadding()`, inset-aware `SnackbarHost`
+- 🔲 Edge-to-edge: `HermesScaffold`, `bottomInsetPadding()`, inset-aware `SnackbarHost`
 - 🔲 FOSS only: androidx.compose.* and androidx.datastore (no Play Services / Firebase)
 
 ## Localization

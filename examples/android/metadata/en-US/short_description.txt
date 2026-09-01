@@ -1,1 +1,1 @@
-FOSS Android skeleton for agent-project-bootstrap
+FOSS home screen: notification inbox, news, podcasts, and widget pages.

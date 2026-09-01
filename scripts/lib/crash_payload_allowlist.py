@@ -8,7 +8,7 @@ ALLOWLIST = Path("schemas") / "golden-path" / "crash-payload-allowlist.json"
 SCHEMA = Path("schemas") / "golden-path" / "crash-report.schema.json"
 STACK_TESTS = (
     Path("examples/web/src/crash-capture/pendingCrash.test.ts"),
-    Path("examples/android/app/src/test/java/dev/foss/goldenpath/crashcapture/PendingCrashTest.kt"),
+    Path("examples/android/app/src/test/java/org/hermeslauncher/app/crashcapture/PendingCrashTest.kt"),
     Path("examples/python/tests/test_crash.py"),
     Path("examples/node/src/crash.test.ts"),
     Path("examples/rust/src/crash.rs"),

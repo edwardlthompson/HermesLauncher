@@ -76,19 +76,19 @@ def render_list(items: list[str], *, ordered: bool = False) -> str:
 
 
 def stack_badges(product: dict) -> str:
-    stacks = product.get("stacks") or []
-    primary = product["badge"]["primary"]
-    secondary = product["badge"]["secondary"]
-    colors = [primary, secondary, "3DDC84", "3776AB", "646cff"]
-    lines = []
-    for i, stack in enumerate(stacks):
-        color = colors[i % len(colors)]
+    # Gate contract (scripts/lib/readme_badges.py) always requires these three.
+    required = (("web", "646cff"), ("python", "3776AB"), ("android", "3DDC84"))
+    extra = [s for s in (product.get("stacks") or []) if s not in {n for n, _ in required}]
+    lines = [
+        f'  <img src="https://img.shields.io/badge/{name}-stack-{color}'
+        f'?style=flat-square" alt="{name}" />'
+        for name, color in required
+    ]
+    for stack in extra:
         lines.append(
-            f'  <img src="https://img.shields.io/badge/{stack}-stack-{color}'
+            f'  <img src="https://img.shields.io/badge/{stack}-stack-656d76'
             f'?style=flat-square" alt="{stack}" />'
         )
-    if not lines:
-        return ""
     return "\n" + "\n".join(lines)
 
 
@@ -155,6 +155,7 @@ def render_readme(root: Path, product: dict, *, for_preview: bool = False) -> st
         "{{url_agents}}": _rel_url("AGENTS.md", from_preview=for_preview),
         "{{url_tour}}": _rel_url("docs/help/TOUR.md", from_preview=for_preview),
         "{{ci_repo}}": str(urls.get("github_repo") or "OWNER/REPO"),
+        "{{template_version}}": (root / ".template-version").read_text(encoding="utf-8").strip(),
         "{{license_name}}": "MIT License",
     }
     out = template

@@ -7,7 +7,7 @@
       "stacks": ["web", "android", "python", "node", "go", "rust"],
       "detect": {
         "web": ["examples/web/src/about", "src/about"],
-        "android": ["examples/android/app/src/main/java/dev/foss/goldenpath/about"],
+        "android": ["examples/android/app/src/main/java/org/hermeslauncher/app/about"],
         "python": ["examples/python/src/hello/about.py"],
         "node": ["examples/node/src/about.ts"],
         "go": ["examples/go/about.go"],
@@ -21,7 +21,7 @@
       "stacks": ["web", "android", "python", "node", "go", "rust"],
       "detect": {
         "web": ["examples/web/src/crash-capture", "src/crash-capture"],
-        "android": ["examples/android/app/src/main/java/dev/foss/goldenpath/crashcapture"],
+        "android": ["examples/android/app/src/main/java/org/hermeslauncher/app/crashcapture"],
         "python": ["examples/python/src/hello/crash.py"],
         "node": ["examples/node/src/crash.ts"],
         "go": ["examples/go/crash.go"],
@@ -35,7 +35,7 @@
       "stacks": ["web", "android"],
       "detect": {
         "web": ["examples/web/src/settings", "src/settings"],
-        "android": ["examples/android/app/src/main/java/dev/foss/goldenpath/settings"]
+        "android": ["examples/android/app/src/main/java/org/hermeslauncher/app/settings"]
       }
     },
     {
@@ -45,7 +45,7 @@
       "stacks": ["web", "android"],
       "detect": {
         "web": ["examples/web/src/feedback", "src/feedback"],
-        "android": ["examples/android/app/src/main/java/dev/foss/goldenpath/feedback"]
+        "android": ["examples/android/app/src/main/java/org/hermeslauncher/app/feedback"]
       }
     },
     {
@@ -55,7 +55,7 @@
       "stacks": ["web", "android"],
       "detect": {
         "web": ["examples/web/src/github-feedback", "src/github-feedback"],
-        "android": ["examples/android/app/src/main/java/dev/foss/goldenpath/githubfeedback"]
+        "android": ["examples/android/app/src/main/java/org/hermeslauncher/app/githubfeedback"]
       }
     },
     {
@@ -65,7 +65,7 @@
       "stacks": ["web", "android"],
       "detect": {
         "web": ["examples/web/src/privacy-report", "src/privacy-report"],
-        "android": ["examples/android/app/src/main/java/dev/foss/goldenpath/privacyreport"]
+        "android": ["examples/android/app/src/main/java/org/hermeslauncher/app/privacyreport"]
       }
     },
     {
@@ -74,7 +74,7 @@
       "spec": "docs/features/display-refresh.md",
       "stacks": ["android"],
       "detect": {
-        "android": ["examples/android/app/src/main/java/dev/foss/goldenpath/display"]
+        "android": ["examples/android/app/src/main/java/org/hermeslauncher/app/display"]
       }
     }
   ]

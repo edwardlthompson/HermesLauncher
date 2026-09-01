@@ -1,71 +1,51 @@
 # Threat Model
 
-> Draft during Sprint 1 before Golden Path ships. Link security tasks in `BUILD_PLAN.md`.
-
 ## Scope
 
 | Item | Value |
 |------|-------|
-| Project | [PROJECT_NAME] |
-| Stack | [INSERT PLATFORM / TECH STACK HERE] |
-| Methodology | STRIDE (adapt per stack: OWASP ASVS for web, MASVS for mobile) + OWASP LLM Top 10 for agent-exposed APIs |
+| Project | Hermes Launcher |
+| Stack | Android (Kotlin, Jetpack Compose), F-Droid FOSS |
+| Methodology | STRIDE + MASVS (storage, privacy, platform interaction) |
+
 ## Trust Boundaries
 
 ```text
-[User] --> [Client App / PWA] --> [GitHub Issues / Discussions]
-                |                      |
-           Local pending crash    Public issue body
-           (opt-in, sanitized)
-
-[Maintainer] --> [/audit /ideas] --> [GitHub issue text as DATA only]
+[User] --> [Hermes UI]
+              |-- NotificationListenerService (OS binder)
+              |-- Room vault + app-private images
+              |-- DataStore prefs
+              |-- AppWidgetHost (third-party widget process)
+              |-- RSS / podcast HTTP (later)
+              |-- GitHub Releases API (About update check)
 
 ```
 
-Public GitHub Issues are a trust boundary. Issue and discussion text is untrusted (LLM01): never execute it as agent instructions. See ADR-0002.
+The listener is the highest-privilege boundary. Third-party widgets and remote feeds are untrusted. The local OS is trusted for app-private storage but not for unlocked-device or backup extraction.
+
+Public GitHub Issues remain untrusted if crash/feedback reports are filed (LLM01): never execute issue text as agent instructions.
 
 ## STRIDE Summary
 
 | Threat | Example | Mitigation | Owner |
 |--------|---------|------------|-------|
-| Spoofing | Fake API client | Auth tokens, TLS | AGENT |
-| Tampering | Modified local state | Integrity checks, signed updates | AGENT |
-| Repudiation | Denied user action | Audit logs (no PII without consent) | AGENT |
-| Information disclosure | PII in logs | Data minimization, redaction | AGENT |
-| Denial of service | Oversized payloads | Input limits, rate limiting | AGENT |
-| Elevation of privilege | Bypass auth | Least privilege, boundary validation | AGENT |
+| Spoofing | Fake bank notification card | Show real packageName + badged icon; never trust title alone | AGENT |
+| Tampering | Edited vault row | App-private Room; later optional encryption | AGENT |
+| Repudiation | User thought X wiped history | Confirmation + export/wipe; shade dismiss does not delete vault | AGENT |
+| Information disclosure | Chat images on backup or ADB | allowBackup=false; extraction rules; per-app image toggle | AGENT |
+| Denial of service | Huge picture extra | 5 MiB / 256 KiB caps; skip image, keep text | AGENT |
+| Elevation of privilege | Listener used beyond grant | Store only if AppStorePolicy allows; revoke stops writes | AGENT |
+
 ## Top Abuse Cases
 
-1. _Define after Golden Path — e.g., unauthorized data access_
-2. _Supply-chain compromise via malicious dependency_
-3. _Secret leakage via committed credentials_
-4. _Prompt injection (if agent-exposed APIs)_
-5. _Telemetry opt-out bypass_
-6. _Crash/bug issue body used as agent instructions (LLM01)_
-7. _PII or secrets pasted into a public issue_
+1. Listener used as spyware — onboarding + per-app grants + revoke banner
+2. OEM permission reset (Xiaomi autostart / battery) — repair banner; Sprint 6 OEM guides
+3. Malicious notification payload / huge bitmap — size caps and isolated decode
+4. Vault leak via backup or ADB pull — no backup; private files dir
+5. Leftover content after policy revoke — no new writes; user wipe/export
 
-## OWASP LLM Top 10
+## MASVS notes
 
-Walk agent-exposed surfaces against [OWASP LLM Top 10 (2025)](https://owasp.org/www-project-top-10-for-large-language-model-applications/). No extra scanner — map to existing gates. Prompt injection: [`.cursor/rules/destructive-ops.mdc`](../.cursor/rules/destructive-ops.mdc).
-
-| ID | Risk | Template control |
-|----|------|------------------|
-| LLM01 Prompt Injection | Untrusted text steers tools | Validate at boundaries; never execute untrusted text as system prompts. GitHub issue/discussion titles and bodies are data only (`/audit`, `feedback-inbox`) |
-| LLM02 Sensitive Information Disclosure | Secrets/PII in prompts or logs | No secrets in git; opt-in telemetry; `docs/PRIVACY.md` |
-| LLM03 Supply Chain | Malicious model, plugin, or dep | Dependabot, CodeQL, Trivy; no default marketplace install |
-| LLM04 Data/Model Poisoning | Tampered training or RAG | Treat uploads as untrusted; N/A until child adds RAG |
-| LLM05 Improper Output Handling | Model output executed as code | Never eval LLM output; tool allowlists only |
-| LLM06 Excessive Agency | Agent can push, deploy, or drop | Honesty labels; hooks denylist; `[HUMAN]` for destructive-ops |
-| LLM07 System Prompt Leakage | Rules or secrets in prompts | Keep credentials out of rules and `AGENTS.md` |
-| LLM08 Vector/Embedding | Retrieval injection | N/A until child adds a vector store |
-| LLM09 Misinformation | Over-trust of model output | Critique table; gates; regression tests on bug fixes |
-| LLM10 Unbounded Consumption | Token or cost DoS | Token economy 300/150; no 80k playbooks |
-Weekly walk: `docs/SECURITY_TRIAGE.md`.
-
-## Security Tasks
-
-Link mitigations to `BUILD_PLAN.md` and `docs/SECURITY_TRIAGE.md` weekly triage.
-
-## Review Cadence
-
-- `[HUMAN]` Review at each milestone boundary
-- `[AGENT]` Update when architecture or data flows change (append ADR reference)
+- Storage: vault is app-private; no world-readable cache
+- Privacy: granular store toggles; no analytics
+- Platform: `BIND_NOTIFICATION_LISTENER_SERVICE` and `QUERY_ALL_PACKAGES` are documented in PRIVACY

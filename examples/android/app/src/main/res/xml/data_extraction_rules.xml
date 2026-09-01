@@ -2,8 +2,10 @@
 <data-extraction-rules>
     <cloud-backup>
         <exclude domain="sharedpref" path="gp_updates.xml" />
+        <exclude domain="file" path="vault/" />
     </cloud-backup>
     <device-transfer>
         <exclude domain="sharedpref" path="gp_updates.xml" />
+        <exclude domain="file" path="vault/" />
     </device-transfer>
 </data-extraction-rules>

@@ -10,6 +10,7 @@ WEB = ROOT / "examples" / "web"
 
 
 class WebSecurityHeaderTests(unittest.TestCase):
+    @unittest.skipUnless((WEB / "index.html").is_file(), "web stack pruned")
     def test_index_meta_policies(self) -> None:
         html = (WEB / "index.html").read_text(encoding="utf-8")
         self.assertIn('name="referrer"', html)
@@ -18,6 +19,7 @@ class WebSecurityHeaderTests(unittest.TestCase):
         self.assertIn("camera=()", html)
         self.assertNotIn("Content-Security-Policy", html)
 
+    @unittest.skipUnless((WEB / "vite.config.ts").is_file(), "web stack pruned")
     def test_vite_preview_headers(self) -> None:
         vite = (WEB / "vite.config.ts").read_text(encoding="utf-8")
         self.assertIn("injectCspMeta", vite)

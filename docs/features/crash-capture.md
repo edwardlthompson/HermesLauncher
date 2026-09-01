@@ -22,7 +22,7 @@
 |-------|-----|---------|
 | Logic | `examples/web/src/crash-capture/` | `examples/android/.../crashcapture/` |
 | Tests | `pendingCrash.test.ts` | `PendingCrashTest.kt` |
-| Wiring | `appBootstrap.ts` ≤10 lines | `GoldenPathApp.kt` / `MainActivity` ≤10 lines |
+| Wiring | `appBootstrap.ts` ≤10 lines | `HermesApp.kt` / `MainActivity` ≤10 lines |
 ## Tests
 
 - Automated: yes — `pendingCrash.test.ts` and `PendingCrashTest.kt`

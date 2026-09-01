@@ -24,7 +24,7 @@
 | Logic | `examples/web/src/settings/` | `examples/android/.../settings/` |
 | View | `examples/web/src/components/SettingsPanel.ts` | `examples/android/.../ui/settings/` |
 | Tests | `settings/*.test.ts` | `src/test/.../settings/` |
-| Wiring | `appBootstrap.ts` + `AppShell.ts` | `GoldenPathApp.kt` (composition root) |
+| Wiring | `appBootstrap.ts` + `AppShell.ts` | `HermesApp.kt` (composition root) |
 ## Tests
 
 - Automated: yes — `examples/web/src/settings/` and Android `src/test/.../settings/`

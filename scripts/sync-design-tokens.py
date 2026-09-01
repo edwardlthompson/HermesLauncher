@@ -145,7 +145,7 @@ def generate_color_kt(tokens: dict, digest: str) -> str:
     lines = [
         f"// {HEADER}",
         f"// source-hash: {digest}",
-        "package dev.foss.goldenpath.ui.theme",
+        "package org.hermeslauncher.app.ui.theme",
         "",
         "import androidx.compose.material3.darkColorScheme",
         "import androidx.compose.material3.lightColorScheme",
@@ -160,11 +160,11 @@ def generate_color_kt(tokens: dict, digest: str) -> str:
         lines.append(hex_to_compose(f"GpDark{cap}", colors[key]["dark"], private=True))
     lines.extend([
         "",
-        "val LightGoldenPathColors = lightColorScheme(",
+        "val LightHermesColors = lightColorScheme(",
         *[f"    {color_role_name(k)} = GpLight{color_role_name(k)[0].upper()}{color_role_name(k)[1:]}," for k in colors],
         ")",
         "",
-        "val DarkGoldenPathColors = darkColorScheme(",
+        "val DarkHermesColors = darkColorScheme(",
         *[f"    {color_role_name(k)} = GpDark{color_role_name(k)[0].upper()}{color_role_name(k)[1:]}," for k in colors],
         ")",
         "",
@@ -186,14 +186,14 @@ def generate_type_kt(tokens: dict, digest: str) -> str:
     return "\n".join([
         f"// {HEADER}",
         f"// source-hash: {digest}",
-        "package dev.foss.goldenpath.ui.theme",
+        "package org.hermeslauncher.app.ui.theme",
         "",
         "import androidx.compose.material3.Typography",
         "import androidx.compose.ui.text.TextStyle",
         "import androidx.compose.ui.text.font.FontWeight",
         "import androidx.compose.ui.unit.sp",
         "",
-        "val GoldenPathTypography = Typography(",
+        "val HermesTypography = Typography(",
         *entries,
         ")",
         "",
@@ -207,7 +207,7 @@ def generate_dimens_kt(tokens: dict, digest: str) -> str:
     lines = [
         f"// {HEADER}",
         f"// source-hash: {digest}",
-        "package dev.foss.goldenpath.ui.theme",
+        "package org.hermeslauncher.app.ui.theme",
         "",
         "import androidx.compose.ui.unit.dp",
         "",
@@ -461,9 +461,9 @@ def write_outputs(root: Path) -> None:
             / "src"
             / "main"
             / "java"
-            / "dev"
-            / "foss"
-            / "goldenpath"
+            / "org"
+            / "hermeslauncher"
+            / "app"
             / "ui"
             / "theme"
         )

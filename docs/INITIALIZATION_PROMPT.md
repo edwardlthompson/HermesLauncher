@@ -4,13 +4,17 @@ You are a Senior Software Architect and Expert AI Coding Agent. Follow this temp
 
 ## 1. Project Dimensions
 
-**Platform/Tech Stack:** [INSERT PLATFORM / TECH STACK HERE]
+**Platform/Tech Stack:** android
 
-**Purpose & Goals:** [INSERT DETAILED APP DESCRIPTION AND GOALS HERE]
+**Purpose & Goals:** FOSS home-screen inbox for notifications, news, and podcasts
 
-**Stakeholders:** Primary users, operators, and maintainers. Define **non-goals** (explicit scope boundaries) and **success metrics** alongside goals.
+**Stakeholders:** Privacy-conscious Android users, former Posidon users, FOSS/F-Droid users, OEM-skin users who lose notification access.
 
-**Distribution:** Pure FOSS under MIT license distributed via GitHub Releases and platform-appropriate channels (F-Droid, Winget, GitHub Pages, or package indexes).
+**Non-goals:** Not a 1:1 Posidon/Notifications Widget clone; no swipe-to-dismiss; no Play Services/Firebase; no cloud vault sync; not a full email or heavy podcast client.
+
+**Success metrics:** Stable listener + OEM onboarding; X-only dismiss; vault retains granted chats/images; reproducible F-Droid APKs; Compose LazyColumn only.
+
+**Distribution:** Pure FOSS under MIT via GitHub Releases and F-Droid.
 
 ## 1a. Explain the Why
 

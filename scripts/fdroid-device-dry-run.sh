@@ -8,7 +8,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
 ADB="${ADB:-adb}"
-PKG="dev.foss.goldenpath"
+PKG="org.hermeslauncher.app"
 ANDROID="$ROOT/examples/android"
 APK_DIR="$ANDROID/app/build/outputs/apk/debug"
 BUILD_TASK="assembleDebug"

@@ -99,7 +99,7 @@ case "$(uname -m 2>/dev/null || echo x86_64)" in
   *) ABI="x86_64" ;;
 esac
 IMAGE="system-images;android-34;default;${ABI}"
-AVD_NAME="goldenpath-api34"
+AVD_NAME="hermes-api34"
 
 if [ "$(uname -s 2>/dev/null)" = "Linux" ] && [ ! -e /dev/kvm ]; then
   skip "no /dev/kvm hypervisor"

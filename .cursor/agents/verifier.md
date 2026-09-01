@@ -12,6 +12,6 @@ When invoked:
 2. Run or reason about: `python3 scripts/agent-run.py watch-agent-gates --once` (or relevant subset).
 3. Report pass/fail with evidence (command output tail only).
 
-Forbidden: editing `BUILD_PLAN.md`, composition roots (`appBootstrap.ts`, `main.ts`, `GoldenPathApp.kt`).
+Forbidden: editing `BUILD_PLAN.md`, composition roots (`appBootstrap.ts`, `main.ts`, `HermesApp.kt`).
 
 Return: list of blockers before the orchestrator marks the row ✅.

@@ -9,7 +9,7 @@
 3. Orchestrator writes `.cursor/parallel-scope-lock.json` from manifest; subagents read it first
 4. Shared types/schemas: **Sequential agent only**
 5. Never edit `BUILD_PLAN.md` from parallel agents (sequential owner)
-6. **Forbidden paths:** `BUILD_PLAN.md`, `COMPLETED_TASKS.md`, `appBootstrap.ts`, `GoldenPathApp.kt`, `main.ts`
+6. **Forbidden paths:** `BUILD_PLAN.md`, `COMPLETED_TASKS.md`, `appBootstrap.ts`, `HermesApp.kt`, `main.ts`
 7. Optional handoff: copy [`docs/features/_handoff.md`](features/_handoff.md) → gitignored `.cursor/handoff-<scope>.md` (from/to, scope prefix, acceptance). Do not replace the scope lock or invent a second task board.
 
 ## Automatic dispatch
@@ -102,7 +102,7 @@ Override gate worker count with `BOOTSTRAP_CHECK_JOBS` (see `scripts/lib/run_che
 | Agent | Scope |
 |-------|-------|
 | A — CodeQL + release gate | `.github/workflows/codeql.yml`, `release.yml`, `scripts/check-github-ci.ps1` |
-| B — Android tests + restart UI | `examples/android/app/src/test/**`, `src/androidTest/**`, `ui/GoldenPathApp.kt` |
+| B — Android tests + restart UI | `examples/android/app/src/test/**`, `src/androidTest/**`, `ui/HermesApp.kt` |
 | C — Web bootstrap | `examples/web/src/appBootstrap.ts`, `vitest.config.ts` |
 | D — Docs + CHANGELOG | `docs/FEATURE_MODULES.md`, `CHANGELOG.md`, `.cursor/rules/feature-modules.mdc` |
 ## Sprint M11 (template maintainer) — archived
@@ -116,7 +116,7 @@ Override gate worker count with `BOOTSTRAP_CHECK_JOBS` (see `scripts/lib/run_che
 | Agent | Scope |
 |-------|-------|
 | A — Web settings | `examples/web/src/components/SettingsPanel.ts`, `examples/web/src/locales/**`, `examples/web/src/style.css`, `examples/web/e2e/**` |
-| B — Android settings/About | `examples/android/app/src/main/java/dev/foss/goldenpath/ui/**`, `examples/android/app/src/main/res/**`, `examples/android/app/src/main/assets/**` |
+| B — Android settings/About | `examples/android/app/src/main/java/org/hermeslauncher/app/ui/**`, `examples/android/app/src/main/res/**`, `examples/android/app/src/main/assets/**` |
 | C — Init + gates | `scripts/init-project.sh`, `scripts/init-project.ps1`, `scripts/init-stack-sync.py`, `scripts/setup-github-repo.sh`, `scripts/check-security-triage.sh`, `scripts/pre-release-gate.sh`, `scripts/run-maintainer-gates.sh` |
 | D — Docs | `docs/**`, `modules/**`, `SECURITY.md` |
 **Sequential-only (no Parallel):** `BUILD_PLAN.md`, `examples/web/src/AppShell.ts`, `examples/web/src/main.ts`, `MainActivity.kt`, `.github/workflows/release.yml`

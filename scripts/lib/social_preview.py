@@ -37,6 +37,9 @@ def check_repo(root: Path) -> list[str]:
     for hex_color in _hexes(tokens):
         if hex_color.lower() not in text.lower():
             errors.append(f"{ASSET.as_posix()} missing token color {hex_color}")
+    web_root = root / "examples" / "web"
+    if not web_root.is_dir():
+        return errors
     if not public.is_file():
         errors.append(f"MISSING: {PUBLIC.as_posix()}")
     elif public.read_bytes() != asset.read_bytes():

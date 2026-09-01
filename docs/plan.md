@@ -1,16 +1,23 @@
 # Implementation Plan
 
-> Task breakdown stub. Child repos replace this with the first milestone. Active work lives in `BUILD_PLAN.md`.
-> Status: 🔲 open · ✅ done · ❌ blocked.
+> Active work lives in `BUILD_PLAN.md`. This file is the milestone map.
+> Status: use BUILD_PLAN emoji markers.
 
-## Milestone — Bootstrap standards (M36)
+## Milestone — Sprint 0 seed
 
 | Task | Owner | Tests / fallback |
 |------|-------|------------------|
-| ✅ Manifest + pre/post hooks | AGENT | `tests/test_bootstrap_engine.py` |
-| ✅ AGENTS.md spec + adapters | AGENT | `check-bootstrap-engine.sh` + file presence |
-| ✅ SDD stubs (`docs/spec.md`, this file) | AGENT | `validate-bootstrap.sh` REQUIRED list |
-| ✅ Init dry-run asserts new artifacts | AGENT | `simulate-template-upgrade.sh` |
+| Clone template, init android/MIT, prune unused stacks | AGENT | `validate-bootstrap.sh --quick` |
+| Identity lock `org.hermeslauncher.app` | AGENT | package + script path grep |
+| Spec, ADRs 0001-0004, threat model, BUILD_PLAN | AGENT | `check-build-plan-parallel.sh` |
+| GitHub repo + Dependabot + branch protection | AGENT automating HUMAN | `setup-github-repo.sh` |
+
+## Milestone — Sprint 1 launcher shell
+
+| Task | Owner | Tests / fallback |
+|------|-------|------------------|
+| Lock `HomePagerState` / `DockState` / `DrawerState` | AGENT | unit tests in `launcher/` |
+| HOME intent + pager + dock stub + drawer stub | AGENT | swipe-contract unit test + `MainActivitySmokeTest` |
 
 ## Next feature
 
@@ -19,4 +26,4 @@
 3. Add unit tests before or with the implementation
 4. Run `python3 scripts/agent-run.py watch-agent-gates --once --autofix`
 
-If automated tests are not feasible, write the justification and fallback command in the feature spec before marking the BUILD_PLAN row ✅.
+If automated tests are not feasible, write the justification and fallback command in the feature spec before marking the BUILD_PLAN row done.

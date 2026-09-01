@@ -32,7 +32,7 @@ check_static_data_paths "static-data" < <(find "$ROOT" -type f \( \
   -name "*.tsx" -o -name "*.jsx" -o -name "*.vue" -o -name "*_view.*" \
   -o -path "*/examples/web/src/components/*.ts" \
   -o -path "*/examples/android/app/src/main/java/*/ui/*/*.kt" \
-  -o -path "*/examples/android/app/src/main/java/*/ui/GoldenPath*.kt" \
+  -o -path "*/examples/android/app/src/main/java/*/ui/Hermes*.kt" \
   -o -path "*/examples/*/locales/*.json" \
   -o -path "*/examples/*/src/locales/*.json" \
   -o -path "*/examples/*/res/values/strings.xml" \
@@ -79,7 +79,7 @@ done < <(find "$ROOT/examples" -type f \( -name "*.ts" -o -name "*.py" -o -name 
   ! -name "*.test.*" ! -name "*.spec.*" \
   "${EXCLUDE_PATHS[@]}" \
   ! -path "*/examples/web/src/components/*" \
-  ! -path "*/examples/android/app/src/main/java/*/ui/GoldenPath*.kt" \
+  ! -path "*/examples/android/app/src/main/java/*/ui/Hermes*.kt" \
   ! -path "*/examples/android/app/src/main/java/*/ui/*/*.kt" \
   ! -path "*/examples/web/src/main.ts" \
   -print0 2>/dev/null)

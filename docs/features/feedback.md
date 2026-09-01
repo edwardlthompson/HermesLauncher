@@ -22,7 +22,7 @@
 | View | `examples/web/src/components/FeedbackPanel.ts` | `examples/android/.../ui/feedback/` |
 | Logic | `examples/web/src/feedback/` | `examples/android/.../feedback/` |
 | Tests | `FeedbackPanel.test.ts`, `preview.test.ts` | `FeedbackPreviewTest.kt` |
-| Wiring | `appBootstrap.ts` / `AppShell.ts` ≤10 lines | `GoldenPathApp.kt` ≤10 lines |
+| Wiring | `appBootstrap.ts` / `AppShell.ts` ≤10 lines | `HermesApp.kt` ≤10 lines |
 ## Tests
 
 - Automated: yes — `FeedbackPanel.test.ts`, `preview.test.ts`, `FeedbackPreviewTest.kt`

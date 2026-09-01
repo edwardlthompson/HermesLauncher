@@ -30,7 +30,7 @@ try {
     Write-Host "APK: $($apk.FullName)"
     & $adb logcat -c 2>$null
     & $adb install -r $apk.FullName
-    & $adb shell am start -n "dev.foss.goldenpath/.MainActivity"
+    & $adb shell am start -n "org.hermeslauncher.app/.MainActivity"
     Start-Sleep -Seconds 5
     $log = Join-Path $env:TEMP "fdroid-dry-run-logcat.txt"
     & $adb logcat -d | Out-File -Encoding utf8 $log

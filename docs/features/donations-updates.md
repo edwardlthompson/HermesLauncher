@@ -30,7 +30,7 @@
 | Fetch/prefs | `githubRelease.ts`, `updatePrefs.ts`, `runAppUpdates.ts` | `GithubRelease.kt`, `UpdateLaunchPrefs.kt` |
 | View | `AppShell.ts`, `AboutPanel.ts`, `launchPrompt.ts` | `ui/GoldenPathScreen.kt`, `ui/about/` |
 | Tests | `productUpdate.test.ts`, `runAppUpdates.test.ts` | `ProductUpdateTest.kt` |
-| Wiring | `appBootstrap.ts` ≤10 lines | `GoldenPathApp.kt` ≤10 lines |
+| Wiring | `appBootstrap.ts` ≤10 lines | `HermesApp.kt` ≤10 lines |
 ## Tests
 
 - Automated: yes — `productUpdate.test.ts`, `runAppUpdates.test.ts`, `ProductUpdateTest.kt`

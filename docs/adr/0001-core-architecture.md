@@ -1,53 +1,29 @@
-# ADR-0001: Core Application Architecture (Child Repo)
+# ADR-0001: Original Compose launcher on Golden Path
 
-- **Status:** Proposed (fill during Sprint 1)
-- **Date:** YYYY-MM-DD
-- **Deciders:** Project team
-
-> Template for child repositories. Template-repo baseline ADR is `docs/adr/0000-template-baseline.md`.
+- **Status:** Accepted
+- **Date:** 2026-09-01
+- **Deciders:** HUMAN approved the Sprint 0 plan (2026-09-01) and asked the agent to automate remaining HUMAN items
 
 ## Context
 
-Choose a primary architecture pattern for the application layer. Document the choice before Golden Path implementation.
+Hermes needs a unique FOSS home-screen replacement that keeps every agent-project-bootstrap invariant (FOSS-only, file budgets, strings.xml, reproducible builds). Forking an existing launcher would import a different architecture and license surface.
 
 ## Decision
 
-**Selected pattern:** 🔲 MVVM  🔲 Clean Architecture  🔲 Hexagonal (Ports & Adapters)
+Evolve `examples/android/` in place. Package `org.hermeslauncher.app`. Keep About, theme, DataStore, crash-capture, insets, and the thin `MainActivity`. Replace the greeting `HermesScreen` with a launcher shell. Use Clean + MVI for feed/vault; Compose state for chrome. Manual composition root — no Hilt in Sprint 1.
 
-### MVVM
-
-- **View:** UI components (web components, Android Jetpack Compose, CLI output)
-- **ViewModel:** Presentation state, user actions, no platform SDK calls
-- **Model:** Domain + data services
-
-**When:** UI-heavy apps with clear screen-level state.
-
-### Clean Architecture
-
-- **Entities:** Enterprise business rules
-- **Use cases:** Application-specific rules
-- **Interface adapters:** Controllers, presenters, gateways
-- **Frameworks:** DB, web framework, device APIs
-
-**When:** Long-lived products with multiple delivery surfaces.
-
-### Hexagonal
-
-- **Ports:** Interfaces the app exposes or requires
-- **Adapters:** HTTP, DB, CLI, Android Activities wired to ports
-- **Domain core:** No inward dependencies
-
-**When:** Strong testability and swappable infrastructure matter most.
+Theme/scaffold names: `HermesTheme`, `HermesScaffold`.
 
 ## Consequences
 
-- Golden Path feature must respect layer boundaries chosen above
-- CI coverage and lint gates apply per `examples/{stack}/` conventions
-- Changing this ADR later requires a new ADR and BUILD_PLAN `[HUMAN]` approval
+- Schema and shared types stay Sequential-only
+- Scripts that hardcoded `dev.foss.goldenpath` must stay in lockstep with the package
+- Hilt is a later DECISION_LOG revisit if the composition root exceeds about ten wires
 
 ## Alternatives Considered
 
 | Pattern | Rejected because |
 |---------|------------------|
-| Monolith MVC | TBD |
-| No structure | TBD |
+| Fork Lawnchair / KISS / other FOSS launchers | Not inbox-first; license and architecture entanglement |
+| Copy AetherFeed domain / SqlCipher | Wrong product; news/booru client, not a launcher |
+| Hilt in Sprint 1 | Extra graph for a stub shell; template has no Hilt |

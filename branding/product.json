@@ -1,23 +1,23 @@
 {
-  "mode": "template",
-  "name": "Golden Path",
-  "short_name": "GoldenPath",
-  "tagline": "FOSS apps with a clear path from idea to release",
-  "pitch": "Golden Path is the reference product identity shipped with agent-project-bootstrap: a privacy-respecting FOSS stack with design tokens, CI guardrails, and agent-ready sprints so you can go from template to a shippable app without reinventing the foundation.",
+  "mode": "product",
+  "name": "Hermes Launcher",
+  "short_name": "Hermes",
+  "tagline": "Your notifications, news, and podcasts — as home.",
+  "pitch": "Hermes Launcher is a FOSS Android home-screen replacement whose primary page is a persistent notification inbox mixed with news feeds and podcasts. Cards dismiss only via an explicit X; horizontal swipes page to extra widget screens. Everything stays local, private, and F-Droid ready.",
   "features": [
-    "Cross-stack design tokens with light, dark, and system themes",
-    "Labeled BUILD_PLAN sprints for humans, agents, and CI",
-    "Web PWA and Android FOSS golden-path stubs ready to prune or extend",
-    "Security defaults: Dependabot, CodeQL, gitleaks, and weekly triage docs",
-    "Replaceable branding kit — swap logos and colors when your identity is ready"
+    "Inbox-as-home: live and historical notifications without swipe-to-dismiss",
+    "Local Room vault for chat text and images after the source app deletes them",
+    "Extra swipeable pages that host traditional Android App Widgets",
+    "Large customizable dock, app drawer, search, and icon-pack support",
+    "FOSS-only Gradle/Kotlin/Compose stack with reproducible F-Droid builds"
   ],
   "quick_start": [
-    "Clone the repo and run `./scripts/init-project.sh` (or `.\\scripts\\init-project.ps1` on Windows).",
-    "Open your coding agent and follow `docs/START_HERE.md`. First-time walk: `docs/help/TOUR.md` (Cursor: `/tour`).",
-    "Set `branding/product.json` `mode` to `product`, fill name/tagline/pitch, then run `python3 scripts/generate-project-readme.py`."
+    "Clone the repo and open it in Cursor. Type `/tour` or read `docs/START_HERE.md`.",
+    "Install JDK 17+ and the Android SDK (API 34+ AOSP image).",
+    "From `examples/android`, run `./gradlew assembleDebug` with `SOURCE_DATE_EPOCH=1700000000`."
   ],
-  "install": "Requirements depend on your active stack (Node 20+, Python 3.11+, Android SDK). See the active `modules/{stack}/MODULE.md` and `examples/{stack}/README.md`.",
-  "usage": "Use `/bootstrap` for Sprint 0, `/build` for features, and `/verify` before merge. Edit colors in `design-tokens/design-tokens.json` and logos in `branding/assets/`, then run `python3 scripts/sync-design-tokens.py`.",
+  "install": "Sideload the debug APK or install a GitHub Release. F-Droid metadata lives under `examples/android/metadata/` and `examples/android/fastlane/`.",
+  "usage": "Set Hermes as the default Home app. Grant notification access when onboarding asks. Swipe horizontally for widget pages; tap X to dismiss a card. Open Settings from the gear for theme, privacy, and vault controls.",
   "urls": {
     "docs": "docs/START_HERE.md",
     "contributing": "CONTRIBUTING.md",
@@ -25,7 +25,7 @@
     "license": "LICENSE",
     "design": "docs/DESIGN_GUIDE.md",
     "branding": "branding/BRANDING.md",
-    "github_repo": "edwardlthompson/agent-project-bootstrap"
+    "github_repo": "edwardlthompson/HermesLauncher"
   },
   "badge": {
     "primary": "e94560",
@@ -34,8 +34,6 @@
     "foss": "656d76"
   },
   "stacks": [
-    "web",
-    "python",
     "android"
   ]
 }
