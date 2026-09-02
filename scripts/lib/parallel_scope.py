@@ -60,6 +60,8 @@ def check_build_plan_parallel(
 
     for block in blocks:
         body = "\n".join(block.lines)
+        if "archived in COMPLETED_TASKS.md" in body:
+            continue
         if not PARALLEL_HEADER.search(body):
             if block.parallel_exception:
                 continue

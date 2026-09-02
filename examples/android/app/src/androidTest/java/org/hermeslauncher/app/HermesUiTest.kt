@@ -17,18 +17,22 @@ class HermesUiTest {
         composeTestRule.onNodeWithContentDescription("Settings").performClick()
         composeTestRule.onNodeWithText("Settings").assertIsDisplayed()
         composeTestRule.onNodeWithText("Theme").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Ignore persistent notifications").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Keep notification photos").assertIsDisplayed()
         composeTestRule.onNodeWithText("Dark theme").performClick()
         composeTestRule.onNodeWithText("Close settings").performClick()
     }
 
     @Test
     fun showsInboxPlaceholderOnHome() {
-        composeTestRule.onNodeWithText("Inbox page — notifications will appear here").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Tap X to dismiss a card. Horizontal swipe changes pages.").assertIsDisplayed()
         composeTestRule.onNodeWithContentDescription("Open app drawer").assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("Settings").assertIsDisplayed()
     }
 
     @Test
     fun opensAboutPanelWithVersion() {
+        composeTestRule.onNodeWithContentDescription("Open app drawer").performClick()
         composeTestRule.onNodeWithContentDescription("About").performClick()
         composeTestRule.onNodeWithText("About").assertIsDisplayed()
         composeTestRule.onNodeWithText("Installed format: apk").assertIsDisplayed()

@@ -17,6 +17,48 @@
 
 ## Entries
 
+### 2026-09-01 — HOME-again search, dots, FOSS live wallpaper
+- **Status:** Accepted
+- **Context:** Inbox is the real notification list; dock/All Apps need a glanceable unread count. Home again should launch apps quickly. Nova-style double-tap and a Google-free wallpaper path were requested.
+- **Decision:** Dots count visible vault unread per package. Extra HOME while already on inbox opens a usage+inbox overlay (`onNewIntent`). Double-tap lock uses Device Admin `lockNow()`, not Accessibility. Wallpaper never `setPackage` Google; prefer AOSP/Lineage if resolved; ship MIT Gradient and Clock `WallpaperService` engines.
+- **Alternatives considered:** OEM badge APIs (rejected: not FOSS-portable). Accessibility lock (rejected). Vendoring AOSP WallpaperPicker Java (rejected: keep Compose + in-tree engines).
+- **Consequences:** Sprint 17. CAMERA optional for torch. Device admin prompt on first lock. SQLCipher pool stays one writer; prune is throttled.
+
+### 2026-09-01 — Dock ranks usage, not launches
+- **Status:** Accepted
+- **Context:** Opening an app from a Hermes notification is not a launcher launch. Launch-count ranking would ignore the inbox's main open path.
+- **Decision:** Rank the dock by last 7 days `UsageStats.lastTimeUsed`, tie-break `totalTimeInForeground`. No Hermes-only launch counter. `PACKAGE_USAGE_STATS` + Usage access settings; denied keeps seeded order. Custom mode stores slots (codec v2).
+- **Alternatives considered:** Launch count (rejected). Hermes-only tap counter (rejected: duplicates OS usage and misses notification opens' foreground time).
+- **Consequences:** Sprint 16. OP12 smoke: open from a notification, wait, return — usage dock includes it.
+
+### 2026-09-01 — Inbox categories from ApplicationInfo
+- **Status:** Accepted
+- **Context:** Play Store category pages are not on-device. Scraping play.google.com is ToS, network, and not FOSS.
+- **Decision:** Group Category view by `ApplicationInfo.category` (`android:appCategory`) ints 0–8, else Other. `MixPolicy.merge` is the Time layout.
+- **Alternatives considered:** Play HTML scrape (rejected). Manual user tags (deferred).
+- **Consequences:** Missing/undefined category → Other. No PackageManager in unit tests (fake ints).
+
+### 2026-09-01 — Launcher3-look home chrome (Compose)
+- **Status:** Accepted
+- **Context:** Pixel-style occupancy was in, but add/resize/remove chrome was a text list and two square handles. Lawnchair/Kvaesitso/Posidon are GPL. AOSP Launcher3 is Apache-2.0.
+- **Decision:** Restyle in Hermes Compose after Launcher3 interaction (OptionsPopup, `ACTION_SET_WALLPAPER` without a Google package, preview cells, four-handle frame, top Remove well, grouped settings). Occupancy/bind stay in Hermes. No Launcher3 Java in tree.
+- **Alternatives considered:** Vendoring Launcher3 (rejected: fork). Pinning Pixel wallpaper picker (rejected: not FOSS). PreferenceFragment XML (rejected: Compose settings already exist).
+- **Consequences:** Sprint 15 AGENT slice. OP12 `[ADB]` smoke for popup, wallpaper chooser, preview bind, handles, Remove well.
+
+### 2026-09-01 — Pixel widget grid and grouped inbox
+- **Status:** Accepted
+- **Context:** Tap-to-list picker and flat inbox cards were not a home-screen host. Lawnchair/Launcher3/Kvaesitso/Posidon are GPL or AOSP-mix.
+- **Decision:** Implement Pixel interaction in Hermes Compose (`WidgetGrid` 4x5, codec v3, drop after occupancy, trailing empty page cap 20). Inbox stacks by sending app after `InboxFilter.apply`. Inspiration-only; no third-party launcher sources.
+- **Alternatives considered:** Vendoring Launcher3/Kvaesitso (license). System `ACTION_APPWIDGET_PICK` (no drag preview). MixPolicy interleave inside app stacks (rejected: feeds list below groups).
+- **Consequences:** v2 layouts restack via `stackedFromV2`. Page 0 stays inbox. Full drag/bind/resize gestures remain an OP12 `[ADB]` checklist.
+
+### 2026-09-01 — Pruned-child About gate skip
+- **Status:** Accepted
+- **Context:** `/build` local `pre-release-gate.sh --local` failed `--strict` about-feature-gate after 180s because `verify-about-feature-gate.sh` still launched `--stack web` on an android-only child.
+- **Decision:** Exit 0 with SKIP when no Golden Path About slices exist (web/node/python/rust/go). `check-build-plan-parallel` skips sprints whose body says they are archived in `COMPLETED_TASKS.md`.
+- **Alternatives considered:** Raising `FEATURE_GATE_TIMEOUT_about` (hides the prune bug). Restoring template web stacks (wrong for Hermes).
+- **Consequences:** Child android pre-release can pass locally. Origin CI on `c2bb2c4` stays red until a `[HUMAN]` push. Weekly AUTO rows for GitHub CI stay ❌ this week.
+
 ### 2026-09-01 — Hermes child seed and architecture ADRs
 - **Status:** Accepted
 - **Context:** Empty `HermesLauncher` workspace; HUMAN approved the Plan Mode architecture and asked the agent to automate HUMAN items (GitHub repo, Dependabot, ADR sign-off, BATCH_COMMANDS bookmark).

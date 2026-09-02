@@ -2,6 +2,140 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## Sprint 17 — Icons, search, gestures, FOSS wallpapers (2026-09-01)
+
+- ✅ [AGENT] Off-thread icon LruCache for All Apps + dock
+- ✅ [AGENT] Usage-access banner (not RepairPolicy overlay)
+- ✅ [AGENT] Throttle vault prune; document SQLCipher single-writer
+- ✅ [AGENT] Notification dots on dock/All Apps from vault unread
+- ✅ [AGENT] Unified search overlay (usage + inbox) and HOME-again
+- ✅ [AGENT] Double-tap lock / flashlight
+- ✅ [AGENT] FOSS/AOSP wallpaper preference + in-tree live wallpapers
+
+## Sprint 16 — Inbox views, dock usage, All Apps (2026-09-01)
+
+- ✅ [AGENT] Unread badge + FilterBar collapse + inbox search includes archived
+- ✅ [AGENT] Inbox layout App / Category (`ApplicationInfo.category`) / Time (`MixPolicy.merge`)
+- ✅ [AGENT] Settings history + max-items + 30-day prune
+- ✅ [AGENT] Dock **usage** (not launches) vs custom + `PACKAGE_USAGE_STATS`
+- ✅ [AGENT] Launcher3-look All Apps grid + letter rail (Compose)
+- ✅ [AGENT] Long-press deep shortcuts via `LauncherApps.getShortcuts`
+- ✅ [AGENT] Widget picker search
+
+## Sprint 15 — Launcher3-look home chrome (2026-09-01)
+
+- ✅ [AGENT] Home options popup, wallpaper intent, preview-card picker, four-handle resize, drag-to-Remove well, grouped settings
+
+## Sprint 14 — User widget grid (2026-09-01)
+
+- ✅ [AGENT] `WidgetGridSpec` + codec v4 + Settings grid + 2×2 drop (no provider min size)
+- ✅ [ADB] OP12 `b5214fc6` only: set 6×6, drop two widgets on one page, drag the second; logcat `HermesWidget`
+
+## Sprint 13 — Pixel widgets and grouped inbox (2026-09-01)
+
+- ✅ [AGENT] Lock `docs/features/widget-grid.md` + `docs/features/inbox-groups.md`; `WidgetBinding.cellX/Y`, `WidgetGrid`, codec v3, `HomePagerState.pageCountFor`, `InboxFilter.groups`
+- ✅ [AGENT] Drop-to-bind `WidgetHostController` (`inFlight`, allocate after occupancy, trailing page, `fail` deletes id)
+- ✅ [AGENT] Pixel sheet/drag/resize UI (`examples/android/app/src/main/java/org/hermeslauncher/app/ui/widgets/**`) + pager coerce
+- ✅ [AGENT] Grouped inbox + Search/Filter icons (`ui/inbox/**`, `FeedPage.kt`)
+
+## Sprint 12 — SQLCipher (2026-09-01)
+
+- ✅ [AGENT] Lock `docs/features/vault-encryption.md`
+- ✅ [AGENT] SQLCipher vault open + Keystore passphrase (`examples/android/app/src/main/java/org/hermeslauncher/app/vault/**`)
+
+## Sprint 11 — Resize and icon packs (2026-09-01)
+
+- ✅ [AGENT] Lock resize + icon-pack Resources API (`docs/features/widget-resize.md`, extend `launcher-chrome.md`)
+- ✅ [AGENT] Widget size persist (`examples/android/app/src/main/java/org/hermeslauncher/app/widgets/**`)
+- ✅ [AGENT] Icon pack Resources + customize (`examples/android/app/src/main/java/org/hermeslauncher/app/icons/**`)
+
+## Sprint 10 — Feeds and player (2026-09-01)
+
+- ✅ [AGENT] Lock HTTP/OPML fetch API (extend `docs/features/feeds.md`)
+- ✅ [AGENT] Feed fetch + OPML import (`examples/android/app/src/main/java/org/hermeslauncher/app/feeds/**`)
+- ✅ [AGENT] Media3 ExoPlayer + i18n (`examples/android/app/src/main/java/org/hermeslauncher/app/ui/player/**`)
+
+## Sprint 9 — Inbox filters (2026-09-01)
+
+- ✅ [AGENT] Lock `docs/features/inbox-filters.md`
+- ✅ [AGENT] Filter + search logic (`examples/android/app/src/main/java/org/hermeslauncher/app/vault/**`)
+- ✅ [AGENT] Filter chips + i18n (`examples/android/app/src/main/java/org/hermeslauncher/app/ui/inbox/**`)
+
+## Sprint 8 — Live home (2026-09-01)
+
+- ✅ [AGENT] Lock `docs/features/live-home.md` (permissions, chrome, widget host, grant sheet)
+- ✅ [AGENT] Listener + snapshot adapters + MessagingStyle `MessagePart` mapper
+- ✅ [AGENT] `AppWidgetHost` allocate/bind/persist API
+- ✅ [AGENT] First-run overlay + repair banner (`examples/android/app/src/main/java/org/hermeslauncher/app/ui/onboarding/**`)
+- ✅ [AGENT] Dock/drawer + long-press assign (`examples/android/app/src/main/java/org/hermeslauncher/app/ui/launcher/**`)
+- ✅ [AGENT] Widget page AndroidView (`examples/android/app/src/main/java/org/hermeslauncher/app/ui/widgets/**`)
+
+## Sprint 7 — F-Droid release polish (2026-09-01)
+
+- ✅ [AGENT] Lock release checklist (`docs/features/fdroid-release.md`)
+- ✅ [AGENT] Fastlane / metadata copy (`examples/android/fastlane/**`)
+- ✅ [AGENT] About donations + update stub verify (`examples/android/app/src/main/java/org/hermeslauncher/app/about/**`)
+
+## Sprint 6 — OEM onboarding (2026-09-01)
+
+- ✅ [AGENT] Lock permission-repair API (`docs/features/oem-onboarding.md`)
+- ✅ [AGENT] OEM detector + instructions (`examples/android/app/src/main/java/org/hermeslauncher/app/oem/**`)
+- ✅ [AGENT] Repair banner + i18n (`examples/android/app/src/main/java/org/hermeslauncher/app/ui/onboarding/**`)
+
+## Sprint 5 — Dock, icon packs, customization (2026-09-01)
+
+- ✅ [AGENT] Lock dock/icon-pack/search API (`docs/features/launcher-chrome.md`)
+- ✅ [AGENT] Icon pack + search logic (`examples/android/app/src/main/java/org/hermeslauncher/app/icons/**`)
+- ✅ [AGENT] Customization screens + i18n (`examples/android/app/src/main/java/org/hermeslauncher/app/ui/customize/**`)
+
+## Sprint 4 — RSS and podcasts (2026-09-01)
+
+- ✅ [AGENT] Lock RSS/OPML/episode API (`docs/features/feeds.md`)
+- ✅ [AGENT] Feed parse + mix policy (`examples/android/app/src/main/java/org/hermeslauncher/app/feeds/**`)
+- ✅ [AGENT] Media3 mini-player + i18n (`examples/android/app/src/main/java/org/hermeslauncher/app/ui/player/**`)
+
+## Sprint 3 — AppWidgetHost pages (2026-09-01)
+
+- ✅ [AGENT] Lock widget-host API (`docs/features/widget-pages.md`)
+- ✅ [AGENT] Host bind/persist logic (`examples/android/app/src/main/java/org/hermeslauncher/app/widgets/**`)
+- ✅ [AGENT] Widget page Compose + i18n (`examples/android/app/src/main/java/org/hermeslauncher/app/ui/widgets/**`)
+
+## Sprint 2 — Notification vault (2026-09-01)
+
+- ✅ [AGENT] Lock vault public API (`docs/features/notification-vault.md`)
+- ✅ [AGENT] Scaffold Room types and mapper boundary only
+- ✅ [AGENT] Mapper + Room unit tests (`examples/android/app/src/main/java/org/hermeslauncher/app/vault/**`)
+- ✅ [AGENT] X-dismiss card + i18n (`examples/android/app/src/main/java/org/hermeslauncher/app/ui/inbox/**`)
+
+## Sprint 1 — Launcher shell (2026-09-01)
+
+- ✅ [AGENT] Lock `HomePagerState`, `DockState`, `DrawerState`, `SwipePolicy` (`docs/features/launcher-shell.md`)
+- ✅ [HUMAN] Confirm ADR-0001 and ADR-0003 match the locked types
+- ✅ [AGENT] Implement HOME intent, pager (feed + 2 widget placeholders), dock stub, drawer stub, strings, tests
+- ✅ [AGENT] Pager + swipe-contract unit tests (`examples/android/app/src/test/java/org/hermeslauncher/app/launcher/**`)
+- ✅ [AGENT] Dock/drawer Compose (`examples/android/app/src/main/java/org/hermeslauncher/app/ui/launcher/**`)
+- ✅ [AGENT] Instrumented HOME smoke (`examples/android/app/src/androidTest/**`)
+- ✅ [HUMAN] Fill `release_repo` in `.app-update.json` (`edwardlthompson/HermesLauncher`)
+- ✅ [ADB] Sideloaded to OP12 (Lineage, waffle/CPH2583); Hermes is default HOME; pager swipe smoke passed
+
+## Sprint 0 — Hermes seed (2026-09-01)
+
+- ✅ [AGENT] Clone vanilla agent-project-bootstrap into this workspace and rename `origin` to `template`
+- ✅ [AGENT] Run `scripts/init-project.ps1` (`-Stack android`, MIT, prune unused stacks)
+- ✅ [AGENT] Identity lock: `org.hermeslauncher.app`, `HermesTheme` / `HermesScaffold`, hardcoded script paths
+- ✅ [AGENT] Write `docs/spec.md`, ADRs 0001-0004, `docs/THREAT_MODEL.md`, branding, BUILD_PLAN, AGENTS card
+- ✅ [AUTO] Sprint 0 sign-off: `validate-bootstrap.sh --quick`, encoding, `check-build-plan-parallel.sh`; Android `./gradlew test` green on Windows JDK 17
+- ✅ [AGENT] Android strings and About assets (`examples/android/app/src/main/res/**`)
+- ✅ [AGENT] Gate script package paths (`scripts/lib/**`)
+- ✅ [AGENT] Fastlane / metadata / Module A checklists (`examples/android/metadata/**`)
+- ✅ [HUMAN] Create the GitHub repo `edwardlthompson/HermesLauncher` (agent automated via `gh`)
+- ✅ [HUMAN] Distribution tier is FOSS (MIT)
+- ✅ [HUMAN] Approve ADRs 0001-0004 (plan approval 2026-09-01)
+- ✅ [HUMAN] Plan Mode then Agent Mode for approved execution
+- ✅ [HUMAN] Bookmark `docs/help/BATCH_COMMANDS.md` (Cursor user rule added)
+- ✅ [HUMAN] Enable Dependabot alerts, security updates, private vulnerability reporting (`setup-github-repo.sh`)
+- ✅ [ADB] SDK at `%LOCALAPPDATA%\Android\Sdk`, AVD `Medium_Phone_API_36.1`, two devices attached; `assembleDebug` succeeded
+
 ## v1.0.0 First stable template (2026-08-28)
 
 - ✅ [AUTO] Merge Release Please PR #82 — [v1.0.0](https://github.com/edwardlthompson/agent-project-bootstrap/releases/tag/v1.0.0) published @ `3dae768`

@@ -137,10 +137,6 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: "22"
-          cache: npm
-          cache-dependency-path: |
-            examples/web/package-lock.json
-            examples/node/package-lock.json
       - uses: astral-sh/setup-uv@v7
         with:
           enable-cache: true
@@ -226,6 +222,8 @@ jobs:
 
   web:
     name: Web - Lint, Test, Build
+    needs: stack-presence
+    if: needs.stack-presence.outputs.web == 'true'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -301,6 +299,8 @@ jobs:
 
   node:
     name: Node - Lint, Test
+    needs: stack-presence
+    if: needs.stack-presence.outputs.node == 'true'
     runs-on: ubuntu-latest
     defaults:
       run:

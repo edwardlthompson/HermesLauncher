@@ -6,6 +6,17 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
+# Child repos that pruned Golden Path stacks have no About lego to add/remove.
+# Running --stack web here used to sit on a 180s FEATURE_GATE_TIMEOUT_about.
+if ! { [ -d examples/web/src/about ] \
+  || [ -f examples/node/src/about.ts ] \
+  || [ -f examples/python/src/hello/about.py ] \
+  || [ -f examples/rust/src/about.rs ] \
+  || [ -f examples/go/about.go ]; }; then
+  echo "SKIP About feature gate (Golden Path About slices pruned)"
+  exit 0
+fi
+
 # shellcheck source=lib/resolve-python.sh
 . "$(cd "$(dirname "$0")" && pwd)/lib/resolve-python.sh"
 

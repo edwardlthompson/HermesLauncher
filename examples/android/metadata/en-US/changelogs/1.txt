@@ -1,1 +1,1 @@
-Initial Golden Path Android stub for agent-project-bootstrap template.
+Initial Hermes Launcher preview: home inbox shell, widget pages, and local-only privacy defaults.

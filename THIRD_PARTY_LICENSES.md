@@ -20,6 +20,7 @@ cd examples/python && uv run pip-licenses --format=markdown
 # Rust / Go (optional stacks — MIT stubs; expand when deps are added)
 grep 'license' examples/rust/Cargo.toml
 head -1 examples/go/go.mod
+
 ```
 
 `[AUTO]` CI runs `scripts/check-license-compliance.sh` on each push.
@@ -28,6 +29,8 @@ head -1 examples/go/go.mod
 
 When bundling dependencies in releases (APK, desktop binary, etc.), include
 this file or a generated `NOTICE` file in the distribution artifact.
+
+Home-screen interaction (options popup, widget tray, resize frame, remove well) is modeled on AOSP Launcher3 (Apache-2.0). Hermes reimplements that look in Compose and does not vendor Launcher3 sources.
 
 ## Incompatible Licenses
 

@@ -27,6 +27,7 @@ import org.hermeslauncher.app.ui.theme.ThemePreferences
 import org.hermeslauncher.app.ui.theme.next
 import kotlinx.coroutines.CoroutineScope
 import org.hermeslauncher.app.ui.theme.HermesTheme
+import org.hermeslauncher.app.widgets.WidgetHostController
 import kotlinx.coroutines.launch
 
 @Composable
@@ -36,6 +37,7 @@ fun HermesApp(
     themePreferences: ThemePreferences,
     appUpdatePreferences: AppUpdatePreferences,
     networkStatusMonitor: NetworkStatusMonitor,
+    widgetController: WidgetHostController,
 ) {
     val themeMode by themePreferences.themeMode.collectAsStateWithLifecycle(initialValue = ThemeMode.System)
     val isOnline by networkStatusMonitor.isOnline.collectAsStateWithLifecycle(initialValue = true)
@@ -73,6 +75,7 @@ fun HermesApp(
         NavigationModeProvider {
             HermesScreen(
                 snackbarHostState = snackbarHostState,
+                widgetController = widgetController,
                 themeMode = themeMode,
                 isOnline = isOnline,
                 showAbout = showAbout,

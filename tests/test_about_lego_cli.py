@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import os
 import shutil
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -50,6 +52,49 @@ class AboutLegoCliTests(unittest.TestCase):
                 "AboutSummary",
                 (root / "examples/go/main.go").read_text(encoding="utf-8"),
             )
+
+
+def _bash() -> str | None:
+    if os.name == "nt":
+        for base in (
+            os.environ.get("ProgramFiles", r"C:\Program Files"),
+            os.environ.get("ProgramFiles(x86)", r"C:\Program Files (x86)"),
+        ):
+            candidate = Path(base) / "Git" / "bin" / "bash.exe"
+            if candidate.is_file():
+                return str(candidate)
+        which = shutil.which("bash")
+        if which and "System32" not in which.replace("/", "\\"):
+            return which
+        return None
+    return shutil.which("bash")
+
+
+class AboutGateSkipTests(unittest.TestCase):
+    def test_pruned_child_skips_about_gate(self) -> None:
+        markers = (
+            ROOT / "examples/web/src/about",
+            ROOT / "examples/node/src/about.ts",
+            ROOT / "examples/python/src/hello/about.py",
+            ROOT / "examples/rust/src/about.rs",
+            ROOT / "examples/go/about.go",
+        )
+        if any(path.exists() for path in markers):
+            self.skipTest("Golden Path About slice present")
+        bash = _bash()
+        if not bash:
+            self.skipTest("bash not available")
+        proc = subprocess.run(
+            [bash, "scripts/verify-about-feature-gate.sh"],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+            timeout=30,
+        )
+        combined = (proc.stdout or "") + (proc.stderr or "")
+        self.assertEqual(proc.returncode, 0, combined)
+        self.assertIn("SKIP About feature gate", combined)
 
 
 if __name__ == "__main__":

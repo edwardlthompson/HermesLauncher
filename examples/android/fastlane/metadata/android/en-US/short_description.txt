@@ -1,1 +1,1 @@
-Golden Path FOSS Android stub for agent-project-bootstrap template.
+FOSS home screen: notification inbox, news, podcasts, and widget pages.

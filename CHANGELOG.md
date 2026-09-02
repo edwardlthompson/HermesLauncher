@@ -8,13 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.0.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.25.0...v1.0.0) (2026-08-28)
 
+## [1.0.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.25.0...v1.0.0) (2026-08-28)
 
 ### chore
 
 * **release:** prepare v1.0.0 release ([6e037a2](https://github.com/edwardlthompson/agent-project-bootstrap/commit/6e037a237aaa62c9b6c4514264ca527437056e21))
-
 
 ### Added
 
@@ -45,7 +44,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * **security:** add FOSS Semgrep rules without SaaS upload ([43a09be](https://github.com/edwardlthompson/agent-project-bootstrap/commit/43a09be567d867c57eb8761e62809367834f182d))
 * **security:** add Gitleaks baseline for fixture secrets ([ad9f7b5](https://github.com/edwardlthompson/agent-project-bootstrap/commit/ad9f7b5621d12db11a7e7a95849155426ef6db0a))
 * **security:** redact prompt-injection phrases in crash text ([4be4cff](https://github.com/edwardlthompson/agent-project-bootstrap/commit/4be4cff05cd2fb8c57e3aeb09a488454f8264718))
-
 
 ### Fixed
 

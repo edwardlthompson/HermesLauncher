@@ -9,17 +9,19 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import org.hermeslauncher.app.ui.insets.bottomInsetPadding
 
 @Composable
 fun HermesScaffold(
     snackbarHostState: SnackbarHostState,
     modifier: Modifier = Modifier,
-    topBar: @Composable () -> Unit,
+    topBar: @Composable () -> Unit = {},
     content: @Composable (PaddingValues) -> Unit,
 ) {
     Scaffold(
         modifier = modifier.fillMaxSize(),
+        containerColor = Color.Transparent,
         contentWindowInsets = WindowInsets.safeDrawing,
         snackbarHost = {
             SnackbarHost(

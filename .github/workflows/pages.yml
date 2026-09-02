@@ -17,6 +17,7 @@ concurrency:
 jobs:
   build:
     name: Build web demo
+    if: hashFiles('examples/web/package-lock.json') != ''
     runs-on: ubuntu-latest
     permissions:
       contents: read

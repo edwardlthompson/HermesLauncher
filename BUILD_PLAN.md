@@ -67,147 +67,109 @@ When **Sprint 0** ends: stop re-reading `docs/INITIALIZATION_PROMPT.md` as the d
 
 ### Sprint 0 — Hermes seed
 
-#### Sequential
-
-1. ✅ [AGENT] Clone vanilla agent-project-bootstrap into this workspace and rename `origin` to `template`
-2. ✅ [AGENT] Run `scripts/init-project.ps1` (`-Stack android`, MIT, prune unused stacks)
-3. ✅ [AGENT] Identity lock: `org.hermeslauncher.app`, `HermesTheme` / `HermesScaffold`, hardcoded script paths
-4. ✅ [AGENT] Write `docs/spec.md`, ADRs 0001-0004, `docs/THREAT_MODEL.md`, branding, BUILD_PLAN, AGENTS card
-5. ✅ [AUTO] Sprint 0 sign-off: `validate-bootstrap.sh --quick`, encoding, `check-build-plan-parallel.sh`; Android `./gradlew test` green on Windows JDK 17
-
-#### Parallel (safe after Sequential step 4)
-
-<!-- agent_count_target: 3 -->
-
-| Task | Owner | Isolated scope |
-| ---- | ----- | -------------- |
-| Android strings and About assets | AGENT | `examples/android/app/src/main/res/**` |
-| Gate script package paths | AGENT | `scripts/lib/**` |
-| Fastlane / metadata / Module A checklists | AGENT | `examples/android/metadata/**` |
-
-#### Human & device (after automation)
-
-1. ✅ [HUMAN] Create the GitHub repo `edwardlthompson/HermesLauncher` (agent automated via `gh`)
-1a. ✅ [HUMAN] Distribution tier is FOSS (MIT)
-2. ✅ [HUMAN] Approve ADRs 0001-0004 (plan approval 2026-09-01)
-2a. ✅ [HUMAN] Plan Mode then Agent Mode for approved execution
-2b. ✅ [HUMAN] Bookmark `docs/help/BATCH_COMMANDS.md` (Cursor user rule added)
-3. ✅ [HUMAN] Enable Dependabot alerts, security updates, private vulnerability reporting (`setup-github-repo.sh`)
-4. ✅ [ADB] SDK at `%LOCALAPPDATA%\Android\Sdk`, AVD `Medium_Phone_API_36.1`, two devices attached; `assembleDebug` succeeded
+> **Sprint 0** archived in COMPLETED_TASKS.md @ `c2bb2c4`.
 
 ### Sprint 1 — Launcher shell
 
-#### Sequential
-
-1. ✅ [AGENT] Lock `HomePagerState`, `DockState`, `DrawerState`, `SwipePolicy` (`docs/features/launcher-shell.md`)
-2. ✅ [HUMAN] Confirm ADR-0001 and ADR-0003 match the locked types
-3. ✅ [AGENT] Implement HOME intent, pager (feed + 2 widget placeholders), dock stub, drawer stub, strings, tests
-
-#### Parallel (safe after Sequential step 1)
-
-<!-- agent_count_target: 3 -->
-
-| Task | Owner | Isolated scope |
-| ---- | ----- | -------------- |
-| Pager + swipe-contract unit tests | AGENT | `examples/android/app/src/test/java/org/hermeslauncher/app/launcher/**` |
-| Dock/drawer Compose | AGENT | `examples/android/app/src/main/java/org/hermeslauncher/app/ui/launcher/**` |
-| Instrumented HOME smoke | AGENT | `examples/android/app/src/androidTest/**` |
-
-#### Human & device (after automation)
-
-1. ✅ [HUMAN] Fill `release_repo` in `.app-update.json` (`edwardlthompson/HermesLauncher`)
-2. 🔲 [ADB] Set Hermes as Home on an emulator or device and swipe pages
+> **Sprint 1** archived in COMPLETED_TASKS.md @ `c2bb2c4`.
 
 ### Sprint 2 — Notification vault
 
-#### Sequential
-
-1. 🔲 [AGENT] Lock vault public API (`docs/features/notification-vault.md`)
-2. 🔲 [AGENT] Scaffold Room types and mapper boundary only
-
-#### Parallel (safe after Sequential step 2)
-
-<!-- agent_count_target: 2 -->
-
-| Task | Owner | Isolated scope |
-| ---- | ----- | -------------- |
-| Mapper + Room unit tests | AGENT | `examples/android/app/src/main/java/org/hermeslauncher/app/vault/**` |
-| X-dismiss card + i18n | AGENT | `examples/android/app/src/main/java/org/hermeslauncher/app/ui/inbox/**` |
+> **Sprint 2** archived in COMPLETED_TASKS.md @ `c2bb2c4`.
 
 ### Sprint 3 — AppWidgetHost pages
 
-#### Sequential
-
-1. 🔲 [AGENT] Lock widget-host API (`docs/features/widget-pages.md`)
-
-#### Parallel (safe after Sequential step 1)
-
-<!-- agent_count_target: 2 -->
-
-| Task | Owner | Isolated scope |
-| ---- | ----- | -------------- |
-| Host bind/persist logic | AGENT | `examples/android/app/src/main/java/org/hermeslauncher/app/widgets/**` |
-| Widget page Compose + i18n | AGENT | `examples/android/app/src/main/java/org/hermeslauncher/app/ui/widgets/**` |
+> **Sprint 3** archived in COMPLETED_TASKS.md @ `c2bb2c4`.
 
 ### Sprint 4 — RSS and podcasts
 
-#### Sequential
-
-1. 🔲 [AGENT] Lock RSS/OPML/episode API (`docs/features/feeds.md`)
-
-#### Parallel (safe after Sequential step 1)
-
-<!-- agent_count_target: 2 -->
-
-| Task | Owner | Isolated scope |
-| ---- | ----- | -------------- |
-| Feed parse + mix policy | AGENT | `examples/android/app/src/main/java/org/hermeslauncher/app/feeds/**` |
-| Media3 mini-player + i18n | AGENT | `examples/android/app/src/main/java/org/hermeslauncher/app/ui/player/**` |
+> **Sprint 4** archived in COMPLETED_TASKS.md @ `c2bb2c4`.
 
 ### Sprint 5 — Dock, icon packs, customization
 
-#### Sequential
-
-1. 🔲 [AGENT] Lock dock/icon-pack/search API (`docs/features/launcher-chrome.md`)
-
-#### Parallel (safe after Sequential step 1)
-
-<!-- agent_count_target: 2 -->
-
-| Task | Owner | Isolated scope |
-| ---- | ----- | -------------- |
-| Icon pack + search logic | AGENT | `examples/android/app/src/main/java/org/hermeslauncher/app/icons/**` |
-| Customization screens + i18n | AGENT | `examples/android/app/src/main/java/org/hermeslauncher/app/ui/customize/**` |
+> **Sprint 5** archived in COMPLETED_TASKS.md @ `c2bb2c4`.
 
 ### Sprint 6 — OEM onboarding
 
-#### Sequential
-
-1. 🔲 [AGENT] Lock permission-repair API (`docs/features/oem-onboarding.md`)
-
-#### Parallel (safe after Sequential step 1)
-
-<!-- agent_count_target: 2 -->
-
-| Task | Owner | Isolated scope |
-| ---- | ----- | -------------- |
-| OEM detector + instructions | AGENT | `examples/android/app/src/main/java/org/hermeslauncher/app/oem/**` |
-| Repair banner + i18n | AGENT | `examples/android/app/src/main/java/org/hermeslauncher/app/ui/onboarding/**` |
+> **Sprint 6** archived in COMPLETED_TASKS.md @ `c2bb2c4`.
 
 ### Sprint 7 — F-Droid release polish
 
-#### Sequential
+> **Sprint 7** archived in COMPLETED_TASKS.md @ `c2bb2c4`.
 
-1. 🔲 [AGENT] Lock release checklist (`docs/features/fdroid-release.md`)
+### Sprint 8 — Live home
 
-#### Parallel (safe after Sequential step 1)
+> **Sprint 8** archived in COMPLETED_TASKS.md @ `c2bb2c4`.
 
-<!-- agent_count_target: 2 -->
+#### Human & device (after automation)
 
-| Task | Owner | Isolated scope |
-| ---- | ----- | -------------- |
-| Fastlane / metadata copy | AGENT | `examples/android/fastlane/**` |
-| About donations + update stub verify | AGENT | `examples/android/app/src/main/java/org/hermeslauncher/app/about/**` |
+1. 🔲 [ADB] Sideload OP12 (`b5214fc6` only); confirm overlay, wallpaper home, Add widget, dock assign
+
+### Sprint 9 — Inbox filters
+
+> **Sprint 9** archived in COMPLETED_TASKS.md @ `c2bb2c4`.
+
+### Sprint 10 — Feeds and player
+
+> **Sprint 10** archived in COMPLETED_TASKS.md @ `c2bb2c4`.
+
+### Sprint 11 — Resize and icon packs
+
+> **Sprint 11** archived in COMPLETED_TASKS.md @ `c2bb2c4`.
+
+### Sprint 12 — SQLCipher
+
+> **Sprint 12** archived in COMPLETED_TASKS.md @ `c2bb2c4`.
+
+#### Human & device (after automation)
+
+1. 🔲 [ADB] Confirm granted vault rows survive migration or show rebuild copy
+
+---
+
+### Sprint 13 — Pixel widgets and grouped inbox
+
+> **Sprint 13** archived in COMPLETED_TASKS.md @ `c2bb2c4`.
+
+#### Human & device (after automation)
+
+1. 🔲 [ADB] OP12 `b5214fc6` only: bind-deny, configure-cancel (no ghost), drag onto new page, visible width resize, group expand + per-item X + group X; logcat `HermesWidget` / `HermesVault`
+
+---
+
+### Sprint 14 — User widget grid
+
+> **Sprint 14** archived in COMPLETED_TASKS.md @ `c2bb2c4`.
+
+---
+
+### Sprint 15 — Launcher3-look home chrome
+
+> **Sprint 15** archived in COMPLETED_TASKS.md @ `c2bb2c4`.
+
+#### Human & device (after automation)
+
+1. 🔲 [ADB] OP12 `b5214fc6` only: empty long-press → Wallpaper / Widgets / Settings; wallpaper chooser; preview-card bind 2×2; four-handle resize; drop on Remove well; logcat `HermesWidget`
+
+---
+
+### Sprint 16 — Inbox views, dock usage, All Apps
+
+> **Sprint 16** archived in COMPLETED_TASKS.md @ `c2bb2c4`.
+
+#### Human & device (after automation)
+
+1. 🔲 [ADB] OP12 `b5214fc6` only: unread badge; search close; dismissed history; category/time; usage dock after notification-open; All Apps rail; shortcuts if Home; widget search
+
+---
+
+### Sprint 17 — Icons, search, gestures, FOSS wallpapers
+
+> **Sprint 17** archived in COMPLETED_TASKS.md @ `c2bb2c4`.
+
+#### Human & device (after automation)
+
+1. 🔲 [ADB] OP12 `b5214fc6` only: live widgets tick; All Apps fling; usage banner grant; prune not per-persist; unread dots; Home-again search; double-tap torch/lock; AOSP wallpaper chooser; Hermes Gradient/Clock live wallpaper
 
 ---
 
@@ -217,21 +179,41 @@ When **Sprint 0** ends: stop re-reading `docs/INITIALIZATION_PROMPT.md` as the d
 
 ### Weekly
 
-- 🔲 [AUTO] `check-security-triage.sh --wait-ci 300` (Dependabot + CI)
-- 🔲 [AGENT] `/update-deps` locally; triage leftover Dependabot PRs
-- 🔲 [AUTO] CI + Repo Hygiene + Feature Gate green on `main`
+- ❌ [AUTO] `check-security-triage.sh --wait-ci 300` (Dependabot + CI) — origin CI red on `c2bb2c4` (Feature Gate / Node `setup-node` npm cache); local workaround unpushed
+- ✅ [AGENT] `/update-deps` locally; triage leftover Dependabot PRs
+- ❌ [AUTO] CI + Repo Hygiene + Feature Gate green on `main` — same origin CI failure; needs `[HUMAN]` push
 
 ### Monthly
 
-- 🔲 [AUTO] `check-license-compliance.sh` + SBOM on latest release
+- ✅ [AUTO] `check-license-compliance.sh` + SBOM on latest release
 
 ### Pre-release (every version)
 
-- 🔲 [AUTO] `pre-release-gate.sh --local` before push
+- ✅ [AUTO] `pre-release-gate.sh --local` before push
 - 🔲 [HUMAN] Approve release tag when product-ready
 
 ---
 
 ## Archived Sprints
 
+| Sprint | Complete | Archive |
+| ------ | -------- | ------- |
+| Sprint 0 — Hermes seed | 2026-09-01 | `COMPLETED_TASKS.md` |
+| Sprint 1 — Launcher shell | 2026-09-01 | `COMPLETED_TASKS.md` |
+| Sprint 2 — Notification vault | 2026-09-01 | `COMPLETED_TASKS.md` |
+| Sprint 3 — AppWidgetHost pages | 2026-09-01 | `COMPLETED_TASKS.md` |
+| Sprint 4 — RSS and podcasts | 2026-09-01 | `COMPLETED_TASKS.md` |
+| Sprint 5 — Dock, icon packs, customization | 2026-09-01 | `COMPLETED_TASKS.md` |
+| Sprint 6 — OEM onboarding | 2026-09-01 | `COMPLETED_TASKS.md` |
+| Sprint 7 — F-Droid release polish | 2026-09-01 | `COMPLETED_TASKS.md` |
+| Sprint 8 — Live home | 2026-09-01 | `COMPLETED_TASKS.md` |
+| Sprint 9 — Inbox filters | 2026-09-01 | `COMPLETED_TASKS.md` |
+| Sprint 10 — Feeds and player | 2026-09-01 | `COMPLETED_TASKS.md` |
+| Sprint 11 — Resize and icon packs | 2026-09-01 | `COMPLETED_TASKS.md` |
+| Sprint 12 — SQLCipher | 2026-09-01 | `COMPLETED_TASKS.md` |
+| Sprint 13 — Pixel widgets and grouped inbox | 2026-09-01 | `COMPLETED_TASKS.md` |
+| Sprint 14 — User widget grid | 2026-09-01 | `COMPLETED_TASKS.md` |
+| Sprint 15 — Launcher3-look home chrome | 2026-09-01 | `COMPLETED_TASKS.md` |
+| Sprint 16 — Inbox views, dock usage, All Apps | 2026-09-01 | `COMPLETED_TASKS.md` |
+| Sprint 17 — Icons, search, gestures, FOSS wallpapers | 2026-09-01 | `COMPLETED_TASKS.md` |
 Template maintainer history (v1.0.0 and earlier) remains in `COMPLETED_TASKS.md` from the seed clone.

@@ -9,7 +9,7 @@
 |-------|-----------|---------|-------|
 | Platform | Android (min 26, target 37), Kotlin, Jetpack Compose Material 3 | 0.1.0 | Child of agent-project-bootstrap 1.0.0 |
 | License | MIT | - | Pure FOSS |
-| Persistence | DataStore now; Room vault in Sprint 2 | - | No SQLCipher yet |
+| Persistence | Room + SQLCipher (`hermes-vault-cipher.db`) + Android Keystore | 4.16.0 | Plaintext vault migrates; rebuild-required copy on failure |
 | Distribution | GitHub Releases + F-Droid | - | Reproducible APKs (`SOURCE_DATE_EPOCH`) |
 ## Active Modules
 
@@ -30,7 +30,7 @@
 
 ### Project Purpose
 
-Hermes Launcher: FOSS Android home-screen inbox for notifications, news, and podcasts. X-only dismiss. Local vault. Extra widget pages.
+Hermes Launcher: FOSS Android home-screen inbox for notifications, news, and podcasts. X-only dismiss. Local vault with 2000/30-day archived prune. Widget pages are a user-chosen occupancy grid with a trailing empty page. Home long-press opens Wallpaper / Widgets / Settings. Dock ranks usage (not launches). All Apps is a 5-column letter-rail grid. Home-again opens usage+inbox search. Notification dots come from vault unread. Double-tap empty chrome can lock or toggle flashlight. Live wallpapers ship in-tree (gradient, clock).
 
 ### Key Constraints
 
@@ -40,6 +40,11 @@ Hermes Launcher: FOSS Android home-screen inbox for notifications, news, and pod
 
 ## Session Retrospectives
 
+| 2026-09-01 | Sprint 17 icons/search/gestures/wallpaper | Off-thread icon cache, usage banner, prune throttle, dots, HOME-again overlay, double-tap lock/flashlight, AOSP picker + in-tree live wallpapers | OP12 `[ADB]` smoke still open; never pin Google wallpaper package; no Accessibility lock; do not adb OP13 `8bf09993` |
+| 2026-09-01 | Sprint 16 inbox/dock/All Apps | Unread badge, collapsing search+history, App/Category/Time, prune, usage dock, All Apps rail, shortcuts, widget search | OP12 `[ADB]` Sprint 15+16 smoke still open; do not scrape Play; do not rank dock by launch count; do not adb OP13 `8bf09993` |
+| 2026-09-01 | Sprint 15 Launcher3-look chrome | Compose options popup, system wallpaper intent, preview picker, four-handle resize, Remove well, grouped settings | OP12 `[ADB]` smoke still open; do not vendor Launcher3 Java or GPL launchers; do not adb OP13 `8bf09993` |
+| 2026-09-01 | Sprint 13 Pixel widgets + grouped inbox | Codec v3 occupancy grid; drop-to-bind; Posidon-style groups; gates OK; sideloaded `b5214fc6` | Gesture checklist (bind deny, configure cancel, drag-to-new-page, resize, group X) stays `[ADB]` on BUILD_PLAN; do not adb OP13 `8bf09993` |
+| 2026-09-01 | /build Sprints 0–7 | Vault/Room, widgets, RSS/OPML, chrome, OEM banner, F-Droid copy; local gates green | Origin CI still red until prune-safe `ci.yml` is pushed; do not treat weekly AUTO as playbook leftover |
 | 2026-09-01 | Hermes Sprint 0 seed | Cloned template, android/MIT init, `org.hermeslauncher.app`, ADRs 0001-0004 accepted, HUMAN items automated | Do not push to the `template` remote; new origin is edwardlthompson/HermesLauncher |
 | 2026-08-28 | v1.0.0 /ship | Cloud agent #81 reviewed+merged; RP #82 cut first stable; Unreleased empty; SBOM+OpenVEX on the tag | Do not merge RP while upgrade-sim still fails on pruned stacks; `Release-As: 1.0.0` beats 0.26.0 |
 | 2026-08-28 | /cleanup HUMAN leftovers | Archived 5 script-closed HUMAN rows; CII, Ollama, Android SDK stay 🔲 | Recurring weekly AUTO stays 🔲 |
