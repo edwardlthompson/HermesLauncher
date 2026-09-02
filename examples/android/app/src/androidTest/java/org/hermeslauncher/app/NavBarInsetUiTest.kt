@@ -34,7 +34,7 @@ class NavBarInsetUiTest {
         assertTrue(context.readNavigationMode() == NavigationMode.ThreeButton)
 
         composeTestRule.skipFirstRunIfPresent()
-        composeTestRule.onNodeWithContentDescription("Settings").performClick()
+        composeTestRule.onNodeWithContentDescription("Open settings").performClick()
         composeTestRule.onNodeWithText("Close settings").assertIsDisplayed()
 
         val decorView = context.window.decorView
@@ -59,7 +59,7 @@ class NavBarInsetUiTest {
         setNavigationMode(2)
 
         composeTestRule.skipFirstRunIfPresent()
-        composeTestRule.onNodeWithContentDescription("Settings").performClick()
+        composeTestRule.onNodeWithContentDescription("Open settings").performClick()
         composeTestRule.onNodeWithText("Close settings").assertIsDisplayed()
 
         val decorView = composeTestRule.activity.window.decorView

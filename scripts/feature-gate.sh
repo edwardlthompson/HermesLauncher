@@ -327,7 +327,7 @@ if should_run android && [ -f examples/android/gradlew ]; then
   else
     gradle_extra="$("$PY" "$ROOT/scripts/lib/gradle_offline.py" --args --root "$ROOT" 2>/dev/null || true)"
     # shellcheck disable=SC2086
-    run_in_dir examples/android android-test ./gradlew $gradle_extra test --parallel --quiet
+    run_in_dir examples/android android-test ./gradlew $gradle_extra test --parallel
   fi
 fi
 

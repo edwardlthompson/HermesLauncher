@@ -16,7 +16,7 @@ class HermesUiTest {
     @Test
     fun opensSettingsPanelWithThemeAndUpdateControls() {
         composeTestRule.skipFirstRunIfPresent()
-        composeTestRule.onNodeWithContentDescription("Settings").performClick()
+        composeTestRule.onNodeWithContentDescription("Open settings").performClick()
         composeTestRule.onNodeWithText("Settings").assertIsDisplayed()
         composeTestRule.onNodeWithText("Theme").performScrollTo().assertIsDisplayed()
         composeTestRule.onNodeWithText("Ignore persistent notifications").performScrollTo().assertIsDisplayed()
@@ -30,7 +30,7 @@ class HermesUiTest {
         composeTestRule.skipFirstRunIfPresent()
         composeTestRule.onNodeWithText("Tap X to dismiss a card. Horizontal swipe changes pages.").assertIsDisplayed()
         composeTestRule.onNodeWithContentDescription("Open app drawer").assertIsDisplayed()
-        composeTestRule.onNodeWithContentDescription("Settings").assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("Open settings").assertIsDisplayed()
     }
 
     @Test

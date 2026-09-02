@@ -71,19 +71,24 @@ fun DockBar(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = SpacingMd, vertical = SpacingSm),
-                horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                for (index in 0 until layout.slotCount) {
-                    val app = layout.slot(index)
-                    DockSlot(
-                        app = app,
-                        pack = pack,
-                        unread = if (showDots && app != null) unreadByPackage[app.packageName] ?: 0 else 0,
-                        onLaunch = { app?.let(onLaunch) },
-                        onAssign = { if (custom) onAssign(index) },
-                        onShortcuts = { chosen -> popup = chosen },
-                    )
+                Row(
+                    modifier = Modifier.weight(1f),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    for (index in 0 until layout.slotCount) {
+                        val app = layout.slot(index)
+                        DockSlot(
+                            app = app,
+                            pack = pack,
+                            unread = if (showDots && app != null) unreadByPackage[app.packageName] ?: 0 else 0,
+                            onLaunch = { app?.let(onLaunch) },
+                            onAssign = { if (custom) onAssign(index) },
+                            onShortcuts = { chosen -> popup = chosen },
+                        )
+                    }
                 }
                 ContrastDockIcon(
                     imageVector = Icons.Filled.Apps,

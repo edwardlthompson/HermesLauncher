@@ -114,7 +114,7 @@
     <string name="about_donate_nudge_body">You just got a new build. If this app helps you, you can support ongoing work on Venmo. This is optional and will not appear again until the next update.</string>
     <string name="about_update_prompt_body">Version %1$s is on GitHub. Install it when you are ready.</string>
     <string name="settings_title">Settings</string>
-    <string name="settings_open">Settings</string>
+    <string name="settings_open">Open settings</string>
     <string name="settings_close">Close settings</string>
     <string name="settings_section_home">Home</string>
     <string name="settings_section_appearance">Appearance</string>

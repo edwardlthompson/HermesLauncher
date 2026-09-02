@@ -17,31 +17,43 @@ concurrency:
 jobs:
   build:
     name: Build web demo
-    if: hashFiles('examples/web/package-lock.json') != ''
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    defaults:
-      run:
-        working-directory: examples/web
+    outputs:
+      present: ${{ steps.web.outputs.present }}
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
+      - id: web
+        run: |
+          if [ -f examples/web/package-lock.json ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          fi
+      - if: steps.web.outputs.present == 'true'
+        uses: actions/setup-node@v7
         with:
           node-version: "22"
           cache: npm
           cache-dependency-path: examples/web/package-lock.json
-      - run: npm ci
-      - name: Build static site (no analytics)
+      - if: steps.web.outputs.present == 'true'
+        working-directory: examples/web
+        run: npm ci
+      - if: steps.web.outputs.present == 'true'
+        name: Build static site (no analytics)
+        working-directory: examples/web
         run: npm run build
         env:
           VITE_BASE_PATH: /${{ github.event.repository.name }}/
-      - uses: actions/upload-pages-artifact@v5
+      - if: steps.web.outputs.present == 'true'
+        uses: actions/upload-pages-artifact@v5
         with:
           path: examples/web/dist
 
   deploy:
     name: Deploy to GitHub Pages
+    if: needs.build.outputs.present == 'true'
     needs: build
     runs-on: ubuntu-latest
     permissions:
