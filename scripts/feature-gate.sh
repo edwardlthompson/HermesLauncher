@@ -206,14 +206,21 @@ run_cmd() {
     if [ "$rc" -eq 124 ]; then
       fail_gate "$stage" "timeout after ${secs}s (FEATURE_GATE_TIMEOUT / FEATURE_GATE_TIMEOUT_${stage%%-*})"
     fi
-    fail_gate "$stage" "$(tail -n 40 "$logfile")"
+    fail_gate "$stage" "$(gate_log_tail "$logfile")"
   fi
   if "$@" >"$logfile" 2>&1; then
     GATES_PASSED+=("$stage")
     rm -f "$logfile"
     return 0
   fi
-  fail_gate "$stage" "$(tail -n 40 "$logfile")"
+  fail_gate "$stage" "$(gate_log_tail "$logfile")"
+}
+
+gate_log_tail() {
+  local logfile="$1"
+  grep -E 'FAILED$|There were failing tests|tests completed,.+failed|> Task :.* FAILED' "$logfile" | tail -n 20 || true
+  echo "---"
+  tail -n 12 "$logfile"
 }
 
 run_in_dir() {
@@ -327,7 +334,7 @@ if should_run android && [ -f examples/android/gradlew ]; then
   else
     gradle_extra="$("$PY" "$ROOT/scripts/lib/gradle_offline.py" --args --root "$ROOT" 2>/dev/null || true)"
     # shellcheck disable=SC2086
-    run_in_dir examples/android android-test ./gradlew $gradle_extra test --parallel
+    run_in_dir examples/android android-test ./gradlew $gradle_extra test
   fi
 fi
 
