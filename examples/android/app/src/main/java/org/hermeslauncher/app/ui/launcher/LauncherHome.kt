@@ -164,9 +164,7 @@ fun LauncherHome(
     ) {
         val pageWidthPx = constraints.maxWidth.toFloat()
         Column(modifier = Modifier.fillMaxSize()) {
-            if (rebuild) {
-                Text(text = stringResource(R.string.vault_crypto_rebuild_body), color = MaterialTheme.colorScheme.onSurface)
-            }
+            if (rebuild) Text(stringResource(R.string.vault_crypto_rebuild_body), color = MaterialTheme.colorScheme.onSurface)
             GrantChrome(
                 snapshot = snapshot,
                 grantsWereGood = grantsWereGood,
@@ -176,6 +174,7 @@ fun LauncherHome(
                 onHome = { LivePermissions.startSafe(context, LivePermissions.homeRoleSettings()) },
                 onPhotos = { mediaLauncher.launch(LivePermissions.mediaPermission()) },
                 onRepair = { LivePermissions.startSafe(context, LivePermissions.listenerSettings()) },
+                onLater = { grantsWereGood = true },
             )
             HorizontalPager(state = pagerState, userScrollEnabled = !dragging, modifier = Modifier.weight(1f)) { page ->
                 if (page == 0) {

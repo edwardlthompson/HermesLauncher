@@ -14,6 +14,7 @@
     <string name="home_setup_notifications">Turn on notification access</string>
     <string name="home_setup_battery">Allow unrestricted battery</string>
     <string name="home_setup_home">Set Hermes as Home</string>
+    <string name="home_setup_later">Later</string>
     <string name="grant_title">Store notifications from %1$s?</string>
     <string name="grant_text">Keep notifications</string>
     <string name="grant_images_hint">Photos follow the one-time Photos permission in Settings. Copies stay inside Hermes, not Gallery.</string>

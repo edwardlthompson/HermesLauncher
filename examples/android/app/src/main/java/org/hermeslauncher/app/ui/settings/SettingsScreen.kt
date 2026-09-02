@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -73,13 +75,15 @@ fun SettingsScreen(
         InboxHistoryScreen(onBack = { historyOpen = false }, modifier = modifier)
         return
     }
-    Column(
-        modifier = modifier
-            .highRefreshScroll()
-            .verticalScroll(rememberScrollState())
-            .padding(SpacingMd),
-        verticalArrangement = Arrangement.spacedBy(SpacingMd),
-    ) {
+    Column(modifier = modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .highRefreshScroll()
+                .verticalScroll(rememberScrollState())
+                .padding(SpacingMd),
+            verticalArrangement = Arrangement.spacedBy(SpacingMd),
+        ) {
         Text(text = stringResource(R.string.settings_title), style = MaterialTheme.typography.headlineSmall)
         SectionLabel(R.string.settings_section_home)
         ListItem(
@@ -150,7 +154,14 @@ fun SettingsScreen(
         Button(onClick = { scope.launch { app.feeds.refresh() } }) {
             Text(stringResource(R.string.feed_refresh))
         }
-        Button(onClick = onBack, modifier = Modifier.bottomInsetPadding()) {
+        }
+        Button(
+            onClick = onBack,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(SpacingMd)
+                .bottomInsetPadding(),
+        ) {
             Text(stringResource(R.string.settings_close))
         }
     }

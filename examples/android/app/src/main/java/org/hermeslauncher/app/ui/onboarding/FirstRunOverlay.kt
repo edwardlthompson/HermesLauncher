@@ -22,6 +22,7 @@ fun FirstRunOverlay(
     onBattery: () -> Unit,
     onHome: () -> Unit,
     onPhotos: () -> Unit,
+    onLater: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Surface(
@@ -66,6 +67,9 @@ fun FirstRunOverlay(
                 Button(onClick = onPhotos, modifier = Modifier.fillMaxWidth()) {
                     Text(stringResource(R.string.home_setup_media))
                 }
+            }
+            Button(onClick = onLater, modifier = Modifier.fillMaxWidth().padding(top = SpacingSm)) {
+                Text(stringResource(R.string.home_setup_later))
             }
         }
     }

@@ -33,6 +33,7 @@ class NavBarInsetUiTest {
         val context = composeTestRule.activity
         assertTrue(context.readNavigationMode() == NavigationMode.ThreeButton)
 
+        composeTestRule.skipFirstRunIfPresent()
         composeTestRule.onNodeWithContentDescription("Settings").performClick()
         composeTestRule.onNodeWithText("Close settings").assertIsDisplayed()
 
@@ -57,6 +58,7 @@ class NavBarInsetUiTest {
     fun closeButtonClearsNavigationBar_gesture() {
         setNavigationMode(2)
 
+        composeTestRule.skipFirstRunIfPresent()
         composeTestRule.onNodeWithContentDescription("Settings").performClick()
         composeTestRule.onNodeWithText("Close settings").assertIsDisplayed()
 

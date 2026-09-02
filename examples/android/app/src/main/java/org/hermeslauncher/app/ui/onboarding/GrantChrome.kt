@@ -15,6 +15,7 @@ fun GrantChrome(
     onHome: () -> Unit,
     onPhotos: () -> Unit,
     onRepair: () -> Unit,
+    onLater: () -> Unit,
 ) {
     if (RepairPolicy.needsOverlay(snapshot) && !grantsWereGood) {
         FirstRunOverlay(
@@ -23,6 +24,7 @@ fun GrantChrome(
             onBattery = onBattery,
             onHome = onHome,
             onPhotos = onPhotos,
+            onLater = onLater,
         )
     } else if (RepairPolicy.needsBanner(snapshot) && grantsWereGood) {
         RepairBanner(oem = oem, onRepair = onRepair)
