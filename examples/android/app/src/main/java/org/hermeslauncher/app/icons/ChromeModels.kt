@@ -22,9 +22,13 @@ data class DockLayout(
     val slotCount: Int = DEFAULT_SLOTS,
     val assigned: Map<Int, LaunchableApp> = emptyMap(),
     val mode: DockMode = DockMode.USAGE,
+    val pageCount: Int = HotseatPolicy.MIN_PAGES,
 ) {
     init {
         require(slotCount in MIN_SLOTS..MAX_SLOTS) { "slotCount must be $MIN_SLOTS..$MAX_SLOTS" }
+        require(pageCount in HotseatPolicy.MIN_PAGES..HotseatPolicy.MAX_PAGES) {
+            "pageCount must be ${HotseatPolicy.MIN_PAGES}..${HotseatPolicy.MAX_PAGES}"
+        }
     }
 
     fun slot(index: Int): LaunchableApp? {

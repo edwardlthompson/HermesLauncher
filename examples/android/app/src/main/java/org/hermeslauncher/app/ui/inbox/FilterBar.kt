@@ -12,7 +12,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -43,7 +43,6 @@ import org.hermeslauncher.app.vault.InboxQuery
 @Composable
 fun FilterBar(
     query: InboxQuery,
-    packages: List<String>,
     unread: Int,
     onQuery: (InboxQuery) -> Unit,
     modifier: Modifier = Modifier,
@@ -62,73 +61,89 @@ fun FilterBar(
         color = MaterialTheme.colorScheme.surface.copy(alpha = 0.62f),
         contentColor = MaterialTheme.colorScheme.onSurface,
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = SpacingMd, vertical = SpacingSm),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            ContrastIcon(
-                imageVector = Icons.Filled.Search,
-                contentDescription = stringResource(R.string.filter_search),
-                onClick = { if (searchOpen) closeSearch() else searchOpen = true },
-            )
-            if (unread > 0 && !searchOpen) {
-                val label = InboxFilter.unreadLabel(unread)
-                val cd = stringResource(R.string.inbox_unread_count, unread)
-                Surface(
-                    modifier = Modifier
-                        .padding(end = SpacingSm)
-                        .semantics { contentDescription = cd },
-                    shape = CircleShape,
-                    color = MaterialTheme.colorScheme.error,
-                    contentColor = MaterialTheme.colorScheme.onError,
-                ) {
-                    Text(
-                        text = label,
-                        style = MaterialTheme.typography.labelMedium,
-                        modifier = Modifier.padding(horizontal = SpacingSm, vertical = 2.dp),
+        Box(modifier = Modifier.fillMaxWidth()) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = SpacingMd, vertical = SpacingSm),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                ContrastIcon(
+                    imageVector = Icons.Filled.Search,
+                    contentDescription = stringResource(R.string.filter_search),
+                    onClick = { if (searchOpen) closeSearch() else searchOpen = true },
+                )
+                if (searchOpen) {
+                    OutlinedTextField(
+                        value = query.text,
+                        onValueChange = { onQuery(query.copy(text = it)) },
+                        modifier = Modifier.weight(1f).padding(horizontal = SpacingSm),
+                        label = { Text(stringResource(R.string.filter_search)) },
+                        singleLine = true,
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                        keyboardActions = KeyboardActions(onDone = { closeSearch() }),
+                        trailingIcon = {
+                            IconButton(onClick = { closeSearch() }) {
+                                Icon(
+                                    imageVector = Icons.Filled.Close,
+                                    contentDescription = stringResource(R.string.filter_close),
+                                )
+                            }
+                        },
+                    )
+                } else {
+                    Spacer(Modifier.weight(1f))
+                }
+                Box {
+                    ContrastIcon(
+                        imageVector = Icons.Filled.FilterList,
+                        contentDescription = stringResource(R.string.filter_open),
+                        onClick = { filterOpen = true },
+                    )
+                    FilterMenu(
+                        expanded = filterOpen,
+                        query = query,
+                        onDismiss = { filterOpen = false },
+                        onQuery = {
+                            onQuery(it)
+                            filterOpen = false
+                        },
                     )
                 }
             }
-            if (searchOpen) {
-                OutlinedTextField(
-                    value = query.text,
-                    onValueChange = { onQuery(query.copy(text = it)) },
-                    modifier = Modifier.weight(1f).padding(horizontal = SpacingSm),
-                    label = { Text(stringResource(R.string.filter_search)) },
-                    singleLine = true,
-                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                    keyboardActions = KeyboardActions(onDone = { closeSearch() }),
-                    trailingIcon = {
-                        IconButton(onClick = { closeSearch() }) {
-                            Icon(
-                                imageVector = Icons.Filled.Close,
-                                contentDescription = stringResource(R.string.filter_close),
-                            )
-                        }
-                    },
-                )
-            } else {
-                Spacer(Modifier.weight(1f))
-            }
-            Box {
-                ContrastIcon(
-                    imageVector = Icons.Filled.Menu,
-                    contentDescription = stringResource(R.string.filter_open),
-                    onClick = { filterOpen = true },
-                )
-                FilterMenu(
-                    expanded = filterOpen,
-                    query = query,
-                    packages = packages,
-                    onDismiss = { filterOpen = false },
-                    onQuery = {
-                        onQuery(it)
-                        filterOpen = false
-                    },
+            if (!searchOpen) {
+                UnreadBubble(
+                    unread = unread,
+                    modifier = Modifier.align(Alignment.Center),
                 )
             }
+        }
+    }
+}
+
+@Composable
+private fun UnreadBubble(unread: Int, modifier: Modifier = Modifier) {
+    val label = InboxFilter.unreadLabel(unread)
+    val cd = stringResource(R.string.inbox_unread_count, unread)
+    val active = unread > 0
+    Surface(
+        modifier = modifier
+            .size(40.dp)
+            .semantics { contentDescription = cd },
+        shape = CircleShape,
+        color = if (active) {
+            MaterialTheme.colorScheme.error
+        } else {
+            MaterialTheme.colorScheme.inverseSurface
+        },
+        contentColor = if (active) {
+            MaterialTheme.colorScheme.onError
+        } else {
+            MaterialTheme.colorScheme.inverseOnSurface
+        },
+    ) {
+        Box(contentAlignment = Alignment.Center) {
+            Text(text = label, style = MaterialTheme.typography.labelMedium)
         }
     }
 }

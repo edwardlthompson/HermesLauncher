@@ -14,6 +14,8 @@ class InboxFilterTest {
 
     @Test
     fun unreadKeepsOnlyUnread() {
+        assertTrue(InboxQuery().newestFirst)
+        assertEquals(InboxLayout.APP, InboxQuery().layout)
         val out = InboxFilter.apply(items, InboxQuery(chip = InboxChip.UNREAD))
         assertEquals(listOf("1", "4"), out.map { it.id })
     }
@@ -52,6 +54,18 @@ class InboxFilterTest {
         val groups = InboxFilter.groups(mixed)
         assertEquals(listOf("com.new", "com.old"), groups.map { it.packageName })
         assertEquals(listOf("c", "a"), groups[1].items.map { it.id })
+    }
+
+    @Test
+    fun groupsOldestFirstReversesPackageAndItems() {
+        val mixed = listOf(
+            sample("a", VaultItemType.OTHER, unread = true, pinned = false, title = "A", text = "", pkg = "com.old", postedAt = 1L),
+            sample("b", VaultItemType.OTHER, unread = true, pinned = false, title = "B", text = "", pkg = "com.new", postedAt = 5L),
+            sample("c", VaultItemType.OTHER, unread = true, pinned = false, title = "C", text = "", pkg = "com.old", postedAt = 3L),
+        )
+        val groups = InboxFilter.groups(mixed, newestFirst = false)
+        assertEquals(listOf("com.old", "com.new"), groups.map { it.packageName })
+        assertEquals(listOf("a", "c"), groups[0].items.map { it.id })
     }
 
     @Test

@@ -23,6 +23,7 @@ import org.hermeslauncher.app.R
 import org.hermeslauncher.app.icons.AppCatalog
 import org.hermeslauncher.app.icons.DockLayout
 import org.hermeslauncher.app.icons.DockMode
+import org.hermeslauncher.app.icons.HotseatPolicy
 import org.hermeslauncher.app.oem.LivePermissions
 import org.hermeslauncher.app.ui.theme.SpacingMd
 
@@ -34,7 +35,6 @@ fun DockSettings() {
     val scope = rememberCoroutineScope()
     val dock by app.dockStore.layout.collectAsStateWithLifecycle(DockLayout())
     val usageOk = LivePermissions.usageGranted(context)
-    Text(text = stringResource(R.string.settings_dock_mode), style = MaterialTheme.typography.titleSmall)
     FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
         FilterChip(
             selected = dock.mode == DockMode.USAGE,
@@ -56,6 +56,16 @@ fun DockSettings() {
             },
             label = { Text(stringResource(R.string.settings_dock_custom)) },
         )
+    }
+    Text(text = stringResource(R.string.dock_pages))
+    FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
+        (HotseatPolicy.MIN_PAGES..HotseatPolicy.MAX_PAGES).forEach { pages ->
+            FilterChip(
+                selected = dock.pageCount == pages,
+                onClick = { scope.launch { app.dockStore.save(dock.copy(pageCount = pages)) } },
+                label = { Text(pages.toString()) },
+            )
+        }
     }
     if (!usageOk) {
         Text(

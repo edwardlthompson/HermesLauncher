@@ -1,6 +1,10 @@
 package org.hermeslauncher.app.vault
 
+import android.app.ActivityOptions
 import android.app.Notification
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.service.notification.StatusBarNotification
 import android.util.Log
@@ -46,19 +50,27 @@ object ShadeBridge {
             .onFailure { Log.w(TAG, "cancel fail key=$sbnKey") }
     }
 
-    fun open(sbnKey: String) {
-        val sbn = find(sbnKey)
-        if (sbn == null) {
-            Log.w(TAG, "open miss key=$sbnKey")
+    fun open(item: VaultItem?, context: Context) {
+        if (item == null) {
+            Log.w(TAG, "open miss item")
             return
         }
-        val notification = sbn.notification
-        runCatching { notification.contentIntent?.send() }
-            .onFailure { Log.w(TAG, "open fail key=$sbnKey") }
-        val autoCancel = notification.flags and Notification.FLAG_AUTO_CANCEL != 0
-        if (ShadePolicy.cancelAfterOpen(autoCancel, sbn.isOngoing)) {
-            dismiss(sbnKey)
+        open(item.sbnKey, context, item.packageName)
+    }
+
+    fun open(sbnKey: String, context: Context? = null, packageName: String = "") {
+        val sbn = find(sbnKey)
+        val pending = sbn?.notification?.contentIntent
+        if (pending != null && sendPending(pending, context)) {
+            Log.i(TAG, "open ok key=$sbnKey")
+            val autoCancel = sbn.notification.flags and Notification.FLAG_AUTO_CANCEL != 0
+            if (ShadePolicy.cancelAfterOpen(autoCancel, sbn.isOngoing)) {
+                dismiss(sbnKey)
+            }
+            return
         }
+        Log.w(TAG, "open miss key=$sbnKey pending=${pending != null}")
+        launchPackage(context, sbn?.packageName ?: packageName)
     }
 
     fun actions(sbnKey: String): List<ShadeAction> {
@@ -76,11 +88,42 @@ object ShadeBridge {
             return
         }
         val action = sbn.notification.actions?.getOrNull(index) ?: return
-        runCatching { action.actionIntent?.send() }
-            .onFailure { Log.w(TAG, "action fail key=$sbnKey i=$index") }
+        if (!sendPending(action.actionIntent, listener)) {
+            Log.w(TAG, "action fail key=$sbnKey i=$index")
+            return
+        }
         if (ShadePolicy.cancelAfterAction(hasRemoteInput(action))) {
             dismiss(sbnKey)
         }
+    }
+
+    private fun sendPending(pending: PendingIntent?, context: Context?): Boolean {
+        if (pending == null) {
+            return false
+        }
+        val sender = context ?: listener
+        return runCatching {
+            if (Build.VERSION.SDK_INT >= 34) {
+                val opts = ActivityOptions.makeBasic()
+                opts.setPendingIntentBackgroundActivityStartMode(
+                    ActivityOptions.MODE_BACKGROUND_ACTIVITY_START_ALLOWED,
+                )
+                pending.send(sender, 0, null, null, null, null, opts.toBundle())
+            } else {
+                pending.send()
+            }
+        }.onFailure { Log.w(TAG, "send fail ${it.javaClass.simpleName}") }.isSuccess
+    }
+
+    private fun launchPackage(context: Context?, pkg: String) {
+        if (context == null || pkg.isBlank()) {
+            return
+        }
+        val launch = context.packageManager.getLaunchIntentForPackage(pkg) ?: return
+        launch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        runCatching { context.startActivity(launch) }
+            .onSuccess { Log.i(TAG, "open launch pkg=$pkg") }
+            .onFailure { Log.w(TAG, "open launch fail pkg=$pkg") }
     }
 
     private fun find(key: String): StatusBarNotification? {

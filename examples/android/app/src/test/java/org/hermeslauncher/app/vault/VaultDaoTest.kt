@@ -3,6 +3,7 @@ package org.hermeslauncher.app.vault
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -68,5 +69,15 @@ class VaultDaoTest {
         val stored = dao.visibleBySbnKey("shade-key").first()
         dao.updateItem(stored.copy(archived = true, unread = false))
         assertTrue(dao.visibleBySbnKey("shade-key").isEmpty())
+    }
+
+    @Test
+    fun deletePolicyRemovesBlacklist() = runBlocking {
+        dao.insertPolicy(AppStorePolicy("eu.faircode.email", storeContent = false))
+        assertEquals(false, dao.policyFor("eu.faircode.email")?.storeContent)
+        dao.deletePolicy("eu.faircode.email")
+        assertEquals(null, dao.policyFor("eu.faircode.email"))
+        dao.insertPolicy(AppStorePolicy("eu.faircode.email", storeContent = false))
+        assertEquals("eu.faircode.email", dao.policiesFlow().first().single().packageName)
     }
 }

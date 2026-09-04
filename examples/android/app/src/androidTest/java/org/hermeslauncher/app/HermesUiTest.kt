@@ -18,11 +18,12 @@ class HermesUiTest {
         composeTestRule.skipFirstRunIfPresent()
         composeTestRule.onNodeWithContentDescription("Open settings").performClick()
         composeTestRule.onNodeWithText("Settings").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Theme").performScrollTo().assertIsDisplayed()
-        composeTestRule.onNodeWithText("Ignore persistent notifications").performScrollTo().assertIsDisplayed()
-        composeTestRule.onNodeWithText("Keep notification photos").performScrollTo().assertIsDisplayed()
+        composeTestRule.onNodeWithText("Look & feel").performScrollTo().performClick()
         composeTestRule.onNodeWithText("Dark theme").performScrollTo().performClick()
-        composeTestRule.onNodeWithText("Close settings").performClick()
+        composeTestRule.activity.onBackPressedDispatcher.onBackPressed()
+        composeTestRule.waitForIdle()
+        composeTestRule.activity.onBackPressedDispatcher.onBackPressed()
+        composeTestRule.waitForIdle()
     }
 
     @Test

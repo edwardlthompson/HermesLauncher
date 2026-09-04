@@ -8,6 +8,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+* **android:** stable workspace screen IDs, feeds/inbox split, page indicator, and settings hub
+* **android:** `DesktopItem` + icon/widget span mapping and 4×5 occupancy
+* **android:** desktop icon pin, labels, QSB/pinch, and Desktop Labs wrap/overlap defaults off
+* **android:** Hotseat dock pages stay nested so a dock fling does not change the workspace
+* **android:** notification blacklist X restores storage via `deletePolicy`
+* **android:** All Apps hide-apps, column/list prefs, predicted tab, and blacklist search-add
+* **android:** folder lid preview/badge helpers and folder settings
+* **android:** local search app-row cap and contacts empty-on-deny
+* **android:** `LauncherAction` gesture defaults (swipe-up drawer, swipe-down search)
+* **android:** `PagedPolicy` Labs wrap/overlap defaults off
+* **android:** long-press-drag All Apps icons onto the home grid
+* **android:** Feeds page FAB subscribes to an RSS/Atom URL (last 30 days)
+
+### Fixed
+
+* **android:** settings uses system Back; feeds empty copy is white
+* **android:** unread-dot numerals are centered
+* **android:** All Apps long-press starts a home drag instead of shortcuts
+* **android:** home icons relocate on drag instead of deleting
+
 
 ## [1.0.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.25.0...v1.0.0) (2026-08-28)
 

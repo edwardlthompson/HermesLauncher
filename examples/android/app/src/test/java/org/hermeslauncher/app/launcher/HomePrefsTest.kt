@@ -26,6 +26,7 @@ class HomePrefsTest {
     fun defaultsShowDotsAndDoubleTapOff() = runBlocking {
         val prefs = HomePrefs(context)
         assertEquals(true, prefs.showDots.first())
+        assertEquals(true, prefs.showLabels.first())
         assertEquals(false, prefs.usageBannerDismissed.first())
         assertEquals(DoubleTapAction.OFF, prefs.doubleTap.first())
     }
@@ -34,9 +35,11 @@ class HomePrefsTest {
     fun persistsChromeToggles() = runBlocking {
         val prefs = HomePrefs(context)
         prefs.setShowDots(false)
+        prefs.setShowLabels(false)
         prefs.setUsageBannerDismissed(true)
         prefs.setDoubleTap(DoubleTapAction.FLASHLIGHT)
         assertEquals(false, prefs.showDots.first())
+        assertEquals(false, prefs.showLabels.first())
         assertEquals(true, prefs.usageBannerDismissed.first())
         assertEquals(DoubleTapAction.FLASHLIGHT, prefs.doubleTap.first())
     }

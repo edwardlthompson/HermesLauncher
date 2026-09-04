@@ -31,4 +31,24 @@ class RssParserTest {
     fun malformedReturnsEmpty() {
         assertTrue(RssParser.parse("<not-rss").isEmpty())
     }
+
+    @Test
+    fun parsesAtomEntry() {
+        val xml = """
+            <feed xmlns="http://www.w3.org/2005/Atom">
+              <title>Blog</title>
+              <entry>
+                <id>a-1</id>
+                <title>Hello</title>
+                <link href="https://example.com/hello" rel="alternate"/>
+                <published>2024-01-15T12:00:00Z</published>
+              </entry>
+            </feed>
+        """.trimIndent()
+        val items = RssParser.parse(xml)
+        assertEquals(1, items.size)
+        assertEquals("Hello", items[0].title)
+        assertEquals("https://example.com/hello", items[0].link)
+        assertTrue(items[0].publishedAt > 0)
+    }
 }

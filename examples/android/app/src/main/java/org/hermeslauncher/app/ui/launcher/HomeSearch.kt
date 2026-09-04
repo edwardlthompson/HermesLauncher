@@ -30,10 +30,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.hermeslauncher.app.HermesApplication
 import org.hermeslauncher.app.R
 import org.hermeslauncher.app.feeds.FeedItem
 import org.hermeslauncher.app.icons.HomeSearchRank
@@ -62,10 +65,22 @@ fun HomeSearchOverlay(
         return
     }
     var query by remember { mutableStateOf("") }
+    val app = LocalContext.current.applicationContext as HermesApplication
+    val appRowCap by app.searchPrefs.appRowCap.collectAsStateWithLifecycle(true)
     val focus = LocalFocusManager.current
     val requester = remember { FocusRequester() }
-    val hits = remember(query, apps, predicted, usage, inbox, feeds) {
-        HomeSearchRank.query(query, apps, usage, inbox, feeds, predicted)
+    val appCap = if (appRowCap) HomeSearchRank.APP_ROW else HomeSearchRank.LIMIT
+    val hits = remember(query, apps, predicted, usage, inbox, feeds, appCap) {
+        HomeSearchRank.query(
+            needle = query,
+            apps = apps,
+            usage = usage,
+            inbox = inbox,
+            feeds = feeds,
+            predicted = predicted,
+            appCap = appCap,
+            contactsGranted = false,
+        )
     }
     LaunchedEffect(Unit) { requester.requestFocus() }
     BackHandler { onClose() }

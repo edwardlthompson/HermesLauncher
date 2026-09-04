@@ -31,6 +31,15 @@ class FeedRepository(
                     .getOrDefault(emptyList())
             }
         }
-        items.value = fetched
+        items.value = MixPolicy.withinWindow(fetched, System.currentTimeMillis())
+    }
+
+    suspend fun addFromLink(raw: String): Boolean {
+        val url = withContext(Dispatchers.IO) {
+            runCatching { FeedFetcher.resolve(raw) }.getOrNull()
+        } ?: return false
+        store.addAll(listOf(url))
+        refresh()
+        return true
     }
 }

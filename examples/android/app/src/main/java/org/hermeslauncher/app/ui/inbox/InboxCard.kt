@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.PushPin
 import androidx.compose.material3.Card
@@ -28,9 +29,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import org.hermeslauncher.app.R
 import org.hermeslauncher.app.ui.theme.RadiusMd
@@ -51,6 +54,8 @@ fun InboxCard(
     onAction: (Int) -> Unit = {},
     pinned: Boolean = false,
     caption: String = "",
+    sourceName: String = "",
+    sourceIcon: ImageBitmap? = null,
     imageFile: File? = null,
     showDismiss: Boolean = true,
     modifier: Modifier = Modifier,
@@ -59,7 +64,12 @@ fun InboxCard(
         imageFile?.takeIf { it.isFile }?.let { BitmapFactory.decodeFile(it.absolutePath) }
     }
     Card(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable(
+                onClick = onOpen,
+                onClickLabel = stringResource(R.string.inbox_open),
+            ),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.78f),
         ),
@@ -72,12 +82,37 @@ fun InboxCard(
                 Column(
                     modifier = Modifier
                         .weight(1f)
-                        .clickable(
-                            onClick = onOpen,
-                            onClickLabel = stringResource(R.string.inbox_open),
-                        )
                         .padding(end = SpacingSm),
                 ) {
+                    if (sourceName.isNotBlank()) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(bottom = SpacingSm),
+                        ) {
+                            if (sourceIcon != null) {
+                                Image(
+                                    bitmap = sourceIcon,
+                                    contentDescription = sourceName,
+                                    modifier = Modifier.size(20.dp),
+                                )
+                            } else {
+                                Icon(
+                                    imageVector = Icons.Filled.Apps,
+                                    contentDescription = sourceName,
+                                    modifier = Modifier.size(20.dp),
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                )
+                            }
+                            Text(
+                                text = sourceName,
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                modifier = Modifier.padding(start = SpacingSm),
+                            )
+                        }
+                    }
                     Text(
                         text = title.ifBlank { stringResource(R.string.inbox_untitled) },
                         style = MaterialTheme.typography.titleMedium,

@@ -15,6 +15,7 @@ import org.hermeslauncher.app.widgets.WidgetChoice
 import org.hermeslauncher.app.widgets.WidgetGrid
 import org.hermeslauncher.app.widgets.WidgetHostController
 import org.hermeslauncher.app.widgets.WidgetHostState
+import org.hermeslauncher.app.workspace.WorkspaceModel
 
 @Composable
 fun BoxScope.HomeWidgetDrag(
@@ -24,6 +25,7 @@ fun BoxScope.HomeWidgetDrag(
     rootCoords: LayoutCoordinates?,
     gridCoords: LayoutCoordinates?,
     widgets: WidgetHostState,
+    model: WorkspaceModel,
     pagerState: PagerState,
     pageCount: Int,
     pageWidthPx: Float,
@@ -43,14 +45,14 @@ fun BoxScope.HomeWidgetDrag(
         rootCoords = rootCoords,
         onCancel = widgetController::cancelPick,
         onPick = { choice ->
-            val page = pagerState.currentPage
+            val page = model.widgetPageAt(pagerState.currentPage)
             val origin = WidgetGrid.firstFit(
                 widgets.page(page).bindings,
                 WidgetBinding.PLACE_CELLS,
                 WidgetBinding.PLACE_CELLS_H,
                 widgets.grid,
             )
-            if (page > 0 && origin != null) {
+            if (page >= 1 && origin != null) {
                 widgetController.drop(choice, page, origin.first, origin.second)
             }
         },
@@ -68,7 +70,7 @@ fun BoxScope.HomeWidgetDrag(
         },
         onDragEnd = {
             val choice = dragChoice
-            val target = dropCell(gridCoords, dragWindow, pagerState.currentPage, widgets.grid)
+            val target = dropCell(gridCoords, dragWindow, model.widgetPageAt(pagerState.currentPage), widgets.grid)
             setDragging(false)
             setDragChoice(null)
             if (choice != null && target != null) {

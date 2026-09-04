@@ -12,7 +12,8 @@ class VaultRepository(
     context: Context,
     private val inboxPrefs: InboxPrefs = InboxPrefs(context),
 ) {
-    private val filesDir = context.applicationContext.filesDir
+    private val appContext = context.applicationContext
+    private val filesDir = appContext.filesDir
     private val opened = VaultOpener.open(context)
     private val db = when (opened) {
         is VaultOpenResult.Ok -> opened.db
@@ -25,6 +26,7 @@ class VaultRepository(
 
     val visibleItems: Flow<List<VaultItem>> = dao.visibleItemsFlow()
     val archivedItems: Flow<List<VaultItem>> = dao.archivedItemsFlow()
+    val policies: Flow<List<AppStorePolicy>> = dao.policiesFlow()
 
     suspend fun onPosted(context: Context, sbn: StatusBarNotification) {
         val ignoreOngoing = inboxPrefs.ignoreOngoing.first()
@@ -61,7 +63,7 @@ class VaultRepository(
 
     suspend fun open(id: String) {
         val item = dao.itemById(id) ?: return
-        ShadeBridge.open(item.sbnKey)
+        ShadeBridge.open(item, appContext)
     }
 
     fun actions(sbnKey: String): List<ShadeAction> {
@@ -76,6 +78,18 @@ class VaultRepository(
     suspend fun togglePin(id: String) {
         val item = dao.itemById(id) ?: return
         dao.updateItem(item.copy(pinned = !item.pinned))
+    }
+
+    suspend fun blacklist(packageName: String) {
+        val pkg = packageName.trim()
+        if (pkg.isEmpty()) {
+            return
+        }
+        dao.insertPolicy(AppStorePolicy(pkg, storeContent = false, storeImages = false))
+    }
+
+    suspend fun unblacklist(packageName: String) {
+        dao.deletePolicy(packageName)
     }
 
     private suspend fun persist(

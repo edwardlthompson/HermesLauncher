@@ -2,6 +2,48 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## Feedback fixes (audit 2026-09-03)
+
+- ✅ [AGENT] Fix #1: CodeQL donation URL host check in `scripts/sync-stack-config.py`
+- ✅ [AGENT] Fix #2: dedupe mojibake rows in `HUMAN_BACKLOG.md`
+
+## Sprint 22 — All Apps drawer + blacklist (2026-09-02)
+
+- ✅ [AGENT] Add `deletePolicy` + `policiesFlow`; blacklist writes `AppStorePolicy(storeContent=false)` with DAO tests in `examples/android/app/src/main/java/org/hermeslauncher/app/vault/`
+- ✅ [AGENT] Drawer grid/list/tabs/scrim
+- ✅ [AGENT] Drawer + blacklist settings UI
+- ✅ [AGENT] Hide-apps + column prefs
+- ✅ [ADB] OP12 `b5214fc6` only: hide an app from drawer; blacklist FairEmail then X restores; predicted row remains
+
+- ✅ [AGENT] Lock `DesktopItem` + icon/widget grid span mapper tests in `examples/android/app/src/main/java/org/hermeslauncher/app/workspace/`
+- ✅ [AGENT] Occupancy for 1×1 icons
+- ✅ [AGENT] CellLayoutGrid composable
+- ✅ [AGENT] Desktop settings controls
+- ✅ [ADB] OP12 `b5214fc6` only: 4×5 tiles stay put; drop an icon on desktop; labels toggle
+
+## Sprint 20 — PagedView motion (2026-09-02)
+
+- ✅ [AGENT] Lock `PagedPolicy` + Labs flags tests in `examples/android/app/src/main/java/org/hermeslauncher/app/workspace/`
+- ✅ [AGENT] Pager fling / reverseLayout
+- ✅ [AGENT] QSB + pinch detector
+- ✅ [AGENT] Desktop scroll + Labs rows
+- ✅ [ADB] OP12 `b5214fc6` only: wrap off at last page; QSB none keeps Home-again; pinch does not finish activity
+
+## Sprint 21 — Hotseat dock (2026-09-02)
+
+- ✅ [AGENT] Lock Hotseat page model on `DockLayout` in `examples/android/app/src/main/java/org/hermeslauncher/app/icons/`
+- ✅ [AGENT] Nested dock pager + hide-until-swipe
+- ✅ [AGENT] Dock chrome settings
+- ✅ [ADB] OP12 `b5214fc6` only: dock swipe does not change workspace page; Apps + swipe-up still open All Apps
+
+## Sprint 18 — Workspace screens (2026-09-02)
+
+- ✅ [AGENT] Lock `WorkspaceModel` (`screenIds`, `homeScreenId`, `WorkspaceKind`) + `WidgetHostCodec` v5 migrate tests under `examples/android/app/src/main/java/org/hermeslauncher/app/workspace/` and `.../widgets/`
+- ✅ [AGENT] Pager remap + inbox/feeds split
+- ✅ [AGENT] Page indicator composable
+- ✅ [AGENT] Settings hub ListItems
+- ✅ [ADB] OP12 `b5214fc6` only: swipe right = feeds, swipe left = widgets, HOME = inbox; logcat `HermesInbox`
+
 ## Sprint 17 — Icons, search, gestures, FOSS wallpapers (2026-09-01)
 
 - ✅ [AGENT] Off-thread icon LruCache for All Apps + dock

@@ -47,18 +47,20 @@ fun WidgetHostTile(
                     )
                 }
             },
-            update = { view ->
-                val frame = view as EditArmFrame
+            update = { frame ->
                 frame.onLongPress = onEdit
+                frame.hostEnabled = hostEnabled
                 val inner = frame.getChildAt(0) ?: return@AndroidView
-                inner.isEnabled = hostEnabled
                 (inner as? AppWidgetHostView)?.let { hostView ->
-                    hostView.isEnabled = hostEnabled
                     val widthPx = with(density) { (cellWidth * binding.cellsW).toPx() }
                     val heightPx = with(density) { (cellHeight * binding.cellsH).toPx() }
                     val widthDp = (widthPx / hostView.resources.displayMetrics.density).roundToInt().coerceAtLeast(1)
                     val heightDp = (heightPx / hostView.resources.displayMetrics.density).roundToInt().coerceAtLeast(1)
-                    runCatching { hostView.updateAppWidgetSize(null, widthDp, heightDp, widthDp, heightDp) }
+                    val sizeKey = widthDp shl 16 or heightDp
+                    if (hostView.getTag(R.id.widget_host_size) != sizeKey) {
+                        hostView.setTag(R.id.widget_host_size, sizeKey)
+                        runCatching { hostView.updateAppWidgetSize(null, widthDp, heightDp, widthDp, heightDp) }
+                    }
                 }
             },
             modifier = Modifier.fillMaxSize(),
@@ -68,6 +70,7 @@ fun WidgetHostTile(
 
 internal class EditArmFrame(context: Context) : FrameLayout(context) {
     var onLongPress: () -> Unit = {}
+    var hostEnabled: Boolean = true
     private val slop = ViewConfiguration.get(context).scaledTouchSlop
     private var downX = 0f
     private var downY = 0f
@@ -93,6 +96,9 @@ internal class EditArmFrame(context: Context) : FrameLayout(context) {
                 }
             }
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> handler.removeCallbacks(fire)
+        }
+        if (!hostEnabled) {
+            return true
         }
         return super.dispatchTouchEvent(ev)
     }

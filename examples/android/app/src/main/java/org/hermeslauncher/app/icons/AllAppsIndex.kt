@@ -1,7 +1,7 @@
 package org.hermeslauncher.app.icons
 
 object AllAppsIndex {
-    const val COLUMNS: Int = 5
+    const val COLUMNS: Int = DrawerPolicy.COLUMNS_DEFAULT
 
     fun letter(label: String): Char {
         val ch = label.trim().firstOrNull()?.uppercaseChar() ?: '#'
@@ -20,14 +20,19 @@ object AllAppsIndex {
         return sections.map { it.first }
     }
 
-    fun keys(sections: List<Pair<Char, List<LaunchableApp>>>, predicted: Boolean): List<String> {
+    fun keys(
+        sections: List<Pair<Char, List<LaunchableApp>>>,
+        predicted: Boolean,
+        columns: Int = COLUMNS,
+    ): List<String> {
         val out = mutableListOf<String>()
+        val chunk = columns.coerceAtLeast(1)
         if (predicted) {
             out += "pred"
         }
         sections.forEach { (letter, apps) ->
             out += "h:$letter"
-            apps.chunked(COLUMNS).forEachIndexed { index, _ ->
+            apps.chunked(chunk).forEachIndexed { index, _ ->
                 out += "r:$letter:$index"
             }
         }

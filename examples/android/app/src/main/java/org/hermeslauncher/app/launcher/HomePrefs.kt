@@ -11,12 +11,17 @@ import kotlinx.coroutines.flow.map
 private val Context.homeDataStore by preferencesDataStore(name = "home_prefs")
 
 private val SHOW_DOTS = booleanPreferencesKey("show_dots")
+private val SHOW_LABELS = booleanPreferencesKey("show_labels")
 private val USAGE_BANNER_DISMISSED = booleanPreferencesKey("usage_banner_dismissed")
 private val DOUBLE_TAP = stringPreferencesKey("double_tap")
 
 class HomePrefs(private val context: Context) {
     val showDots: Flow<Boolean> = context.homeDataStore.data.map { prefs ->
         prefs[SHOW_DOTS] ?: true
+    }
+
+    val showLabels: Flow<Boolean> = context.homeDataStore.data.map { prefs ->
+        prefs[SHOW_LABELS] ?: true
     }
 
     val usageBannerDismissed: Flow<Boolean> = context.homeDataStore.data.map { prefs ->
@@ -29,6 +34,10 @@ class HomePrefs(private val context: Context) {
 
     suspend fun setShowDots(value: Boolean) {
         context.homeDataStore.edit { prefs -> prefs[SHOW_DOTS] = value }
+    }
+
+    suspend fun setShowLabels(value: Boolean) {
+        context.homeDataStore.edit { prefs -> prefs[SHOW_LABELS] = value }
     }
 
     suspend fun setUsageBannerDismissed(value: Boolean) {

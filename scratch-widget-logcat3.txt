@@ -1,0 +1,33 @@
+--------- beginning of main
+09-01 19:37:09.523 I/HermesVault(17668): vault open ok
+09-01 19:37:09.974 I/HermesVault(17668): listener connected active=198
+09-01 19:37:18.016 I/HermesWidget(17668): catalog size=294
+09-01 19:37:18.016 I/HermesWidget(17668): picker page=3 count=294
+09-01 19:37:22.799 I/HermesWidget(17668): place id=84 page=3 x=0 y=0
+09-01 19:37:22.844 I/HermesWidget(17668): record id=84 provider=com.aftership.AfterShip/com.aftership.shopper.views.widget.shipment.ShipmentAppWidgetProvider page=3
+09-01 19:38:24.775 I/HermesVault(17668): cancel key=0|com.beeper.android|909|null|10242
+09-01 19:38:45.387 I/HermesVault(17668): cancel key=0|com.beeper.android|3072|null|10242
+09-01 19:44:42.802 I/HermesVault(17668): cancel key=0|com.sirma.mobile.bible.android|779|appStreaks|10285
+09-01 19:44:53.235 I/HermesVault(17668): cancel key=0|com.sirma.mobile.bible.android|1039467556|appboy_notification|10285
+09-01 19:44:55.259 I/HermesVault(17668): cancel key=0|com.sirma.mobile.bible.android|772607691|appboy_notification|10285
+09-01 19:44:58.100 I/HermesVault(17668): cancel key=0|com.sirma.mobile.bible.android|-1264377302|appboy_notification|10285
+09-01 19:44:59.558 I/HermesVault(17668): cancel key=0|com.sirma.mobile.bible.android|0|0|com.sirma.mobile.bible.android|g:Aggregate_AlertingSection|10285|0|com.sirma.mobile.bible.android|g:Aggregate_AlertingSection
+09-01 19:48:04.673 I/HermesVault(17668): cancel key=0|com.xingin.xhs|1592781113|null|10550
+09-01 19:48:04.717 I/HermesVault(17668): cancel key=0|com.xingin.xhs|1573581818|null|10550
+09-01 19:48:04.732 I/HermesVault(17668): cancel key=0|com.xingin.xhs|1505447611|null|10550
+09-01 19:48:04.742 I/HermesVault(17668): cancel key=0|com.xingin.xhs|1486103834|null|10550
+09-01 19:48:04.766 I/HermesVault(17668): cancel key=0|com.xingin.xhs|1417891491|null|10550
+09-01 19:48:04.777 I/HermesVault(17668): cancel key=0|com.xingin.xhs|1399259106|null|10550
+09-01 19:48:04.782 I/HermesVault(17668): cancel key=0|com.xingin.xhs|1334629966|null|10550
+09-01 19:48:04.793 I/HermesVault(17668): cancel key=0|com.xingin.xhs|0|0|com.xingin.xhs|g:Aggregate_AlertingSection|10550|0|com.xingin.xhs|g:Aggregate_AlertingSection
+09-01 19:50:27.236 I/HermesVault(17668): cancel key=0|com.google.android.apps.photos|0|-1710864202::a:ENVELOPE_SYSTEM_TRAY:577950b499b7798d|10249
+09-01 19:50:27.572 I/HermesVault(17668): persist pkg=com.google.android.apps.photos action=PERSIST_TEXT images=false
+09-01 19:50:31.553 I/HermesVault(17668): cancel key=0|com.google.android.apps.photos|0|-1710864202::SUMMARY::be5ffcc5ab6048dc95f17ca3e8572d5c|10249
+09-01 19:50:38.676 I/HermesVault(17668): cancel key=0|com.beeper.android|266|null|10242
+09-01 19:51:07.957 I/HermesWidget(17668): remove id=84 page=3
+09-01 19:51:11.909 I/HermesWidget(17668): remove id=83 page=2
+09-01 19:51:15.525 I/HermesWidget(17668): remove id=80 page=1
+09-01 19:51:18.324 I/HermesWidget(17668): catalog size=294
+09-01 19:51:18.324 I/HermesWidget(17668): picker page=1 count=294
+09-01 19:51:22.767 I/HermesWidget(17668): place id=85 page=1 x=0 y=0
+09-01 19:51:22.775 I/HermesWidget(17668): record id=85 provider=org.astroalarm/org.astroalarm.widget.SolarTermWidgetProvider page=1

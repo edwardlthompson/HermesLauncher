@@ -1,10 +1,12 @@
 package org.hermeslauncher.app.ui.launcher
 
+import android.util.Log
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,6 +23,7 @@ import org.hermeslauncher.app.ui.inbox.FilterBar
 import org.hermeslauncher.app.ui.inbox.InboxFeed
 import org.hermeslauncher.app.vault.InboxFilter
 import org.hermeslauncher.app.vault.InboxQuery
+import org.hermeslauncher.app.vault.ShadeBridge
 import org.hermeslauncher.app.vault.VaultItem
 
 @Composable
@@ -29,8 +32,6 @@ fun FeedPage(
     feeds: List<FeedItem>,
     onDismiss: (String) -> Unit,
     onDismissGroup: (List<String>) -> Unit,
-    onOpen: (String) -> Unit,
-    onAction: (String, Int) -> Unit,
     onPin: (String) -> Unit,
     onPlay: (FeedItem) -> Unit,
     onLongPressHome: () -> Unit,
@@ -57,6 +58,9 @@ fun FeedPage(
             AppCategory.labelKey(AppCategory.kindOf(pkg, cat))
         }
     }
+    LaunchedEffect(query.layout, query.newestFirst) {
+        Log.i("HermesInbox", "layout=${query.layout} newestFirst=${query.newestFirst}")
+    }
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -70,7 +74,6 @@ fun FeedPage(
         Column(modifier = Modifier.fillMaxSize()) {
             FilterBar(
                 query = query,
-                packages = InboxFilter.packages(items + if (query.text.isBlank()) emptyList() else archived),
                 unread = InboxFilter.unreadCount(items),
                 onQuery = { query = it },
             )
@@ -82,8 +85,14 @@ fun FeedPage(
                 kindOf = kindOf,
                 onDismiss = onDismiss,
                 onDismissGroup = onDismissGroup,
-                onOpen = onOpen,
-                onAction = onAction,
+                onOpen = { id ->
+                    ShadeBridge.open(items.firstOrNull { it.id == id } ?: archived.firstOrNull { it.id == id }, context)
+                },
+                onAction = { id, index ->
+                    (items.firstOrNull { it.id == id } ?: archived.firstOrNull { it.id == id })?.let {
+                        ShadeBridge.runAction(it.sbnKey, index)
+                    }
+                },
                 onPin = onPin,
                 onPlay = onPlay,
                 imageDir = filesDir,

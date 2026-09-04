@@ -49,6 +49,45 @@ class HomeSearchRankTest {
         assertEquals(listOf("f1"), out.feeds.map { it.id })
     }
 
+    @Test
+    fun appRowCapDoesNotShrinkInboxOrFeeds() {
+        val out = HomeSearchRank.query(
+            needle = "a",
+            apps = listOf(mail, chat, maps),
+            usage = emptyList(),
+            inbox = listOf(
+                vault("i1", "com.chat", "alpha inbox", unread = true, postedAt = 3L),
+                vault("i2", "com.mail", "later alpha", unread = true, postedAt = 2L),
+            ),
+            feeds = listOf(
+                FeedItem("f1", "News", "Alpha show", publishedAt = 2L),
+                FeedItem("f2", "News", "Alpha two", publishedAt = 1L),
+            ),
+            predicted = emptyList(),
+            appCap = 1,
+        )
+        assertEquals(listOf("Chat"), out.apps.map { it.label })
+        assertEquals(listOf("i1", "i2"), out.inbox.map { it.id })
+        assertEquals(listOf("f1", "f2"), out.feeds.map { it.id })
+    }
+
+    @Test
+    fun contactsEmptyWhenDenied() {
+        assertEquals(emptyList<String>(), HomeSearchRank.contacts(false, listOf("Ada")))
+        assertEquals(listOf("Ada"), HomeSearchRank.contacts(true, listOf("Ada", "  ")))
+        val denied = HomeSearchRank.query(
+            needle = "a",
+            apps = listOf(mail),
+            usage = emptyList(),
+            inbox = emptyList(),
+            feeds = emptyList(),
+            predicted = emptyList(),
+            contactsGranted = false,
+            contactHits = listOf("Ada"),
+        )
+        assertEquals(emptyList<String>(), denied.contacts)
+    }
+
     private fun vault(
         id: String,
         pkg: String,

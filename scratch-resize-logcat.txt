@@ -1,0 +1,27 @@
+--------- beginning of main
+09-01 20:19:30.901 I/HermesWidget(27191): edit id=85
+09-01 20:19:52.213 I/HermesWidget(27191): resize id=85 5x5
+09-01 20:19:52.244 I/HermesWidget(27191): resize id=85 5x5
+09-01 20:19:52.283 I/HermesWidget(27191): resize id=85 5x5
+09-01 20:19:52.318 I/HermesWidget(27191): resize id=85 5x5
+09-01 20:19:52.352 I/HermesWidget(27191): resize id=85 5x5
+09-01 20:19:52.402 I/HermesWidget(27191): resize id=85 5x5
+09-01 20:19:52.435 I/HermesWidget(27191): resize id=85 5x5
+09-01 20:19:52.470 I/HermesWidget(27191): resize id=85 5x5
+09-01 20:19:52.501 I/HermesWidget(27191): resize id=85 5x5
+09-01 20:19:52.534 I/HermesWidget(27191): resize id=85 5x5
+09-01 20:19:54.110 I/HermesWidget(27191): relocate id=85 to=1 0,1
+09-01 20:21:53.166 I/HermesWidget(27833): edit id=86
+09-01 20:22:08.173 I/HermesWidget(27833): resize id=86 3x2
+09-01 20:23:19.241 I/HermesWidget(27833): resize id=86 3x3
+09-01 20:48:48.651 I/HermesWidget(27833): resize id=86 3x2
+09-01 20:48:48.652 I/HermesWidget(27833): resize id=86 3x2
+09-01 20:48:49.374 I/HermesWidget(27833): resize id=86 1x2
+09-01 20:48:49.946 I/HermesWidget(27833): resize id=86 3x2
+09-01 20:48:58.122 I/HermesWidget(27833): edit id=85
+09-01 20:48:59.666 I/HermesWidget(27833): resize id=85 6x5
+09-01 20:49:01.392 I/HermesWidget(27833): resize id=85 6x4
+09-01 20:49:03.758 I/HermesWidget(27833): relocate id=85 to=1 0,-1
+09-01 20:49:05.350 I/HermesWidget(27833): resize id=85 6x6
+09-01 20:49:05.756 I/HermesWidget(27833): resize id=85 6x4
+09-01 20:49:07.066 I/HermesWidget(27833): resize id=85 6x5

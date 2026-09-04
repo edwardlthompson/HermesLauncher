@@ -13,7 +13,8 @@ object RssParser {
         val doc = XmlDocuments.parse(xml) ?: return emptyList()
         val channels = doc.getElementsByTagName("channel")
         if (channels.length == 0) {
-            return emptyList()
+            val feed = doc.getElementsByTagName("feed").item(0) as? Element ?: return emptyList()
+            return AtomParser.parse(feed)
         }
         val channel = channels.item(0) as? Element ?: return emptyList()
         val feedTitle = XmlDocuments.childText(channel, "title").orEmpty()

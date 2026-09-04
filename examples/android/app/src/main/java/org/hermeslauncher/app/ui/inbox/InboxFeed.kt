@@ -6,10 +6,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -51,11 +53,16 @@ fun InboxFeed(
     val showFeeds = query.chip == InboxChip.ALL && query.packageName == null
     val feedHits = matchingFeeds(feeds, query.text)
     val searching = query.text.isNotBlank()
+    val listState = rememberLazyListState()
+    LaunchedEffect(query.layout, query.newestFirst, query.chip, query.packageName) {
+        listState.scrollToItem(0)
+    }
     when {
         itemsEmpty && history.isEmpty() && (!showFeeds || feedHits.isEmpty()) -> inboxHint()
         live.isEmpty() && history.isEmpty() && !(showFeeds && feedHits.isNotEmpty()) -> filterEmpty()
         else -> LazyColumn(
             modifier = modifier.fillMaxSize(),
+            state = listState,
             verticalArrangement = Arrangement.spacedBy(SpacingMd),
         ) {
             inboxSection(
@@ -119,16 +126,16 @@ private fun LazyListScope.inboxSection(
 ) {
     when (query.layout) {
         InboxLayout.TIME -> {
-            val mixed = MixPolicy.merge(items, feeds)
+            val mixed = MixPolicy.merge(items, feeds, query.newestFirst)
             items(mixed, key = { "$keyPrefix:${mixKey(it)}" }) { entry ->
                 mixedRow(entry, imageDir, onDismiss, onOpen, onAction, onPin, onPlay, showDismiss)
             }
         }
         InboxLayout.CATEGORY, InboxLayout.APP -> {
             val groups = if (query.layout == InboxLayout.CATEGORY) {
-                InboxFilter.categoryGroups(items, kindOf)
+                InboxFilter.categoryGroups(items, query.newestFirst, kindOf)
             } else {
-                InboxFilter.groups(items)
+                InboxFilter.groups(items, query.newestFirst)
             }
             items(groups, key = { "$keyPrefix:${it.displayLabel ?: it.packageName}" }) { group ->
                 GroupBlock(
@@ -199,6 +206,7 @@ private fun mixedRow(
             item = entry.item,
             imageDir = imageDir,
             showDismiss = showDismiss,
+            showSource = true,
             onDismiss = { onDismiss(entry.item.id) },
             onPin = { onPin(entry.item.id) },
             onOpen = { onOpen(entry.item.id) },

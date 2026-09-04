@@ -36,11 +36,17 @@ class DockCodecTest {
     }
 
     @Test
-    fun v2RoundTripKeepsUsage() {
-        val layout = DockLayout(mode = DockMode.USAGE).withApp(0, LaunchableApp("com.a", "A", "A"))
-            .copy(mode = DockMode.USAGE)
-        val restored = DockCodec.decode(DockCodec.encode(layout))
+    fun v2DecodeDefaultsOnePage() {
+        val restored = DockCodec.decode("v2|5|usage|")
+        assertEquals(1, restored.pageCount)
         assertEquals(DockMode.USAGE, restored.mode)
+    }
+
+    @Test
+    fun v3RoundTripKeepsPageCount() {
+        val layout = DockLayout(pageCount = 2).withApp(0, LaunchableApp("com.a", "A", "A"))
+        val restored = DockCodec.decode(DockCodec.encode(layout))
+        assertEquals(2, restored.pageCount)
         assertEquals("com.a", restored.slot(0)?.packageName)
     }
 }

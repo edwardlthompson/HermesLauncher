@@ -2,7 +2,7 @@ package org.hermeslauncher.app.launcher
 
 import org.hermeslauncher.app.widgets.WidgetGrid
 
-/** Page 0 is the feed; the rest are widget host grids. */
+/** Pages 0–1 are feeds and inbox; the rest are widget host grids. */
 data class HomePagerState(
     val pageCount: Int = DEFAULT_PAGE_COUNT,
     val currentPage: Int = 0,
@@ -19,10 +19,10 @@ data class HomePagerState(
         get() = currentPage == 0
 
     companion object {
-        const val DEFAULT_PAGE_COUNT: Int = 2
+        const val DEFAULT_PAGE_COUNT: Int = 3
 
         fun pageCountFor(widgetPageCount: Int): Int {
-            return 1 + widgetPageCount.coerceIn(1, WidgetGrid.MAX_WIDGET_PAGES)
+            return 2 + widgetPageCount.coerceIn(1, WidgetGrid.MAX_WIDGET_PAGES)
         }
     }
 }

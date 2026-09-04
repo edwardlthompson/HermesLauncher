@@ -1,0 +1,50 @@
+--------- beginning of main
+09-01 20:01:28.088 I/HermesVault(22689): vault open ok
+09-01 20:01:28.126 I/HermesVault(22689): listener connected active=148
+09-01 20:02:24.330 I/HermesWidget(22689): catalog size=294
+09-01 20:02:24.330 I/HermesWidget(22689): picker page=2 count=294
+09-01 20:02:26.516 I/HermesWidget(22689): place id=86 page=2 0,0 2x2
+09-01 20:02:26.534 I/HermesWidget(22689): record id=86 provider=com.aftership.AfterShip/com.aftership.shopper.views.widget.shipment.ShipmentAppWidgetProvider page=2
+09-01 20:02:41.626 I/HermesWidget(22689): catalog size=294
+09-01 20:02:41.626 I/HermesWidget(22689): picker page=2 count=294
+09-01 20:02:58.599 I/HermesWidget(22689): place id=87 page=2 4,0 2x2
+09-01 20:02:58.620 I/HermesWidget(22689): record id=87 provider=com.alibaba.aliexpresshd/com.aliexpress.module.widget.widget.AECoin2x2NormalWidget page=2
+09-01 20:09:39.747 I/HermesVault(22689): persist pkg=com.bereal.ft action=PERSIST_TEXT images=false
+09-01 20:09:45.637 I/HermesVault(22689): persist pkg=eu.faircode.email action=PERSIST_TEXT images=false
+09-01 20:09:45.642 I/HermesVault(22689): persist pkg=eu.faircode.email action=PERSIST_TEXT images=false
+09-01 20:11:40.915 I/HermesVault(22689): persist pkg=com.bereal.ft action=PERSIST_TEXT images=false
+09-01 20:11:40.928 I/HermesVault(22689): persist pkg=com.bereal.ft action=PERSIST_TEXT images=false
+09-01 20:11:41.138 I/HermesVault(22689): persist pkg=com.bereal.ft action=PERSIST_TEXT images=false
+09-01 20:19:25.332 I/HermesVault(27191): vault open ok
+09-01 20:19:26.726 I/HermesVault(27191): listener connected active=148
+09-01 20:19:30.901 I/HermesWidget(27191): edit id=85
+09-01 20:19:52.213 I/HermesWidget(27191): resize id=85 5x5
+09-01 20:19:52.244 I/HermesWidget(27191): resize id=85 5x5
+09-01 20:19:52.283 I/HermesWidget(27191): resize id=85 5x5
+09-01 20:19:52.318 I/HermesWidget(27191): resize id=85 5x5
+09-01 20:19:52.352 I/HermesWidget(27191): resize id=85 5x5
+09-01 20:19:52.402 I/HermesWidget(27191): resize id=85 5x5
+09-01 20:19:52.435 I/HermesWidget(27191): resize id=85 5x5
+09-01 20:19:52.470 I/HermesWidget(27191): resize id=85 5x5
+09-01 20:19:52.501 I/HermesWidget(27191): resize id=85 5x5
+09-01 20:19:52.534 I/HermesWidget(27191): resize id=85 5x5
+09-01 20:19:54.110 I/HermesWidget(27191): relocate id=85 to=1 0,1
+09-01 20:21:29.210 I/HermesVault(27833): vault open ok
+09-01 20:21:29.693 I/HermesVault(27833): listener connected active=148
+09-01 20:21:53.166 I/HermesWidget(27833): edit id=86
+09-01 20:22:08.173 I/HermesWidget(27833): resize id=86 3x2
+09-01 20:23:19.241 I/HermesWidget(27833): resize id=86 3x3
+09-01 20:45:00.327 I/HermesVault(27833): persist pkg=com.google.android.deskclock action=PERSIST_TEXT images=false
+09-01 20:46:37.737 I/HermesVault(27833): persist pkg=dev.imranr.obtainium.fdroid action=PERSIST_TEXT images=false
+09-01 20:47:49.735 I/HermesVault(27833): persist pkg=com.beeper.android action=PERSIST_TEXT images=false
+09-01 20:48:48.651 I/HermesWidget(27833): resize id=86 3x2
+09-01 20:48:48.652 I/HermesWidget(27833): resize id=86 3x2
+09-01 20:48:49.374 I/HermesWidget(27833): resize id=86 1x2
+09-01 20:48:49.946 I/HermesWidget(27833): resize id=86 3x2
+09-01 20:48:58.122 I/HermesWidget(27833): edit id=85
+09-01 20:48:59.666 I/HermesWidget(27833): resize id=85 6x5
+09-01 20:49:01.392 I/HermesWidget(27833): resize id=85 6x4
+09-01 20:49:03.758 I/HermesWidget(27833): relocate id=85 to=1 0,-1
+09-01 20:49:05.350 I/HermesWidget(27833): resize id=85 6x6
+09-01 20:49:05.756 I/HermesWidget(27833): resize id=85 6x4
+09-01 20:49:07.066 I/HermesWidget(27833): resize id=85 6x5

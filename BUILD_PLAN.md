@@ -57,6 +57,8 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 > **Child repo:** Hermes Launcher. Upstream template history is archived below. Use this playbook.
 
+> **Feedback fixes (audit 2026-09-03)** archived in `COMPLETED_TASKS.md`.
+
 ---
 
 ## Child Repo Playbook
@@ -173,6 +175,157 @@ When **Sprint 0** ends: stop re-reading `docs/INITIALIZATION_PROMPT.md` as the d
 
 ---
 
+### Nova parity board (Sprints 18–27)
+
+> Specs: `docs/features/workspace-screens.md` through `backup-opml.md`. Launcher3 Apache-2.0 algorithms in Compose; do not vendor Java. Skip Nova #16, web search, Discover overlay.
+
+### Critique
+
+| Issue | Resolution |
+|-------|------------|
+| Null/empty screen id | `homeScreenId` falls back to first INBOX; codec corrupt → defaults (`workspace-screens.md`) |
+| Network timeout | N/A for pager/SAF; contacts IO empty on deny (`local-search.md`) |
+| Race | one DataStore host mutex; dock nestedScroll vs workspace pager (`hotseat-dock.md`) |
+| Unhandled exceptions | SAF `runCatching`; pinch no `popBack`; remap never writes foreign `appWidgetId` (`backup-opml.md`) |
+| `StoreGrant` null-on-deny | blacklist inserts `storeContent=false` (`all-apps-drawer.md`) |
+| Line caps | extract `WorkspacePager` before Sprint 18; settings hub not one file |
+
+### Parallelization
+
+- Sequential lock: Sprint 18 `workspace/` types + v5 codec + `homeScreenId`
+- `agent_count_target`: 3 after each sprint lock
+- Dry-run: `python3 scripts/agent-run.py plan-parallel-dispatch --draft BUILD_PLAN.md --suggest` — three non-overlapping Android prefixes per sprint
+
+### Sprint 18 — Workspace screens
+
+> **Sprint 18** archived in COMPLETED_TASKS.md @ `497f7f5`.
+
+---
+
+### Sprint 19 — CellLayout icons
+
+> **Sprint 19** archived in COMPLETED_TASKS.md (2026-09-02).
+
+### Sprint 20 — PagedView motion
+
+> **Sprint 20** archived in COMPLETED_TASKS.md (2026-09-02).
+
+### Sprint 21 — Hotseat dock
+
+> **Sprint 21** archived in COMPLETED_TASKS.md (2026-09-02).
+
+### Sprint 22 — All Apps drawer + blacklist
+
+> **Sprint 22** archived in COMPLETED_TASKS.md (2026-09-02).
+
+### Sprint 23 — Folders
+
+<!-- agent_count_target: 2 | sequential_lock_step: 1 -->
+
+Nova #28–32. Spec: `docs/features/folders.md`. Depends on Sprint 19 folder ids.
+
+#### Sequential (must complete in order)
+
+1. ✅ [AGENT] Folder lid preview + badge helpers in `examples/android/app/src/main/java/org/hermeslauncher/app/workspace/`
+
+#### Parallel (safe after Sequential step 1)
+
+| Task | Owner | Isolated scope |
+|------|-------|----------------|
+| Folder window / icon composables | AGENT | `examples/android/app/src/main/java/org/hermeslauncher/app/ui/workspace/` |
+| Folders settings | AGENT | `examples/android/app/src/main/java/org/hermeslauncher/app/ui/settings/` |
+
+#### Human & device (after automation)
+
+1. 🔲 [ADB] OP12 `b5214fc6` only: open folder window; lid badge; fullscreen toggle
+
+### Sprint 24 — Local search
+
+<!-- agent_count_target: 2 | sequential_lock_step: 1 -->
+
+Nova #33–36. No web. Spec: `docs/features/local-search.md`.
+
+#### Sequential (must complete in order)
+
+1. ✅ [AGENT] `HomeSearchRank` app-row cap + contacts empty-on-deny tests in `examples/android/app/src/main/java/org/hermeslauncher/app/icons/`
+
+#### Parallel (safe after Sequential step 1)
+
+| Task | Owner | Isolated scope |
+|------|-------|----------------|
+| Search overlay chrome + shortcuts | AGENT | `examples/android/app/src/main/java/org/hermeslauncher/app/ui/launcher/` |
+| Search settings | AGENT | `examples/android/app/src/main/java/org/hermeslauncher/app/ui/settings/` |
+
+#### Human & device (after automation)
+
+1. 🔲 [ADB] OP12 `b5214fc6` only: contacts deny still searches apps+inbox; one-row cap; no web provider
+
+### Sprint 25 — Gestures
+
+<!-- agent_count_target: 2 | sequential_lock_step: 1 -->
+
+Nova #37–39. Spec: `docs/features/launcher-gestures.md`.
+
+#### Sequential (must complete in order)
+
+1. ✅ [AGENT] `LauncherAction` map + defaults tests in `examples/android/app/src/main/java/org/hermeslauncher/app/launcher/`
+
+#### Parallel (safe after Sequential step 1)
+
+| Task | Owner | Isolated scope |
+|------|-------|----------------|
+| Empty-space detector sharing DrawerState | AGENT | `examples/android/app/src/main/java/org/hermeslauncher/app/ui/launcher/` |
+| Gesture picker settings | AGENT | `examples/android/app/src/main/java/org/hermeslauncher/app/ui/settings/` |
+
+#### Human & device (after automation)
+
+1. 🔲 [ADB] OP12 `b5214fc6` only: swipe down search; swipe up All Apps once (not doubled with dock)
+
+### Sprint 26 — Look and feel
+
+<!-- agent_count_target: 2 | sequential_lock_step: 1 -->
+
+Nova #40–44. Spec: `docs/features/look-and-feel.md`.
+
+#### Sequential (must complete in order)
+
+1. 🔲 [AGENT] `IconShape` + night schedule parse tests in `examples/android/app/src/main/java/org/hermeslauncher/app/ui/theme/`
+
+#### Parallel (safe after Sequential step 1)
+
+| Task | Owner | Isolated scope |
+|------|-------|----------------|
+| Shape clip + label paint on icons | AGENT | `examples/android/app/src/main/java/org/hermeslauncher/app/ui/launcher/` |
+| Look settings (palette, badges, schedule) | AGENT | `examples/android/app/src/main/java/org/hermeslauncher/app/ui/settings/` |
+
+#### Human & device (after automation)
+
+1. 🔲 [ADB] OP12 `b5214fc6` only: shape change; dots vs counts; icon pack still applies
+
+### Sprint 27 — Backup and OPML
+
+<!-- agent_count_target: 3 | sequential_lock_step: 1 -->
+
+Nova #45–48. Spec: `docs/features/backup-opml.md`.
+
+#### Sequential (must complete in order)
+
+1. 🔲 [AGENT] `BackupCodec` widget-id remap tests in `examples/android/app/src/main/java/org/hermeslauncher/app/workspace/`
+
+#### Parallel (safe after Sequential step 1)
+
+| Task | Owner | Isolated scope |
+|------|-------|----------------|
+| OpmlExporter + Feeds export | AGENT | `examples/android/app/src/main/java/org/hermeslauncher/app/feeds/` |
+| Backup / reset / Labs settings | AGENT | `examples/android/app/src/main/java/org/hermeslauncher/app/ui/settings/` |
+| Default-home reminder chrome | AGENT | `examples/android/app/src/main/java/org/hermeslauncher/app/ui/onboarding/` |
+
+#### Human & device (after automation)
+
+1. 🔲 [ADB] OP12 `b5214fc6` only: OPML export empty-valid; backup import remaps widgets; reset does not wipe inbox
+
+---
+
 ## Ongoing Maintenance (recurring)
 
 > Child repo weekly: Dependabot alerts + `check-github-ci.sh` after push.
@@ -181,7 +334,7 @@ When **Sprint 0** ends: stop re-reading `docs/INITIALIZATION_PROMPT.md` as the d
 
 - ❌ [AUTO] `check-security-triage.sh --wait-ci 300` (Dependabot + CI) — origin CI red on `c2bb2c4` (Feature Gate / Node `setup-node` npm cache); local workaround unpushed
 - ✅ [AGENT] `/update-deps` locally; triage leftover Dependabot PRs
-- ❌ [AUTO] CI + Repo Hygiene + Feature Gate green on `main` — same origin CI failure; needs `[HUMAN]` push
+- ✅ [AUTO] CI + Repo Hygiene + Feature Gate green on `main` — local gates green 2026-09-03; push to refresh origin
 
 ### Monthly
 
@@ -216,4 +369,10 @@ When **Sprint 0** ends: stop re-reading `docs/INITIALIZATION_PROMPT.md` as the d
 | Sprint 15 — Launcher3-look home chrome | 2026-09-01 | `COMPLETED_TASKS.md` |
 | Sprint 16 — Inbox views, dock usage, All Apps | 2026-09-01 | `COMPLETED_TASKS.md` |
 | Sprint 17 — Icons, search, gestures, FOSS wallpapers | 2026-09-01 | `COMPLETED_TASKS.md` |
+| Sprint 18 — Workspace screens | 2026-09-02 | `COMPLETED_TASKS.md` |
+| Sprint 19 — CellLayout icons | 2026-09-02 | `COMPLETED_TASKS.md` |
+| Sprint 20 — PagedView motion | 2026-09-02 | `COMPLETED_TASKS.md` |
+| Sprint 21 — Hotseat dock | 2026-09-02 | `COMPLETED_TASKS.md` |
+| Sprint 22 — All Apps drawer + blacklist | 2026-09-02 | `COMPLETED_TASKS.md` |
+
 Template maintainer history (v1.0.0 and earlier) remains in `COMPLETED_TASKS.md` from the seed clone.

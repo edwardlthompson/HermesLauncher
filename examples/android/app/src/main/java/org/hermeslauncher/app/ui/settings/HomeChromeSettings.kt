@@ -20,17 +20,24 @@ import org.hermeslauncher.app.R
 import org.hermeslauncher.app.launcher.DoubleTapAction
 import org.hermeslauncher.app.ui.theme.SpacingMd
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun HomeChromeSettings(modifier: Modifier = Modifier) {
+fun UnreadDotSettings(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val app = context.applicationContext as HermesApplication
     val scope = rememberCoroutineScope()
     val showDots by app.homePrefs.showDots.collectAsStateWithLifecycle(true)
-    val doubleTap by app.homePrefs.doubleTap.collectAsStateWithLifecycle(DoubleTapAction.OFF)
     Text(text = stringResource(R.string.settings_show_dots), modifier = modifier)
     Text(text = stringResource(R.string.settings_show_dots_body), style = MaterialTheme.typography.bodySmall)
     Switch(checked = showDots, onCheckedChange = { on -> scope.launch { app.homePrefs.setShowDots(on) } })
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun GestureSettings() {
+    val context = LocalContext.current
+    val app = context.applicationContext as HermesApplication
+    val scope = rememberCoroutineScope()
+    val doubleTap by app.homePrefs.doubleTap.collectAsStateWithLifecycle(DoubleTapAction.OFF)
     Text(text = stringResource(R.string.settings_double_tap))
     FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
         DoubleTapAction.entries.forEach { action ->

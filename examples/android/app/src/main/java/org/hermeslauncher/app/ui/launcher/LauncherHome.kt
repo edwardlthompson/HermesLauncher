@@ -8,7 +8,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -43,9 +42,9 @@ import org.hermeslauncher.app.icons.AppCatalog
 import org.hermeslauncher.app.icons.DockLayout
 import org.hermeslauncher.app.icons.DockMode
 import org.hermeslauncher.app.icons.IconPackId
+import org.hermeslauncher.app.icons.LaunchableApp
 import org.hermeslauncher.app.launcher.DoubleTapAction
 import org.hermeslauncher.app.launcher.DrawerState
-import org.hermeslauncher.app.launcher.HomePagerState
 import org.hermeslauncher.app.launcher.HomePulse
 import org.hermeslauncher.app.launcher.HomePulseResult
 import org.hermeslauncher.app.oem.HomeActions
@@ -54,11 +53,20 @@ import org.hermeslauncher.app.oem.OemDetector
 import org.hermeslauncher.app.oem.RepairPolicy
 import org.hermeslauncher.app.ui.onboarding.GrantChrome
 import org.hermeslauncher.app.ui.player.MiniPlayerBar
-import org.hermeslauncher.app.ui.widgets.WidgetPage
+import org.hermeslauncher.app.ui.workspace.PageIndicator
+import org.hermeslauncher.app.ui.workspace.QsbBar
+import org.hermeslauncher.app.ui.workspace.pinchAction
 import org.hermeslauncher.app.vault.InboxFilter
 import org.hermeslauncher.app.widgets.WidgetChoice
 import org.hermeslauncher.app.widgets.WidgetHostController
 import org.hermeslauncher.app.widgets.WidgetHostState
+import org.hermeslauncher.app.workspace.DesktopLayout
+import org.hermeslauncher.app.workspace.DesktopPin
+import org.hermeslauncher.app.workspace.PagedPolicy
+import org.hermeslauncher.app.workspace.PinchTarget
+import org.hermeslauncher.app.workspace.QsbPlacement
+import org.hermeslauncher.app.workspace.ScrollMode
+import org.hermeslauncher.app.workspace.WorkspaceModel
 
 @Composable
 fun LauncherHome(
@@ -76,16 +84,24 @@ fun LauncherHome(
     val widgets by app.widgetStore.state.collectAsStateWithLifecycle(WidgetHostState())
     val dockRaw by app.dockStore.layout.collectAsStateWithLifecycle(DockLayout())
     val pack by app.iconPackStore.pack.collectAsStateWithLifecycle(IconPackId())
+    val desktop by app.desktopStore.layout.collectAsStateWithLifecycle(DesktopLayout())
     val showDots by app.homePrefs.showDots.collectAsStateWithLifecycle(true)
+    val showLabels by app.homePrefs.showLabels.collectAsStateWithLifecycle(true)
     val bannerGone by app.homePrefs.usageBannerDismissed.collectAsStateWithLifecycle(false)
     val doubleTap by app.homePrefs.doubleTap.collectAsStateWithLifecycle(DoubleTapAction.OFF)
+    val qsb by app.pagedPrefs.qsb.collectAsStateWithLifecycle(QsbPlacement.NONE)
+    val scrollMode by app.pagedPrefs.scrollMode.collectAsStateWithLifecycle(ScrollMode.ADJACENT)
+    val pinch by app.pagedPrefs.pinch.collectAsStateWithLifecycle(PinchTarget.ALL_APPS)
     val picker by widgetController.picker.collectAsStateWithLifecycle()
     var resumeTick by remember { mutableIntStateOf(0) }
     val homeDock = rememberHomeDock(pm, dockRaw, resumeTick)
-    val pageCount = HomePagerState.pageCountFor(widgets.pages.size)
-    val pagerState = rememberPagerState(pageCount = { pageCount })
+    val workspace = remember(widgets) { WorkspaceModel.migrate(widgets) }
+    val pageCount = workspace.screenIds.size
+    val homeIndex = workspace.homePagerIndex()
+    val pagerState = rememberPagerState(initialPage = homeIndex, pageCount = { pageCount })
     var drawer by remember { mutableStateOf(DrawerState()) }
     var assignSlot by remember { mutableStateOf<Int?>(null) }
+    var pinDesktop by remember { mutableStateOf(false) }
     var playerState by remember { mutableStateOf(MiniPlayerState()) }
     var snapshot by remember { mutableStateOf(LivePermissions.snapshot(context)) }
     var grantsWereGood by remember { mutableStateOf(!RepairPolicy.needsOverlay(snapshot)) }
@@ -111,7 +127,6 @@ fun LauncherHome(
     fun onEmptyDoubleTap() {
         HomeActions.onDoubleTap(context, doubleTap) { cameraLauncher.launch(Manifest.permission.CAMERA) }
     }
-
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
@@ -139,10 +154,12 @@ fun LauncherHome(
     }
     LaunchedEffect(pack.packageName) { app.iconLoader.clear() }
     val searchNow = rememberUpdatedState(searchOpen)
+    val pageNow = rememberUpdatedState(pagerState.currentPage)
+    val homeNow = rememberUpdatedState(homeIndex)
     LaunchedEffect(app) {
         app.homePulse.collect {
-            when (HomePulse.next(pagerState.currentPage, searchNow.value)) {
-                HomePulseResult.SCROLL_INBOX -> pagerState.animateScrollToPage(0)
+            when (HomePulse.next(pageNow.value, searchNow.value, homeNow.value)) {
+                HomePulseResult.SCROLL_INBOX -> pagerState.animateScrollToPage(homeNow.value)
                 HomePulseResult.OPEN_SEARCH -> {
                     drawer = drawer.closed()
                     searchOpen = true
@@ -153,6 +170,7 @@ fun LauncherHome(
     }
     BackHandler(enabled = drawer.open) {
         assignSlot = null
+        pinDesktop = false
         drawer = drawer.closed()
     }
     BackHandler(enabled = picker != null && dragChoice == null) {
@@ -160,7 +178,13 @@ fun LauncherHome(
     }
 
     BoxWithConstraints(
-        modifier = modifier.fillMaxSize().onGloballyPositioned { rootCoords = it },
+        modifier = modifier
+            .fillMaxSize()
+            .pinchAction {
+                if (pinch == PinchTarget.ALL_APPS && !drawer.open) drawer = drawer.opened()
+                else if (pinch == PinchTarget.OVERVIEW) homeMenu = true
+            }
+            .onGloballyPositioned { rootCoords = it },
     ) {
         val pageWidthPx = constraints.maxWidth.toFloat()
         Column(modifier = Modifier.fillMaxSize()) {
@@ -176,42 +200,50 @@ fun LauncherHome(
                 onRepair = { LivePermissions.startSafe(context, LivePermissions.listenerSettings()) },
                 onLater = { grantsWereGood = true },
             )
-            HorizontalPager(state = pagerState, userScrollEnabled = !dragging, modifier = Modifier.weight(1f)) { page ->
-                if (page == 0) {
-                    FeedPage(
-                        items = items,
-                        feeds = feeds,
-                        onDismiss = { id -> scope.launch { app.vault.archive(id) } },
-                        onDismissGroup = { ids -> scope.launch(Dispatchers.IO) { ids.forEach { app.vault.archive(it) } } },
-                        onOpen = { id -> scope.launch { app.vault.open(id) } },
-                        onAction = { id, index -> scope.launch { app.vault.runAction(id, index) } },
-                        onPin = { id -> scope.launch { app.vault.togglePin(id) } },
-                        onPlay = { item ->
-                            val url = item.enclosureUrl
-                            if (!url.isNullOrBlank()) {
-                                app.player.play(url)
-                                playerState = playerState.load(item)
-                            }
-                        },
-                        onLongPressHome = { homeMenu = true },
-                        onDoubleTapHome = ::onEmptyDoubleTap,
-                    )
-                } else {
-                    WidgetPage(
-                        page = widgets.page(page),
-                        host = app.widgetHost,
-                        grid = widgets.grid,
-                        dragging = dragging,
-                        onLongPressEmpty = { homeMenu = true },
-                        onDoubleTapEmpty = ::onEmptyDoubleTap,
-                        onAdd = { widgetController.openPicker(page) },
-                        onMove = { id, x, y -> widgetController.relocate(page, page, id, x, y) },
-                        onSpan = { binding -> widgetController.applySpan(page, binding) },
-                        onRemove = { id -> widgetController.remove(page, id) },
-                        onGridPositioned = { gridCoords = it },
-                    )
-                }
-            }
+            if (qsb == QsbPlacement.TOP) QsbBar(placement = qsb, onOpen = { searchOpen = true })
+            WorkspacePager(
+                model = workspace,
+                widgets = widgets,
+                desktop = desktop,
+                host = app.widgetHost,
+                pagerState = pagerState,
+                items = items,
+                feeds = feeds,
+                pack = pack,
+                showLabels = showLabels,
+                dragging = dragging,
+                reverseLayout = PagedPolicy.reverseLayout(scrollMode),
+                onDismiss = { id -> scope.launch { app.vault.archive(id) } },
+                onDismissGroup = { ids -> scope.launch(Dispatchers.IO) { ids.forEach { app.vault.archive(it) } } },
+                onPin = { id -> scope.launch { app.vault.togglePin(id) } },
+                onPlay = { item ->
+                    item.enclosureUrl?.takeIf { it.isNotBlank() }?.let { url ->
+                        app.player.play(url); playerState = playerState.load(item)
+                    }
+                },
+                onLongPressHome = { homeMenu = true },
+                onDoubleTapHome = ::onEmptyDoubleTap,
+                onAddWidget = { page -> widgetController.openPicker(page) },
+                onMove = { page, id, x, y -> widgetController.relocate(page, page, id, x, y) },
+                onSpan = { page, binding -> widgetController.applySpan(page, binding) },
+                onRemove = { page, id -> widgetController.remove(page, id) },
+                onGridPositioned = { gridCoords = it },
+                onLaunchIcon = { AppCatalog.launch(context, LaunchableApp(it.packageName, it.activityName, it.label)) },
+                onRemoveIcon = { page, id ->
+                    scope.launch { app.desktopStore.save(app.desktopStore.layout.first().without(page, id)) }
+                },
+                onMoveIcon = { page, id, x, y ->
+                    scope.launch {
+                        DesktopPin.relocate(app.desktopStore.layout.first(), widgets, page, id, x, y)?.let {
+                            app.desktopStore.save(it.layout)
+                        }
+                    }
+                },
+                onAddFeed = { url -> app.feeds.addFromLink(url) },
+                modifier = Modifier.weight(1f),
+            )
+            if (qsb == QsbPlacement.BOTTOM) QsbBar(placement = qsb, onOpen = { searchOpen = true })
+            PageIndicator(count = pageCount, current = pagerState.currentPage)
             MiniPlayerBar(
                 state = playerState,
                 onToggle = { app.player.toggle(); playerState = playerState.toggle() },
@@ -230,70 +262,35 @@ fun LauncherHome(
                 onAssign = { index -> assignSlot = index; drawer = drawer.opened() },
             )
         }
-        if (drawer.open) {
-            AppDrawer(
-                apps = homeDock.apps,
-                predicted = homeDock.predicted,
-                assignMode = assignSlot != null,
-                pack = pack,
-                unreadByPackage = unread,
-                showDots = showDots,
-                onOpenSearch = { drawer = drawer.closed(); searchOpen = true },
-                onApp = { chosen ->
-                    val slot = assignSlot
-                    if (slot != null) {
-                        scope.launch { app.dockStore.save(homeDock.dock.withApp(slot, chosen)) }
-                        assignSlot = null
-                    } else {
-                        AppCatalog.launch(context, chosen)
-                    }
-                    drawer = drawer.closed()
-                },
-                onAbout = { drawer = drawer.closed(); onOpenAbout() },
-            )
-        }
+        HomeDrawerHost(
+            open = drawer.open, homeDock = homeDock, pack = pack, unread = unread, showDots = showDots,
+            assignSlot = assignSlot, pinDesktop = pinDesktop, workspace = workspace,
+            pagerState = pagerState, scope = scope, widgets = widgets, gridCoords = gridCoords,
+            rootCoords = rootCoords, pageWidthPx = pageWidthPx, pageCount = pageCount, lastEdgeMs = lastEdgeMs,
+            onDragging = { dragging = it }, onEdgeMs = { lastEdgeMs = it },
+            onClose = { drawer = drawer.closed() },
+            onOpenSearch = { drawer = drawer.closed(); searchOpen = true },
+            onAbout = { drawer = drawer.closed(); onOpenAbout() },
+            onAssignConsumed = { assignSlot = null }, onPinConsumed = { pinDesktop = false },
+        )
         HomeWidgetDrag(
-            picker = picker,
-            dragChoice = dragChoice,
-            dragWindow = dragWindow,
-            rootCoords = rootCoords,
-            gridCoords = gridCoords,
-            widgets = widgets,
-            pagerState = pagerState,
-            pageCount = pageCount,
-            pageWidthPx = pageWidthPx,
-            lastEdgeMs = lastEdgeMs,
-            scope = scope,
-            widgetController = widgetController,
+            picker = picker, dragChoice = dragChoice, dragWindow = dragWindow,
+            rootCoords = rootCoords, gridCoords = gridCoords, widgets = widgets, model = workspace,
+            pagerState = pagerState, pageCount = pageCount, pageWidthPx = pageWidthPx, lastEdgeMs = lastEdgeMs,
+            scope = scope, widgetController = widgetController,
             onDragStart = { choice, window -> dragging = true; dragChoice = choice; dragWindow = window },
-            onDragWindow = { dragWindow = it },
-            onEdgeMs = { lastEdgeMs = it },
-            setDragging = { dragging = it },
-            setDragChoice = { dragChoice = it },
+            onDragWindow = { dragWindow = it }, onEdgeMs = { lastEdgeMs = it },
+            setDragging = { dragging = it }, setDragChoice = { dragChoice = it },
         )
-        HomeOptionsPopup(
-            visible = homeMenu,
-            onWidgets = { homeMenu = false; widgetController.openPicker(pagerState.currentPage.coerceAtLeast(1)) },
-            onSettings = { homeMenu = false; onOpenSettings() },
-            onDismiss = { homeMenu = false },
-        )
-        HomeSearchOverlay(
-            visible = searchOpen,
-            apps = homeDock.apps,
-            predicted = homeDock.predicted,
-            usage = homeDock.usage,
-            inbox = items,
-            feeds = feeds,
-            pack = pack,
-            onApp = { AppCatalog.launch(context, it); searchOpen = false },
-            onInbox = { item -> scope.launch { app.vault.open(item.id) }; searchOpen = false },
-            onFeed = { item ->
-                item.enclosureUrl?.takeIf { it.isNotBlank() }?.let { url ->
-                    app.player.play(url); playerState = playerState.load(item)
-                }
-                searchOpen = false
-            },
-            onClose = { searchOpen = false },
+        HomeShellMenus(
+            homeMenu = homeMenu, searchOpen = searchOpen, homeDock = homeDock, items = items,
+            feeds = feeds, pack = pack, workspace = workspace, pagerState = pagerState,
+            widgetController = widgetController, playerState = playerState,
+            onHomeMenu = { homeMenu = it },
+            onPinDesktop = { pinDesktop = true; drawer = drawer.opened() },
+            onOpenSettings = onOpenSettings,
+            onSearch = { searchOpen = it },
+            onPlayer = { playerState = it },
         )
     }
 }

@@ -1,0 +1,22 @@
+{
+  "sprint": "Sprint 18 \u00e2\u20ac\u201d Workspace screens",
+  "sprint_agent_auto_complete": false,
+  "sprint_complete": false,
+  "open_agent_auto": 1,
+  "open_human_adb": 1,
+  "halt": false,
+  "halt_reason": null,
+  "next_row": {
+    "owner": "AGENT",
+    "task": "Lock `WorkspaceModel` (`screenIds`, `homeScreenId`, `WorkspaceKind`) + `WidgetHostCodec` v5 migrate tests under `examples/android/app/src/main/java/org/hermeslauncher/app/workspace/` and `.../widgets/`",
+    "sprint": "Sprint 18 \u00e2\u20ac\u201d Workspace screens",
+    "phase": "pre_parallel",
+    "action": "execute"
+  },
+  "action": "execute",
+  "backlogged_human_adb": [],
+  "lane": "child",
+  "chain_continue": false,
+  "all_sprints_agent_auto_complete": false,
+  "repo_mode": "child"
+}
