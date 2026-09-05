@@ -3,7 +3,7 @@ repos:
     rev: v5.0.0
     hooks:
       - id: trailing-whitespace
-        exclude: ^examples/android/third_party/
+        exclude: ^(examples/android/third_party/|examples/android/launcher3/src/generated/)
       - id: end-of-file-fixer
         exclude: ^examples/android/third_party/
       - id: check-yaml
