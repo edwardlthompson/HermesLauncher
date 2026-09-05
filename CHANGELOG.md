@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
 ## [1.0.0](https://github.com/edwardlthompson/HermesLauncher/compare/v1.0.0...v1.0.0) (2026-09-05)
 
 
@@ -185,8 +187,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * **web:** override js-yaml to patch Dependabot alert [#9](https://github.com/edwardlthompson/HermesLauncher/issues/9) ([609165c](https://github.com/edwardlthompson/HermesLauncher/commit/609165c6321cb2498c39541b5315ff19a533f7fb))
 * **web:** resolve CI lint and file-size budget failures ([1759a8f](https://github.com/edwardlthompson/HermesLauncher/commit/1759a8f54b80f54564318e4174f56388d20047ef))
 * **web:** use hasAttribute for disabled check in panelDialog ([f4d082e](https://github.com/edwardlthompson/HermesLauncher/commit/f4d082ea1331446f45baeabd77f55818ec5a8cdf))
-
-## [Unreleased]
 
 ## [1.0.0](https://github.com/edwardlthompson/agent-project-bootstrap/compare/v0.25.0...v1.0.0) (2026-08-28)
 
