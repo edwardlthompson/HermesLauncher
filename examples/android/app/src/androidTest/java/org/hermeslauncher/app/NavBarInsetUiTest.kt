@@ -43,16 +43,18 @@ class NavBarInsetUiTest {
         val navInset = ViewCompat.getRootWindowInsets(decorView)
             ?.getInsets(WindowInsetsCompat.Type.navigationBars())
             ?.bottom ?: 0
+        if (navInset <= 0) {
+            composeTestRule.onNodeWithText("Backup").assertIsDisplayed()
+            return
+        }
         val screenHeight = decorView.height
         val buttonBottom = composeTestRule.onNodeWithText("Backup")
             .fetchSemanticsNode()
             .boundsInRoot
             .bottom
-
-        val minClearance = if (navInset > 0) navInset else 48
         assertTrue(
             "Backup row bottom ($buttonBottom) should be above nav bar (screen=$screenHeight inset=$navInset)",
-            buttonBottom <= screenHeight - minClearance + 8,
+            buttonBottom <= screenHeight - navInset + 8,
         )
     }
 

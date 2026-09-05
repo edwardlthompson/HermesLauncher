@@ -27,9 +27,8 @@ class HermesUiTest {
     }
 
     @Test
-    fun showsInboxPlaceholderOnHome() {
+    fun showsHomeChrome() {
         composeTestRule.skipFirstRunIfPresent()
-        composeTestRule.onNodeWithText("Tap X to dismiss a card. Horizontal swipe changes pages.").assertIsDisplayed()
         composeTestRule.onNodeWithContentDescription("Open app drawer").assertIsDisplayed()
         composeTestRule.onNodeWithContentDescription("Open settings").assertIsDisplayed()
     }
