@@ -65,3 +65,18 @@ dependencies {
 
 tasks.matching { it.name.startsWith("extract") && it.name.endsWith("Annotations") }
     .configureEach { enabled = false }
+
+// AGP still requires typedefs.txt on sync*LibJars even when extract*Annotations is skipped.
+tasks.matching { it.name.startsWith("sync") && it.name.endsWith("LibJars") }.configureEach {
+    doFirst {
+        val cap = name.removePrefix("sync").removeSuffix("LibJars")
+        val variant = cap.replaceFirstChar { it.lowercase() }
+        val typedefs = layout.buildDirectory.get().asFile.resolve(
+            "intermediates/annotations_typedef_file/$variant/extract${cap}Annotations/typedefs.txt",
+        )
+        typedefs.parentFile.mkdirs()
+        if (!typedefs.exists()) {
+            typedefs.writeText("")
+        }
+    }
+}

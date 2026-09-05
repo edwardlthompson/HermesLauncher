@@ -1,3 +1,6 @@
+# Local repo-wide checks stay on pre-commit. Without this, pre-commit 4
+# reruns file-limits / bootstrap on commit-msg and deadlocks git on Windows.
+default_stages: [pre-commit]
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
