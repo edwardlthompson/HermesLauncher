@@ -74,7 +74,7 @@ dependencies {
     implementation(composeBom)
     androidTestImplementation(composeBom)
 
-    implementation("androidx.browser:browser:1.8.0")
+    implementation("androidx.browser:browser:1.10.0")
     implementation("androidx.work:work-runtime-ktx:2.10.3")
     implementation("androidx.core:core-ktx:1.19.0")
     implementation("androidx.activity:activity-compose:1.13.0")
@@ -88,10 +88,10 @@ dependencies {
     implementation("androidx.room:room-runtime:2.8.4")
     implementation("androidx.room:room-ktx:2.8.4")
     ksp("androidx.room:room-compiler:2.8.4")
-    implementation("androidx.media3:media3-exoplayer:1.8.0")
-    implementation("androidx.media3:media3-common:1.8.0")
-    implementation("net.zetetic:sqlcipher-android:4.16.0")
-    implementation("androidx.sqlite:sqlite:2.6.2")
+    implementation("androidx.media3:media3-exoplayer:1.11.0")
+    implementation("androidx.media3:media3-common:1.11.0")
+    implementation("net.zetetic:sqlcipher-android:4.18.0")
+    implementation("androidx.sqlite:sqlite:2.7.0")
 
     implementation(project(":launcher3"))
 
