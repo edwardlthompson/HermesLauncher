@@ -29,7 +29,6 @@ android {
                     "../third_party/launcher3/src_plugins",
                     "../third_party/launcher3/src_shortcuts_overrides",
                     "../third_party/launcher3/src_ui_overrides",
-                    "../third_party/launcher3/tests/shared",
                     "src/stubs",
                     "src/generated",
                 ),
@@ -64,4 +63,5 @@ dependencies {
     implementation("com.google.protobuf:protobuf-javalite:3.25.5")
 }
 
-tasks.matching { it.name == "extractReleaseAnnotations" }.configureEach { enabled = false }
+tasks.matching { it.name.startsWith("extract") && it.name.endsWith("Annotations") }
+    .configureEach { enabled = false }
