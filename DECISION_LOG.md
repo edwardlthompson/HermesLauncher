@@ -17,6 +17,48 @@
 
 ## Entries
 
+### 2026-09-05 — TIME_TICK on Launcher3 HOME
+- **Status:** Accepted
+- **Context:** Compose `WidgetHostTick` lived on unused `MainActivity`. Application `startListening()` on host 1024 stole Launcher3 callbacks. Desktop clocks stayed frozen.
+- **Decision:** `L3WidgetTick` registers `ACTION_TIME_TICK` on `HermesLauncherActivity`. Merge L3 + leftover Compose ids. Application no longer calls `startListening()`. News unread honors `onAppWidgetOptionsChanged`.
+- **Alternatives considered:** Keep tick only in Compose HOME (rejected: HOME is Launcher3). Share host 1024 from Application (rejected: steals callbacks).
+- **Consequences:** OP12 Fossify analogue clock advanced 07:59→08:00 with `HermesWidget: tick n=1`. Nova-bound widgets are not migrated.
+
+### 2026-09-04 — Podcasts page left of News
+- **Status:** Accepted
+- **Context:** Inoreader OPML mixes articles and podcasts; AntennaPod-parity play must not restore `MainActivity` as HOME.
+- **Decision:** Reserved screen `-300` prepends Podcasts. `FeedSub.kind` plus `PodcastDetect` split News vs Podcasts. OPML I/O is kind-filtered. `PodcastService` owns MediaSession/`mediaPlayback`; ExoPlayer stays Application-scoped. Sony duplicate stays News.
+- **Alternatives considered:** Dump ~70 URLs in `DefaultFeeds` (rejected: token/line limits). Trust Inoreader folder only (rejected: PhotoNetCast / Sony). Chromecast/FCM (rejected: FOSS).
+- **Consequences:** Home index fallback is Inbox page 2 when three reserved pages exist. Prefetch HTML stays off for podcast subs. Audio cache is `files/podcast-audio/`.
+
+### 2026-09-04 — News and Inbox are Workspace pages
+- **Status:** Accepted (supersedes 2026-09-04 minus-one overlay)
+- **Context:** The DragLayer overlay felt like a second activity. Pre-merge screens already treated feeds as a real page; Home is Inbox.
+- **Decision:** Overlay `launcher.xml` so `@id/workspace` is `HermesWorkspace`. Reserved IDs `-301`/`-302` host News then Inbox Compose. `moveToDefaultScreen` snaps to Inbox. Long-press Settings is `HermesSettingsActivity`. Stock empty `LauncherOverlayManager`.
+- **Alternatives considered:** Restore `MainActivity` as HOME (rejected: third renderer). Keep overlay (rejected: dual pager/physics).
+- **Consequences:** Desktop/Dock/Drawer/Labs DataStore knobs still do not restyle L3 DeviceProfile. Wrap/overlap Labs stay no-ops until a real L3 fork.
+
+### 2026-09-04 — Minus-one overlay paints News then Inbox
+- **Status:** Accepted
+- **Context:** Sprint 28 overlay hook had no UI. OP12 smoke needed swipeable News/Inbox plus RSS add from androidauthority.com.
+- **Decision:** Host Compose behind `LauncherRootView` so DragLayer translation reveals it. Page 0 is News, page 1 is Inbox. RSS fetch sends a User-Agent, tries `/feed/`, and XML feature flags must not abort parse on Android's DocumentBuilder.
+- **Alternatives considered:** Extra Workspace CellLayouts (deferred). Rubber-band overlay with no settle (rejected: pages would not stay open).
+- **Consequences:** FilterBar BackHandler needs `OverlayBackHost` because `Launcher` is not a ComponentActivity. Overlay View stays INVISIBLE at progress 0 so it does not steal a11y. AOSP `mapToRange: range has 0 length` spam during overlay animation is leftover Launcher3 indicator math.
+
+### 2026-09-04 — AOSP Launcher3 is the homescreen
+- **Status:** Accepted (supersedes 2026-09-03 “Keep Compose; do not vendor Launcher3”)
+- **Context:** Compose widget drag-drop still failed on OP12 after the coord/toast patch. HUMAN directed that homescreen chrome must come from AOSP Launcher3; only the notification inbox and news feed stay custom.
+- **Decision:** Vendor `packages/apps/Launcher3` tag `android-14.0.0_r28` (Apache-2.0) plus `iconloaderlib`. Compile the **without Quickstep** source set as Gradle modules `:iconloader` and `:launcher3`. `HermesLauncherActivity` extends `com.android.launcher3.Launcher`. Inbox/news attach via `LauncherOverlayManager` (minus-one). Quickstep/recents is in-tree but not built (privileged system image).
+- **Alternatives considered:** More Compose DnD patches (rejected by HUMAN). Full Quickstep (rejected: needs priv-app / system signature). Submodule (rejected: repo policy prefers vendoring).
+- **Consequences:** User-app shims: exported `BroadcastReceiver` flags, Material color attrs instead of `androidprv`, HCT via Material `Hct`, `UserHandle.hashCode` in `SimpleIconCache`. Set Hermes as default Home to exercise AOSP widget DnD.
+
+### 2026-09-03 — Keep Compose; do not vendor Launcher3 for widget DnD
+- **Status:** Superseded (2026-09-04 AOSP Launcher3 homescreen)
+- **Context:** Widget drag-drop failed silently on OP12. Forking AOSP Launcher3 (Apache-2.0) would be license-OK but a second ~100k LOC View launcher colliding with Compose `WorkspacePager` / `DesktopPage` / `WidgetHostController`. Docs already rejected vendoring Launcher3 Java.
+- **Decision:** Keep the Compose host. Capture window coordinates at long-press, then accumulate `dragAmount` so picker collapse cannot poison `localToWindow`. Toast + `HermesWidget` log on wrong page, missing grid, occupancy miss, or off-grid drop. High-contrast Option A is the adaptive launcher icon; temple render stays brand art only.
+- **Alternatives considered:** Vendoring `packages/apps/Launcher3` (rejected: second codebase). Rewriting drawer/folders/gestures onto Views (rejected). Shipping temple art as `ic_launcher` (rejected: too busy for adaptive).
+- **Consequences:** Reopen a Launcher3 View host only if OP12 still cannot bind a widget after this patch (tap or drag). Live check is ADB: long-press empty desktop → Widgets; tap a preview or long-press-drag onto the grid.
+
 ### 2026-09-01 — HOME-again search, dots, FOSS live wallpaper
 - **Status:** Accepted
 - **Context:** Inbox is the real notification list; dock/All Apps need a glanceable unread count. Home again should launch apps quickly. Nova-style double-tap and a Google-free wallpaper path were requested.

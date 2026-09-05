@@ -19,4 +19,9 @@ class AppSearchTest {
     fun filtersCaseInsensitive() {
         assertEquals(listOf(apps[0]), AppSearch.filter(apps, "mail"))
     }
+
+    @Test
+    fun filtersByPackageName() {
+        assertEquals(listOf(apps[0]), AppSearch.filter(apps, "com.mail"))
+    }
 }

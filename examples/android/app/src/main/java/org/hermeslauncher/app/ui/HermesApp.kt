@@ -27,8 +27,18 @@ import org.hermeslauncher.app.ui.theme.ThemePreferences
 import org.hermeslauncher.app.ui.theme.next
 import kotlinx.coroutines.CoroutineScope
 import org.hermeslauncher.app.ui.theme.HermesTheme
+import org.hermeslauncher.app.ui.theme.LocalBadgeColorArgb
+import org.hermeslauncher.app.ui.theme.LocalBadgeStyle
+import org.hermeslauncher.app.ui.theme.LocalIconShape
+import org.hermeslauncher.app.ui.theme.LocalLabelShadow
+import org.hermeslauncher.app.ui.theme.LookPalette
+import org.hermeslauncher.app.ui.theme.LookPrefs
+import org.hermeslauncher.app.ui.theme.NightSchedule
+import org.hermeslauncher.app.ui.theme.BadgeStyle
+import org.hermeslauncher.app.ui.theme.IconShape
 import org.hermeslauncher.app.widgets.WidgetHostController
 import kotlinx.coroutines.launch
+import androidx.compose.runtime.CompositionLocalProvider
 
 @Composable
 fun HermesApp(
@@ -40,6 +50,16 @@ fun HermesApp(
     widgetController: WidgetHostController,
 ) {
     val themeMode by themePreferences.themeMode.collectAsStateWithLifecycle(initialValue = ThemeMode.System)
+    val lookPrefs = remember { LookPrefs(context) }
+    val nightSchedule by lookPrefs.nightSchedule.collectAsStateWithLifecycle(NightSchedule.OFF)
+    val iconShape by lookPrefs.iconShape.collectAsStateWithLifecycle(IconShape.SYSTEM)
+    val badgeStyle by lookPrefs.badgeStyle.collectAsStateWithLifecycle(BadgeStyle.COUNTS)
+    val badgeColor by lookPrefs.badgeColorArgb.collectAsStateWithLifecycle(null)
+    val labelShadow by lookPrefs.labelShadow.collectAsStateWithLifecycle(true)
+    val wallpaperOn by lookPrefs.wallpaperPalette.collectAsStateWithLifecycle(false)
+    val wallpaperSeed = remember(wallpaperOn) {
+        if (wallpaperOn) LookPalette.wallpaperSeed(context) else null
+    }
     val isOnline by networkStatusMonitor.isOnline.collectAsStateWithLifecycle(initialValue = true)
     val installedFormat by appUpdatePreferences.installedFormat.collectAsStateWithLifecycle(initialValue = "apk")
     val pendingRestart by appUpdatePreferences.pendingRestart.collectAsStateWithLifecycle(initialValue = false)
@@ -71,7 +91,13 @@ fun HermesApp(
         }
     }
 
-    HermesTheme(themeMode = themeMode) {
+    HermesTheme(themeMode = themeMode, nightSchedule = nightSchedule, wallpaperSeed = wallpaperSeed) {
+        CompositionLocalProvider(
+            LocalIconShape provides iconShape,
+            LocalBadgeStyle provides badgeStyle,
+            LocalBadgeColorArgb provides badgeColor,
+            LocalLabelShadow provides labelShadow,
+        ) {
         NavigationModeProvider {
             HermesScreen(
                 snackbarHostState = snackbarHostState,
@@ -116,6 +142,7 @@ fun HermesApp(
                 },
                 onApplyUpdate = {},
             )
+        }
         }
     }
 }

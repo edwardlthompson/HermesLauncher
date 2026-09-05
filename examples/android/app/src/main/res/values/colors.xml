@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ic_launcher_background">#B3263E</color>
+    <color name="settings_hub_permissions">#FFE08A</color>
+    <color name="settings_hub_desktop">#7EB6FF</color>
+    <color name="settings_hub_dock">#5EEAD4</color>
+    <color name="settings_hub_drawer">#FFB86B</color>
+    <color name="settings_hub_folders">#FFD166</color>
+    <color name="settings_hub_search">#86EFAC</color>
+    <color name="settings_hub_look">#C4B5FD</color>
+    <color name="settings_hub_gestures">#F9A8D4</color>
+    <color name="settings_hub_inbox">#FCA5A5</color>
+    <color name="settings_hub_feeds">#67E8F9</color>
+    <color name="settings_hub_backup">#BEF264</color>
+    <color name="settings_hub_about">#A5B4FC</color>
+</resources>

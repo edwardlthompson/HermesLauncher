@@ -14,6 +14,8 @@ data class PermissionSnapshot(
     val batteryUnrestricted: Boolean,
     val homeRoleHeld: Boolean = true,
     val mediaGranted: Boolean = true,
+    val usageGranted: Boolean = true,
+    val postNotificationsGranted: Boolean = true,
 )
 
 object OemDetector {
@@ -35,14 +37,20 @@ object OemDetector {
 }
 
 object RepairPolicy {
+    fun requiredOk(snapshot: PermissionSnapshot): Boolean {
+        return snapshot.notificationListenerEnabled &&
+            snapshot.batteryUnrestricted &&
+            snapshot.mediaGranted &&
+            snapshot.usageGranted &&
+            snapshot.postNotificationsGranted
+    }
+
     fun needsBanner(snapshot: PermissionSnapshot): Boolean {
-        return !snapshot.notificationListenerEnabled ||
-            !snapshot.batteryUnrestricted ||
-            !snapshot.homeRoleHeld
+        return !requiredOk(snapshot) || !snapshot.homeRoleHeld
     }
 
     fun needsOverlay(snapshot: PermissionSnapshot): Boolean {
-        return needsBanner(snapshot)
+        return !requiredOk(snapshot)
     }
 
     fun primaryStep(oem: OemFamily): String {

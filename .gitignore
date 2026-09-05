@@ -77,8 +77,18 @@ examples/rust/target/
 # Android extras
 examples/android/.cxx/
 examples/android/captures/
+examples/android/keystore.properties
 *.apk
 *.aab
+*.jks
+*.keystore
+
+# Vendored AOSP extras not compiled into Hermes (Quickstep / tests)
+examples/android/third_party/launcher3/quickstep/
+examples/android/third_party/launcher3/go/
+examples/android/third_party/launcher3/tests/
+examples/android/third_party/launcher3/ext_tests/
+examples/android/launcher3/src/generated/
 
 # Node / tooling
 .turbo/

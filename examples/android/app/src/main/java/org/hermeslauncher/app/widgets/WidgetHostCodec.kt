@@ -1,5 +1,7 @@
 package org.hermeslauncher.app.widgets
 
+import org.hermeslauncher.app.workspace.WorkspaceCodec
+
 object WidgetHostCodec {
     private const val V1 = "v1"
     private const val V2 = "v2"
@@ -19,6 +21,9 @@ object WidgetHostCodec {
 
     fun decode(raw: String): WidgetHostState {
         val trimmed = raw.trim()
+        if (trimmed.startsWith("${WorkspaceCodec.V5}|")) {
+            return WorkspaceCodec.decode(trimmed).host
+        }
         val version = when {
             trimmed.startsWith("$V4|") -> V4
             trimmed.startsWith("$V3|") -> V3

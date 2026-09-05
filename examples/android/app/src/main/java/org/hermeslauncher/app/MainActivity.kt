@@ -1,13 +1,17 @@
 package org.hermeslauncher.app
 
+import android.content.BroadcastReceiver
 import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.service.notification.NotificationListenerService
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.lifecycle.Lifecycle
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import org.hermeslauncher.app.about.AppUpdatePreferences
@@ -20,10 +24,20 @@ import org.hermeslauncher.app.ui.HermesApp
 import org.hermeslauncher.app.ui.theme.ThemePreferences
 import org.hermeslauncher.app.vault.HermesNotificationListener
 import org.hermeslauncher.app.widgets.WidgetHostController
+import org.hermeslauncher.app.widgets.WidgetHostTick
 
 class MainActivity : ComponentActivity() {
     private var networkStatusMonitor: NetworkStatusMonitor? = null
     private lateinit var widgetController: WidgetHostController
+    private var tickRegistered = false
+    private val timeTick = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            if (intent.action != Intent.ACTION_TIME_TICK) {
+                return
+            }
+            tickWidgets()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,11 +75,12 @@ class MainActivity : ComponentActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         setIntent(intent)
-        val cats = intent.categories ?: emptySet()
-        if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED) &&
-            HomePulse.isHome(intent.action, cats)
-        ) {
-            (application as HermesApplication).homePulse.tryEmit(Unit)
+        val cats = intent.categories
+        val home = HomePulse.isHome(intent.action, cats) || intent.hasCategory(Intent.CATEGORY_HOME)
+        Log.i(TAG, "onNewIntent action=${intent.action} cats=$cats hasHome=${intent.hasCategory(Intent.CATEGORY_HOME)} home=$home")
+        if (home) {
+            val sent = (application as HermesApplication).homePulse.tryEmit(Unit)
+            Log.i(TAG, "onNewIntent emit=$sent")
         }
     }
 
@@ -73,7 +88,17 @@ class MainActivity : ComponentActivity() {
         super.onStart()
         WindowRefresh.applyTo(this)
         val app = application as HermesApplication
-        app.widgetHost.startListening()
+        runCatching { app.widgetHost.startListening() }
+        if (!tickRegistered) {
+            ContextCompat.registerReceiver(
+                this,
+                timeTick,
+                IntentFilter(Intent.ACTION_TIME_TICK),
+                ContextCompat.RECEIVER_NOT_EXPORTED,
+            )
+            tickRegistered = true
+        }
+        tickWidgets()
         NotificationListenerService.requestRebind(
             ComponentName(this, HermesNotificationListener::class.java),
         )
@@ -81,13 +106,25 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onStop() {
+        if (tickRegistered) {
+            unregisterReceiver(timeTick)
+            tickRegistered = false
+        }
         HomeActions.setTorch(this, false)
-        (application as HermesApplication).widgetHost.stopListening()
         super.onStop()
     }
 
     override fun onDestroy() {
         networkStatusMonitor?.stop()
         super.onDestroy()
+    }
+
+    private fun tickWidgets() {
+        val host = (application as HermesApplication).widgetHost
+        WidgetHostTick.poke(this, host.appWidgetIds)
+    }
+
+    companion object {
+        private const val TAG: String = "HermesHome"
     }
 }

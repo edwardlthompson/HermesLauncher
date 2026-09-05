@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="look_shape">Icon shape</string>
+    <string name="look_shape_system">System</string>
+    <string name="look_shape_circle">Circle</string>
+    <string name="look_shape_squircle">Squircle</string>
+    <string name="look_shape_square">Square</string>
+    <string name="look_shape_teardrop">Teardrop</string>
+    <string name="look_night">Night schedule</string>
+    <string name="look_night_body">Force dark between these times even when theme is System.</string>
+    <string name="look_night_start">Starts</string>
+    <string name="look_night_end">Ends</string>
+    <string name="look_night_save">Save times</string>
+    <string name="look_badge">Notification badges</string>
+    <string name="look_badge_dots">Dots</string>
+    <string name="look_badge_counts">Counts</string>
+    <string name="look_badge_color">Badge color</string>
+    <string name="look_badge_color_theme">Theme</string>
+    <string name="look_badge_color_accent">Accent</string>
+    <string name="look_label_shadow">Icon label shadow</string>
+    <string name="look_wallpaper_palette">Wallpaper color palette</string>
+    <string name="look_wallpaper_palette_body">Tint primary from AOSP WallpaperColors when available.</string>
+</resources>

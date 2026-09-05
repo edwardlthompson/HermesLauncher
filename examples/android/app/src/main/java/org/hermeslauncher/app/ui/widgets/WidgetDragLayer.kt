@@ -20,8 +20,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import org.hermeslauncher.app.ui.theme.RadiusMd
+import org.hermeslauncher.app.widgets.DropPolicy
 import org.hermeslauncher.app.widgets.WidgetChoice
-import org.hermeslauncher.app.widgets.WidgetGrid
 import org.hermeslauncher.app.widgets.WidgetGridSpec
 import org.hermeslauncher.app.widgets.WidgetPreview
 import kotlin.math.roundToInt
@@ -89,12 +89,16 @@ fun dropCell(
     page: Int,
     spec: WidgetGridSpec,
 ): Triple<Int, Int, Int>? {
-    if (coords == null || page <= 0) return null
+    if (coords == null) return null
     val local = coords.windowToLocal(window)
-    val cell = WidgetGrid.cellAt(
-        local.x, local.y, coords.size.width.toFloat(), coords.size.height.toFloat(), spec,
-    ) ?: return null
-    return Triple(page, cell.first, cell.second)
+    return DropPolicy.cellTarget(
+        page,
+        local.x,
+        local.y,
+        coords.size.width.toFloat(),
+        coords.size.height.toFloat(),
+        spec,
+    )
 }
 
 fun hitRemoveWell(well: LayoutCoordinates?, window: Offset): Boolean {

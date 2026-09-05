@@ -30,7 +30,7 @@ head -1 examples/go/go.mod
 When bundling dependencies in releases (APK, desktop binary, etc.), include
 this file or a generated `NOTICE` file in the distribution artifact.
 
-Home-screen interaction (options popup, widget tray, resize frame, remove well) is modeled on AOSP Launcher3 (Apache-2.0). Hermes reimplements that look in Compose and does not vendor Launcher3 sources.
+Home-screen interaction is **AOSP Launcher3** tag `android-14.0.0_r28` (Apache-2.0), vendored under `examples/android/third_party/`. See that tree’s `NOTICE` and `README.md`. Hermes custom UI is the notification inbox and news feed only.
 
 ## Incompatible Licenses
 

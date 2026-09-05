@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_section_permissions">Permissions</string>
+    <string name="settings_section_permissions_body">Turn grants back on if Inbox, dock, or alerts break</string>
+    <string name="settings_section_about">About</string>
+    <string name="settings_section_about_body">Version, feedback, and Venmo tips</string>
+    <string name="grant_status_on">On</string>
+    <string name="grant_status_fix">Fix</string>
+    <string name="grant_open_settings">Review all permissions</string>
+    <string name="grant_listener_title">Notification access</string>
+    <string name="grant_listener_body">Inbox stays empty until Hermes can read notifications.</string>
+    <string name="grant_battery_title">Unrestricted battery</string>
+    <string name="grant_battery_body">Lets Inbox and feeds keep working after you leave the app.</string>
+    <string name="grant_home_title">Default Home app</string>
+    <string name="grant_home_body">Optional if you keep another launcher. Set Hermes as Home to open Inbox from the Home button.</string>
+    <string name="grant_media_title">Photos access</string>
+    <string name="grant_media_body">Stores notification pictures inside Hermes, not Gallery.</string>
+    <string name="grant_usage_title">Usage access</string>
+    <string name="grant_usage_body">Ranks dock apps by how often you open them.</string>
+    <string name="grant_post_title">Alert permission</string>
+    <string name="grant_post_body">Lets Hermes post feed alerts you opted into.</string>
+    <string name="home_setup_usage">Allow usage access</string>
+    <string name="home_setup_alerts">Allow feed alerts</string>
+    <string name="about_app_blurb">FOSS home-screen inbox for notifications, news, and podcasts. MIT licensed. Tips are optional.</string>
+</resources>

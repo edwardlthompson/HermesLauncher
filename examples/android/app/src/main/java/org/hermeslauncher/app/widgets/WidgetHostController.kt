@@ -66,6 +66,7 @@ class WidgetHostController(
             )
             if (!WidgetGrid.canPlace(state.page(pageIndex).bindings, candidate, state.grid)) {
                 Log.i(WidgetCatalog.TAG, "occupancy miss page=$pageIndex x=${candidate.cellX} y=${candidate.cellY}")
+                withContext(Dispatchers.Main) { Toast.makeText(activity, R.string.widget_drop_occupied, Toast.LENGTH_SHORT).show() }
                 return@launch
             }
             inFlight = true

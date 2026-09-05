@@ -18,6 +18,7 @@ data class InboxQuery(
     val packageName: String? = null,
     val text: String = "",
     val layout: InboxLayout = InboxLayout.APP,
+    val newestFirst: Boolean = true,
 )
 
 data class InboxAppGroup(
@@ -27,8 +28,12 @@ data class InboxAppGroup(
 )
 
 object InboxFilter {
+    fun presentable(item: VaultItem): Boolean {
+        return ShadePolicy.hasSubject(item.title, item.conversationTitle)
+    }
+
     fun unreadCount(items: List<VaultItem>): Int {
-        return items.count { it.unread && !it.archived }
+        return items.count { presentable(it) && it.unread && !it.archived }
     }
 
     fun unreadLabel(count: Int): String {
@@ -37,7 +42,9 @@ object InboxFilter {
 
     fun unreadByPackage(items: List<VaultItem>): Map<String, Int> {
         return items
-            .filter { it.unread && !it.archived && it.packageName.isNotBlank() }
+            .filter {
+                presentable(it) && it.unread && !it.archived && it.packageName.isNotBlank()
+            }
             .groupingBy { it.packageName }
             .eachCount()
     }
@@ -45,31 +52,49 @@ object InboxFilter {
     fun apply(items: List<VaultItem>, query: InboxQuery): List<VaultItem> {
         val needle = query.text.trim()
         return items.filter { item ->
-            chipMatches(item, query.chip) &&
+            presentable(item) &&
+                chipMatches(item, query.chip) &&
                 (query.packageName == null || item.packageName == query.packageName) &&
                 textMatches(item, needle)
         }
     }
 
-    fun groups(items: List<VaultItem>): List<InboxAppGroup> {
-        return items.groupBy { it.packageName }
-            .map { (pkg, rows) -> InboxAppGroup(pkg, rows.sortedByDescending { it.postedAt }) }
-            .sortedByDescending { group -> group.items.maxOf { it.postedAt } }
+    fun sortChronological(items: List<VaultItem>, newestFirst: Boolean): List<VaultItem> {
+        return if (newestFirst) {
+            items.sortedByDescending { it.postedAt }
+        } else {
+            items.sortedBy { it.postedAt }
+        }
+    }
+
+    fun groups(items: List<VaultItem>, newestFirst: Boolean = true): List<InboxAppGroup> {
+        val grouped = items.groupBy { it.packageName }.map { (pkg, rows) ->
+            InboxAppGroup(pkg, sortChronological(rows, newestFirst))
+        }
+        return orderGroups(grouped, newestFirst)
     }
 
     fun categoryGroups(
         items: List<VaultItem>,
+        newestFirst: Boolean = true,
         kindOf: (String) -> String,
     ): List<InboxAppGroup> {
-        return items.groupBy { kindOf(it.packageName) }
-            .map { (kind, rows) ->
-                InboxAppGroup(
-                    packageName = rows.firstOrNull()?.packageName.orEmpty(),
-                    items = rows.sortedByDescending { it.postedAt },
-                    displayLabel = kind,
-                )
-            }
-            .sortedByDescending { group -> group.items.maxOf { it.postedAt } }
+        val grouped = items.groupBy { kindOf(it.packageName) }.map { (kind, rows) ->
+            InboxAppGroup(
+                packageName = rows.firstOrNull()?.packageName.orEmpty(),
+                items = sortChronological(rows, newestFirst),
+                displayLabel = kind,
+            )
+        }
+        return orderGroups(grouped, newestFirst)
+    }
+
+    private fun orderGroups(groups: List<InboxAppGroup>, newestFirst: Boolean): List<InboxAppGroup> {
+        return if (newestFirst) {
+            groups.sortedByDescending { group -> group.items.maxOf { it.postedAt } }
+        } else {
+            groups.sortedBy { group -> group.items.minOf { it.postedAt } }
+        }
     }
 
     fun packages(items: List<VaultItem>): List<String> {

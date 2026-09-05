@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_drop_wrong_page">Swipe to a desktop page, then drop the widget.</string>
+    <string name="widget_drop_no_grid">Desktop grid is not ready. Try again.</string>
+    <string name="widget_drop_miss">Drop on an empty desktop cell.</string>
+    <string name="widget_drop_occupied">That cell is full. Drop on empty space.</string>
+    <string name="widget_drop_no_space">No empty cell on this page.</string>
+</resources>

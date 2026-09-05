@@ -14,9 +14,23 @@ ERRORS=0
 MAX_REPORT=20
 reported=0
 
+list_files() {
+  if [ "$#" -gt 0 ]; then
+    printf '%s\n' "$@"
+    return
+  fi
+  local lock
+  if [ "${PRE_COMMIT:-}" = "1" ]; then
+    echo "SKIP git ls-files (PRE_COMMIT=1; avoid Windows index lock)" >&2
+    return 0
+  fi
+  git ls-files
+}
+
 check_pattern() {
   local label="$1"
   local pattern="$2"
+  shift 2
   while IFS= read -r file; do
     [ -z "$file" ] && continue
     echo "TRACKED FORBIDDEN [$label]: $file"
@@ -26,22 +40,22 @@ check_pattern() {
       echo "... truncated (max $MAX_REPORT)"
       return
     fi
-  done < <(git ls-files | grep -E "$pattern" || true)
+  done < <(list_files "$@" | grep -E "$pattern" || true)
 }
 
-check_pattern "node_modules" 'node_modules/'
-check_pattern "dist" '(^|/)dist/'
-check_pattern "build" 'examples/android/.*/build/|^build/'
-check_pattern "target" '(^|/)target/'
-check_pattern "coverage" '(^|/)coverage/'
-check_pattern "gradle-cache" '\.gradle/'
-check_pattern "pycache" '__pycache__/'
-check_pattern "apk" '\.apk$'
-check_pattern "aab" '\.aab$'
-check_pattern "env-secret" '^\.env$|/\.env$'
+check_pattern "node_modules" 'node_modules/' "$@"
+check_pattern "dist" '(^|/)dist/' "$@"
+check_pattern "build" 'examples/android/.*/build/|^build/' "$@"
+check_pattern "target" '(^|/)target/' "$@"
+check_pattern "coverage" '(^|/)coverage/' "$@"
+check_pattern "gradle-cache" '\.gradle/' "$@"
+check_pattern "pycache" '__pycache__/' "$@"
+check_pattern "apk" '\.apk$' "$@"
+check_pattern "aab" '\.aab$' "$@"
+check_pattern "env-secret" '^\.env$|/\.env$' "$@"
 check_pattern "exemplar-live-config" \
-  'examples/web/public/app-update\.json$|examples/web/public/donations\.json$|examples/android/app/src/main/assets/app-update\.json$|examples/android/app/src/main/assets/donations\.json$'
-check_pattern "os-junk" '\.DS_Store$|Thumbs\.db$'
+  'examples/web/public/app-update\.json$|examples/web/public/donations\.json$|examples/android/app/src/main/assets/app-update\.json$|examples/android/app/src/main/assets/donations\.json$' "$@"
+check_pattern "os-junk" '\.DS_Store$|Thumbs\.db$' "$@"
 
 if [ "$ERRORS" -gt 0 ]; then
   echo "$ERRORS forbidden tracked path(s) found"

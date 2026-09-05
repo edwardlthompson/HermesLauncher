@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="widget_host_size" type="id" />
+    <item name="overlay_minus_one" type="id" />
+    <item name="page_podcasts" type="id" />
+    <item name="page_news" type="id" />
+    <item name="page_inbox" type="id" />
+</resources>

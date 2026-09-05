@@ -53,6 +53,7 @@ fun WidgetPage(
     onSpan: (WidgetBinding) -> Unit,
     onRemove: (Int) -> Unit,
     onGridPositioned: (LayoutCoordinates) -> Unit,
+    showEmpty: Boolean = true,
     modifier: Modifier = Modifier,
 ) {
     var editId by remember(page.pageIndex) { mutableStateOf<Int?>(null) }
@@ -187,7 +188,7 @@ fun WidgetPage(
                     .padding(SpacingMd),
             )
         }
-        if (page.bindings.isEmpty()) {
+        if (showEmpty && page.bindings.isEmpty()) {
             Text(
                 text = stringResource(R.string.widget_page_empty),
                 style = MaterialTheme.typography.bodyLarge,

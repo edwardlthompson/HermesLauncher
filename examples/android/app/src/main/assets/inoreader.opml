@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="1.0">
+  <head>
+    <title>Hermes feeds</title>
+  </head>
+  <body>
+    <outline text="Art" title="Art">
+      <outline text="Information Is Beautiful" title="Information Is Beautiful" type="rss" xmlUrl="https://feeds.feedburner.com/InformationIsBeautiful" htmlUrl="https://www.informationisbeautiful.net/"/>
+    </outline>
+    <outline text="Automotive" title="Automotive">
+      <outline text="LMR.com News Feed" title="LMR.com News Feed" type="rss" xmlUrl="http://www.mylrs.com/blogs/lrs/rss.aspx" htmlUrl="https://lmr.com/"/>
+      <outline text="MotoIQ" title="MotoIQ" type="rss" xmlUrl="https://motoiq.com/feed/" htmlUrl="https://motoiq.com/"/>
+      <outline text="Speedhunters" title="Speedhunters" type="rss" xmlUrl="https://feeds.feedburner.com/Speedhunters" htmlUrl="https://www.speedhunters.com/"/>
+      <outline text="The &quot;Chustro&quot; Experiment" title="The &quot;Chustro&quot; Experiment" type="rss" xmlUrl="http://chustro.blogspot.com/feeds/posts/default" htmlUrl="http://chustro.blogspot.com/"/>
+      <outline text="Top Gear" title="Top Gear" type="rss" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCjOl2AUblVmg2rA_cRgZkFg" htmlUrl="https://www.youtube.com/channel/UCjOl2AUblVmg2rA_cRgZkFg/videos"/>
+      <outline text="Turning a Dream into Reality" title="Turning a Dream into Reality" type="rss" xmlUrl="http://theroadtodrifting.blogspot.com/feeds/posts/default?alt=rss" htmlUrl="http://theroadtodrifting.blogspot.com/"/>
+      <outline text="Will Roegge" title="Will Roegge" type="rss" xmlUrl="http://willroegge.com/blog/feed/" htmlUrl="http://willroegge.com/blog"/>
+    </outline>
+    <outline text="Camping" title="Camping">
+      <outline text="Expedition Portal" title="Expedition Portal" type="rss" xmlUrl="https://expeditionportal.com/feed/" htmlUrl="https://expeditionportal.com/"/>
+    </outline>
+    <outline text="Crypto" title="Crypto">
+      <outline text="Bitcoin Magazine" title="Bitcoin Magazine" type="rss" xmlUrl="https://bitcoinmagazine.com/feed" htmlUrl="https://bitcoinmagazine.com/"/>
+    </outline>
+    <outline text="Drift" title="Drift">
+      <outline text="BH World" title="BH World" type="rss" xmlUrl="https://bhworld.wordpress.com/feed/" htmlUrl="https://bhworld.wordpress.com/"/>
+      <outline text="Dan Brockett" title="Dan Brockett" type="rss" xmlUrl="http://www.danbrockettdrift.com/feeds/posts/default" htmlUrl="http://www.danbrockettdrift.com/"/>
+      <outline text="NonStopTuning" title="NonStopTuning" type="rss" xmlUrl="http://nonstoptuningusa.com/feed/" htmlUrl="https://nonstoptuningusa.com"/>
+      <outline text="Uploads from jonsweatshirt" title="Uploads from jonsweatshirt" type="rss" xmlUrl="http://api.flickr.com/services/feeds/photos_public.gne?id=78022704@N04&amp;lang=en-us&amp;format=atom" htmlUrl="http://www.flickr.com/photos/jdmwolfs/"/>
+      <outline text="Whiskey Tango" title="Whiskey Tango" type="rss" xmlUrl="http://whiskeytangoinc.blogspot.com/feeds/posts/default" htmlUrl="http://whiskeytangoinc.blogspot.com/"/>
+    </outline>
+    <outline text="Editing" title="Editing">
+      <outline text="LiVES news headlines" title="LiVES news headlines" type="rss" xmlUrl="http://lives.sourceforge.net/content/news.xml" htmlUrl="http://lives.sourceforge.net/"/>
+    </outline>
+    <outline text="Fashion" title="Fashion">
+      <outline text="Heart of the Healer" title="Heart of the Healer" type="rss" xmlUrl="https://heartofthehealerblog.wordpress.com/feed/" htmlUrl="https://heartofthehealerblog.wordpress.com"/>
+    </outline>
+    <outline text="Games" title="Games">
+      <outline text="ForzaTune™" title="ForzaTune™" type="rss" xmlUrl="http://forzatune.com/feed/" htmlUrl="http://forzatune.com"/>
+      <outline text="RSI Comm-Link" title="RSI Comm-Link" type="rss" xmlUrl="https://robertsspaceindustries.com/comm-link/rss" htmlUrl="https://robertsspaceindustries.com/comm-link"/>
+      <outline text="RSS Feed for Galnet Articles" title="RSS Feed for Galnet Articles" type="rss" xmlUrl="https://www.elitedangerous.com/en-GB/rss/galnet.xml" htmlUrl="https://www.elitedangerous.com/en-GB/rss/galnet.xml"/>
+      <outline text="RSS Feed for News Articles" title="RSS Feed for News Articles" type="rss" xmlUrl="https://www.elitedangerous.com/en-GB/rss/news.xml" htmlUrl="https://www.elitedangerous.com/en-GB/rss/news.xml"/>
+    </outline>
+    <outline text="Hacking" title="Hacking">
+      <outline text="LANRAT" title="LANRAT" type="rss" xmlUrl="http://lanrat.com/rss" htmlUrl="https://lanrat.com/"/>
+      <outline text="Naked Security - Sophos" title="Naked Security - Sophos" type="rss" xmlUrl="https://news.sophos.com/feed/" htmlUrl="https://nakedsecurity.sophos.com/"/>
+    </outline>
+    <outline text="Linux" title="Linux">
+      <outline text="Sudobits Blog | Open Source" title="Sudobits Blog | Open Source" type="rss" xmlUrl="https://feeds.feedburner.com/sudobits" htmlUrl="https://blog.sudobits.com/"/>
+      <outline text="Tech Drive-in" title="Tech Drive-in" type="rss" xmlUrl="https://feeds.feedburner.com/techdrivein" htmlUrl="https://www.techdrivein.com/"/>
+      <outline text="The Linux Mint Blog" title="The Linux Mint Blog" type="rss" xmlUrl="https://blog.linuxmint.com/?feed=rss2" htmlUrl="https://blog.linuxmint.com/"/>
+    </outline>
+    <outline text="Mobile" title="Mobile">
+      <outline text="Android Developers Blog" title="Android Developers Blog" type="rss" xmlUrl="https://feeds.feedburner.com/blogspot/hsDu" htmlUrl="https://android-developers.blogspot.com/"/>
+      <outline text="Google Mobile Blog" title="Google Mobile Blog" type="rss" xmlUrl="http://googlemobile.blogspot.com/atom.xml" htmlUrl="http://googlemobile.blogspot.com/"/>
+      <outline text="TmoNews" title="TmoNews" type="rss" xmlUrl="https://www.tmonews.com/feed/" htmlUrl="https://www.tmonews.com/"/>
+    </outline>
+    <outline text="News" title="News">
+      <outline text="Sony News Release Archive" title="Sony News Release Archive" type="rss" xmlUrl="https://sony.mediaroom.com/index.php?s=2429&amp;pagetemplate=rss" htmlUrl="https://sony.mediaroom.com/"/>
+      <outline text="Top News - MIT Technology Review" title="Top News - MIT Technology Review" type="rss" xmlUrl="https://www.technologyreview.com/topnews.rss" htmlUrl="https://www.technologyreview.com/topnews.rss"/>
+    </outline>
+    <outline text="Photography" title="Photography">
+      <outline text="Car Photography Tutorials" title="Car Photography Tutorials" type="rss" xmlUrl="http://www.carphototutorials.com/rss.xml" htmlUrl="http://www.carphototutorials.com/"/>
+      <outline text="Digital Photography School" title="Digital Photography School" type="rss" xmlUrl="https://feedproxy.google.com/DigitalPhotographySchool" htmlUrl="https://digital-photography-school.com/"/>
+      <outline text="Lightism" title="Lightism" type="rss" xmlUrl="http://lightism.co.uk/?feed=rss" htmlUrl="http://lightism.co.uk/"/>
+      <outline text="Matt K" title="Matt K" type="rss" xmlUrl="http://www.mattk.com/feed/" htmlUrl="http://www.mattk.com/"/>
+      <outline text="PhotoNetCast - Photography podcast" title="PhotoNetCast - Photography podcast" type="rss" xmlUrl="http://feeds.feedburner.com/Photonetcast" htmlUrl="http://www.photonetcast.com/"/>
+      <outline text="piccure" title="piccure" type="rss" xmlUrl="http://piccureplus.com/?feed=rss2" htmlUrl="http://relaunch.piccureplus.com"/>
+      <outline text="Uploads from dorado_locales1" title="Uploads from dorado_locales1" type="rss" xmlUrl="http://api.flickr.com/services/feeds/photos_public.gne?id=42041340@N07&amp;lang=en-us&amp;format=rss_200" htmlUrl="http://www.flickr.com/photos/42041340@N07/"/>
+      <outline text="Uploads from foxmustangman" title="Uploads from foxmustangman" type="rss" xmlUrl="http://api.flickr.com/services/feeds/photos_public.gne?id=8985483@N02&amp;lang=en-us&amp;format=rss_200" htmlUrl="http://www.flickr.com/photos/foxmustangman/"/>
+      <outline text="Yarimar Jiménez Photography" title="Yarimar Jiménez Photography" type="rss" xmlUrl="http://yarimarjimenezphotography.com/feed/" htmlUrl="http://yarimarjimenezphotography.com"/>
+    </outline>
+    <outline text="Podcasts" title="Podcasts">
+      <outline text="Bold Names" title="Bold Names" type="rss" xmlUrl="https://video-api.wsj.com/podcast/rss/wsj/wsj-the-future-of-everything?_gl=1*8mlous*_gcl_au*MTY2OTQ1NjEuMTc3MDIzOTQ2NA..*_ga*NjM5MjY0NjczLjE3NzAyMzk0NjQ.*_ga_K2H7B9JRSS*czE3NzAyMzk0NjMkbzEkZzAkdDE3NzAyMzk0NjMkajYwJGwwJGg0OTg3NjYxNjI." htmlUrl="https://www.wsj.com/podcasts/wsj-the-future-of-everything"/>
+      <outline text="Counterflow with Buck Johnson" title="Counterflow with Buck Johnson" type="rss" xmlUrl="https://rss.libsyn.com/shows/113918/destinations/641795.xml" htmlUrl="http://deathtotyrants.libsyn.com/website"/>
+      <outline text="How I Built This Podcast with Guy Raz" title="How I Built This Podcast with Guy Raz" type="rss" xmlUrl="https://rss.art19.com/alternate_feeds/user/how-i-built-this/Z7hAwdsEc8R-3Y_hf0kDCqdNsPhHG6pU" htmlUrl="https://wondery.com/shows/how-i-built-this/?utm_source=rss"/>
+      <outline text="Liberty Lockdown" title="Liberty Lockdown" type="rss" xmlUrl="https://www.spreaker.com/show/6423282/episodes/feed" htmlUrl="https://www.spreaker.com/podcast/liberty-lockdown--6423282"/>
+      <outline text="Parkography" title="Parkography" type="rss" xmlUrl="https://feed.podbean.com/nationalparkpodcast/feed.xml" htmlUrl="http://nationalparkpodcast.com/"/>
+      <outline text="RV Miles" title="RV Miles" type="rss" xmlUrl="https://rvmiles.com/feed/" htmlUrl="https://rvmiles.com/"/>
+      <outline text="RV Miles Podcast Archives - RV MILES" title="RV Miles Podcast Archives - RV MILES" type="rss" xmlUrl="https://rvmiles.com/category/rvmilespodcast/feed/" htmlUrl="https://rvmiles.com/category/rvmilespodcast/"/>
+      <outline text="Sony News Release Archive" title="Sony News Release Archive" type="rss" xmlUrl="https://sony.mediaroom.com/index.php?s=2429&amp;pagetemplate=rss" htmlUrl="https://sony.mediaroom.com/"/>
+      <outline text="THE ED MYLETT SHOW" title="THE ED MYLETT SHOW" type="rss" xmlUrl="https://feeds.megaphone.fm/WWO2015297742" htmlUrl="https://feeds.megaphone.fm/WWO2015297742"/>
+      <outline text="The Peter McCormack Show" title="The Peter McCormack Show" type="rss" xmlUrl="https://rss.libsyn.com/shows/110634/destinations/607905.xml" htmlUrl="https://www.petermccormack.com/"/>
+      <outline text="The Reason Interview With Nick Gillespie" title="The Reason Interview With Nick Gillespie" type="rss" xmlUrl="https://reason.com/podcasts/the-reason-interview-with-nick-gillespie/feed/" htmlUrl="https://reason.com/podcasts/the-reason-interview-with-nick-gillespie/"/>
+      <outline text="The Reason Roundtable" title="The Reason Roundtable" type="rss" xmlUrl="https://reason.com/podcasts/the-reason-roundtable/feed/" htmlUrl="https://reason.com/podcasts/the-reason-roundtable/"/>
+      <outline text="The Scott Horton Show" title="The Scott Horton Show" type="rss" xmlUrl="https://scotthorton.org/feed/" htmlUrl="https://scotthorton.org/"/>
+    </outline>
+    <outline text="Programming" title="Programming">
+      <outline text="Arjun Sreedharan" title="Arjun Sreedharan" type="rss" xmlUrl="https://arjunsreedharan.org/rss" htmlUrl="https://arjunsreedharan.org/"/>
+    </outline>
+    <outline text="Religion" title="Religion">
+      <outline text="Delivered From Darkness" title="Delivered From Darkness" type="rss" xmlUrl="http://deliveredfromdarkness.wordpress.com/feed/" htmlUrl="http://deliveredfromdarkness.wordpress.com/"/>
+    </outline>
+    <outline text="Science" title="Science">
+      <outline text="Quantum" title="Quantum" type="rss" xmlUrl="http://quantumlevitation.com/feed/" htmlUrl="http://www.quantumlevitation.com"/>
+    </outline>
+    <outline text="Social" title="Social">
+      <outline text="camirislopez" title="camirislopez" type="rss" xmlUrl="http://camirislopez.wordpress.com/feed/" htmlUrl="https://camirislopez.wordpress.com"/>
+      <outline text="Queryfeed | Sairis Anaid Dieppa" title="Queryfeed | Sairis Anaid Dieppa" type="rss" xmlUrl="https://queryfeed.net/facebook?q=Sairis+Anaid+Dieppa" htmlUrl="https://queryfeed.net/facebook?q=Sairis+Anaid+Dieppa"/>
+      <outline text="Uploads from dieppabryan" title="Uploads from dieppabryan" type="rss" xmlUrl="http://api.flickr.com/services/feeds/photos_public.gne?id=23001322@N03&amp;lang=en-us&amp;format=atom" htmlUrl="http://www.flickr.com/photos/23001322@N03/"/>
+    </outline>
+    <outline text="Software" title="Software">
+      <outline text="Droidlab7" title="Droidlab7" type="rss" xmlUrl="http://droidlab7.blogspot.com/feeds/posts/default" htmlUrl="http://droidlab7.blogspot.com/"/>
+      <outline text="Rocket-in-Bottle" title="Rocket-in-Bottle" type="rss" xmlUrl="http://blog.rocketinbottle.com/feeds/posts/default?alt=rss" htmlUrl="http://blog.rocketinbottle.com/"/>
+      <outline text="SPB Software News" title="SPB Software News" type="rss" xmlUrl="https://feeds2.feedburner.com/spbnews" htmlUrl="https://www.spb.com/"/>
+    </outline>
+    <outline text="Software + Drivers" title="Software + Drivers">
+      <outline text="SE-SOFT.COM News" title="SE-SOFT.COM News" type="rss" xmlUrl="http://se-soft.com/rss/rss.xml" htmlUrl="http://se-soft.com/"/>
+    </outline>
+    <outline text="Tech" title="Tech">
+      <outline text="A Moment of Zen" title="A Moment of Zen" type="rss" xmlUrl="https://jeffreystedfast.blogspot.com/feeds/posts/default" htmlUrl="https://jeffreystedfast.blogspot.com/"/>
+      <outline text="Andy's Tech Experiments Blog" title="Andy's Tech Experiments Blog" type="rss" xmlUrl="http://rasteri.blogspot.com/feeds/posts/default" htmlUrl="http://rasteri.blogspot.com/"/>
+    </outline>
+    <outline text="Vehicles" title="Vehicles">
+      <outline text="blog.drivingsports.com" title="blog.drivingsports.com" type="rss" xmlUrl="http://feeds.feedburner.com/drivingsportsblog" htmlUrl="http://www.drivingsports.com/site"/>
+      <outline text="Exhaust Notes" title="Exhaust Notes" type="rss" xmlUrl="http://blog.drivingsports.com/rss" htmlUrl="http://blog.drivingsports.com/"/>
+      <outline text="Mark Lenardon" title="Mark Lenardon" type="rss" xmlUrl="http://darksideofthelens.wordpress.com/feed/" htmlUrl="https://darksideofthelens.wordpress.com"/>
+      <outline text="Uploads from driftlive.com" title="Uploads from driftlive.com" type="rss" xmlUrl="http://api.flickr.com/services/feeds/photos_public.gne?id=35185939@N00&amp;lang=en-us&amp;format=rss_200" htmlUrl="http://www.flickr.com/photos/hitormissmovies/"/>
+    </outline>
+    <outline text="Video" title="Video">
+      <outline text="The Beat: A Blog by PremiumBeat" title="The Beat: A Blog by PremiumBeat" type="rss" xmlUrl="https://www.premiumbeat.com/blog/feed/" htmlUrl="https://www.premiumbeat.com/blog"/>
+    </outline>
+    <outline text="Windows" title="Windows">
+      <outline text="Tweaks.com Feed" title="Tweaks.com Feed" type="rss" xmlUrl="http://feeds.tweaks.com/wintweaks" htmlUrl="http://tweaks.com/"/>
+    </outline>
+  </body>
+</opml>

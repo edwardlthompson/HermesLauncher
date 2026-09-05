@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,10 +19,10 @@ import kotlinx.coroutines.launch
 import org.hermeslauncher.app.HermesApplication
 import org.hermeslauncher.app.R
 import org.hermeslauncher.app.ui.theme.SpacingMd
+import org.hermeslauncher.app.vault.ShadeBridge
 
 @Composable
 fun InboxHistoryScreen(
-    onBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -54,14 +53,11 @@ fun InboxHistoryScreen(
                         showDismiss = false,
                         onDismiss = {},
                         onPin = { scope.launch { app.vault.togglePin(item.id) } },
-                        onOpen = { scope.launch { app.vault.open(item.id) } },
-                        onAction = { index -> scope.launch { app.vault.runAction(item.id, index) } },
+                        onOpen = { ShadeBridge.open(item, context) },
+                        onAction = { index -> ShadeBridge.runAction(item.sbnKey, index) },
                     )
                 }
             }
-        }
-        Button(onClick = onBack, modifier = Modifier.padding(top = SpacingMd)) {
-            Text(stringResource(R.string.settings_close))
         }
     }
 }

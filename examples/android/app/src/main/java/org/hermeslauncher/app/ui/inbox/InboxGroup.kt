@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.OpenInNew
 import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Card
@@ -51,7 +52,7 @@ fun InboxGroup(
     val raw = group.displayLabel
     val resolved = raw?.let { categoryLabel(it) }
     val label = remember(group.packageName, resolved, unknown) {
-        resolved ?: if (group.packageName.isBlank()) unknown else appLabel(pm, group.packageName)
+        resolved ?: if (group.packageName.isBlank()) unknown else inboxAppLabel(pm, group.packageName)
     }
     val bitmap = remember(group.packageName) {
         if (group.packageName.isBlank()) {
@@ -62,6 +63,7 @@ fun InboxGroup(
             }.getOrNull()
         }
     }
+    val launch = showGroupLaunch(expanded, group.packageName)
     Card(
         modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
@@ -70,37 +72,50 @@ fun InboxGroup(
     ) {
         Column(modifier = Modifier.padding(SpacingSm)) {
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable(
-                        onClick = onToggle,
-                        onClickLabel = stringResource(R.string.inbox_group_expand, label),
-                    )
-                    .padding(SpacingSm),
+                modifier = Modifier.fillMaxWidth().padding(SpacingSm),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                if (bitmap != null) {
-                    Image(
-                        bitmap = bitmap,
-                        contentDescription = label,
-                        modifier = Modifier.size(40.dp),
-                    )
-                } else {
-                    Icon(
-                        imageVector = Icons.Filled.Apps,
-                        contentDescription = label,
-                        modifier = Modifier.size(40.dp),
-                        tint = MaterialTheme.colorScheme.onSurface,
-                    )
-                }
-                Text(
-                    text = "$label (${group.items.size})",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onSurface,
+                Row(
                     modifier = Modifier
                         .weight(1f)
-                        .padding(horizontal = SpacingMd),
-                )
+                        .clickable(
+                            onClick = onToggle,
+                            onClickLabel = stringResource(R.string.inbox_group_expand, label),
+                        ),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    if (bitmap != null) {
+                        Image(
+                            bitmap = bitmap,
+                            contentDescription = label,
+                            modifier = Modifier.size(40.dp),
+                        )
+                    } else {
+                        Icon(
+                            imageVector = Icons.Filled.Apps,
+                            contentDescription = label,
+                            modifier = Modifier.size(40.dp),
+                            tint = MaterialTheme.colorScheme.onSurface,
+                        )
+                    }
+                    Text(
+                        text = "$label (${group.items.size})",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.padding(horizontal = SpacingMd),
+                    )
+                }
+                if (launch) {
+                    IconButton(
+                        onClick = { group.items.firstOrNull()?.let { onOpenItem(it.id) } },
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.OpenInNew,
+                            contentDescription = stringResource(R.string.inbox_group_open, label),
+                            tint = MaterialTheme.colorScheme.onSurface,
+                        )
+                    }
+                }
                 if (showDismiss) {
                     IconButton(onClick = onDismissGroup) {
                         Icon(
@@ -129,7 +144,11 @@ fun InboxGroup(
     }
 }
 
-private fun appLabel(pm: PackageManager, packageName: String): String {
+internal fun showGroupLaunch(expanded: Boolean, packageName: String): Boolean {
+    return expanded && packageName.isNotBlank()
+}
+
+internal fun inboxAppLabel(pm: PackageManager, packageName: String): String {
     if (packageName.isBlank()) {
         return ""
     }

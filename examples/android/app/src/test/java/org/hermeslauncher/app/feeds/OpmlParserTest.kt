@@ -19,7 +19,9 @@ class OpmlParserTest {
         assertEquals(2, outlines.size)
         assertEquals("Show", outlines[0].title)
         assertEquals("https://example.com/feed.xml", outlines[0].xmlUrl)
+        assertEquals("", outlines[0].tag)
         assertEquals("Nested", outlines[1].title)
+        assertEquals("folder", outlines[1].tag)
     }
 
     @Test

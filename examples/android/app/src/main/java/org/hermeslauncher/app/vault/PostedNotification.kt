@@ -22,4 +22,5 @@ data class PostedNotification(
     val imageBytes: ByteArray = byteArrayOf(),
     val messageParts: List<PostedMessagePart> = emptyList(),
     val ongoing: Boolean = false,
+    val groupSummary: Boolean = false,
 )

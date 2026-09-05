@@ -54,6 +54,12 @@ interface VaultDao {
     @Query("SELECT * FROM app_store_policies WHERE packageName = :packageName LIMIT 1")
     suspend fun policyFor(packageName: String): AppStorePolicy?
 
+    @Query("DELETE FROM app_store_policies WHERE packageName = :packageName")
+    suspend fun deletePolicy(packageName: String)
+
+    @Query("SELECT * FROM app_store_policies ORDER BY packageName ASC")
+    fun policiesFlow(): Flow<List<AppStorePolicy>>
+
     @Update
     suspend fun updateItem(item: VaultItem)
 }

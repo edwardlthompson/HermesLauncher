@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material.icons.filled.Animation
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Wallpaper
@@ -22,6 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import org.hermeslauncher.app.R
@@ -32,6 +35,7 @@ import org.hermeslauncher.app.ui.theme.SpacingSm
 fun HomeOptionsPopup(
     visible: Boolean,
     onWidgets: () -> Unit,
+    onAddIcon: () -> Unit,
     onSettings: () -> Unit,
     onDismiss: () -> Unit,
 ) {
@@ -44,39 +48,50 @@ fun HomeOptionsPopup(
             contentColor = MaterialTheme.colorScheme.onSurface,
             tonalElevation = 3.dp,
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(SpacingMd),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                OptionAction(
-                    icon = Icons.Filled.Wallpaper,
-                    label = stringResource(R.string.home_option_wallpaper),
-                    onClick = {
-                        WallpaperIntents.startOrToast(context)
-                        onDismiss()
-                    },
-                )
-                OptionAction(
-                    icon = Icons.Filled.Animation,
-                    label = stringResource(R.string.home_option_live_wallpaper),
-                    onClick = {
-                        WallpaperIntents.startLiveOrToast(context)
-                        onDismiss()
-                    },
-                )
-                OptionAction(
-                    icon = Icons.Filled.Widgets,
-                    label = stringResource(R.string.home_option_widgets),
-                    onClick = onWidgets,
-                )
-                OptionAction(
-                    icon = Icons.Filled.Settings,
-                    label = stringResource(R.string.home_option_settings),
-                    onClick = onSettings,
-                )
+            Column(modifier = Modifier.padding(SpacingMd)) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    OptionAction(
+                        icon = Icons.Filled.Wallpaper,
+                        label = stringResource(R.string.home_option_wallpaper),
+                        onClick = {
+                            WallpaperIntents.startOrToast(context)
+                            onDismiss()
+                        },
+                    )
+                    OptionAction(
+                        icon = Icons.Filled.Animation,
+                        label = stringResource(R.string.home_option_live_wallpaper),
+                        onClick = {
+                            WallpaperIntents.startLiveOrToast(context)
+                            onDismiss()
+                        },
+                    )
+                    OptionAction(
+                        icon = Icons.Filled.Widgets,
+                        label = stringResource(R.string.home_option_widgets),
+                        onClick = onWidgets,
+                    )
+                }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    OptionAction(
+                        icon = Icons.Filled.Apps,
+                        label = stringResource(R.string.home_option_icon),
+                        onClick = onAddIcon,
+                    )
+                    OptionAction(
+                        icon = Icons.Filled.Settings,
+                        label = stringResource(R.string.home_option_settings),
+                        onClick = onSettings,
+                    )
+                }
             }
         }
     }
@@ -96,6 +111,12 @@ private fun OptionAction(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Icon(imageVector = icon, contentDescription = label)
-        Text(text = label, style = MaterialTheme.typography.labelMedium)
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelMedium,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
+            textAlign = TextAlign.Center,
+        )
     }
 }

@@ -7,7 +7,7 @@
 
 | Layer | Technology | Version | Notes |
 |-------|-----------|---------|-------|
-| Platform | Android (min 26, target 37), Kotlin, Jetpack Compose Material 3 | 0.1.0 | Child of agent-project-bootstrap 1.0.0 |
+| Platform | Android (min 26, target 37), Kotlin, Jetpack Compose Material 3 | 1.0.1 | Child of agent-project-bootstrap 1.0.0; APK versionCode 101 |
 | License | MIT | - | Pure FOSS |
 | Persistence | Room + SQLCipher (`hermes-vault-cipher.db`) + Android Keystore | 4.16.0 | Plaintext vault migrates; rebuild-required copy on failure |
 | Distribution | GitHub Releases + F-Droid | - | Reproducible APKs (`SOURCE_DATE_EPOCH`) |
@@ -30,7 +30,7 @@
 
 ### Project Purpose
 
-Hermes Launcher: FOSS Android home-screen inbox for notifications, news, and podcasts. X-only dismiss. Local vault with 2000/30-day archived prune. Widget pages are a user-chosen occupancy grid with a trailing empty page. Home long-press opens Wallpaper / Widgets / Settings. Dock ranks usage (not launches). All Apps is a 5-column letter-rail grid. Home-again opens usage+inbox search. Notification dots come from vault unread. Double-tap empty chrome can lock or toggle flashlight. Live wallpapers ship in-tree (gradient, clock).
+Hermes Launcher: FOSS Android home-screen inbox for notifications, news, and podcasts. Reserved Launcher3 pages are Podcasts → News → Inbox (Home = Inbox). X-only dismiss. Local vault with 2000/30-day archived prune. Widget pages are a user-chosen occupancy grid with a trailing empty page. Home long-press opens Wallpaper / Widgets / Settings. Dock ranks usage (not launches). All Apps is a 5-column letter-rail grid. Home-again opens usage+inbox search. Notification dots come from vault unread. Double-tap empty chrome can lock or toggle flashlight. Live wallpapers ship in-tree (gradient, clock).
 
 ### Key Constraints
 
@@ -40,6 +40,8 @@ Hermes Launcher: FOSS Android home-screen inbox for notifications, news, and pod
 
 ## Session Retrospectives
 
+| 2026-09-05 | /ship 1.0.1 HOME | About+Venmo, permissions hub, L3WidgetTick; OP12 analogue clock 07:59→08:00; HUMAN tag approved | Keep `HermesLauncherActivity` as HOME; `install -r` only; RP dry-run still titles v1.0.0 until a git tag exists |
+| 2026-09-04 | Sprints 43–45 Podcasts page | Inoreader OPML seed, `FeedSub.kind`, Podcasts left of News, MediaSession player gaps | Home stays Inbox; no AntennaPod source; ADB `b5214fc6` only |
 | 2026-09-01 | Sprint 17 icons/search/gestures/wallpaper | Off-thread icon cache, usage banner, prune throttle, dots, HOME-again overlay, double-tap lock/flashlight, AOSP picker + in-tree live wallpapers | OP12 `[ADB]` smoke still open; never pin Google wallpaper package; no Accessibility lock; do not adb OP13 `8bf09993` |
 | 2026-09-01 | Sprint 16 inbox/dock/All Apps | Unread badge, collapsing search+history, App/Category/Time, prune, usage dock, All Apps rail, shortcuts, widget search | OP12 `[ADB]` Sprint 15+16 smoke still open; do not scrape Play; do not rank dock by launch count; do not adb OP13 `8bf09993` |
 | 2026-09-01 | Sprint 15 Launcher3-look chrome | Compose options popup, system wallpaper intent, preview picker, four-handle resize, Remove well, grouped settings | OP12 `[ADB]` smoke still open; do not vendor Launcher3 Java or GPL launchers; do not adb OP13 `8bf09993` |

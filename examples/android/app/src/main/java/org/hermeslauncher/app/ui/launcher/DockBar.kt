@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -19,6 +21,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,20 +51,38 @@ fun DockBar(
     onOpenSettings: () -> Unit,
     onLaunch: (LaunchableApp) -> Unit,
     onAssign: (Int) -> Unit,
+    onSwipeUp: () -> Unit = onOpenDrawer,
     modifier: Modifier = Modifier,
     unreadByPackage: Map<String, Int> = emptyMap(),
     showDots: Boolean = true,
 ) {
     var popup by remember { mutableStateOf<LaunchableApp?>(null) }
+    val dockPager = rememberPagerState(pageCount = { layout.pageCount })
+    LaunchedEffect(layout.pageCount) {
+        val max = (layout.pageCount - 1).coerceAtLeast(0)
+        if (dockPager.currentPage > max) {
+            dockPager.scrollToPage(max)
+        }
+    }
     Surface(
         modifier = modifier
             .fillMaxWidth()
             .pointerInput(Unit) {
-                detectVerticalDragGestures { _, dragAmount ->
-                    if (dragAmount < -24f) {
-                        onOpenDrawer()
-                    }
-                }
+                var total = 0f
+                detectVerticalDragGestures(
+                    onDragStart = { total = 0f },
+                    onVerticalDrag = { change, dragAmount ->
+                        total += dragAmount
+                        change.consume()
+                    },
+                    onDragEnd = {
+                        if (total < -24f) {
+                            onSwipeUp()
+                        }
+                        total = 0f
+                    },
+                    onDragCancel = { total = 0f },
+                )
             },
         color = MaterialTheme.colorScheme.surface.copy(alpha = 0.72f),
         shape = RoundedCornerShape(RadiusLg),
@@ -73,21 +94,26 @@ fun DockBar(
                     .padding(horizontal = SpacingMd, vertical = SpacingSm),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Row(
+                HorizontalPager(
+                    state = dockPager,
                     modifier = Modifier.weight(1f),
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    for (index in 0 until layout.slotCount) {
-                        val app = layout.slot(index)
-                        DockSlot(
-                            app = app,
-                            pack = pack,
-                            unread = if (showDots && app != null) unreadByPackage[app.packageName] ?: 0 else 0,
-                            onLaunch = { app?.let(onLaunch) },
-                            onAssign = { if (custom) onAssign(index) },
-                            onShortcuts = { chosen -> popup = chosen },
-                        )
+                ) { page ->
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        for (index in 0 until layout.slotCount) {
+                            val app = if (page == 0) layout.slot(index) else null
+                            DockSlot(
+                                app = app,
+                                pack = pack,
+                                unread = if (showDots && app != null) unreadByPackage[app.packageName] ?: 0 else 0,
+                                onLaunch = { app?.let(onLaunch) },
+                                onAssign = { if (custom && page == 0) onAssign(index) },
+                                onShortcuts = { chosen -> popup = chosen },
+                            )
+                        }
                     }
                 }
                 ContrastDockIcon(

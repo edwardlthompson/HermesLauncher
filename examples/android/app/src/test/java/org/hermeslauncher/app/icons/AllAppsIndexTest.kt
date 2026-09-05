@@ -33,4 +33,14 @@ class AllAppsIndexTest {
         assertEquals("pred", keys.first())
         assertEquals(1, AllAppsIndex.indexOf(keys, 'A'))
     }
+
+    @Test
+    fun keysHonorColumnCount() {
+        val apps = (1..5).map { index -> LaunchableApp("p$index", "A$index", "A$index") }
+        val sections = AllAppsIndex.sections(apps)
+        assertEquals(
+            listOf("h:A", "r:A:0", "r:A:1"),
+            AllAppsIndex.keys(sections, predicted = false, columns = 4),
+        )
+    }
 }

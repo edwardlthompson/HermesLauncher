@@ -1,10 +1,12 @@
 package org.hermeslauncher.app.ui.launcher
 
+import android.util.Log
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -12,15 +14,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.flow.flowOf
 import org.hermeslauncher.app.HermesApplication
+import org.hermeslauncher.app.R
 import org.hermeslauncher.app.feeds.FeedItem
 import org.hermeslauncher.app.icons.AppCategory
 import org.hermeslauncher.app.ui.inbox.FilterBar
+import org.hermeslauncher.app.ui.inbox.FilterMenu
 import org.hermeslauncher.app.ui.inbox.InboxFeed
 import org.hermeslauncher.app.vault.InboxFilter
 import org.hermeslauncher.app.vault.InboxQuery
+import org.hermeslauncher.app.vault.ShadeBridge
 import org.hermeslauncher.app.vault.VaultItem
 
 @Composable
@@ -29,12 +35,12 @@ fun FeedPage(
     feeds: List<FeedItem>,
     onDismiss: (String) -> Unit,
     onDismissGroup: (List<String>) -> Unit,
-    onOpen: (String) -> Unit,
-    onAction: (String, Int) -> Unit,
     onPin: (String) -> Unit,
     onPlay: (FeedItem) -> Unit,
     onLongPressHome: () -> Unit,
     onDoubleTapHome: () -> Unit = {},
+    onEmptySwipe: (org.hermeslauncher.app.launcher.GestureSlot) -> Unit = {},
+    onSettings: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -57,6 +63,9 @@ fun FeedPage(
             AppCategory.labelKey(AppCategory.kindOf(pkg, cat))
         }
     }
+    LaunchedEffect(query.layout, query.newestFirst) {
+        Log.i("HermesInbox", "layout=${query.layout} newestFirst=${query.newestFirst}")
+    }
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -69,10 +78,22 @@ fun FeedPage(
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             FilterBar(
-                query = query,
-                packages = InboxFilter.packages(items + if (query.text.isBlank()) emptyList() else archived),
                 unread = InboxFilter.unreadCount(items),
-                onQuery = { query = it },
+                searchText = query.text,
+                onSearchText = { query = query.copy(text = it) },
+                filterMenu = { expanded, onDismiss ->
+                    FilterMenu(
+                        expanded = expanded,
+                        query = query,
+                        onDismiss = onDismiss,
+                        onQuery = {
+                            query = it
+                            onDismiss()
+                        },
+                    )
+                },
+                onSettings = onSettings,
+                settingsLabel = stringResource(R.string.settings_open),
             )
             InboxFeed(
                 query = query,
@@ -82,8 +103,14 @@ fun FeedPage(
                 kindOf = kindOf,
                 onDismiss = onDismiss,
                 onDismissGroup = onDismissGroup,
-                onOpen = onOpen,
-                onAction = onAction,
+                onOpen = { id ->
+                    ShadeBridge.open(items.firstOrNull { it.id == id } ?: archived.firstOrNull { it.id == id }, context)
+                },
+                onAction = { id, index ->
+                    (items.firstOrNull { it.id == id } ?: archived.firstOrNull { it.id == id })?.let {
+                        ShadeBridge.runAction(it.sbnKey, index)
+                    }
+                },
                 onPin = onPin,
                 onPlay = onPlay,
                 imageDir = filesDir,

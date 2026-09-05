@@ -18,19 +18,40 @@ import kotlinx.coroutines.launch
 import org.hermeslauncher.app.HermesApplication
 import org.hermeslauncher.app.R
 import org.hermeslauncher.app.launcher.DoubleTapAction
+import org.hermeslauncher.app.launcher.SwipeSensitivity
 import org.hermeslauncher.app.ui.theme.SpacingMd
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun HomeChromeSettings(modifier: Modifier = Modifier) {
+fun UnreadDotSettings(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val app = context.applicationContext as HermesApplication
     val scope = rememberCoroutineScope()
     val showDots by app.homePrefs.showDots.collectAsStateWithLifecycle(true)
-    val doubleTap by app.homePrefs.doubleTap.collectAsStateWithLifecycle(DoubleTapAction.OFF)
     Text(text = stringResource(R.string.settings_show_dots), modifier = modifier)
     Text(text = stringResource(R.string.settings_show_dots_body), style = MaterialTheme.typography.bodySmall)
     Switch(checked = showDots, onCheckedChange = { on -> scope.launch { app.homePrefs.setShowDots(on) } })
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun GestureSettings() {
+    val context = LocalContext.current
+    val app = context.applicationContext as HermesApplication
+    val scope = rememberCoroutineScope()
+    val doubleTap by app.homePrefs.doubleTap.collectAsStateWithLifecycle(DoubleTapAction.OFF)
+    val sensitivity by app.gesturePrefs.sensitivity.collectAsStateWithLifecycle(SwipeSensitivity.DEFAULT)
+    GesturePickerSettings()
+    Text(text = stringResource(R.string.gesture_sensitivity))
+    Text(text = stringResource(R.string.gesture_sensitivity_body), style = MaterialTheme.typography.bodySmall)
+    FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
+        SwipeSensitivity.entries.forEach { level ->
+            FilterChip(
+                selected = sensitivity == level,
+                onClick = { scope.launch { app.gesturePrefs.setSensitivity(level) } },
+                label = { Text(stringResource(sensitivityLabel(level))) },
+            )
+        }
+    }
     Text(text = stringResource(R.string.settings_double_tap))
     FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
         DoubleTapAction.entries.forEach { action ->
@@ -49,4 +70,10 @@ fun HomeChromeSettings(modifier: Modifier = Modifier) {
             )
         }
     }
+}
+
+private fun sensitivityLabel(level: SwipeSensitivity): Int = when (level) {
+    SwipeSensitivity.LOW -> R.string.gesture_sensitivity_low
+    SwipeSensitivity.MEDIUM -> R.string.gesture_sensitivity_medium
+    SwipeSensitivity.HIGH -> R.string.gesture_sensitivity_high
 }

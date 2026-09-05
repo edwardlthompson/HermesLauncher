@@ -1,15 +1,18 @@
 package org.hermeslauncher.app.oem
 
 import android.Manifest
+import android.app.Activity
 import android.app.AppOpsManager
 import android.app.role.RoleManager
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.PowerManager
 import android.os.Process
 import android.provider.Settings
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 
@@ -31,6 +34,8 @@ object LivePermissions {
             batteryUnrestricted = battery,
             homeRoleHeld = home,
             mediaGranted = mediaGranted(context),
+            usageGranted = usageGranted(context),
+            postNotificationsGranted = postGranted(context),
         )
     }
 
@@ -53,6 +58,41 @@ object LivePermissions {
         } else {
             Manifest.permission.READ_EXTERNAL_STORAGE
         }
+    }
+
+    /** Workspace ComposeView is not a ComponentActivity; do not use rememberLauncherForActivityResult. */
+    fun requestMedia(context: Context) {
+        val activity = unwrapActivity(context) ?: return
+        ActivityCompat.requestPermissions(activity, arrayOf(mediaPermission()), MEDIA_REQ)
+    }
+
+    fun postGranted(context: Context): Boolean {
+        if (Build.VERSION.SDK_INT < 33) {
+            return true
+        }
+        return ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) ==
+            PackageManager.PERMISSION_GRANTED
+    }
+
+    fun requestPost(context: Context) {
+        if (Build.VERSION.SDK_INT < 33) {
+            return
+        }
+        val activity = unwrapActivity(context) ?: return
+        ActivityCompat.requestPermissions(
+            activity,
+            arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+            POST_REQ,
+        )
+    }
+
+    internal fun unwrapActivity(context: Context): Activity? {
+        var ctx: Context? = context
+        while (ctx is ContextWrapper) {
+            if (ctx is Activity) return ctx
+            ctx = ctx.baseContext
+        }
+        return null
     }
 
     fun listenerSettings(): Intent {
@@ -84,8 +124,15 @@ object LivePermissions {
     }
 
     fun startSafe(context: Context, intent: Intent) {
-        if (intent.resolveActivity(context.packageManager) != null) {
-            runCatching { context.startActivity(intent) }
+        val launch = Intent(intent)
+        if (unwrapActivity(context) == null) {
+            launch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        if (launch.resolveActivity(context.packageManager) != null) {
+            runCatching { context.startActivity(launch) }
         }
     }
+
+    private const val MEDIA_REQ = 18509
+    private const val POST_REQ = 18510
 }

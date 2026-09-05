@@ -22,8 +22,7 @@
 | Logic | `vault/`, `oem/`, `widgets/`, `icons/` |
 | View | `ui/onboarding/`, `ui/launcher/`, `ui/widgets/`, `ui/inbox/` |
 | Tests | `src/test/.../vault/`, `oem/`, `widgets/`, `icons/` |
-| Wiring | `MainActivity`, `HermesApp`, `HermesScreen` |
-
+| Wiring | `HermesLauncherActivity` + `L3WidgetTick` TIME_TICK; Compose `MainActivity` still pokes if opened |
 ## Public API (locked)
 
 | Symbol | Contract |
@@ -33,7 +32,6 @@
 | `StatusBarNotificationMapper` | SBN → `PostedNotification` including MessagingStyle parts |
 | `WidgetHostController` | allocate, in-app picker, bind, configure, persist, createView |
 | `DockLayout.withApp` | long-press assign; DataStore round-trip |
-
 ## Tests
 
 Automated: yes — mapper, grant policy, dock codec, host bind-id rejection.

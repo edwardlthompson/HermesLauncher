@@ -3,16 +3,21 @@ repos:
     rev: v5.0.0
     hooks:
       - id: trailing-whitespace
+        exclude: ^examples/android/third_party/
       - id: end-of-file-fixer
+        exclude: ^examples/android/third_party/
       - id: check-yaml
       - id: check-json
+        exclude: ^examples/android/third_party/
       - id: check-added-large-files
         args: [--maxkb=500]
+        exclude: ^examples/android/third_party/
       - id: check-merge-conflict
       - id: detect-private-key
       - id: check-case-conflict
       - id: mixed-line-ending
         args: [--fix=lf]
+        exclude: ^examples/android/third_party/
 
   - repo: local
     hooks:
@@ -61,7 +66,7 @@ repos:
       - id: gitleaks
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.16.5
+    rev: v0.16.6
     hooks:
       - id: ruff
         files: ^examples/python/

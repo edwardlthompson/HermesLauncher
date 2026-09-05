@@ -19,8 +19,18 @@ class RepairPolicyTest {
             batteryUnrestricted = true,
             homeRoleHeld = false,
         )
-        assertTrue(RepairPolicy.needsOverlay(snap))
+        assertFalse(RepairPolicy.needsOverlay(snap))
         assertTrue(RepairPolicy.needsBanner(snap))
+    }
+
+    @Test
+    fun overlayWhenMediaMissing() {
+        val snap = PermissionSnapshot(
+            notificationListenerEnabled = true,
+            batteryUnrestricted = true,
+            mediaGranted = false,
+        )
+        assertTrue(RepairPolicy.needsOverlay(snap))
     }
 
     @Test

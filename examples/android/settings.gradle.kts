@@ -16,3 +16,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "hermeslauncher-android"
 include(":app")
+include(":iconloader")
+include(":launcher3")

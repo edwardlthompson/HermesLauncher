@@ -31,14 +31,17 @@ object HomePulse {
         if (action != "android.intent.action.MAIN") {
             return false
         }
-        val cats = categories ?: return false
+        val cats = categories ?: return true
+        if (cats.isEmpty()) {
+            return true
+        }
         return "android.intent.category.HOME" in cats ||
             "android.intent.category.LAUNCHER" in cats
     }
 
-    fun next(page: Int, searchOpen: Boolean): HomePulseResult {
+    fun next(page: Int, searchOpen: Boolean, homeIndex: Int = 0): HomePulseResult {
         return when {
-            page > 0 -> HomePulseResult.SCROLL_INBOX
+            page != homeIndex -> HomePulseResult.SCROLL_INBOX
             searchOpen -> HomePulseResult.CLOSE_SEARCH
             else -> HomePulseResult.OPEN_SEARCH
         }

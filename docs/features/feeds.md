@@ -5,6 +5,7 @@
 ## Acceptance criteria
 
 - User-visible behavior: parsed feed items can mix into the inbox; an episode shows a mini-player with play/pause copy
+- ✅ User-visible behavior: Feeds FAB accepts a site or feed URL, discovers RSS/Atom, and shows the last 30 days
 - Offline/error behavior: parsers take strings only; malformed XML yields empty items and does not throw; no network in this slice
 - Accessibility: play/pause controls have content descriptions
 - i18n: keys under `player_*` and `feed_*` in `res/values/strings.xml`
@@ -23,14 +24,15 @@
 | View | `examples/android/app/src/main/java/org/hermeslauncher/app/ui/player/` |
 | Tests | `examples/android/app/src/test/java/org/hermeslauncher/app/feeds/` |
 | Wiring | `FeedPage` can host `MiniPlayerBar`; HTTP fetch is later |
-
 ## Public API (locked)
 
 | Symbol | Contract |
 |--------|----------|
 | `OpmlOutline` | title, xmlUrl, htmlUrl, type |
 | `FeedItem` | id, feedTitle, title, link, publishedAt, enclosureUrl, enclosureMime |
-| `RssParser.parse(xml)` | RSS 2.0 items; never throws |
+| `RssParser.parse(xml)` | RSS 2.0 or Atom items; never throws |
+| `FeedFetcher.resolve` | HTTP GET; HTML alternate-link discovery; null on miss |
+| `MixPolicy.withinWindow` | keep items from the last 30 days (`publishedAt == 0` kept) |
 | `OpmlParser.parse(xml)` | OPML outlines with `xmlUrl`; never throws |
 | `MixPolicy.merge(vault, feeds)` | newest `publishedAt` / `postedAt` first; episodes stay `FeedKind.EPISODE` |
 | `MiniPlayerState` | optional `FeedItem`, `playing`; `toggle()` / `load(item)` |
@@ -38,7 +40,6 @@
 | `FeedFetcher` | HTTP(S) GET with 10s/15s timeouts; `itemsFromXml` never throws |
 | `OpmlImporter.read` | OPML outlines with http(s) `xmlUrl` only |
 | `HermesPlayer` | Media3 ExoPlayer; audio-focus pause; blank enclosure is a no-op |
-
 Media3 `ExoPlayer` bind is a follow-up adapter. This slice locks state + UI chrome only.
 
 ## Tests
@@ -61,4 +62,7 @@ OPML/RSS fixtures parse. Mix order is deterministic. Mini-player i18n renders. `
 
 - Simple enclosures only; no queue, chapters, or cloud sync
 - HTTP fetch with timeouts and OPML file import: shipped (`FeedFetcher`, `OpmlImporter`, Settings import)
+- Feeds FAB: `FeedFetcher.resolve` follows `<link rel="alternate" type="application/rss+xml">`; `MixPolicy.withinWindow` keeps 30 days
+- Article tap opens the launcher reading-mode view (or the system browser); Close / Back returns to the list
+- Android Authority (`https://www.androidauthority.com/feed/`) is seeded once via `DefaultFeeds`
 - Media3 ExoPlayer bind: shipped (`HermesPlayer`)

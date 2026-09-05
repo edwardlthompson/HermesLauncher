@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feed_export_opml">Export OPML</string>
+    <string name="backup_export">Export Hermes backup</string>
+    <string name="backup_import">Import Hermes backup</string>
+    <string name="backup_reset">Reset home layout</string>
+    <string name="backup_reset_body">Clears workspace screens, desktop icons, and widgets. Inbox notifications stay.</string>
+    <string name="backup_invalid">Backup file was not valid Hermes JSON.</string>
+    <string name="backup_ok">Backup imported. Skipped %1$d missing widgets.</string>
+    <string name="backup_default_home">Set Hermes as your default home app</string>
+    <string name="backup_default_home_body">Hermes is not the default launcher yet.</string>
+    <string name="backup_labs_hint">Infinite wrap and widget overlap stay under Desktop → Labs.</string>
+    <string name="backup_nova">Import Nova backup</string>
+    <string name="backup_nova_ok">Imported %1$d Nova shortcuts</string>
+    <string name="backup_nova_fail">Could not read that Nova backup</string>
+</resources>

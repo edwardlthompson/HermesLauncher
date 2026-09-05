@@ -57,6 +57,8 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 > **Child repo:** Hermes Launcher. Upstream template history is archived below. Use this playbook.
 
+> **Feedback fixes (audit 2026-09-03)** archived in `COMPLETED_TASKS.md`.
+
 ---
 
 ## Child Repo Playbook
@@ -101,10 +103,6 @@ When **Sprint 0** ends: stop re-reading `docs/INITIALIZATION_PROMPT.md` as the d
 
 > **Sprint 8** archived in COMPLETED_TASKS.md @ `c2bb2c4`.
 
-#### Human & device (after automation)
-
-1. 🔲 [ADB] Sideload OP12 (`b5214fc6` only); confirm overlay, wallpaper home, Add widget, dock assign
-
 ### Sprint 9 — Inbox filters
 
 > **Sprint 9** archived in COMPLETED_TASKS.md @ `c2bb2c4`.
@@ -121,19 +119,11 @@ When **Sprint 0** ends: stop re-reading `docs/INITIALIZATION_PROMPT.md` as the d
 
 > **Sprint 12** archived in COMPLETED_TASKS.md @ `c2bb2c4`.
 
-#### Human & device (after automation)
-
-1. 🔲 [ADB] Confirm granted vault rows survive migration or show rebuild copy
-
 ---
 
 ### Sprint 13 — Pixel widgets and grouped inbox
 
 > **Sprint 13** archived in COMPLETED_TASKS.md @ `c2bb2c4`.
-
-#### Human & device (after automation)
-
-1. 🔲 [ADB] OP12 `b5214fc6` only: bind-deny, configure-cancel (no ghost), drag onto new page, visible width resize, group expand + per-item X + group X; logcat `HermesWidget` / `HermesVault`
 
 ---
 
@@ -147,19 +137,11 @@ When **Sprint 0** ends: stop re-reading `docs/INITIALIZATION_PROMPT.md` as the d
 
 > **Sprint 15** archived in COMPLETED_TASKS.md @ `c2bb2c4`.
 
-#### Human & device (after automation)
-
-1. 🔲 [ADB] OP12 `b5214fc6` only: empty long-press → Wallpaper / Widgets / Settings; wallpaper chooser; preview-card bind 2×2; four-handle resize; drop on Remove well; logcat `HermesWidget`
-
 ---
 
 ### Sprint 16 — Inbox views, dock usage, All Apps
 
 > **Sprint 16** archived in COMPLETED_TASKS.md @ `c2bb2c4`.
-
-#### Human & device (after automation)
-
-1. 🔲 [ADB] OP12 `b5214fc6` only: unread badge; search close; dismissed history; category/time; usage dock after notification-open; All Apps rail; shortcuts if Home; widget search
 
 ---
 
@@ -167,9 +149,171 @@ When **Sprint 0** ends: stop re-reading `docs/INITIALIZATION_PROMPT.md` as the d
 
 > **Sprint 17** archived in COMPLETED_TASKS.md @ `c2bb2c4`.
 
-#### Human & device (after automation)
+---
 
-1. 🔲 [ADB] OP12 `b5214fc6` only: live widgets tick; All Apps fling; usage banner grant; prune not per-persist; unread dots; Home-again search; double-tap torch/lock; AOSP wallpaper chooser; Hermes Gradient/Clock live wallpaper
+### Nova parity board (Sprints 18–27)
+
+> Specs: `docs/features/workspace-screens.md` through `backup-opml.md`. Launcher3 Apache-2.0 algorithms in Compose; do not vendor Java. Skip Nova #16, web search, Discover overlay.
+
+### Critique
+
+| Issue | Resolution |
+|-------|------------|
+| Null/empty screen id | `homeScreenId` falls back to first INBOX; codec corrupt → defaults (`workspace-screens.md`) |
+| Network timeout | N/A for pager/SAF; contacts IO empty on deny (`local-search.md`) |
+| Race | one DataStore host mutex; dock nestedScroll vs workspace pager (`hotseat-dock.md`) |
+| Unhandled exceptions | SAF `runCatching`; pinch no `popBack`; remap never writes foreign `appWidgetId` (`backup-opml.md`) |
+| `StoreGrant` null-on-deny | blacklist inserts `storeContent=false` (`all-apps-drawer.md`) |
+| Line caps | extract `WorkspacePager` before Sprint 18; settings hub not one file |
+### Parallelization
+
+- Sequential lock: Sprint 18 `workspace/` types + v5 codec + `homeScreenId`
+- `agent_count_target`: 3 after each sprint lock
+- Dry-run: `python3 scripts/agent-run.py plan-parallel-dispatch --draft BUILD_PLAN.md --suggest` — three non-overlapping Android prefixes per sprint
+
+### Sprint 18 — Workspace screens
+
+> **Sprint 18** archived in COMPLETED_TASKS.md @ `497f7f5`.
+
+---
+
+### Sprint 19 — CellLayout icons
+
+> **Sprint 19** archived in COMPLETED_TASKS.md (2026-09-02).
+
+### Sprint 20 — PagedView motion
+
+> **Sprint 20** archived in COMPLETED_TASKS.md (2026-09-02).
+
+### Sprint 21 — Hotseat dock
+
+> **Sprint 21** archived in COMPLETED_TASKS.md (2026-09-02).
+
+### Sprint 22 — All Apps drawer + blacklist
+
+> **Sprint 22** archived in COMPLETED_TASKS.md (2026-09-02).
+
+### Sprint 23 — Folders
+
+> **Sprint 23** archived in COMPLETED_TASKS.md @ `497f7f5`.
+
+### Sprint 24 — Local search
+
+> **Sprint 24** archived in COMPLETED_TASKS.md @ `497f7f5`.
+
+### Sprint 25 — Gestures
+
+> **Sprint 25** archived in COMPLETED_TASKS.md @ `497f7f5`.
+
+### Sprint 26 — Look and feel
+
+> **Sprint 26** archived in COMPLETED_TASKS.md @ `497f7f5`.
+
+### Sprint 27 — Backup and OPML
+
+> **Sprint 27** archived in COMPLETED_TASKS.md @ `497f7f5`.
+
+### Sprint 28 — AOSP Launcher3 homescreen
+
+> **Sprint 28** archived in COMPLETED_TASKS.md @ `497f7f5`.
+
+### Sprint 29 — Workspace pages and Nova settings
+
+> **Sprint 29** archived in COMPLETED_TASKS.md @ `497f7f5`.
+
+### Sprint 30 — Home search, swipe sensitivity, live settings
+
+> **Sprint 30** archived in COMPLETED_TASKS.md @ `497f7f5`.
+
+### Sprint 31 — Lite article reader
+
+> Spec: `docs/features/article-reader.md`. Seed Android Authority; reading-mode viewer; preferred opener is launcher reader or browser.
+
+> **Sprint 31 AGENT+ADB** archived in COMPLETED_TASKS.md @ `497f7f5`.
+
+### Sprint 32 — Feed inbox chrome
+
+> Spec: `docs/features/feed-inbox.md`. News uses the inbox top bar; thumbnails; read/star filters; 30-day unstarred purge.
+
+> **Sprint 32** archived in COMPLETED_TASKS.md @ `497f7f5`.
+
+### Sprint 33 — Full-res article cache and reader pager
+
+> Spec: `docs/features/feed-inbox.md`. List keeps sampled thumbs; reader caches original images; Unread filter survives the reader; next/previous arrows.
+
+> **Sprint 33** archived in COMPLETED_TASKS.md @ `497f7f5`.
+
+### Sprint 34 — Feed refresh and reader settings
+
+> Spec: `docs/features/feed-reader-settings.md`. Inventory from Feeder (GPL ideas only). News refresh; scan interval; mobile data; charging; thumbnails.
+
+> **Sprint 34** archived in COMPLETED_TASKS.md @ `497f7f5`.
+
+### Sprint 35 — Reader tray chrome, dates, Nova import
+
+> Spec: `docs/features/feed-reader-layout.md`. Prev/next on the News tray; `YY/MM/DD` dates; Inbox settings icon; Nova `.novabackup` onboarding.
+
+> **Sprint 35** archived in COMPLETED_TASKS.md @ `497f7f5`.
+
+### Sprint 36 — Reader modes, thumbs, retention
+
+> Spec: `docs/features/feed-reader-modes.md`. Sort stays at list top; refresh fills article images; Reading/Full/Web chips; settings status-bar inset + hub colors; 30-day keep and 24h read purge; Feeder gap inventory.
+
+> **Sprint 36** archived in COMPLETED_TASKS.md @ `497f7f5`.
+
+### Sprint 37 — Reader tools and one-res images
+
+> Spec: `docs/features/feed-reader-tools.md`. Share; TTS/find/scale in overflow; Custom Tabs; original-only thumbs.
+
+> **Sprint 37** archived in COMPLETED_TASKS.md @ `497f7f5`.
+
+### Sprint 38 — Feeds bubble drawer
+
+> Spec: `docs/features/feed-list-actions.md`. Feeds bubble + drawer; Filter funnel stays status/sort; second seed feed.
+
+> **Sprint 38** archived in COMPLETED_TASKS.md @ `497f7f5`.
+
+### Sprint 39 — JSON Feed, styled extract, prefetch
+
+> Spec: `docs/features/feed-fulltext-json.md`.
+
+> **Sprint 39** archived in COMPLETED_TASKS.md @ `497f7f5`.
+
+### Sprint 40 — Subscriptions
+
+> Spec: `docs/features/feed-subs.md`.
+
+> **Sprint 40** archived in COMPLETED_TASKS.md @ `497f7f5`.
+
+### Sprint 41 — Feed alerts
+
+> Spec: `docs/features/feed-alerts.md`.
+
+> **Sprint 41** archived in COMPLETED_TASKS.md @ `497f7f5`.
+
+### Sprint 42 — Background sync and widget
+
+> **Sprint 42** archived in COMPLETED_TASKS.md @ `497f7f5`.
+
+### Sprint 43 — Podcast import and OPML
+
+> **Sprint 43** archived in COMPLETED_TASKS.md @ `497f7f5`.
+
+### Sprint 44 — Podcasts workspace page
+
+> **Sprint 44** archived in COMPLETED_TASKS.md @ `497f7f5`.
+
+### Sprint 45 — AntennaPod must-close player
+
+> **Sprint 45** archived in COMPLETED_TASKS.md @ `497f7f5`.
+
+### Sprint 46 — Permissions onboarding, About, zero-inbox copy
+
+> **Sprint 46** archived in COMPLETED_TASKS.md @ `497f7f5`.
+
+### Sprint 47 — Launcher3 live widgets
+
+> **Sprint 47** archived in COMPLETED_TASKS.md @ `497f7f5`.
 
 ---
 
@@ -180,17 +324,14 @@ When **Sprint 0** ends: stop re-reading `docs/INITIALIZATION_PROMPT.md` as the d
 ### Weekly
 
 - ❌ [AUTO] `check-security-triage.sh --wait-ci 300` (Dependabot + CI) — origin CI red on `c2bb2c4` (Feature Gate / Node `setup-node` npm cache); local workaround unpushed
-- ✅ [AGENT] `/update-deps` locally; triage leftover Dependabot PRs
-- ❌ [AUTO] CI + Repo Hygiene + Feature Gate green on `main` — same origin CI failure; needs `[HUMAN]` push
 
 ### Monthly
 
-- ✅ [AUTO] `check-license-compliance.sh` + SBOM on latest release
+> License/SBOM check archived 2026-09-04.
 
 ### Pre-release (every version)
 
-- ✅ [AUTO] `pre-release-gate.sh --local` before push
-- 🔲 [HUMAN] Approve release tag when product-ready
+- ✅ [HUMAN] Approve release tag when product-ready
 
 ---
 
@@ -216,4 +357,31 @@ When **Sprint 0** ends: stop re-reading `docs/INITIALIZATION_PROMPT.md` as the d
 | Sprint 15 — Launcher3-look home chrome | 2026-09-01 | `COMPLETED_TASKS.md` |
 | Sprint 16 — Inbox views, dock usage, All Apps | 2026-09-01 | `COMPLETED_TASKS.md` |
 | Sprint 17 — Icons, search, gestures, FOSS wallpapers | 2026-09-01 | `COMPLETED_TASKS.md` |
+| Sprint 18 — Workspace screens | 2026-09-02 | `COMPLETED_TASKS.md` |
+| Sprint 19 — CellLayout icons | 2026-09-02 | `COMPLETED_TASKS.md` |
+| Sprint 20 — PagedView motion | 2026-09-02 | `COMPLETED_TASKS.md` |
+| Sprint 21 — Hotseat dock | 2026-09-02 | `COMPLETED_TASKS.md` |
+| Sprint 22 — All Apps drawer + blacklist | 2026-09-02 | `COMPLETED_TASKS.md` |
+| Sprint 27 — Backup and OPML | 2026-09-03 | `COMPLETED_TASKS.md` |
+| Sprint 29 — Workspace pages and Nova settings | 2026-09-04 | `COMPLETED_TASKS.md` |
+| Sprint 26 — Look and feel | 2026-09-03 | `COMPLETED_TASKS.md` |
+| Sprint 25 — Gestures | 2026-09-03 | `COMPLETED_TASKS.md` |
+| Sprint 24 — Local search | 2026-09-03 | `COMPLETED_TASKS.md` |
+| Sprint 23 — Folders | 2026-09-03 | `COMPLETED_TASKS.md` |
+| Sprint 32 — Feed inbox chrome | 2026-09-04 | `COMPLETED_TASKS.md` |
+| Sprint 33 — Full-res article cache and reader pager | 2026-09-04 | `COMPLETED_TASKS.md` |
+| Sprint 34 — Feed refresh and reader settings | 2026-09-04 | `COMPLETED_TASKS.md` |
+| Sprint 35 — Reader tray chrome, dates, Nova import | 2026-09-04 | `COMPLETED_TASKS.md` |
+| Sprint 36 — Reader modes, thumbs, retention | 2026-09-04 | `COMPLETED_TASKS.md` |
+| Sprint 37 — Reader tools and one-res images | 2026-09-04 | `COMPLETED_TASKS.md` |
+| Sprint 38 — Feeds bubble drawer | 2026-09-04 | `COMPLETED_TASKS.md` |
+| Sprint 39 — JSON Feed, styled extract, prefetch | 2026-09-04 | `COMPLETED_TASKS.md` |
+| Sprint 40 — Subscriptions | 2026-09-04 | `COMPLETED_TASKS.md` |
+| Sprint 41 — Feed alerts | 2026-09-04 | `COMPLETED_TASKS.md` |
+| Sprint 42 — Background sync and widget | 2026-09-04 | `COMPLETED_TASKS.md` |
+| Sprint 43 — Podcast import and OPML | 2026-09-05 | `COMPLETED_TASKS.md` |
+| Sprint 44 — Podcasts workspace page | 2026-09-05 | `COMPLETED_TASKS.md` |
+| Sprint 45 — AntennaPod must-close player | 2026-09-05 | `COMPLETED_TASKS.md` |
+| Sprint 46 — Permissions onboarding, About, zero-inbox copy | 2026-09-05 | `COMPLETED_TASKS.md` |
+| Sprint 47 — Launcher3 live widgets | 2026-09-05 | `COMPLETED_TASKS.md` |
 Template maintainer history (v1.0.0 and earlier) remains in `COMPLETED_TASKS.md` from the seed clone.

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gesture_sensitivity">Swipe sensitivity</string>
+    <string name="gesture_sensitivity_body">Higher values open the drawer with a shorter swipe. Low is best while scrolling Inbox.</string>
+    <string name="gesture_sensitivity_low">Low</string>
+    <string name="gesture_sensitivity_medium">Medium</string>
+    <string name="gesture_sensitivity_high">High</string>
+</resources>

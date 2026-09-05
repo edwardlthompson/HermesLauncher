@@ -10,6 +10,10 @@ from human_task_android import (
     automate_android_sdk_smoke,
     automate_fdroid_dry_run,
 )
+from human_task_op12 import (
+    automate_op12_device_smoke,
+    automate_op12_widget_dnd,
+)
 from human_task_core import AttemptResult, resolve_config
 from human_task_github import (
     automate_automerge_token,
@@ -57,6 +61,8 @@ HUMAN_RULES: list[tuple[re.Pattern[str], str, object]] = [
 ]
 
 ADB_RULES: list[tuple[re.Pattern[str], str, object]] = [
+    (re.compile(r"widget tray|drag a widget", re.I), "adb", automate_op12_widget_dnd),
+    (re.compile(r"b5214fc6|OP12|Sideload OP12|vault rows survive|folder window|swipe down search|shape change|OPML export", re.I), "adb", automate_op12_device_smoke),
     (re.compile(r"instrumented|connectedDebugAndroidTest|\badb\b", re.I), "adb", automate_adb_instrumented),
     (re.compile(r"F-Droid|device dry-run", re.I), "adb", automate_fdroid_dry_run),
     (re.compile(r"emulator|Android SDK", re.I), "adb", automate_android_sdk_smoke),

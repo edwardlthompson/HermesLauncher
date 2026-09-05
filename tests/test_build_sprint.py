@@ -116,6 +116,40 @@ class RepoModeTests(unittest.TestCase):
             self.assertIn("git push --force", status["next_row"]["task"])
             self.assertEqual(status["sprint"], "M46 — /allideas template backlog")
 
+    def test_auto_lane_child_sees_bullet_adb(self) -> None:
+        plan = """# Build Plan
+
+## Child Repo Playbook
+
+### Sprint 28 — AOSP Launcher3 homescreen
+
+#### Sequential
+
+- ✅ [AGENT] Vendor Launcher3
+- 🔲 [ADB] OP12: set Hermes as Home; long-press widget tray
+
+## Ongoing Maintenance (recurring)
+
+- 🔲 [HUMAN] Approve release tag when product-ready
+"""
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "bootstrap.config.json").write_text(
+                json.dumps(
+                    {
+                        "project_name": "hermes-launcher",
+                        "purpose": "FOSS home-screen inbox",
+                        "stack": "android",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (root / "BUILD_PLAN.md").write_text(plan, encoding="utf-8")
+            status = build_status(root, lane="auto")
+            self.assertEqual(status["lane"], "child")
+            self.assertEqual(status["next_row"]["owner"], "ADB")
+            self.assertIn("widget tray", status["next_row"]["task"])
+
     def test_auto_lane_child_still_sees_sprint0(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

@@ -2,6 +2,219 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## Sprint 47 — Launcher3 live widgets (2026-09-05)
+
+- ✅ [AGENT] `L3WidgetTick` + `WidgetHostTick.merge`; stop Application `startListening`; News unread honors options changes
+- ✅ [ADB] OP12: desktop clock/weather advances on Hermes HOME without opening Compose MainActivity
+
+## Sprint 46 — Permissions onboarding, About, zero-inbox copy (2026-09-05)
+
+- ✅ [AGENT] `GrantCatalog` / `RepairPolicy.requiredOk`; Settings Permissions + About; `ZeroCopy`; HOME About menu
+
+## Sprint 45 — AntennaPod must-close player (2026-09-05)
+
+- ✅ [AGENT] Lock `EpisodeProgress` / `PlayQueue` / `SleepTimer` / `PodcastAudio`; `PodcastService` MediaSession foreground `mediaPlayback`
+- ✅ [ADB] Background play, resume, skip/speed/sleep, queue, offline file, shownotes Back (`b5214fc6`)
+
+## Sprint 44 — Podcasts workspace page (2026-09-05)
+
+- ✅ [AGENT] `WorkspaceKind.PODCASTS`, `HermesScreens.PODCASTS`, `HermesPages` insert 0/1/2, v5 prepend migrate, Home stays Inbox
+- ✅ [ADB] Swipe Podcasts↔News↔Inbox; FAB; Filter chips; Home still Inbox; no widget drop on reserved pages (`b5214fc6`)
+
+## Sprint 43 — Podcast import and OPML (2026-09-05)
+
+- ✅ [AGENT] Lock `OpmlOutline.tag`, `FeedSub.kind`, `PodcastDetect`; seed `inoreader.opml`; split News vs podcast OPML I/O
+- ✅ [ADB] Settings → Feeds podcast OPML import/export on `b5214fc6`; News export has no podcast URLs
+
+## Sprint 30 leftover ADB (2026-09-05)
+
+- ✅ [ADB] OP12: Home on Inbox → search+IME; scroll Inbox without drawer; smoke every Settings section
+
+## Sprint 28 leftover ADB (2026-09-05)
+
+- ✅ [ADB] OP12: set Hermes as Home; long-press widget tray; drag a widget onto the grid
+
+## Sprint 42 — Background sync and widget (2026-09-04)
+
+- ✅ [AGENT] WorkManager expire/refresh split; unread AppWidgetProvider
+- ✅ [ADB] OP12: widget on desktop
+
+## Sprint 41 — Feed alerts (2026-09-04)
+
+- ✅ [AGENT] hermes_feeds channel; Always/Wi-Fi/Never chips
+- ✅ [ADB] OP12: notify switch; shade if permitted
+
+## Sprint 40 — Subscriptions (2026-09-04)
+
+- ✅ [AGENT] FeedSub migrate, tags in drawer, block list, lastError
+- ✅ [ADB] OP12: tag in Feeds drawer
+
+## Sprint 39 — JSON Feed, styled extract, prefetch (2026-09-04)
+
+- ✅ [AGENT] JsonFeedParser, feed-full files, prefetch, HtmlCompat no-op images
+- ✅ [ADB] OP12: Full after prefetch
+
+## Sprint 38 — Feeds bubble drawer (2026-09-04)
+
+- ✅ [AGENT] sourceUrl, drawerRows, Feeds bubble/drawer, F-Droid seed, mark-all-read
+- ✅ [ADB] OP12: Open feeds; All vs one feed; Filter has no feed titles
+
+## Sprint 37 — Reader tools and one-res images (2026-09-04)
+
+- ✅ [AGENT] Share, overflow tools, Custom Tabs, canonical hero, original-only preview
+- ✅ [ADB] OP12: share sheet; thumbs from feed-article only
+
+## Sprint 36 — Reader modes, thumbs, retention (2026-09-04)
+
+- ✅ [AGENT] Sort scroll-to-top; image enrich; reader mode chips; settings inset/colors; 30d/24h purge
+- ✅ [ADB] OP12: sort stays top; Reading/Full/Web chips; settings below the clock; thumbs after refresh
+
+## Sprint 35 — Reader tray chrome, dates, Nova import (2026-09-04)
+
+- ✅ [AGENT] Reader bar + dividers; card/reader dates; Inbox settings; Nova import onboarding
+- ✅ [ADB] OP12: article screenshot; dates; Settings from Inbox; Nova card Later
+
+## Sprint 34 — Feed refresh and reader settings (2026-09-04)
+
+- ✅ [AGENT] Refresh on News bar; Settings → Feeds sync/reader options
+- ✅ [ADB] OP12: Refresh fetches; Settings scan chips and mobile-data switch persist
+
+## Sprint 33 — Full-res article cache and reader pager (2026-09-04)
+
+- ✅ [AGENT] Full-res article image cache; persist feed filter; next/previous in reader
+- ✅ [ADB] OP12: Unread stays selected after back; next article; feed-article cache files
+
+## Sprint 32 — Feed inbox chrome (2026-09-04)
+
+- ✅ [AGENT] Persist read/star; filter/search/purge; extract article images skipping tiny icons
+- ✅ [AGENT] Identical FilterBar on News; thumbnails; reader images + star/unread
+- ✅ [ADB] OP12: unread bubble, search, star/unread in reader, thumbnail on a card
+
+## Sprint 31 — Lite article reader (2026-09-04)
+
+- ✅ [AGENT] Seed Android Authority RSS; extract reading-mode body; persist preferred opener
+- ✅ [AGENT] News tap opens launcher reader or browser; Settings Feeds picker
+- ✅ [ADB] OP12: Android Authority stories load; tap opens reader; Open in browser works
+
+## Sprint 30 — Home search, swipe sensitivity, live settings (2026-09-04)
+
+- ✅ [AGENT] Home-again on Inbox opens All Apps search with the keyboard
+- ✅ [AGENT] Adjustable swipe sensitivity; Inbox/News scroll does not open the drawer
+- ✅ [AGENT] Settings hub options apply to Launcher3 (grid, labels, dock, drawer, folders, search, look, gestures)
+
+## Sprint 29 — Workspace pages and Nova settings (2026-09-04)
+
+- ✅ [AGENT] HermesWorkspace + reserved News/Inbox CellLayouts; remove minus-one overlay from HOME
+- ✅ [AGENT] Home snap to Inbox; disable drops on Hermes pages
+- ✅ [AGENT] HermesSettingsActivity as APPLICATION_PREFERENCES; restore live wallpaper + add icon; fold L3 pref switches
+- ✅ [ADB] OP12: swipe News ↔ Inbox ↔ desktop with dock; Home lands on Inbox; long-press Settings opens the hub
+
+## Sprint 28 — AOSP Launcher3 homescreen (2026-09-04)
+
+- ✅ [AGENT] Vendor Launcher3 android-14.0.0_r28 + iconloaderlib; Gradle :launcher3 without Quickstep
+- ✅ [AGENT] HOME activity is HermesLauncherActivity extends Launcher; sideload OP12
+- ✅ [AGENT] Paint inbox + news Compose on the minus-one overlay (scroll progress already wired)
+
+## Ongoing Maintenance (2026-09-04)
+
+- ✅ [AGENT] /update-deps locally; triage leftover Dependabot PRs
+- ✅ [AUTO] CI + Repo Hygiene + Feature Gate green on main — local gates green 2026-09-03; push to refresh origin
+- ✅ [AUTO] check-license-compliance.sh + SBOM on latest release
+- ✅ [AUTO] pre-release-gate.sh --local before push
+
+## Sprint 23 — Folders (2026-09-03)
+
+- ✅ [AGENT] Folder lid preview + badge helpers in `examples/android/app/src/main/java/org/hermeslauncher/app/workspace/`
+- ✅ [AGENT] Folder window / icon composables
+- ✅ [AGENT] Folders settings
+- ✅ [ADB] OP12 `b5214fc6` only: open folder window; lid badge; fullscreen toggle
+
+## Sprint 24 — Local search (2026-09-03)
+
+- ✅ [AGENT] `HomeSearchRank` app-row cap + contacts empty-on-deny tests in `examples/android/app/src/main/java/org/hermeslauncher/app/icons/`
+- ✅ [AGENT] Search overlay chrome + shortcuts
+- ✅ [AGENT] Search settings
+- ✅ [ADB] OP12 `b5214fc6` only: contacts deny still searches apps+inbox; one-row cap; no web provider
+
+## Human backlog automation (2026-09-03)
+
+- ✅ [AUTO] OP12 UIAutomator smoke (`scripts/op12-device-smoke.py`) on `b5214fc6`
+- ✅ [AUTO] Draft GitHub release from HEAD for Ongoing Maintenance release-tag row
+
+- ✅ [ADB] Sideload OP12 (`b5214fc6` only); confirm overlay, wallpaper home, Add widget, dock assign (Sprint 8 — Live home)
+- ✅ [ADB] Confirm granted vault rows survive migration or show rebuild copy (Sprint 12 — SQLCipher)
+- ✅ [HUMAN] Approve release tag when product-ready (Ongoing Maintenance)
+- ✅ [ADB] OP12 `b5214fc6` only: bind-deny, configure-cancel (no ghost), drag onto new page, visible width resize, group expand + per-item X + group X; logcat `HermesWidget` / `HermesVault` (Sprint 13 — Pixel widgets and grouped inbox)
+- ✅ [ADB] OP12 `b5214fc6` only: empty long-press → Wallpaper / Widgets / Settings; wallpaper chooser; preview-card bind 2×2; four-handle resize; drop on Remove well; logcat `HermesWidget` (Sprint 15 — Launcher3-look home chrome)
+- ✅ [ADB] OP12 `b5214fc6` only: unread badge; search close; dismissed history; category/time; usage dock after notification-open; All Apps rail; shortcuts if Home; widget search (Sprint 16 — Inbox views, dock usage, All Apps)
+- ✅ [ADB] OP12 `b5214fc6` only: live widgets tick; All Apps fling; usage banner grant; prune not per-persist; unread dots; Home-again search; double-tap torch/lock; AOSP wallpaper chooser; Hermes Gradient/Clock live wallpaper (Sprint 17 — Icons, search, gestures, FOSS wallpapers)
+- ✅ [ADB] OP12 `b5214fc6` only: open folder window; lid badge; fullscreen toggle (Sprint 23 — Folders)
+- ✅ [ADB] OP12 `b5214fc6` only: contacts deny still searches apps+inbox; one-row cap; no web provider (Sprint 24 — Local search)
+- ✅ [ADB] OP12 `b5214fc6` only: swipe down search; swipe up All Apps once (not doubled with dock) (Sprint 25 — Gestures)
+- ✅ [ADB] OP12 `b5214fc6` only: shape change; dots vs counts; icon pack still applies (Sprint 26 — Look and feel)
+- ✅ [ADB] OP12 `b5214fc6` only: OPML export empty-valid; backup import remaps widgets; reset does not wipe inbox (Sprint 27 — Backup and OPML)
+
+## Sprint 27 — Backup and OPML (2026-09-03)
+
+- ✅ [AGENT] `BackupCodec` widget-id remap tests in `examples/android/app/src/main/java/org/hermeslauncher/app/workspace/`
+- ✅ [AGENT] OpmlExporter + Feeds export
+- ✅ [AGENT] Backup / reset / Labs settings
+- ✅ [AGENT] Default-home reminder chrome
+
+## Sprint 26 — Look and feel (2026-09-03)
+
+- ✅ [AGENT] `IconShape` + night schedule parse tests in `examples/android/app/src/main/java/org/hermeslauncher/app/ui/theme/`
+- ✅ [AGENT] Shape clip + label paint on icons
+- ✅ [AGENT] Look settings (palette, badges, schedule)
+
+## Sprint 25 — Gestures (2026-09-03)
+
+- ✅ [AGENT] `LauncherAction` map + defaults tests in `examples/android/app/src/main/java/org/hermeslauncher/app/launcher/`
+- ✅ [AGENT] Empty-space detector sharing DrawerState
+- ✅ [AGENT] Gesture picker settings
+
+## Feedback fixes (audit 2026-09-03)
+
+- ✅ [AGENT] Fix #1: CodeQL donation URL host check in `scripts/sync-stack-config.py`
+- ✅ [AGENT] Fix #2: dedupe mojibake rows in `HUMAN_BACKLOG.md`
+
+## Sprint 22 — All Apps drawer + blacklist (2026-09-02)
+
+- ✅ [AGENT] Add `deletePolicy` + `policiesFlow`; blacklist writes `AppStorePolicy(storeContent=false)` with DAO tests in `examples/android/app/src/main/java/org/hermeslauncher/app/vault/`
+- ✅ [AGENT] Drawer grid/list/tabs/scrim
+- ✅ [AGENT] Drawer + blacklist settings UI
+- ✅ [AGENT] Hide-apps + column prefs
+- ✅ [ADB] OP12 `b5214fc6` only: hide an app from drawer; blacklist FairEmail then X restores; predicted row remains
+
+- ✅ [AGENT] Lock `DesktopItem` + icon/widget grid span mapper tests in `examples/android/app/src/main/java/org/hermeslauncher/app/workspace/`
+- ✅ [AGENT] Occupancy for 1×1 icons
+- ✅ [AGENT] CellLayoutGrid composable
+- ✅ [AGENT] Desktop settings controls
+- ✅ [ADB] OP12 `b5214fc6` only: 4×5 tiles stay put; drop an icon on desktop; labels toggle
+
+## Sprint 20 — PagedView motion (2026-09-02)
+
+- ✅ [AGENT] Lock `PagedPolicy` + Labs flags tests in `examples/android/app/src/main/java/org/hermeslauncher/app/workspace/`
+- ✅ [AGENT] Pager fling / reverseLayout
+- ✅ [AGENT] QSB + pinch detector
+- ✅ [AGENT] Desktop scroll + Labs rows
+- ✅ [ADB] OP12 `b5214fc6` only: wrap off at last page; QSB none keeps Home-again; pinch does not finish activity
+
+## Sprint 21 — Hotseat dock (2026-09-02)
+
+- ✅ [AGENT] Lock Hotseat page model on `DockLayout` in `examples/android/app/src/main/java/org/hermeslauncher/app/icons/`
+- ✅ [AGENT] Nested dock pager + hide-until-swipe
+- ✅ [AGENT] Dock chrome settings
+- ✅ [ADB] OP12 `b5214fc6` only: dock swipe does not change workspace page; Apps + swipe-up still open All Apps
+
+## Sprint 18 — Workspace screens (2026-09-02)
+
+- ✅ [AGENT] Lock `WorkspaceModel` (`screenIds`, `homeScreenId`, `WorkspaceKind`) + `WidgetHostCodec` v5 migrate tests under `examples/android/app/src/main/java/org/hermeslauncher/app/workspace/` and `.../widgets/`
+- ✅ [AGENT] Pager remap + inbox/feeds split
+- ✅ [AGENT] Page indicator composable
+- ✅ [AGENT] Settings hub ListItems
+- ✅ [ADB] OP12 `b5214fc6` only: swipe right = feeds, swipe left = widgets, HOME = inbox; logcat `HermesInbox`
+
 ## Sprint 17 — Icons, search, gestures, FOSS wallpapers (2026-09-01)
 
 - ✅ [AGENT] Off-thread icon LruCache for All Apps + dock

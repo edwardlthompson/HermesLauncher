@@ -18,10 +18,18 @@ class DonationsLoaderTest {
     fun loadsDonationsFromAssets() {
         val cfg = DonationsLoader.load(context)
         assertTrue(cfg.enabled)
-        assertEquals("If this project helps you, consider supporting development.", cfg.message)
+        assertEquals("If Hermes is your home, a Venmo tip keeps this FOSS work going. Optional, never required.", cfg.message)
         assertEquals(1, cfg.links.size)
         assertEquals("Donate via Venmo", cfg.links[0].label)
         assertEquals(DonationsLoader.DEFAULT_VENMO_URL, cfg.links[0].url)
         assertEquals(DonationsLoader.DEFAULT_VENMO_URL, DonationsLoader.primaryUrl(cfg))
+    }
+
+    @Test
+    fun defaultsExposeVenmoWhenAssetMissing() {
+        val cfg = DonationsLoader.defaults()
+        assertTrue(cfg.enabled)
+        assertEquals(DonationsLoader.DEFAULT_VENMO_URL, DonationsLoader.primaryUrl(cfg))
+        assertEquals(DonationsLoader.DEFAULT_LABEL, cfg.links[0].label)
     }
 }

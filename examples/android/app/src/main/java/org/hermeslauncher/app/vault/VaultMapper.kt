@@ -10,6 +10,10 @@ object VaultMapper {
         if (ignoreOngoing && posted.ongoing) {
             return PersistDecision(PersistAction.SKIP, skipImageReason = "ongoing")
         }
+        if (!ShadePolicy.shouldPresent(posted.groupSummary, posted.title, posted.conversationTitle)) {
+            val reason = if (posted.groupSummary) "group_summary" else "no_subject"
+            return PersistDecision(PersistAction.SKIP, skipImageReason = reason)
+        }
         if (policy != null && !policy.storeContent) {
             return PersistDecision(PersistAction.SKIP)
         }

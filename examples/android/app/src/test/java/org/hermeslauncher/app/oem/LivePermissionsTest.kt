@@ -3,6 +3,7 @@ package org.hermeslauncher.app.oem
 import androidx.test.core.app.ApplicationProvider
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -27,5 +28,12 @@ class LivePermissionsTest {
             android.provider.Settings.ACTION_USAGE_ACCESS_SETTINGS,
             LivePermissions.usageSettings().action,
         )
+    }
+
+    @Test
+    fun requestMediaNoopsWithoutActivity() {
+        val context = ApplicationProvider.getApplicationContext<android.app.Application>()
+        assertNull(LivePermissions.unwrapActivity(context))
+        LivePermissions.requestMedia(context)
     }
 }

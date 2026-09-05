@@ -5,9 +5,9 @@
 ## Acceptance criteria
 
 - User-visible behavior: Settings picks 4×5, 6×6, 8×8, or any 3–12 axes; long-press empty home opens Wallpaper / Widgets / Settings; Widgets opens a preview-card sheet with search by app or widget label; drop places a 2×2 tile; long-press a placed widget shows a four-handle resize frame (left/top may move origin) down to 1×1; drag to the top Remove well deletes; a trailing empty widget page appears until `MAX_WIDGET_PAGES`
-- Offline/error behavior: `firstFit` miss keeps the sheet and allocates nothing; bind deny / configure cancel deletes the id; corrupt codec yields default empty pages; v1–v3 migrate onto `WidgetGridSpec.DEFAULT`; shrinking the grid `fitToSpec`s overflow instead of dropping ids when a 1×1 hole exists; missing wallpaper picker toasts and does not crash
+- Offline/error behavior: drop miss (wrong page / no grid / off-grid / occupied) toasts `widget_drop_*` and logs `HermesWidget`; tap `firstFit` miss toasts `widget_drop_no_space`; bind deny / configure cancel deletes the id; corrupt codec yields default empty pages; v1–v3 migrate onto `WidgetGridSpec.DEFAULT`; shrinking the grid `fitToSpec`s overflow instead of dropping ids when a 1×1 hole exists; missing wallpaper picker toasts and does not crash
 - Accessibility: empty-page Add, Remove well, four resize handles, and grid stepper icons have content descriptions; resize announces `widget_resized`
-- i18n: keys under `widget_*`, `home_option_*`, `settings_widget_grid*`, `settings_wallpaper*` in `res/values/strings.xml`
+- i18n: keys under `widget_*`, `widget_drop_*`, `home_option_*`, `settings_widget_grid*`, `settings_wallpaper*`
 
 ## Smoke scenario
 
@@ -23,7 +23,6 @@
 | View | `examples/android/app/src/main/java/org/hermeslauncher/app/ui/widgets/` + `ui/launcher/HomeOptionsPopup.kt` + `ui/settings/WidgetGridSettings.kt` |
 | Tests | `examples/android/app/src/test/java/org/hermeslauncher/app/widgets/` |
 | Wiring | `LauncherHome` pager + `WidgetHostController` drop-to-bind; Settings collects `widgetStore` |
-
 ## Public API (locked)
 
 | Symbol | Contract |
@@ -43,7 +42,7 @@
 | `HomePagerState.pageCountFor` | `1 + widgetPages.coerceIn(1, MAX)` |
 | `WallpaperIntents.picker` | `ACTION_SET_WALLPAPER`, no package |
 | `WidgetCatalog.filter` | case-insensitive app/widget label; empty query is identity |
-
+| `DropPolicy.miss` / `cellTarget` | wrong page / no grid / off-grid gating; `dropCell` delegates here |
 ### Critique
 
 | Issue | Resolution |
@@ -55,16 +54,15 @@
 | Provider minWidth fills the page | drop uses `PLACE_CELLS` 2×2; resize floor is 1×1, not `minWidth` |
 | Google wallpaper package | `WallpaperIntents` never `setPackage` |
 | GPL / Launcher3 Java | Compose restyle only; no vendored launcher sources |
-
 ## Tests
 
-Automated: yes — `WidgetGridTest`, `WidgetHostCodecTest`, `WidgetHostStateTest`, `WidgetResizeTest`, `WidgetPreviewTest`, `WallpaperIntentsTest`, `HomePagerStateTest`
+Automated: yes — `WidgetGridTest`, `DropPolicyTest`, `WidgetHostCodecTest`, `WidgetHostStateTest`, `WidgetResizeTest`, `WidgetPreviewTest`, `WallpaperIntentsTest`, `HomePagerStateTest`
 
 ## Fallback validation
 
 `python3 scripts/agent-run.py watch-agent-gates --once --autofix`
 
-Why tests are not feasible: N/A for occupancy/codec/resize math. Live drag/bind is OP12 ADB.
+Why tests are not feasible: occupancy/codec/resize math is unit-tested. Compose long-press-drag on the picker sheet is not reliable in UIAutomator. OP12 ADB fallback (does not fail `scripts/op12-device-smoke.py`): swipe to a desktop page, long-press empty space → Widgets, then tap a preview **or** long-press-drag it onto the grid. Expect bind or a `widget_drop_*` toast. Logcat tag `HermesWidget`.
 
 ## Definition of Done
 

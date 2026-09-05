@@ -7,6 +7,8 @@ object AppSearch {
             return apps
         }
         val lower = needle.lowercase()
-        return apps.filter { it.label.lowercase().contains(lower) }
+        return apps.filter {
+            it.label.lowercase().contains(lower) || it.packageName.lowercase().contains(lower)
+        }
     }
 }

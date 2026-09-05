@@ -94,6 +94,19 @@ class VaultMapperTest {
     }
 
     @Test
+    fun groupSummaryAndBlankSubjectSkip() {
+        val summary = posted.copy(groupSummary = true)
+        val blank = posted.copy(title = "  ", conversationTitle = null)
+        val named = posted.copy(title = null, conversationTitle = "Ada")
+        assertEquals(PersistAction.SKIP, VaultMapper.decide(summary, null).action)
+        assertEquals("group_summary", VaultMapper.decide(summary, null).skipImageReason)
+        assertEquals(PersistAction.SKIP, VaultMapper.decide(blank, null).action)
+        assertEquals("no_subject", VaultMapper.decide(blank, null).skipImageReason)
+        assertEquals(PersistAction.PERSIST_TEXT, VaultMapper.decide(named, null).action)
+        assertNull(VaultMapper.toItem(blank, VaultMapper.decide(blank, null)))
+    }
+
+    @Test
     fun messagingPartsMapWhenGranted() {
         val withParts = posted.copy(
             messageParts = listOf(

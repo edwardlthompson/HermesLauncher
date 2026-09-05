@@ -79,9 +79,68 @@ def automate_product_smoke(root: Path, cfg: dict) -> AttemptResult:
 
 
 def automate_release_tag(root: Path, _cfg: dict) -> AttemptResult:
-    code, out = run_cmd(root, ["gh", "release", "list", "--limit", "1"])
+    """Prefer an existing GitHub release; else draft from HEAD without pushing tags."""
+    code, out = run_cmd(root, ["gh", "release", "list", "--limit", "5"])
     if code != 0:
         return AttemptResult(1, "release-tag", "gh release list failed; product judgment required", True)
     if out.strip():
-        return AttemptResult(0, "release-tag", "Release exists; autonomous ack only", False)
-    return AttemptResult(1, "release-tag", "No release; human product approval required", True)
+        return AttemptResult(0, "release-tag", "Release exists; autonomous ack", False)
+    tag_code, tag_out = run_cmd(root, ["git", "tag", "-l", "--sort=-v:refname"])
+    tags = [line.strip() for line in (tag_out or "").splitlines() if line.strip()] if tag_code == 0 else []
+    latest = tags[0] if tags else "v0.0.0-draft"
+    head_code, head = run_cmd(root, ["git", "rev-parse", "HEAD"])
+    if head_code != 0 or not (head or "").strip():
+        return AttemptResult(1, "release-tag", "git rev-parse HEAD failed", True)
+    target = head.strip()
+    # Draft from HEAD so we do not need a pushed tag (destructive-ops: no git push).
+    title = f"{latest} (draft — publish when product-ready)"
+    create_code, create_out = run_cmd(
+        root,
+        [
+            "gh",
+            "release",
+            "create",
+            latest,
+            "--draft",
+            "--target",
+            target,
+            "--generate-notes",
+            "--title",
+            title,
+        ],
+    )
+    if create_code == 0:
+        return AttemptResult(
+            0,
+            "release-tag-draft",
+            f"Draft release {latest} @ {target[:8]}; human publishes when product-ready",
+            False,
+        )
+    lower = (create_out or "").lower()
+    if "already exists" in lower:
+        return AttemptResult(0, "release-tag", f"Release {latest} already exists", False)
+    # Tag name collision on remote without release: use unique draft name
+    draft_name = f"{latest}-hermes-draft"
+    create2_code, create2_out = run_cmd(
+        root,
+        [
+            "gh",
+            "release",
+            "create",
+            draft_name,
+            "--draft",
+            "--target",
+            target,
+            "--generate-notes",
+            "--title",
+            title,
+        ],
+    )
+    if create2_code == 0:
+        return AttemptResult(
+            0,
+            "release-tag-draft",
+            f"Draft release {draft_name} @ {target[:8]}; human publishes when product-ready",
+            False,
+        )
+    return AttemptResult(1, "release-tag", create2_out or create_out or "draft create failed", True)

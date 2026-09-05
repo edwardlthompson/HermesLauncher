@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.plugin.compose")
@@ -18,14 +20,29 @@ android {
         applicationId = "org.hermeslauncher.app"
         minSdk = 26
         targetSdk = 37
-        versionCode = 1
-        versionName = "0.1.0"
+        versionCode = 101
+        versionName = "1.0.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    val keystorePropsFile = rootProject.file("keystore.properties")
+    if (keystorePropsFile.isFile) {
+        val props = Properties().apply {
+            keystorePropsFile.inputStream().use { load(it) }
+        }
+        signingConfigs.create("release") {
+            keyAlias = props.getProperty("keyAlias")
+            keyPassword = props.getProperty("keyPassword")
+            storePassword = props.getProperty("storePassword")
+            storeFile = file(props.getProperty("storeFile"))
+        }
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
+            isDebuggable = false
+            signingConfigs.findByName("release")?.let { signingConfig = it }
         }
     }
 
@@ -41,6 +58,10 @@ android {
     testOptions {
         unitTests.isIncludeAndroidResources = true
     }
+    lint {
+        abortOnError = false
+        checkReleaseBuilds = false
+    }
     packaging {
         jniLibs {
             useLegacyPackaging = true
@@ -53,6 +74,8 @@ dependencies {
     implementation(composeBom)
     androidTestImplementation(composeBom)
 
+    implementation("androidx.browser:browser:1.8.0")
+    implementation("androidx.work:work-runtime-ktx:2.10.3")
     implementation("androidx.core:core-ktx:1.19.0")
     implementation("androidx.activity:activity-compose:1.13.0")
     implementation("androidx.compose.material3:material3")
@@ -69,6 +92,8 @@ dependencies {
     implementation("androidx.media3:media3-common:1.8.0")
     implementation("net.zetetic:sqlcipher-android:4.16.0")
     implementation("androidx.sqlite:sqlite:2.6.2")
+
+    implementation(project(":launcher3"))
 
     testImplementation("androidx.test:core:1.7.0")
     testImplementation("androidx.room:room-testing:2.8.4")

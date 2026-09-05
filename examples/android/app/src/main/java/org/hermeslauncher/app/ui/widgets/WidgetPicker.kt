@@ -73,10 +73,7 @@ fun WidgetPicker(
     Surface(
         modifier = modifier
             .fillMaxWidth()
-            .graphicsLayer {
-                alpha = if (collapsed) 0f else 1f
-                translationY = if (collapsed) 4000f else 0f
-            },
+            .graphicsLayer { alpha = if (collapsed) 0f else 1f },
         color = MaterialTheme.colorScheme.surface,
         contentColor = MaterialTheme.colorScheme.onSurface,
         tonalElevation = 3.dp,
@@ -175,12 +172,15 @@ private fun PreviewCard(
                 detectTapGestures(onTap = { onPick(choice) })
             }
             .pointerInput(choice.provider) {
+                var window = Offset.Zero
                 detectDragGesturesAfterLongPress(
                     onDragStart = { start ->
-                        onDragStart(choice, coords?.localToWindow(start) ?: Offset.Zero)
+                        window = coords?.localToWindow(start) ?: Offset.Zero
+                        onDragStart(choice, window)
                     },
-                    onDrag = { change, _ ->
-                        onDrag(coords?.localToWindow(change.position) ?: Offset.Zero)
+                    onDrag = { change, dragAmount ->
+                        window += dragAmount
+                        onDrag(window)
                         change.consume()
                     },
                     onDragEnd = onDragEnd,

@@ -3,6 +3,7 @@ package org.hermeslauncher.app.ui.launcher
 import android.content.ComponentName
 import android.graphics.Bitmap
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material3.Icon
@@ -10,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
@@ -19,6 +21,8 @@ import org.hermeslauncher.app.icons.IconBitmapLoader
 import org.hermeslauncher.app.icons.IconPackId
 import org.hermeslauncher.app.icons.IconPackResources
 import org.hermeslauncher.app.icons.LaunchableApp
+import org.hermeslauncher.app.ui.theme.IconShape
+import org.hermeslauncher.app.ui.theme.LocalIconShape
 
 @Composable
 fun AppIconImage(
@@ -28,6 +32,7 @@ fun AppIconImage(
     contentDescription: String? = app.label,
 ) {
     val context = LocalContext.current
+    val shape = LocalIconShape.current
     val loader = (context.applicationContext as HermesApplication).iconLoader
     val key = IconBitmapLoader.key(pack, app)
     val image by produceState<ImageBitmap?>(null, key) {
@@ -42,9 +47,14 @@ fun AppIconImage(
         }
         value = bitmap?.asImageBitmap()
     }
-    if (image != null) {
-        Image(bitmap = image!!, contentDescription = contentDescription, modifier = modifier)
+    val clipped = if (shape == IconShape.SYSTEM) {
+        modifier
     } else {
-        Icon(Icons.Filled.Apps, contentDescription = contentDescription, modifier = modifier)
+        modifier.clip(shape.asComposeShape())
+    }
+    if (image != null) {
+        Image(bitmap = image!!, contentDescription = contentDescription, modifier = clipped)
+    } else {
+        Icon(Icons.Filled.Apps, contentDescription = contentDescription, modifier = clipped.clip(CircleShape))
     }
 }

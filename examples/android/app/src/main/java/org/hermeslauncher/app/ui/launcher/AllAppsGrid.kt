@@ -1,7 +1,8 @@
 package org.hermeslauncher.app.ui.launcher
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +25,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.LayoutCoordinates
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -31,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.hermeslauncher.app.R
 import org.hermeslauncher.app.icons.AllAppsIndex
+import org.hermeslauncher.app.icons.DrawerPolicy
 import org.hermeslauncher.app.icons.IconPackId
 import org.hermeslauncher.app.icons.LaunchableApp
 import org.hermeslauncher.app.ui.theme.SpacingSm
@@ -45,15 +51,25 @@ fun AllAppsGrid(
     modifier: Modifier = Modifier,
     unreadByPackage: Map<String, Int> = emptyMap(),
     showDots: Boolean = true,
+    columns: Int = AllAppsIndex.COLUMNS,
+    listMode: Boolean = false,
+    showRail: Boolean = true,
+    dragEnabled: Boolean = false,
+    onIconDragStart: (LaunchableApp, Offset) -> Unit = { _, _ -> },
+    onIconDrag: (Offset) -> Unit = {},
+    onIconDragEnd: () -> Unit = {},
 ) {
     val sections = remember(apps) { AllAppsIndex.sections(apps) }
     val rail = remember(sections) { AllAppsIndex.rail(sections) }
-    val keys = remember(sections, predicted) { AllAppsIndex.keys(sections, predicted.isNotEmpty()) }
+    val chunk = DrawerPolicy.chunkSize(listMode, columns)
+    val keys = remember(sections, predicted, chunk) {
+        AllAppsIndex.keys(sections, predicted.isNotEmpty(), chunk)
+    }
     val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
     var popup by remember { mutableStateOf<LaunchableApp?>(null) }
     Box(modifier = modifier.fillMaxSize()) {
-        if (apps.isEmpty()) {
+        if (apps.isEmpty() && predicted.isEmpty()) {
             Text(
                 text = stringResource(R.string.drawer_empty),
                 style = MaterialTheme.typography.bodyMedium,
@@ -70,6 +86,13 @@ fun AllAppsGrid(
                             showDots = showDots,
                             onApp = onApp,
                             onLongPress = { popup = it },
+                            dragEnabled = dragEnabled,
+                            onIconDragStart = { app, window ->
+                                popup = null
+                                onIconDragStart(app, window)
+                            },
+                            onIconDrag = onIconDrag,
+                            onIconDragEnd = onIconDragEnd,
                         )
                     }
                 }
@@ -85,27 +108,37 @@ fun AllAppsGrid(
                         )
                     }
                     items(
-                        rows.chunked(AllAppsIndex.COLUMNS).withIndex().toList(),
+                        rows.chunked(chunk).withIndex().toList(),
                         key = { (index, _) -> "r:$letter:$index" },
-                    ) { (_, chunk) ->
+                    ) { (_, group) ->
                         IconRow(
-                            apps = chunk,
+                            apps = group,
                             pack = pack,
                             unreadByPackage = unreadByPackage,
                             showDots = showDots,
+                            listMode = listMode,
                             onApp = onApp,
                             onLongPress = { popup = it },
+                            dragEnabled = dragEnabled,
+                            onIconDragStart = { app, window ->
+                                popup = null
+                                onIconDragStart(app, window)
+                            },
+                            onIconDrag = onIconDrag,
+                            onIconDragEnd = onIconDragEnd,
                         )
                     }
                 }
             }
-            LetterRail(
-                letters = rail,
-                onLetter = { ch ->
-                    scope.launch { listState.animateScrollToItem(AllAppsIndex.indexOf(keys, ch)) }
-                },
-                modifier = Modifier.align(Alignment.CenterEnd),
-            )
+            if (showRail) {
+                LetterRail(
+                    letters = rail,
+                    onLetter = { ch ->
+                        scope.launch { listState.animateScrollToItem(AllAppsIndex.indexOf(keys, ch)) }
+                    },
+                    modifier = Modifier.align(Alignment.CenterEnd),
+                )
+            }
         }
         ShortcutPopup(app = popup, onDismiss = { popup = null })
     }
@@ -119,6 +152,10 @@ private fun PredictedRow(
     showDots: Boolean,
     onApp: (LaunchableApp) -> Unit,
     onLongPress: (LaunchableApp) -> Unit,
+    dragEnabled: Boolean,
+    onIconDragStart: (LaunchableApp, Offset) -> Unit,
+    onIconDrag: (Offset) -> Unit,
+    onIconDragEnd: () -> Unit,
 ) {
     Column(modifier = Modifier.padding(SpacingSm)) {
         Text(
@@ -131,8 +168,13 @@ private fun PredictedRow(
             pack = pack,
             unreadByPackage = unreadByPackage,
             showDots = showDots,
+            listMode = false,
             onApp = onApp,
             onLongPress = onLongPress,
+            dragEnabled = dragEnabled,
+            onIconDragStart = onIconDragStart,
+            onIconDrag = onIconDrag,
+            onIconDragEnd = onIconDragEnd,
         )
     }
 }
@@ -143,10 +185,16 @@ private fun IconRow(
     pack: IconPackId,
     unreadByPackage: Map<String, Int>,
     showDots: Boolean,
+    listMode: Boolean,
     onApp: (LaunchableApp) -> Unit,
     onLongPress: (LaunchableApp) -> Unit,
+    dragEnabled: Boolean,
+    onIconDragStart: (LaunchableApp, Offset) -> Unit,
+    onIconDrag: (Offset) -> Unit,
+    onIconDragEnd: () -> Unit,
 ) {
-    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+    val arrangement = if (listMode) Arrangement.Start else Arrangement.SpaceEvenly
+    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = arrangement) {
         apps.forEach { app ->
             AppCell(
                 app = app,
@@ -154,12 +202,15 @@ private fun IconRow(
                 unread = if (showDots) unreadByPackage[app.packageName] ?: 0 else 0,
                 onApp = { onApp(app) },
                 onLongPress = { onLongPress(app) },
+                dragEnabled = dragEnabled,
+                onIconDragStart = onIconDragStart,
+                onIconDrag = onIconDrag,
+                onIconDragEnd = onIconDragEnd,
             )
         }
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun AppCell(
     app: LaunchableApp,
@@ -167,11 +218,39 @@ private fun AppCell(
     unread: Int,
     onApp: () -> Unit,
     onLongPress: () -> Unit,
+    dragEnabled: Boolean,
+    onIconDragStart: (LaunchableApp, Offset) -> Unit,
+    onIconDrag: (Offset) -> Unit,
+    onIconDragEnd: () -> Unit,
 ) {
+    var coords by remember(app.packageName, app.activityName) { mutableStateOf<LayoutCoordinates?>(null) }
     Column(
         modifier = Modifier
             .width(64.dp)
-            .combinedClickable(onClick = onApp, onLongClick = onLongPress)
+            .onGloballyPositioned { coords = it }
+            .pointerInput(app.packageName, app.activityName, dragEnabled) {
+                if (dragEnabled) {
+                    detectTapGestures(onTap = { onApp() })
+                } else {
+                    detectTapGestures(onTap = { onApp() }, onLongPress = { onLongPress() })
+                }
+            }
+            .pointerInput(app.packageName, app.activityName, dragEnabled) {
+                if (!dragEnabled) {
+                    return@pointerInput
+                }
+                detectDragGesturesAfterLongPress(
+                    onDragStart = { start ->
+                        onIconDragStart(app, coords?.localToWindow(start) ?: Offset.Zero)
+                    },
+                    onDrag = { change, _ ->
+                        onIconDrag(coords?.localToWindow(change.position) ?: Offset.Zero)
+                        change.consume()
+                    },
+                    onDragEnd = onIconDragEnd,
+                    onDragCancel = onIconDragEnd,
+                )
+            }
             .padding(vertical = SpacingSm),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -183,12 +262,6 @@ private fun AppCell(
                 modifier = Modifier.align(Alignment.TopEnd),
             )
         }
-        Text(
-            text = app.label,
-            style = MaterialTheme.typography.labelSmall,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis,
-            textAlign = TextAlign.Center,
-        )
+        IconLabel(text = app.label, maxLines = 2)
     }
 }

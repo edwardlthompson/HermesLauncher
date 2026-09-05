@@ -95,7 +95,7 @@ def next_actionable_row(rows: list[PlanRow], backlog_keys: set[str]) -> PlanRow 
 def parse_open_numbered(lines: list[str], sprint: str, phase: str) -> list[PlanRow]:
     rows: list[PlanRow] = []
     for line in lines:
-        match = ROW_NUMBERED.match(line)
+        match = ROW_NUMBERED.match(line) or ROW_BULLET.match(line)
         if match:
             rows.append(
                 PlanRow(

@@ -33,6 +33,7 @@ def adb_authorized(root: Path) -> bool:
             return True
     return False
 
+
 def automate_adb_instrumented(root: Path, _cfg: dict) -> AttemptResult:
     if adb_authorized(root):
         verify = root / "scripts/verify-android-insets.sh"
@@ -88,4 +89,3 @@ def automate_android_sdk_smoke(root: Path, _cfg: dict) -> AttemptResult:
     if gradle.is_file():
         return AttemptResult(1, "adb-unavailable", "no_authorized_device after unit tests", True)
     return AttemptResult(1, "android-sdk", "No Android example tree", True)
-

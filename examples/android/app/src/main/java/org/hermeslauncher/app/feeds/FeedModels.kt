@@ -7,6 +7,7 @@ data class OpmlOutline(
     val xmlUrl: String,
     val htmlUrl: String? = null,
     val type: String = "rss",
+    val tag: String = "",
 )
 
 data class FeedItem(
@@ -17,7 +18,22 @@ data class FeedItem(
     val publishedAt: Long = 0,
     val enclosureUrl: String? = null,
     val enclosureMime: String? = null,
-)
+    val html: String? = null,
+    val imageUrl: String? = null,
+    val sourceUrl: String? = null,
+) {
+    fun articleUrl(): String? = link?.takeIf { FeedFetcher.isHttpUrl(it) }
+
+    fun duplicateKey(): String = (articleUrl() ?: id).lowercase()
+
+    fun fileEnclosure(): String? {
+        val mime = enclosureMime.orEmpty().lowercase()
+        if (enclosureUrl.isNullOrBlank() || mime.startsWith("audio/")) {
+            return null
+        }
+        return enclosureUrl.takeIf { FeedFetcher.isHttpUrl(it) }
+    }
+}
 
 enum class FeedKind {
     ARTICLE,

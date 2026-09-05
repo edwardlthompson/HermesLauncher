@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="zero_inbox_1">📥 Inbox zero. You outran the ping storm.</string>
+    <string name="zero_inbox_2">✨ Nothing to tap. Your notifications took the day off.</string>
+    <string name="zero_inbox_3">🕊️ Catch-up complete. The shade is empty and you did that.</string>
+    <string name="zero_news_1">📰 All caught up. The headlines can simmer.</string>
+    <string name="zero_news_2">☕ No unread news. Pour something slow.</string>
+    <string name="zero_news_3">🌟 Feed zero. The internet can yell without you for a bit.</string>
+    <string name="zero_podcast_1">🎧 Queue clear. Your ears earned a stretch.</string>
+    <string name="zero_podcast_2">🌙 No episodes waiting. Silence is also a show.</string>
+    <string name="zero_podcast_3">🚀 Catch-up complete. The mic can rest.</string>
+</resources>

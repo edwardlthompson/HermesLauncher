@@ -44,7 +44,8 @@ env["GITHUB_TOKEN"] = token
 env.pop("GH_TOKEN", None)
 resolved = shutil.which(argv[0], path=env.get("PATH"))
 cmd = [resolved, *argv[1:]] if resolved else argv
-print("===", " ".join(argv), flush=True)
+redacted = [p if p != token else "***" for p in argv]
+print("===", " ".join(redacted), flush=True)
 code = subprocess.call(cmd, cwd=root, env=env)
 if code != 0:
     print("WARN: release-please dry-run failed (exit %s); CHANGELOG Unreleased is local source of truth" % code)

@@ -13,7 +13,8 @@ object RssParser {
         val doc = XmlDocuments.parse(xml) ?: return emptyList()
         val channels = doc.getElementsByTagName("channel")
         if (channels.length == 0) {
-            return emptyList()
+            val feed = doc.getElementsByTagName("feed").item(0) as? Element ?: return emptyList()
+            return AtomParser.parse(feed)
         }
         val channel = channels.item(0) as? Element ?: return emptyList()
         val feedTitle = XmlDocuments.childText(channel, "title").orEmpty()
@@ -22,6 +23,10 @@ object RssParser {
             val link = XmlDocuments.childText(item, "link")
             val guid = XmlDocuments.childText(item, "guid")
             val enclosure = item.getElementsByTagName("enclosure").item(0) as? Element
+            val html = XmlDocuments.firstChildText(item, "content:encoded", "encoded", "description")
+            val thumb = XmlDocuments.attr(item, "media:thumbnail", "url")
+                ?: XmlDocuments.attr(item, "thumbnail", "url")
+                ?: XmlDocuments.attr(item, "media:content", "url")
             FeedItem(
                 id = guid ?: link ?: "$feedTitle:$index",
                 feedTitle = feedTitle,
@@ -30,6 +35,13 @@ object RssParser {
                 publishedAt = parseDate(XmlDocuments.childText(item, "pubDate")),
                 enclosureUrl = enclosure?.getAttribute("url")?.takeIf { it.isNotBlank() },
                 enclosureMime = enclosure?.getAttribute("type")?.takeIf { it.isNotBlank() },
+                html = html,
+                imageUrl = ArticleImages.fromRss(
+                    thumb,
+                    enclosure?.getAttribute("url"),
+                    enclosure?.getAttribute("type"),
+                    html,
+                ),
             )
         }
     }

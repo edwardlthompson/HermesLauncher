@@ -52,6 +52,7 @@ object StatusBarNotificationMapper {
             imageBytes = imageBytes,
             messageParts = parts,
             ongoing = sbn.isOngoing,
+            groupSummary = notification.flags and Notification.FLAG_GROUP_SUMMARY != 0,
         )
     }
 }

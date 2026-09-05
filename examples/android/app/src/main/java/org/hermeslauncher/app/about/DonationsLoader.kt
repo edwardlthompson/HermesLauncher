@@ -13,6 +13,15 @@ data class DonationsConfig(
 
 object DonationsLoader {
     const val DEFAULT_VENMO_URL = "https://venmo.com/code?user_id=1857304970395648420"
+    const val DEFAULT_LABEL = "Donate via Venmo"
+    const val DEFAULT_MESSAGE =
+        "If Hermes is your home, a Venmo tip keeps this FOSS work going. Optional, never required."
+
+    fun defaults(): DonationsConfig = DonationsConfig(
+        enabled = true,
+        message = DEFAULT_MESSAGE,
+        links = listOf(DonationLink(DEFAULT_LABEL, DEFAULT_VENMO_URL)),
+    )
 
     fun primaryUrl(config: DonationsConfig): String =
         config.links.firstOrNull()?.url?.ifBlank { null } ?: DEFAULT_VENMO_URL
@@ -31,9 +40,13 @@ object DonationsLoader {
                     links.add(DonationLink(item.optString("label"), item.optString("url")))
                 }
             }
-            DonationsConfig(enabled && links.isNotEmpty(), message, links)
+            when {
+                !enabled -> DonationsConfig(false, message, links)
+                links.isNotEmpty() -> DonationsConfig(true, message, links)
+                else -> defaults().copy(message = message.ifBlank { DEFAULT_MESSAGE })
+            }
         } catch (_: Exception) {
-            DonationsConfig(enabled = false, message = "", links = emptyList())
+            defaults()
         }
     }
 }
