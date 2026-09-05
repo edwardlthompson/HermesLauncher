@@ -323,7 +323,7 @@ When **Sprint 0** ends: stop re-reading `docs/INITIALIZATION_PROMPT.md` as the d
 
 ### Weekly
 
-- ❌ [AUTO] `check-security-triage.sh --wait-ci 300` (Dependabot + CI) — origin CI red on `c2bb2c4` (Feature Gate / Node `setup-node` npm cache); local workaround unpushed
+- ✅ [AUTO] `check-security-triage.sh --wait-ci 300` (Dependabot + CI) — green on `b68a43a` / v1.0.0 (2026-09-05)
 
 ### Monthly
 

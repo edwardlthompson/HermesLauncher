@@ -171,3 +171,27 @@
 | **Cause** | Node 25+ enables a global Web Storage stub without `--localstorage-file`; jsdom skips installing real Storage and the stub shadows it |
 | **Fix** | Vitest `setupFiles: ["src/test/setup-localStorage.ts"]` installs in-memory Storage when `getItem` is missing |
 | **Prevention** | Keep the setup file; do not rely on Node’s experimental `localStorage` in browser-unit tests |
+### KB-021 — Release Please cannot open PRs with GITHUB_TOKEN
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | Release Please workflow fails: `GitHub Actions is not permitted to create or approve pull requests` |
+| **Cause** | Repo setting “Allow GitHub Actions to create and approve pull requests” is off; `permissions: pull-requests: write` is not enough |
+| **Fix** | Open the PR from `release-please--branches--main` with `gh pr create`, merge, then tag if RP does not publish (`v1.0.0` on 2026-09-05) |
+| **Prevention** | Enable the Actions PR setting, or keep a `/ship` fallback that creates the PR and tag with `gh` |
+### KB-022 — AGP `sync*LibJars` needs typedefs before the task starts
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | `:launcher3:syncDebugLibJars` fails: `typedefRecipe` file `extractDebugAnnotations/typedefs.txt` does not exist |
+| **Cause** | `extract*Annotations` is disabled (JDK 17 `List.removeLast()`). Gradle 9 validates `LibraryAarJarsTask` inputs before `doFirst` |
+| **Fix** | `stubExtractAnnotationTypedefs` writes the empty files; `sync*LibJars` `dependsOn` that task |
+| **Prevention** | Do not use `doFirst` to create declared task inputs; use an upstream task |
+### KB-023 — pre-commit 4 reruns file-limits on commit-msg
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | After pre-commit passes, git commit hangs on a second `Check file line limits` under `hook-type=commit-msg` |
+| **Cause** | pre-commit 4 runs hooks without `stages` on every installed hook type, including commit-msg, while git holds the index |
+| **Fix** | `default_stages: [pre-commit]` in `.pre-commit-config.yaml`; conventional-commit keeps `stages: [commit-msg]` |
+| **Prevention** | Do not omit `default_stages` when commit-msg hooks are installed | |

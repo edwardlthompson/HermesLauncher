@@ -40,7 +40,7 @@ Hermes Launcher: FOSS Android home-screen inbox for notifications, news, and pod
 
 ## Session Retrospectives
 
-| 2026-09-05 | /ship 1.0.1 HOME | About+Venmo, permissions hub, L3WidgetTick; OP12 analogue clock 07:59→08:00; HUMAN tag approved | Keep `HermesLauncherActivity` as HOME; `install -r` only; RP dry-run still titles v1.0.0 until a git tag exists |
+| 2026-09-05 | /ship v1.0.0 | Tag [v1.0.0](https://github.com/edwardlthompson/HermesLauncher/releases/tag/v1.0.0) + SBOM; APK still 1.0.1; required CI/CodeQL green | Keep L3 HOME; Actions cannot open RP PRs (KB-021); stub launcher3 typedefs (KB-022) |
 | 2026-09-04 | Sprints 43–45 Podcasts page | Inoreader OPML seed, `FeedSub.kind`, Podcasts left of News, MediaSession player gaps | Home stays Inbox; no AntennaPod source; ADB `b5214fc6` only |
 | 2026-09-01 | Sprint 17 icons/search/gestures/wallpaper | Off-thread icon cache, usage banner, prune throttle, dots, HOME-again overlay, double-tap lock/flashlight, AOSP picker + in-tree live wallpapers | OP12 `[ADB]` smoke still open; never pin Google wallpaper package; no Accessibility lock; do not adb OP13 `8bf09993` |
 | 2026-09-01 | Sprint 16 inbox/dock/All Apps | Unread badge, collapsing search+history, App/Category/Time, prune, usage dock, All Apps rail, shortcuts, widget search | OP12 `[ADB]` Sprint 15+16 smoke still open; do not scrape Play; do not rank dock by launch count; do not adb OP13 `8bf09993` |

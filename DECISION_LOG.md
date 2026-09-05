@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-09-05 — Ship tag v1.0.0 while APK is 1.0.1
+- **Status:** Accepted
+- **Context:** Release Please manifest and `.template-version` are 1.0.0. No git tag existed, so RP prepared `chore(main): release 1.0.0`. Actions could not open the PR. The product APK is versionName 1.0.1.
+- **Decision:** Open and merge [PR #5](https://github.com/edwardlthompson/HermesLauncher/pull/5), then push tag `v1.0.0` and publish the GitHub Release so SBOM assets attach. Do not retag as 1.0.1 in this ship.
+- **Alternatives considered:** Wait for the Actions PR permission setting (rejected: blocks `/ship`). Tag only `v1.0.1` (rejected: would fail the tag-gate vs `.template-version` 1.0.0).
+- **Consequences:** Next RP cycle can bump past 1.0.0. Enable “Allow GitHub Actions to create and approve pull requests” so RP can open PRs unattended (KB-021).
+
 ### 2026-09-05 — TIME_TICK on Launcher3 HOME
 - **Status:** Accepted
 - **Context:** Compose `WidgetHostTick` lived on unused `MainActivity`. Application `startListening()` on host 1024 stole Launcher3 callbacks. Desktop clocks stayed frozen.
