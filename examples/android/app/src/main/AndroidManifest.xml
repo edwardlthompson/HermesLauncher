@@ -83,6 +83,11 @@
                 android:name="com.android.launcher3.grid.control"
                 android:value="${applicationId}.grid_control" />
         </activity>
+        <!-- Compose smoke tests launch this; it is not HOME and has no LAUNCHER icon. -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.HermesLauncher" />
         <receiver
             android:name=".oem.HermesDeviceAdmin"
             android:exported="true"
