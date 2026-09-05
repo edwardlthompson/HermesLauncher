@@ -66,17 +66,24 @@ dependencies {
 tasks.matching { it.name.startsWith("extract") && it.name.endsWith("Annotations") }
     .configureEach { enabled = false }
 
-// AGP still requires typedefs.txt on sync*LibJars even when extract*Annotations is skipped.
-tasks.matching { it.name.startsWith("sync") && it.name.endsWith("LibJars") }.configureEach {
-    doFirst {
-        val cap = name.removePrefix("sync").removeSuffix("LibJars")
-        val variant = cap.replaceFirstChar { it.lowercase() }
-        val typedefs = layout.buildDirectory.get().asFile.resolve(
-            "intermediates/annotations_typedef_file/$variant/extract${cap}Annotations/typedefs.txt",
-        )
-        typedefs.parentFile.mkdirs()
-        if (!typedefs.exists()) {
-            typedefs.writeText("")
+// Gradle 9 validates LibraryAarJarsTask inputs before doFirst. Write typedefs in a
+// dependency so the file exists when sync*LibJars starts.
+val stubTypedefs = tasks.register("stubExtractAnnotationTypedefs") {
+    val outDir = layout.buildDirectory.dir("intermediates/annotations_typedef_file")
+    outputs.dir(outDir)
+    doLast {
+        listOf("debug" to "extractDebugAnnotations", "release" to "extractReleaseAnnotations").forEach { (variant, extract) ->
+            val f = outDir.get().asFile.resolve("$variant/$extract/typedefs.txt")
+            f.parentFile.mkdirs()
+            if (!f.exists()) {
+                f.writeText("")
+            }
         }
+    }
+}
+
+tasks.configureEach {
+    if (name.startsWith("sync") && name.endsWith("LibJars")) {
+        dependsOn(stubTypedefs)
     }
 }
