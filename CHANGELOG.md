@@ -18,6 +18,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * **android:** feeds drawer nests folders in place with chevrons and a long-press menu
 * **ci:** attach `hermes-launcher-{version}-foss.apk` on GitHub Releases
 
+### Fixed
+
+* **android:** decode MessagingStyle URI photo bounds so hide-small keeps chat photos
+* **android:** letter search matches app labels, not every `com.*` package
+* **android:** grouped settings hub smokes open Home / Feeds / System instead of the old flat list
+
 ## [1.0.0](https://github.com/edwardlthompson/HermesLauncher/compare/v1.0.0...v1.0.0) (2026-09-05)
 
 

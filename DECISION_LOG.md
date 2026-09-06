@@ -17,6 +17,14 @@
 
 ## Entries
 
+### 2026-09-06 — Merge staging for Sprint 48–49
+- **Status:** Accepted
+- **Context:** Two PRs overlapped (inbox chrome vs feeds/settings). CI failed after the hub regroup: letter search matched every `com.*` package, and instrumented smokes still looked for flat hub labels.
+- **Decision:** Stage everything on PR 7 (`cursor/feed-unsub-compact-menus-78ec`). Include the MessagingStyle URI-photo bounds fix. Letter queries match labels; package match requires a dot or 3+ characters. Do not merge, tag, or dispatch Release here — human smokes on-device then ships.
+- **Alternatives considered:** Merge PR 6 then PR 7 (rejected: PR 7 already contains Sprint 48). Close PR 6 from this agent (rejected: human will drop the subset PR after merging 7).
+- **Consequences:** Merge PR 7 only. PR 6 is a subset and can be closed after that merge. Release APK still needs `[HUMAN]` workflow dispatch.
+
+
 ### 2026-09-06 — Feeds drawer nested folders and long-press
 - **Status:** Accepted
 - **Context:** Expanding a tag dumped its feeds at the bottom of the drawer with no indent or chevron. Long-press only opened Settings.

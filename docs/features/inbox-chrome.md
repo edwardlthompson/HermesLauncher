@@ -44,3 +44,4 @@ Blacklisted packages do not appear in the inbox. Truncate and min-photo toggles 
 
 - Hide-from-drawer stays in App drawer settings and is not the notification ignore list
 - `largeIcon` is treated as an avatar when Hide small photos is on
+- Letter queries match labels; package names match when the query has a dot or is at least 3 characters

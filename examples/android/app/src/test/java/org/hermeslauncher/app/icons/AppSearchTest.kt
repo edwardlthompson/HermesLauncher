@@ -37,4 +37,10 @@ class AppSearchTest {
             AppSearch.filter(apps, "p", lastUsed).map { it.label },
         )
     }
+
+    @Test
+    fun shortLettersMatchLabelNotComPrefix() {
+        assertEquals(listOf("Mail", "Maps"), AppSearch.filter(apps, "m").map { it.label })
+        assertEquals(listOf(apps[0]), AppSearch.filter(apps, "com.mail"))
+    }
 }

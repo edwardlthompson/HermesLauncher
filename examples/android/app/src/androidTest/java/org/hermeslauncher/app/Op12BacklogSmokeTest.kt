@@ -23,41 +23,48 @@ class Op12BacklogSmokeTest {
         composeTestRule.onNodeWithContentDescription("Open settings").performClick()
         composeTestRule.onNodeWithText("Settings").assertIsDisplayed()
 
-        openSection("Desktop")
+        openRow("Home")
+        openRow("Desktop")
         composeTestRule.onNodeWithText("Wallpaper").performScrollTo().assertIsDisplayed()
-        backToHub()
+        backOnce()
 
-        openSection("Look & feel")
+        openRow("Look & feel")
         composeTestRule.onNodeWithText("Icon shape").performScrollTo().assertIsDisplayed()
         composeTestRule.onNodeWithText("Night schedule").performScrollTo().assertIsDisplayed()
         composeTestRule.onNodeWithText("Dots").performScrollTo().assertIsDisplayed()
-        backToHub()
+        backOnce()
 
-        openSection("Gestures")
+        openRow("Gestures")
         composeTestRule.onNodeWithText("Empty-space gestures").performScrollTo().assertIsDisplayed()
         composeTestRule.onNodeWithText("Swipe up").performScrollTo().assertIsDisplayed()
-        backToHub()
+        backOnce()
 
-        openSection("Search")
+        openRow("Search")
         composeTestRule.onNodeWithText("Search stays on-device. There is no web provider.")
             .performScrollTo()
             .assertIsDisplayed()
-        backToHub()
+        backOnce()
 
-        openSection("Folders")
+        openRow("Folders")
         composeTestRule.onNodeWithText("Open folders fullscreen").performScrollTo().assertIsDisplayed()
-        backToHub()
+        backOnce()
+        backOnce()
 
-        openSection("Feeds")
+        openRow("Feeds")
+        openRow("Feeds")
+        composeTestRule.onNodeWithContentDescription("Import and export").performScrollTo().performClick()
         composeTestRule.onNodeWithText("Import OPML").performScrollTo().assertIsDisplayed()
         composeTestRule.onNodeWithText("Export OPML").performScrollTo().assertIsDisplayed()
-        backToHub()
+        backOnce()
+        backOnce()
 
-        openSection("Backup")
+        openRow("System")
+        openRow("Backup")
         composeTestRule.onNodeWithText("Export Hermes backup").performScrollTo().assertIsDisplayed()
         composeTestRule.onNodeWithText("Import Hermes backup").performScrollTo().assertIsDisplayed()
         composeTestRule.onNodeWithText("Reset home layout").performScrollTo().assertIsDisplayed()
-        backToHub()
+        backOnce()
+        backOnce()
     }
 
     @Test
@@ -70,14 +77,15 @@ class Op12BacklogSmokeTest {
         composeTestRule.onNodeWithContentDescription("Open settings").assertIsDisplayed()
     }
 
-    private fun openSection(title: String) {
-        composeTestRule.onNodeWithText(title).performScrollTo().performClick()
+    private fun openRow(title: String) {
+        composeTestRule.onNodeWithContentDescription("Open settings section $title")
+            .performScrollTo()
+            .performClick()
         composeTestRule.waitForIdle()
     }
 
-    private fun backToHub() {
+    private fun backOnce() {
         composeTestRule.activity.onBackPressedDispatcher.onBackPressed()
         composeTestRule.waitForIdle()
-        composeTestRule.onNodeWithText("Settings").assertIsDisplayed()
     }
 }

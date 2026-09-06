@@ -11,13 +11,19 @@ object AppSearch {
             apps
         } else {
             val lower = needle.lowercase()
-            apps.filter {
-                it.label.lowercase().contains(lower) || it.packageName.lowercase().contains(lower)
-            }
+            apps.filter { matches(it, lower) }
         }
         return matched.sortedWith(
             compareByDescending<LaunchableApp> { lastUsed[it.packageName] ?: 0L }
                 .thenBy { it.label.lowercase() },
         )
+    }
+
+    private fun matches(app: LaunchableApp, needle: String): Boolean {
+        if (app.label.lowercase().contains(needle)) {
+            return true
+        }
+        val pkg = app.packageName.lowercase()
+        return (needle.contains('.') || needle.length >= 3) && pkg.contains(needle)
     }
 }
