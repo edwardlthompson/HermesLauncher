@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_group_home">Home</string>
+    <string name="settings_group_home_body">Desktop, dock, drawer, search, and look</string>
+    <string name="settings_group_inbox">Inbox</string>
+    <string name="settings_group_inbox_body">Notifications, cards, and ignored apps</string>
+    <string name="settings_group_feeds">Feeds</string>
+    <string name="settings_group_feeds_body">Sync, reading, and subscriptions</string>
+    <string name="settings_group_system">System</string>
+    <string name="settings_group_system_body">Permissions, backup, and about</string>
+    <string name="settings_section_subs">Subscriptions</string>
+    <string name="settings_section_subs_body">Unsubscribe, tags, notify, and prefetch</string>
+    <string name="settings_expand_sync">Sync</string>
+    <string name="settings_expand_reading">Reading</string>
+    <string name="settings_expand_import">Import and export</string>
+    <string name="settings_expand_cards">Cards</string>
+    <string name="settings_expand_storage">Storage</string>
+    <string name="settings_expand_ignored">Ignored apps</string>
+    <string name="settings_expand_labs">Desktop motion</string>
+</resources>

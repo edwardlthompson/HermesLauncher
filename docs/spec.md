@@ -27,6 +27,9 @@
 | FR-11 | As a user I keep inbox cards the same height | Truncate toggle plus character chips (80–240) apply `maxLines` and an ellipsis |
 | FR-12 | As a user I hide tiny or avatar notification photos | Toggle skips `largeIcon` and images below 240px |
 | FR-13 | As a user I find recently opened apps first while typing | All Apps and installed-app pickers rank by last launch, then label |
+| FR-14 | As a user I unsubscribe from a news or podcast feed | Settings → Feeds → Subscriptions Unsubscribe removes the sub and unstarred articles |
+| FR-15 | As a user I turn notify or prefetch on for every feed | Notify all / Prefetch all write every `FeedSub` in one store replace |
+| FR-16 | As a user I open a short settings hub instead of twelve panes | Hub is Home, Inbox, Feeds, System; long lists sit in expanders |
 
 ## Non-Functional Constraints
 

@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -56,35 +55,37 @@ fun LookSettings(modifier: Modifier = Modifier) {
                 )
             }
         }
-        Text(stringResource(R.string.look_night), style = MaterialTheme.typography.titleSmall)
-        Text(stringResource(R.string.look_night_body), style = MaterialTheme.typography.bodySmall)
-        Switch(
+        SettingsSwitchRow(
+            title = R.string.look_night,
+            body = R.string.look_night_body,
             checked = night.enabled,
             onCheckedChange = { on -> scope.launch { prefs.setNightSchedule(night.copy(enabled = on)) } },
         )
-        OutlinedTextField(
-            value = startText,
-            onValueChange = { startText = it },
-            label = { Text(stringResource(R.string.look_night_start)) },
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth(),
-        )
-        OutlinedTextField(
-            value = endText,
-            onValueChange = { endText = it },
-            label = { Text(stringResource(R.string.look_night_end)) },
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth(),
-        )
-        FilterChip(
-            selected = false,
-            onClick = {
-                val start = NightSchedule.parseTime(startText) ?: night.startMinute
-                val end = NightSchedule.parseTime(endText) ?: night.endMinute
-                scope.launch { prefs.setNightSchedule(NightSchedule(night.enabled, start, end)) }
-            },
-            label = { Text(stringResource(R.string.look_night_save)) },
-        )
+        if (night.enabled) {
+            OutlinedTextField(
+                value = startText,
+                onValueChange = { startText = it },
+                label = { Text(stringResource(R.string.look_night_start)) },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth(),
+            )
+            OutlinedTextField(
+                value = endText,
+                onValueChange = { endText = it },
+                label = { Text(stringResource(R.string.look_night_end)) },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth(),
+            )
+            FilterChip(
+                selected = false,
+                onClick = {
+                    val start = NightSchedule.parseTime(startText) ?: night.startMinute
+                    val end = NightSchedule.parseTime(endText) ?: night.endMinute
+                    scope.launch { prefs.setNightSchedule(NightSchedule(night.enabled, start, end)) }
+                },
+                label = { Text(stringResource(R.string.look_night_save)) },
+            )
+        }
         Text(stringResource(R.string.look_badge), style = MaterialTheme.typography.titleSmall)
         FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
             BadgeStyle.entries.forEach { option ->
@@ -113,11 +114,17 @@ fun LookSettings(modifier: Modifier = Modifier) {
                 label = { Text(stringResource(R.string.look_badge_color_accent)) },
             )
         }
-        Text(stringResource(R.string.look_label_shadow))
-        Switch(checked = labelShadow, onCheckedChange = { on -> scope.launch { prefs.setLabelShadow(on) } })
-        Text(stringResource(R.string.look_wallpaper_palette))
-        Text(stringResource(R.string.look_wallpaper_palette_body), style = MaterialTheme.typography.bodySmall)
-        Switch(checked = wallpaper, onCheckedChange = { on -> scope.launch { prefs.setWallpaperPalette(on) } })
+        SettingsSwitchRow(
+            title = R.string.look_label_shadow,
+            checked = labelShadow,
+            onCheckedChange = { on -> scope.launch { prefs.setLabelShadow(on) } },
+        )
+        SettingsSwitchRow(
+            title = R.string.look_wallpaper_palette,
+            body = R.string.look_wallpaper_palette_body,
+            checked = wallpaper,
+            onCheckedChange = { on -> scope.launch { prefs.setWallpaperPalette(on) } },
+        )
     }
 }
 

@@ -3,7 +3,6 @@ package org.hermeslauncher.app.ui.settings
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -35,36 +34,38 @@ fun DesktopSettings(modifier: Modifier = Modifier) {
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(SpacingMd)) {
         Text(text = stringResource(R.string.desktop_icon_grid), style = MaterialTheme.typography.bodySmall)
         WidgetGridSettings()
-        Text(text = stringResource(R.string.desktop_show_labels))
-        Text(text = stringResource(R.string.desktop_show_labels_body), style = MaterialTheme.typography.bodySmall)
-        Switch(
+        SettingsSwitchRow(
+            title = R.string.desktop_show_labels,
+            body = R.string.desktop_show_labels_body,
             checked = showLabels,
             onCheckedChange = { on -> scope.launch { app.homePrefs.setShowLabels(on) } },
         )
-        Text(text = wrapLabel)
-        Text(text = stringResource(R.string.labs_wrap_body), style = MaterialTheme.typography.bodySmall)
-        Switch(
-            checked = labs.wrap,
-            onCheckedChange = { on -> scope.launch { app.pagedPrefs.setWrap(on) } },
-            modifier = Modifier.semantics { contentDescription = wrapLabel },
-        )
-        Text(text = overlapLabel)
-        Text(text = stringResource(R.string.labs_overlap_body), style = MaterialTheme.typography.bodySmall)
-        Switch(
-            checked = labs.overlap,
-            onCheckedChange = { on -> scope.launch { app.pagedPrefs.setOverlap(on) } },
-            modifier = Modifier.semantics { contentDescription = overlapLabel },
-        )
-        Text(text = inverseLabel)
-        Text(text = stringResource(R.string.paged_inverse_body), style = MaterialTheme.typography.bodySmall)
-        Switch(
-            checked = scrollMode == ScrollMode.INVERSE,
-            onCheckedChange = { on ->
-                scope.launch {
-                    app.pagedPrefs.setScrollMode(if (on) ScrollMode.INVERSE else ScrollMode.ADJACENT)
-                }
-            },
-            modifier = Modifier.semantics { contentDescription = inverseLabel },
-        )
+        SettingsExpander(title = stringResource(R.string.settings_expand_labs)) {
+            SettingsSwitchRow(
+                title = R.string.labs_wrap,
+                body = R.string.labs_wrap_body,
+                checked = labs.wrap,
+                onCheckedChange = { on -> scope.launch { app.pagedPrefs.setWrap(on) } },
+                modifier = Modifier.semantics { contentDescription = wrapLabel },
+            )
+            SettingsSwitchRow(
+                title = R.string.labs_overlap,
+                body = R.string.labs_overlap_body,
+                checked = labs.overlap,
+                onCheckedChange = { on -> scope.launch { app.pagedPrefs.setOverlap(on) } },
+                modifier = Modifier.semantics { contentDescription = overlapLabel },
+            )
+            SettingsSwitchRow(
+                title = R.string.paged_inverse,
+                body = R.string.paged_inverse_body,
+                checked = scrollMode == ScrollMode.INVERSE,
+                onCheckedChange = { on ->
+                    scope.launch {
+                        app.pagedPrefs.setScrollMode(if (on) ScrollMode.INVERSE else ScrollMode.ADJACENT)
+                    }
+                },
+                modifier = Modifier.semantics { contentDescription = inverseLabel },
+            )
+        }
     }
 }

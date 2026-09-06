@@ -13,6 +13,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
@@ -32,6 +33,7 @@ enum class SettingsSection {
     GESTURES,
     INBOX,
     FEEDS,
+    FEEDS_SUBS,
     BACKUP,
     ABOUT,
     ;
@@ -55,6 +57,7 @@ fun SettingsSection.titleRes(): Int = when (this) {
     SettingsSection.GESTURES -> R.string.settings_section_gestures
     SettingsSection.INBOX -> R.string.settings_section_inbox
     SettingsSection.FEEDS -> R.string.settings_section_feeds
+    SettingsSection.FEEDS_SUBS -> R.string.settings_section_subs
     SettingsSection.BACKUP -> R.string.settings_section_backup
     SettingsSection.ABOUT -> R.string.settings_section_about
 }
@@ -70,6 +73,7 @@ fun SettingsSection.bodyRes(): Int = when (this) {
     SettingsSection.GESTURES -> R.string.settings_section_gestures_body
     SettingsSection.INBOX -> R.string.settings_section_inbox_body
     SettingsSection.FEEDS -> R.string.settings_section_feeds_body
+    SettingsSection.FEEDS_SUBS -> R.string.settings_section_subs_body
     SettingsSection.BACKUP -> R.string.settings_section_backup_body
     SettingsSection.ABOUT -> R.string.settings_section_about_body
 }
@@ -84,37 +88,68 @@ fun SettingsSection.accentRes(): Int = when (this) {
     SettingsSection.LOOK -> R.color.settings_hub_look
     SettingsSection.GESTURES -> R.color.settings_hub_gestures
     SettingsSection.INBOX -> R.color.settings_hub_inbox
-    SettingsSection.FEEDS -> R.color.settings_hub_feeds
+    SettingsSection.FEEDS, SettingsSection.FEEDS_SUBS -> R.color.settings_hub_feeds
     SettingsSection.BACKUP -> R.color.settings_hub_backup
     SettingsSection.ABOUT -> R.color.settings_hub_about
 }
 
 @Composable
 fun SettingsHub(
-    onOpen: (SettingsSection) -> Unit,
+    onOpen: (SettingsGroup) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(SpacingMd)) {
         Text(text = stringResource(R.string.settings_title), style = MaterialTheme.typography.headlineSmall)
-        SettingsSection.entries.forEach { section ->
-            val title = stringResource(section.titleRes())
-            val body = stringResource(section.bodyRes())
-            val accent = colorResource(section.accentRes())
-            ListItem(
-                leadingContent = {
-                    Box(
-                        modifier = Modifier
-                            .width(4.dp)
-                            .height(40.dp)
-                            .background(accent, RoundedCornerShape(2.dp)),
-                    )
-                },
-                headlineContent = { Text(title, color = accent) },
-                supportingContent = { Text(body, color = accent.copy(alpha = 0.86f)) },
-                modifier = Modifier
-                    .clickable { onOpen(section) }
-                    .semantics { contentDescription = "Open settings section $title" },
+        SettingsGroup.entries.forEach { group ->
+            SettingsHubRow(
+                title = stringResource(group.titleRes()),
+                body = stringResource(group.bodyRes()),
+                accent = colorResource(group.accentRes()),
+                onClick = { onOpen(group) },
             )
         }
     }
+}
+
+@Composable
+fun SettingsGroupPane(
+    group: SettingsGroup,
+    onOpen: (SettingsSection) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(SpacingMd)) {
+        Text(text = stringResource(group.titleRes()), style = MaterialTheme.typography.headlineSmall)
+        group.sections().forEach { section ->
+            SettingsHubRow(
+                title = stringResource(section.titleRes()),
+                body = stringResource(section.bodyRes()),
+                accent = colorResource(section.accentRes()),
+                onClick = { onOpen(section) },
+            )
+        }
+    }
+}
+
+@Composable
+internal fun SettingsHubRow(
+    title: String,
+    body: String,
+    accent: Color,
+    onClick: () -> Unit,
+) {
+    ListItem(
+        leadingContent = {
+            Box(
+                modifier = Modifier
+                    .width(4.dp)
+                    .height(40.dp)
+                    .background(accent, RoundedCornerShape(2.dp)),
+            )
+        },
+        headlineContent = { Text(title, color = accent) },
+        supportingContent = { Text(body, color = accent.copy(alpha = 0.86f)) },
+        modifier = Modifier
+            .clickable(onClick = onClick)
+            .semantics { contentDescription = "Open settings section $title" },
+    )
 }

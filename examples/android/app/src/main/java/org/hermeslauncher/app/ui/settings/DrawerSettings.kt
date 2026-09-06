@@ -11,7 +11,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -77,32 +76,32 @@ fun DrawerSettings(modifier: Modifier = Modifier) {
                 )
             },
         )
-        Text(text = stringResource(R.string.drawer_hidden_title), style = MaterialTheme.typography.titleMedium)
-        Text(text = stringResource(R.string.drawer_hidden_body), style = MaterialTheme.typography.bodySmall)
-        InstalledAppPicker(
-            query = hideQuery,
-            onQueryChange = { hideQuery = it },
-            matches = hiddenMatches,
-            onPick = { picked ->
-                scope.launch { app.drawerPrefs.hide(picked.packageName) }
-                hideQuery = ""
-            },
-            label = stringResource(R.string.drawer_hidden_add),
-        )
-        if (snapshot.hidden.isEmpty()) {
-            Text(text = stringResource(R.string.drawer_hidden_empty), style = MaterialTheme.typography.bodySmall)
-        }
-        snapshot.hidden.sorted().forEach { pkg ->
-            val stop = stringResource(R.string.drawer_hidden_stop, pkg)
-            ListItem(
-                headlineContent = { Text(pkg) },
-                trailingContent = {
-                    IconButton(onClick = { scope.launch { app.drawerPrefs.show(pkg) } }) {
-                        Icon(imageVector = Icons.Filled.Close, contentDescription = stop)
-                    }
+        SettingsExpander(title = stringResource(R.string.drawer_hidden_title)) {
+            Text(text = stringResource(R.string.drawer_hidden_body), style = MaterialTheme.typography.bodySmall)
+            InstalledAppPicker(
+                query = hideQuery,
+                onQueryChange = { hideQuery = it },
+                matches = hiddenMatches,
+                onPick = { picked ->
+                    scope.launch { app.drawerPrefs.hide(picked.packageName) }
+                    hideQuery = ""
                 },
+                label = stringResource(R.string.drawer_hidden_add),
             )
+            if (snapshot.hidden.isEmpty()) {
+                Text(text = stringResource(R.string.drawer_hidden_empty), style = MaterialTheme.typography.bodySmall)
+            }
+            snapshot.hidden.sorted().forEach { pkg ->
+                val stop = stringResource(R.string.drawer_hidden_stop, pkg)
+                ListItem(
+                    headlineContent = { Text(pkg) },
+                    trailingContent = {
+                        IconButton(onClick = { scope.launch { app.drawerPrefs.show(pkg) } }) {
+                            Icon(imageVector = Icons.Filled.Close, contentDescription = stop)
+                        }
+                    },
+                )
+            }
         }
-        BlacklistSettings()
     }
 }

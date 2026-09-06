@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -27,9 +26,13 @@ fun UnreadDotSettings(modifier: Modifier = Modifier) {
     val app = context.applicationContext as HermesApplication
     val scope = rememberCoroutineScope()
     val showDots by app.homePrefs.showDots.collectAsStateWithLifecycle(true)
-    Text(text = stringResource(R.string.settings_show_dots), modifier = modifier)
-    Text(text = stringResource(R.string.settings_show_dots_body), style = MaterialTheme.typography.bodySmall)
-    Switch(checked = showDots, onCheckedChange = { on -> scope.launch { app.homePrefs.setShowDots(on) } })
+    SettingsSwitchRow(
+        title = R.string.settings_show_dots,
+        body = R.string.settings_show_dots_body,
+        checked = showDots,
+        onCheckedChange = { on -> scope.launch { app.homePrefs.setShowDots(on) } },
+        modifier = modifier,
+    )
 }
 
 @OptIn(ExperimentalLayoutApi::class)

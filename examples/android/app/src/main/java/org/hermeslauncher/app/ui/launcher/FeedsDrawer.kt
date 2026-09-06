@@ -143,7 +143,7 @@ private fun DrawerLine(
                     if (row.kind == DrawerKind.FEED) {
                         context.startActivity(
                             Intent(context, HermesSettingsActivity::class.java)
-                                .putExtra(HermesSettingsActivity.EXTRA_SECTION, SettingsSection.FEEDS.name),
+                                .putExtra(HermesSettingsActivity.EXTRA_SECTION, SettingsSection.FEEDS_SUBS.name),
                         )
                     }
                 },

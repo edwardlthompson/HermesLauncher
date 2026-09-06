@@ -120,6 +120,18 @@ class FeedRepository(
         return true
     }
 
+    suspend fun unsubscribe(url: String) {
+        if (url.isBlank()) {
+            return
+        }
+        store.remove(url)
+        val before = articles.snapshot()
+        val next = FeedApply.dropSource(before, url)
+        FeedFull.deleteIds(context.filesDir, FeedFilter.droppedIds(before, next))
+        articles.replaceAll(next)
+        items.value = next.map { it.item }
+    }
+
     companion object {
         private const val TAG = "HermesFeeds"
     }

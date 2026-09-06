@@ -346,6 +346,34 @@ When **Sprint 0** ends: stop re-reading `docs/INITIALIZATION_PROMPT.md` as the d
 
 ---
 
+### Sprint 49 — Unsubscribe, bulk feed knobs, compact settings hub
+
+> Spec: `docs/features/feed-unsubscribe.md`. Subscriptions move under Feeds; unsubscribe purges unstarred articles; notify-all / prefetch-all; hub is four groups with expanders.
+
+### Critique
+
+| Issue | Resolution |
+|-------|------------|
+| Null/empty URL | `FeedSubPolicy.withoutUrl` and `unsubscribe` ignore blanks; `FeedApplyTest` / `FeedSubPolicyTest` |
+| Network timeout | N/A — local DataStore |
+| Race | One `replaceSubs` edit for bulk toggles; unsubscribe then article purge |
+| Unhandled exceptions | Starred articles kept; decode already `runCatching` |
+| Twelve-row hub | `SettingsGroup` Home/Inbox/Feeds/System; Inbox opens directly; `SettingsHubTest` |
+| Duplicate ignore list | Blacklist lives only under Inbox |
+
+### Parallelization
+
+- Sequential lock: `FeedSubPolicy` + `SettingsSection.FEEDS_SUBS` + hub groups
+- `agent_count_target`: 1 (single Android settings/feeds container)
+- Dry-run: inline
+
+- ✅ [AGENT] Lock unsubscribe, bulk notify/prefetch, grouped hub
+- ✅ [AGENT] Unit tests for policy, dropSource, and hub groups
+- ✅ [AGENT] Compact Feeds/Inbox/Home settings UI
+- 🔲 [ADB] OP12: unsubscribe a feed; confirm notify-all and the four-group hub
+
+---
+
 ## Ongoing Maintenance (recurring)
 
 > Child repo weekly: Dependabot alerts + `check-github-ci.sh` after push.

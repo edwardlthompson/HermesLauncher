@@ -1,6 +1,6 @@
 # Feature: permissions-onboarding
 
-> Inbox first-run overlay plus a Settings hub to restore grants. About holds version, Venmo, and feedback.
+> Inbox first-run overlay plus a Settings hub to restore grants. About holds version, Venmo, and feedback. The hub is grouped Home / Inbox / Feeds / System.
 
 ## Acceptance criteria
 

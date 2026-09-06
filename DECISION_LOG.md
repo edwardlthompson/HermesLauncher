@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-09-06 — Unsubscribe, bulk feed knobs, compact settings hub
+- **Status:** Accepted
+- **Context:** Inoreader-seeded subscriptions dumped every feed inline on Settings → Feeds. There was no unsubscribe. The hub listed twelve flat sections, and Inbox ignore list was duplicated on the drawer pane.
+- **Decision:** `FeedStore.remove` + `FeedRepository.unsubscribe` (keep starred articles). Subscriptions live under Settings → Feeds → Subscriptions with News/Podcast expanders, Notify all, and Prefetch all. Hub is Home / Inbox / Feeds / System; long panes use `SettingsExpander`.
+- **Alternatives considered:** Per-feed screen from the drawer (rejected: one subscriptions list is enough). Drop starred articles on unsubscribe (rejected: saved items should remain).
+- **Consequences:** Mixed notify/prefetch lists show the bulk switch off until every row is on. Long-press a feed in the drawer opens Subscriptions.
+
 ### 2026-09-06 — Inbox ignore list, even cards, photo floor, recency search, release APK
 - **Status:** Accepted
 - **Context:** Users needed a notification blacklist, uniform card height, no pixelated avatars, recency-first letter search, and a downloadable GitHub APK. Sprint 22 already stored deny policies but did not hide existing cards; `release.yml` uploaded SBOMs only.

@@ -8,6 +8,7 @@
 - ✅ Tags appear as expandable groups in the Feeds drawer
 - ✅ Block list ANDs in FeedFilter.apply
 - ✅ lastError shows on the News retry line
+- ✅ Unsubscribe, notify-all, and prefetch-all live under Settings → Feeds → Subscriptions (Sprint 49)
 
 ## Smoke scenario
 
