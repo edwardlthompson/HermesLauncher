@@ -38,4 +38,22 @@ internal object FeedApply {
             !match || (keepStarred && rec.starred)
         }
     }
+
+    fun idsForUrls(records: List<ArticleRecord>, urls: Set<String>): Set<String> {
+        if (urls.isEmpty()) {
+            return emptySet()
+        }
+        return records.mapNotNull { rec ->
+            rec.item.id.takeIf { rec.item.sourceUrl in urls }
+        }.toSet()
+    }
+
+    fun idsForTag(records: List<ArticleRecord>, tag: String, tags: Map<String, String>): Set<String> {
+        if (tag.isBlank()) {
+            return emptySet()
+        }
+        return records.mapNotNull { rec ->
+            rec.item.id.takeIf { tags[rec.item.sourceUrl].orEmpty() == tag }
+        }.toSet()
+    }
 }

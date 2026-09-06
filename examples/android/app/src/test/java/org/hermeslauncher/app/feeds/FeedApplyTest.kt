@@ -22,6 +22,19 @@ class FeedApplyTest {
         assertEquals(emptyList<String>(), FeedApply.dropSource(rows, "https://gone.example/f", keepStarred = false).map { it.item.id })
     }
 
+    @Test
+    fun idsForUrlsAndTag() {
+        val rows = listOf(
+            rec("a", source = "https://a.example/f"),
+            rec("b", source = "https://b.example/f"),
+        )
+        assertEquals(setOf("a"), FeedApply.idsForUrls(rows, setOf("https://a.example/f")))
+        assertEquals(emptySet<String>(), FeedApply.idsForUrls(rows, emptySet()))
+        val tags = mapOf("https://a.example/f" to "News", "https://b.example/f" to "News")
+        assertEquals(setOf("a", "b"), FeedApply.idsForTag(rows, "News", tags))
+        assertEquals(emptySet<String>(), FeedApply.idsForTag(rows, "", tags))
+    }
+
     private fun rec(id: String, source: String, starred: Boolean = false): ArticleRecord {
         return ArticleRecord(
             item = FeedItem(id = id, feedTitle = "F", title = id, sourceUrl = source),

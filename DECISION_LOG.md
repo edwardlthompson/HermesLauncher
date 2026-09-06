@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-09-06 — Feeds drawer nested folders and long-press
+- **Status:** Accepted
+- **Context:** Expanding a tag dumped its feeds at the bottom of the drawer with no indent or chevron. Long-press only opened Settings.
+- **Decision:** `FeedDrawerModel` emits each folder then its children; the UI hides children until expanded, indents them, and shows ▸/▾. Long-press offers mark-read, move/rename folder, unsubscribe, and settings.
+- **Alternatives considered:** Filter the article list on folder tap (rejected: tap expands in place; click a child to filter). Drop 0-unread tagged feeds (rejected: need them visible to unsubscribe).
+- **Consequences:** Untagged 0-unread feeds still hide until search. Folder "Remove folder" clears tags; feeds stay subscribed.
+
 ### 2026-09-06 — Unsubscribe, bulk feed knobs, compact settings hub
 - **Status:** Accepted
 - **Context:** Inoreader-seeded subscriptions dumped every feed inline on Settings → Feeds. There was no unsubscribe. The hub listed twelve flat sections, and Inbox ignore list was duplicated on the drawer pane.

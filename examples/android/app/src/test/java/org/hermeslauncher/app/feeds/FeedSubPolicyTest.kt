@@ -35,6 +35,22 @@ class FeedSubPolicyTest {
         assertEquals(listOf("https://a.example/f"), next.map { it.url })
     }
 
+    @Test
+    fun setTagAndRenameFolder() {
+        val rows = listOf(
+            sub(url = "https://a.example/f", title = "A"),
+            sub(url = "https://b.example/f", title = "B"),
+        )
+        val moved = FeedSubPolicy.setTag(rows, "https://a.example/f", "News")
+        assertEquals(listOf("News"), FeedSubPolicy.folderNames(moved))
+        assertEquals(setOf("https://a.example/f"), FeedSubPolicy.folderUrls(moved, "News"))
+        val renamed = FeedSubPolicy.renameTag(moved, "News", "Tech")
+        assertEquals("Tech", renamed[0].tag)
+        assertEquals("", renamed[1].tag)
+        assertEquals(rows, FeedSubPolicy.setTag(rows, "", "News"))
+        assertEquals(moved, FeedSubPolicy.renameTag(moved, "", "X"))
+    }
+
     private fun sub(
         url: String = "https://a.example/f",
         title: String = "A",

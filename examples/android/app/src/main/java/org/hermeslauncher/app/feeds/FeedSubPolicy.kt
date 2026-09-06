@@ -25,4 +25,34 @@ object FeedSubPolicy {
             sub.url != url && FeedDiscover.canonicalize(sub.url) != canon
         }
     }
+
+    fun folderNames(subs: List<FeedSub>): List<String> =
+        subs.map { it.tag.trim() }.filter { it.isNotEmpty() }.distinct().sortedBy { it.lowercase() }
+
+    fun folderUrls(subs: List<FeedSub>, tag: String): Set<String> =
+        subs.filter { it.tag == tag }.map { it.url }.toSet()
+
+    fun setTag(subs: List<FeedSub>, url: String, tag: String): List<FeedSub> {
+        if (url.isBlank()) {
+            return subs
+        }
+        val canon = FeedDiscover.canonicalize(url)
+        val next = tag.trim()
+        return subs.map { sub ->
+            if (sub.url == url || FeedDiscover.canonicalize(sub.url) == canon) {
+                sub.copy(tag = next)
+            } else {
+                sub
+            }
+        }
+    }
+
+    fun renameTag(subs: List<FeedSub>, from: String, to: String): List<FeedSub> {
+        val src = from.trim()
+        if (src.isEmpty()) {
+            return subs
+        }
+        val dest = to.trim()
+        return subs.map { sub -> if (sub.tag == src) sub.copy(tag = dest) else sub }
+    }
 }

@@ -92,6 +92,12 @@ object FeedFilter {
         tags: Map<String, String> = emptyMap(),
     ): List<DrawerRow> = FeedDrawerModel.rows(records, query, search, tags)
 
+    fun drawerVisible(
+        rows: List<DrawerRow>,
+        openTags: Set<String>,
+        searching: Boolean,
+    ): List<DrawerRow> = FeedDrawerModel.visible(rows, openTags, searching)
+
     fun droppedIds(before: List<ArticleRecord>, after: List<ArticleRecord>): Set<String> {
         return before.map { it.item.id }.toSet() - after.map { it.item.id }.toSet()
     }

@@ -375,6 +375,7 @@ When **Sprint 0** ends: stop re-reading `docs/INITIALIZATION_PROMPT.md` as the d
 - ✅ [AGENT] Unit tests for policy, dropSource, and hub groups
 - ✅ [AGENT] Compact Feeds/Inbox/Home settings UI
 - 🔲 [ADB] OP12: unsubscribe a feed; confirm notify-all and the four-group hub
+- 🔲 [ADB] OP12: expand a feed folder in the drawer and long-press mark-read / move / unsubscribe
 
 ---
 

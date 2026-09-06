@@ -6,7 +6,7 @@
 
 - ✅ User-visible behavior: Settings → Feeds → Subscriptions lists news and podcasts in expanders; Unsubscribe drops the feed and its unstarred articles
 - ✅ User-visible behavior: Notify all and Prefetch all switches set every subscription; mixed lists show off until every row is on
-- ✅ User-visible behavior: Settings hub is Home / Inbox / Feeds / System; Inbox ignore list is not duplicated on the drawer pane
+- ✅ User-visible behavior: Feeds drawer nests tagged feeds under their folder with indent and chevrons; long-press offers mark-read, move, rename, unsubscribe
 - ✅ Offline/error behavior: blank URL is a no-op; starred articles stay after unsubscribe
 - ✅ Accessibility: expander titles and Unsubscribe buttons use visible labels
 - ✅ i18n: `feed_unsubscribe`, `feed_notify_all*`, `feed_prefetch_all*`, `settings_group_*`
