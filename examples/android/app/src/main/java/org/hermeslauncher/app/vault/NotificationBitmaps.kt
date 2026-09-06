@@ -3,6 +3,7 @@ package org.hermeslauncher.app.vault
 import android.app.Notification
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
@@ -49,7 +50,7 @@ object NotificationBitmaps {
                 if (bytes.size > ImageLimits.ORIGINAL_MAX_BYTES) {
                     NotificationJpeg()
                 } else {
-                    NotificationJpeg(bytes = bytes)
+                    jpegFromUriBytes(bytes)
                 }
             } ?: NotificationJpeg()
         }.onFailure { err ->
@@ -59,6 +60,16 @@ object NotificationBitmaps {
                 err,
             )
         }.getOrDefault(NotificationJpeg())
+    }
+
+    internal fun jpegFromUriBytes(bytes: ByteArray): NotificationJpeg {
+        val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+        BitmapFactory.decodeByteArray(bytes, 0, bytes.size, bounds)
+        return NotificationJpeg(
+            bytes = bytes,
+            width = bounds.outWidth.coerceAtLeast(0),
+            height = bounds.outHeight.coerceAtLeast(0),
+        )
     }
 
     private fun bitmapOf(extras: Bundle, key: String): Bitmap? {
