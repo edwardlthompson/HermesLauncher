@@ -67,14 +67,10 @@ fun DrawerSettings(modifier: Modifier = Modifier) {
                 label = { Text(stringResource(R.string.drawer_layout_list)) },
             )
         }
-        ListItem(
-            headlineContent = { Text(stringResource(R.string.drawer_rail)) },
-            trailingContent = {
-                Switch(
-                    checked = snapshot.showRail,
-                    onCheckedChange = { value -> scope.launch { app.drawerPrefs.setShowRail(value) } },
-                )
-            },
+        SettingsSwitchRow(
+            title = R.string.drawer_rail,
+            checked = snapshot.showRail,
+            onCheckedChange = { value -> scope.launch { app.drawerPrefs.setShowRail(value) } },
         )
         SettingsExpander(title = stringResource(R.string.drawer_hidden_title)) {
             Text(text = stringResource(R.string.drawer_hidden_body), style = MaterialTheme.typography.bodySmall)
