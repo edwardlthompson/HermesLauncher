@@ -104,5 +104,12 @@ class HermesApplication : Application() {
         vaultScope.launch { feedStore.seedIfNeeded() }
         vaultScope.launch { FeedSync.loop(this@HermesApplication) }
         vaultScope.launch { org.hermeslauncher.app.workspace.NovaImportApply.auto(this@HermesApplication) }
+        vaultScope.launch {
+            val recency = org.hermeslauncher.app.icons.LaunchRecencyStore(this@HermesApplication)
+            org.hermeslauncher.app.icons.LaunchRecency.replace(recency.load())
+            org.hermeslauncher.app.icons.LaunchRecency.persist = { pkg, at ->
+                vaultScope.launch { recency.write(pkg, at) }
+            }
+        }
     }
 }

@@ -47,5 +47,5 @@ See `docs/FEATURE_MODULES.md` per-feature checklist. Fallback validation: `pytho
 ## Notes
 
 - `release_repo` `OWNER/REPO` is a no-op. Child init writes the real repo.
-- Desktop asset: `{Prefix}-X.Y.Z-x64-setup.exe`. Android: `{prefix}-X.Y.Z-foss.apk`.
+- Desktop asset: `{Prefix}-X.Y.Z-x64-setup.exe`. Android: `{prefix}-X.Y.Z-foss.apk` (Release workflow uploads this APK).
 - After each AGENT step: `bash scripts/watch-agent-gates.sh --once --autofix`

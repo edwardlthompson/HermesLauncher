@@ -36,6 +36,7 @@ import com.android.launcher3.search.StringMatcherUtility;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * The default search implementation.
@@ -43,6 +44,9 @@ import java.util.List;
 public class DefaultAppSearchAlgorithm implements SearchAlgorithm<AdapterItem> {
 
     private static final int MAX_RESULTS_COUNT = 5;
+
+    /** Hermes: last-used timestamp for letter-by-letter All Apps ranking. */
+    public static volatile Function<String, Long> sLastUsedMs = pkg -> 0L;
 
     private final LauncherAppState mAppState;
     private final Handler mResultHandler;
@@ -97,19 +101,43 @@ public class DefaultAppSearchAlgorithm implements SearchAlgorithm<AdapterItem> {
         // Do an intersection of the words in the query and each title, and filter out all the
         // apps that don't match all of the words in the query.
         final String queryTextLower = query.toLowerCase();
-        final ArrayList<AdapterItem> result = new ArrayList<>();
+        final ArrayList<AppInfo> matched = new ArrayList<>();
         StringMatcherUtility.StringMatcher matcher =
                 StringMatcherUtility.StringMatcher.getInstance();
 
-        int resultCount = 0;
         int total = apps.size();
-        for (int i = 0; i < total && resultCount < MAX_RESULTS_COUNT; i++) {
+        for (int i = 0; i < total; i++) {
             AppInfo info = apps.get(i);
-            if (StringMatcherUtility.matches(queryTextLower, info.title.toString(), matcher)) {
-                result.add(AdapterItem.asApp(info));
-                resultCount++;
+            if (info.title != null &&
+                    StringMatcherUtility.matches(queryTextLower, info.title.toString(), matcher)) {
+                matched.add(info);
             }
         }
+        matched.sort(DefaultAppSearchAlgorithm::compareRecency);
+        final ArrayList<AdapterItem> result = new ArrayList<>();
+        int cap = Math.min(MAX_RESULTS_COUNT, matched.size());
+        for (int i = 0; i < cap; i++) {
+            result.add(AdapterItem.asApp(matched.get(i)));
+        }
         return result;
+    }
+
+    private static int compareRecency(AppInfo left, AppInfo right) {
+        long usedLeft = lastUsed(left);
+        long usedRight = lastUsed(right);
+        if (usedLeft != usedRight) {
+            return Long.compare(usedRight, usedLeft);
+        }
+        String titleLeft = left.title == null ? "" : left.title.toString();
+        String titleRight = right.title == null ? "" : right.title.toString();
+        return titleLeft.compareToIgnoreCase(titleRight);
+    }
+
+    private static long lastUsed(AppInfo info) {
+        if (info == null || info.componentName == null) {
+            return 0L;
+        }
+        Long value = sLastUsedMs.apply(info.componentName.getPackageName());
+        return value == null ? 0L : value;
     }
 }

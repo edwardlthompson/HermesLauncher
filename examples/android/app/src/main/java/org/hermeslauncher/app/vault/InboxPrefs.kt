@@ -15,6 +15,9 @@ private val STORE_PHOTOS = booleanPreferencesKey("store_photos")
 private val MAX_ITEMS = intPreferencesKey("max_items")
 private val AUTO_DELETE_DAYS = intPreferencesKey("auto_delete_days")
 private val AUTO_DELETE = booleanPreferencesKey("auto_delete")
+private val TRUNCATE_BODY = booleanPreferencesKey("truncate_body")
+private val BODY_MAX_CHARS = intPreferencesKey("body_max_chars")
+private val HIDE_SMALL_IMAGES = booleanPreferencesKey("hide_small_images")
 
 class InboxPrefs(private val context: Context) {
     val ignoreOngoing: Flow<Boolean> = context.inboxDataStore.data.map { prefs ->
@@ -37,6 +40,18 @@ class InboxPrefs(private val context: Context) {
         prefs[AUTO_DELETE] ?: true
     }
 
+    val truncateBody: Flow<Boolean> = context.inboxDataStore.data.map { prefs ->
+        prefs[TRUNCATE_BODY] ?: true
+    }
+
+    val bodyMaxChars: Flow<Int> = context.inboxDataStore.data.map { prefs ->
+        InboxDisplay.clampChars(prefs[BODY_MAX_CHARS] ?: InboxDisplay.DEFAULT_CHARS)
+    }
+
+    val hideSmallImages: Flow<Boolean> = context.inboxDataStore.data.map { prefs ->
+        prefs[HIDE_SMALL_IMAGES] ?: true
+    }
+
     suspend fun setIgnoreOngoing(value: Boolean) {
         context.inboxDataStore.edit { prefs -> prefs[IGNORE_ONGOING] = value }
     }
@@ -55,5 +70,19 @@ class InboxPrefs(private val context: Context) {
 
     suspend fun setAutoDelete(value: Boolean) {
         context.inboxDataStore.edit { prefs -> prefs[AUTO_DELETE] = value }
+    }
+
+    suspend fun setTruncateBody(value: Boolean) {
+        context.inboxDataStore.edit { prefs -> prefs[TRUNCATE_BODY] = value }
+    }
+
+    suspend fun setBodyMaxChars(value: Int) {
+        context.inboxDataStore.edit { prefs ->
+            prefs[BODY_MAX_CHARS] = InboxDisplay.clampChars(value)
+        }
+    }
+
+    suspend fun setHideSmallImages(value: Boolean) {
+        context.inboxDataStore.edit { prefs -> prefs[HIDE_SMALL_IMAGES] = value }
     }
 }

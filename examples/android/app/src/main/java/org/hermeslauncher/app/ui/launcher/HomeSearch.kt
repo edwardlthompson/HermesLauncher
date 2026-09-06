@@ -42,6 +42,7 @@ import org.hermeslauncher.app.feeds.FeedItem
 import org.hermeslauncher.app.icons.HomeSearchRank
 import org.hermeslauncher.app.icons.IconPackId
 import org.hermeslauncher.app.icons.LaunchableApp
+import org.hermeslauncher.app.icons.LaunchRecency
 import org.hermeslauncher.app.icons.UsageRow
 import org.hermeslauncher.app.ui.theme.SpacingMd
 import org.hermeslauncher.app.vault.VaultItem
@@ -74,7 +75,7 @@ fun HomeSearchOverlay(
         HomeSearchRank.query(
             needle = query,
             apps = apps,
-            usage = usage,
+            usage = usage + LaunchRecency.rows(),
             inbox = inbox,
             feeds = feeds,
             predicted = predicted,

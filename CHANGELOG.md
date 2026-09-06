@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+* **android:** notification ignore list hides blacklisted apps from the inbox
+* **android:** even notification height and hide-small-photo toggles on Inbox settings
+* **android:** app search ranks recently opened apps first as each letter is typed
+* **ci:** attach `hermes-launcher-{version}-foss.apk` on GitHub Releases
+
 ## [1.0.0](https://github.com/edwardlthompson/HermesLauncher/compare/v1.0.0...v1.0.0) (2026-09-05)
 
 

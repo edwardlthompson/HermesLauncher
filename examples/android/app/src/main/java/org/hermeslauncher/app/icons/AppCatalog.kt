@@ -68,6 +68,8 @@ object AppCatalog {
             component = ComponentName(app.packageName, app.activityName)
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
-        runCatching { context.startActivity(intent) }
+        runCatching { context.startActivity(intent) }.onSuccess {
+            LaunchRecency.touch(app.packageName)
+        }
     }
 }

@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-09-06 — Inbox ignore list, even cards, photo floor, recency search, release APK
+- **Status:** Accepted
+- **Context:** Users needed a notification blacklist, uniform card height, no pixelated avatars, recency-first letter search, and a downloadable GitHub APK. Sprint 22 already stored deny policies but did not hide existing cards; `release.yml` uploaded SBOMs only.
+- **Decision:** Filter blacklisted packages in `InboxFilter`; Inbox settings own ignore/truncate/photo toggles; skip `largeIcon` and sub-240px images when the photo filter is on; rank All Apps matches by `LaunchRecency` (launcher opens plus usage stats); upload `hermes-launcher-{versionName}-foss.apk` from `release.yml`.
+- **Alternatives considered:** Delete vault rows on blacklist (rejected: X would not restore). Treat every square image as an avatar (rejected: real photos can be square). Depend only on `PACKAGE_USAGE_STATS` (rejected: letter search must work without that grant).
+- **Consequences:** Existing small photos remain on disk but are hidden in the inbox while the toggle is on. The current `v1.0.0` release still needs a `[HUMAN]` workflow dispatch to attach an APK.
+
 ### 2026-09-05 — Ship tag v1.0.0 while APK is 1.0.1
 - **Status:** Accepted
 - **Context:** Release Please manifest and `.template-version` are 1.0.0. No git tag existed, so RP prepared `chore(main): release 1.0.0`. Actions could not open the PR. The product APK is versionName 1.0.1.

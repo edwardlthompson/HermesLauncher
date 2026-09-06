@@ -17,6 +17,9 @@ public class AppFilter {
     /** Extra package hide list (Hermes drawer blacklist). */
     public static volatile java.util.function.Predicate<String> sHiddenPackage = pkg -> false;
 
+    /** Hermes: records launches for All Apps recency ranking. */
+    public static volatile java.util.function.Consumer<String> sOnAppLaunch = pkg -> {};
+
     public AppFilter(Context context) {
         mFilteredComponents = Arrays.stream(
                 context.getResources().getStringArray(R.array.filtered_components))

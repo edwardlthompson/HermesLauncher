@@ -23,6 +23,10 @@
 | FR-7 | As a user I recover when OEM kills notification access | Banner + one-tap re-grant; no silent data collection after revoke |
 | FR-8 | As a user I play a podcast episode from a feed card | Media3 mini-player; simple RSS enclosures only |
 | FR-9 | As a user I customize dock, theme, and icon pack | DataStore prefs survive reboot; strings from `strings.xml` |
+| FR-10 | As a user I ignore an app so its notifications leave the inbox | Blacklist writes `storeContent=false`; live and unread filters hide that package until X |
+| FR-11 | As a user I keep inbox cards the same height | Truncate toggle plus character chips (80–240) apply `maxLines` and an ellipsis |
+| FR-12 | As a user I hide tiny or avatar notification photos | Toggle skips `largeIcon` and images below 240px |
+| FR-13 | As a user I find recently opened apps first while typing | All Apps and installed-app pickers rank by last launch, then label |
 
 ## Non-Functional Constraints
 

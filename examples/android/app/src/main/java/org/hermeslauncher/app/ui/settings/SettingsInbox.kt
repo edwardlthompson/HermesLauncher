@@ -79,6 +79,8 @@ fun SettingsInboxPane(
             }
         }
         InboxRetentionSettings(onHistory = onHistory)
+        InboxCardSettings()
+        BlacklistSettings()
         Text(text = stringResource(R.string.settings_feedback_save_crashes))
         Switch(checked = saveCrashes, onCheckedChange = onSaveCrashes)
     }

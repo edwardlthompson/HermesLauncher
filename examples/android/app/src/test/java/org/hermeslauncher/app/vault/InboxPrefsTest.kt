@@ -47,6 +47,25 @@ class InboxPrefsTest {
     }
 
     @Test
+    fun defaultsTruncateAndHideSmallImages() = runBlocking {
+        val prefs = InboxPrefs(context)
+        assertEquals(true, prefs.truncateBody.first())
+        assertEquals(120, prefs.bodyMaxChars.first())
+        assertEquals(true, prefs.hideSmallImages.first())
+    }
+
+    @Test
+    fun persistsCardChromeToggles() = runBlocking {
+        val prefs = InboxPrefs(context)
+        prefs.setTruncateBody(false)
+        prefs.setBodyMaxChars(80)
+        prefs.setHideSmallImages(false)
+        assertEquals(false, prefs.truncateBody.first())
+        assertEquals(80, prefs.bodyMaxChars.first())
+        assertEquals(false, prefs.hideSmallImages.first())
+    }
+
+    @Test
     fun defaultsRetention() = runBlocking {
         val prefs = InboxPrefs(context)
         assertEquals(2000, prefs.maxItems.first())

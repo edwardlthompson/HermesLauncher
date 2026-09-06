@@ -39,6 +39,7 @@ import org.hermeslauncher.app.R
 import org.hermeslauncher.app.ui.theme.RadiusMd
 import org.hermeslauncher.app.ui.theme.SpacingMd
 import org.hermeslauncher.app.ui.theme.SpacingSm
+import org.hermeslauncher.app.vault.InboxDisplay
 import org.hermeslauncher.app.vault.ShadeAction
 import java.io.File
 
@@ -58,10 +59,23 @@ fun InboxCard(
     sourceIcon: ImageBitmap? = null,
     imageFile: File? = null,
     showDismiss: Boolean = true,
+    bodyMaxChars: Int = 0,
+    minImagePx: Int = 0,
+    imageIsLargeIcon: Boolean = false,
     modifier: Modifier = Modifier,
 ) {
-    val bitmap = remember(imageFile?.path, imageFile?.length()) {
+    val shownBody = InboxDisplay.truncate(body, bodyMaxChars)
+    val bitmap = remember(imageFile?.path, imageFile?.length(), minImagePx, imageIsLargeIcon) {
         imageFile?.takeIf { it.isFile }?.let { BitmapFactory.decodeFile(it.absolutePath) }
+            ?.takeIf {
+                InboxDisplay.keepImage(
+                    width = it.width,
+                    height = it.height,
+                    fromLargeIcon = imageIsLargeIcon,
+                    hideSmall = minImagePx > 0,
+                    minPx = if (minImagePx > 0) minImagePx else InboxDisplay.MIN_IMAGE_PX,
+                )
+            }
     }
     Card(
         modifier = modifier
@@ -125,11 +139,13 @@ fun InboxCard(
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                     }
-                    if (body.isNotBlank()) {
+                    if (shownBody.isNotBlank()) {
                         Text(
-                            text = body,
+                            text = shownBody,
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            maxLines = if (bodyMaxChars > 0) 2 else Int.MAX_VALUE,
+                            overflow = TextOverflow.Ellipsis,
                         )
                     }
                 }

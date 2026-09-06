@@ -51,5 +51,14 @@ class DrawerPolicyTest {
         assertTrue(DrawerPolicy.picks(listOf(mail), "", emptySet()).isEmpty())
         assertEquals(listOf(mail), DrawerPolicy.picks(listOf(mail, maps), "mail", emptySet()))
         assertTrue(DrawerPolicy.picks(listOf(mail), "mail", setOf("com.mail")).isEmpty())
+        assertEquals(
+            listOf(maps, mail),
+            DrawerPolicy.picks(
+                listOf(mail, maps),
+                "m",
+                emptySet(),
+                lastUsed = mapOf("com.maps" to 9L, "com.mail" to 1L),
+            ),
+        )
     }
 }

@@ -317,6 +317,35 @@ When **Sprint 0** ends: stop re-reading `docs/INITIALIZATION_PROMPT.md` as the d
 
 ---
 
+### Sprint 48 — Inbox ignore list, card chrome, recency search, release APK
+
+> Spec: `docs/features/inbox-chrome.md`. Notification blacklist hides live cards; even card height; skip small/avatar photos; letter-by-letter app search ranks recently opened first; GitHub Release uploads the FOSS APK.
+
+### Critique
+
+| Issue | Resolution |
+|-------|------------|
+| Null/empty package | `VaultRepository.blacklist` and `LaunchRecency.touch` ignore blanks; tests in `InboxFilterTest` / `LaunchRecencyTest` |
+| Network timeout | N/A for inbox prefs; release APK job fails closed if `gh release view` misses the tag |
+| Race | `LaunchRecency` in-memory map updates on touch; DataStore write is best-effort on `vaultScope` |
+| Unhandled exceptions | Image decode `runCatching`; APK find fails the job instead of uploading an empty asset |
+| Avatar mistaken for photo | `InboxDisplay.keepImage` skips `largeIcon` and min 240px; `VaultMapperTest` |
+| Search order | `AppSearch.filter` + L3 `DefaultAppSearchAlgorithm` sort by last-used then label |
+
+### Parallelization
+
+- Sequential lock: `InboxDisplay` + `InboxPrefs` + `LaunchRecency` + `PostedNotification` image metadata
+- `agent_count_target`: 1 (single Android container; release.yml is the only other prefix)
+- Dry-run: inline — logic/tests and settings UI share inbox prefs
+
+- ✅ [AGENT] Lock ignore-list filter, truncate/image prefs, recency rank, and FOSS APK release upload
+- ✅ [AGENT] Unit tests for mapper, filter, recency, display, and release workflow
+- ✅ [AGENT] Inbox settings UI + All Apps recency hook
+- 🔲 [ADB] OP12: ignore an app, confirm cards vanish; type a letter in All Apps and see last-opened first
+- 🔲 [HUMAN] After merge, dispatch `Release` for the current tag (or the next RP tag) so `hermes-launcher-*-foss.apk` attaches
+
+---
+
 ## Ongoing Maintenance (recurring)
 
 > Child repo weekly: Dependabot alerts + `check-github-ci.sh` after push.

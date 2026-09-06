@@ -192,3 +192,89 @@ jobs:
           [ -f sbom-rust.cyclonedx.json ] && FILES+=(sbom-rust.cyclonedx.json)
           [ -f sbom-go.cyclonedx.json ] && FILES+=(sbom-go.cyclonedx.json)
           gh release upload "$TAG" "${FILES[@]}" --clobber
+
+  android-apk:
+    if: github.event_name == 'release' || github.event_name == 'workflow_dispatch'
+    name: Upload FOSS APK
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Resolve release tag
+        id: tag
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          INPUT_TAG: ${{ inputs.tag }}
+        run: |
+          if [ "$EVENT_NAME" = "release" ]; then
+            echo "tag=${RELEASE_TAG}" >> "$GITHUB_OUTPUT"
+          elif [ -n "$INPUT_TAG" ]; then
+            echo "tag=${INPUT_TAG}" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.tag != '' && github.ref || steps.tag.outputs.tag || github.ref }}
+
+      - name: Finalize release tag from .template-version
+        if: steps.tag.outputs.tag == ''
+        id: tag_ver
+        run: echo "tag=v$(tr -d '[:space:]' < .template-version)" >> "$GITHUB_OUTPUT"
+
+      - name: Verify tag matches .template-version
+        env:
+          INPUT_TAG: ${{ inputs.tag }}
+          STEP_TAG: ${{ steps.tag.outputs.tag }}
+          STEP_TAG_VER: ${{ steps.tag_ver.outputs.tag }}
+        run: |
+          if [ -n "$INPUT_TAG" ]; then
+            EFFECTIVE="$INPUT_TAG"
+          else
+            EFFECTIVE="${STEP_TAG:-$STEP_TAG_VER}"
+          fi
+          TAG="${EFFECTIVE#v}"
+          VERSION=$(tr -d '[:space:]' < .template-version)
+          if [ "$TAG" != "$VERSION" ]; then
+            echo "Tag v$TAG does not match .template-version ($VERSION)"
+            exit 1
+          fi
+          echo "EFFECTIVE_TAG=v${VERSION}" >> "$GITHUB_ENV"
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: android-actions/setup-android@v4
+
+      - name: Accept Android SDK licenses
+        run: yes | sdkmanager --licenses
+
+      - name: assembleRelease with SOURCE_DATE_EPOCH
+        working-directory: examples/android
+        env:
+          SOURCE_DATE_EPOCH: "1700000000"
+        run: chmod +x gradlew && ./gradlew assembleRelease --no-daemon
+
+      - name: Upload FOSS APK to GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="${EFFECTIVE_TAG:-${{ steps.tag.outputs.tag || steps.tag_ver.outputs.tag }}}"
+          if ! gh release view "$TAG" >/dev/null 2>&1; then
+            echo "FAIL: release $TAG not found (merge Release Please PR first)"
+            exit 1
+          fi
+          APK=$(find examples/android/app/build/outputs/apk/release -name '*.apk' | head -1)
+          if [ -z "$APK" ]; then
+            echo "FAIL: no release APK produced"
+            exit 1
+          fi
+          APP_VERSION=$(sed -n 's/.*versionName = "\([^"]*\)".*/\1/p' examples/android/app/build.gradle.kts | head -1)
+          NAME="hermes-launcher-${APP_VERSION}-foss.apk"
+          cp "$APK" "$NAME"
+          gh release upload "$TAG" "$NAME" --clobber
+          echo "Uploaded $NAME to $TAG"

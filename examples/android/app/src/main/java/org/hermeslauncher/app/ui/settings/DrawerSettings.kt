@@ -29,6 +29,7 @@ import org.hermeslauncher.app.R
 import org.hermeslauncher.app.icons.AppCatalog
 import org.hermeslauncher.app.icons.DrawerPolicy
 import org.hermeslauncher.app.icons.DrawerSnapshot
+import org.hermeslauncher.app.icons.LaunchRecency
 import org.hermeslauncher.app.ui.theme.SpacingMd
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -38,16 +39,11 @@ fun DrawerSettings(modifier: Modifier = Modifier) {
     val scope = rememberCoroutineScope()
     val app = context.applicationContext as HermesApplication
     val snapshot by app.drawerPrefs.snapshot.collectAsStateWithLifecycle(DrawerSnapshot())
-    val policies by app.vault.policies.collectAsStateWithLifecycle(emptyList())
-    val ignored = policies.filter { !it.storeContent }
     val launchables = AppCatalog.launchables(context.packageManager)
+    val recency = LaunchRecency.snapshot()
     var hideQuery by remember { mutableStateOf("") }
-    var ignoreQuery by remember { mutableStateOf("") }
-    val hiddenMatches = remember(hideQuery, launchables, snapshot.hidden) {
-        DrawerPolicy.picks(launchables, hideQuery, snapshot.hidden)
-    }
-    val ignoreMatches = remember(ignoreQuery, launchables, ignored) {
-        DrawerPolicy.picks(launchables, ignoreQuery, ignored.map { it.packageName }.toSet())
+    val hiddenMatches = remember(hideQuery, launchables, snapshot.hidden, recency) {
+        DrawerPolicy.picks(launchables, hideQuery, snapshot.hidden, lastUsed = recency)
     }
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(SpacingMd)) {
         Text(text = stringResource(R.string.drawer_columns), style = MaterialTheme.typography.titleMedium)
@@ -107,31 +103,6 @@ fun DrawerSettings(modifier: Modifier = Modifier) {
                 },
             )
         }
-        Text(text = stringResource(R.string.blacklist_title), style = MaterialTheme.typography.titleMedium)
-        Text(text = stringResource(R.string.blacklist_body), style = MaterialTheme.typography.bodySmall)
-        InstalledAppPicker(
-            query = ignoreQuery,
-            onQueryChange = { ignoreQuery = it },
-            matches = ignoreMatches,
-            onPick = { picked ->
-                scope.launch { app.vault.blacklist(picked.packageName) }
-                ignoreQuery = ""
-            },
-            label = stringResource(R.string.blacklist_add),
-        )
-        if (ignored.isEmpty()) {
-            Text(text = stringResource(R.string.blacklist_empty), style = MaterialTheme.typography.bodySmall)
-        }
-        ignored.forEach { policy ->
-            val stop = stringResource(R.string.blacklist_stop, policy.packageName)
-            ListItem(
-                headlineContent = { Text(policy.packageName) },
-                trailingContent = {
-                    IconButton(onClick = { scope.launch { app.vault.unblacklist(policy.packageName) } }) {
-                        Icon(imageVector = Icons.Filled.Close, contentDescription = stop)
-                    }
-                },
-            )
-        }
+        BlacklistSettings()
     }
 }

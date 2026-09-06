@@ -142,7 +142,7 @@
     <string name="gesture_action_flashlight">Flashlight</string>
     <string name="gesture_action_shade">Notification shade</string>
     <string name="settings_section_inbox">Inbox</string>
-    <string name="settings_section_inbox_body">Vault, history, and notification photos</string>
+    <string name="settings_section_inbox_body">Vault, ignore list, card size, and photos</string>
     <string name="settings_section_feeds">Feeds</string>
     <string name="settings_section_feeds_body">Scan interval, mobile data, opener, and OPML</string>
     <string name="settings_section_drawer">App drawer</string>

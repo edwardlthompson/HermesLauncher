@@ -1,13 +1,17 @@
 package org.hermeslauncher.app.ui.inbox
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.core.graphics.drawable.toBitmap
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.hermeslauncher.app.HermesApplication
 import org.hermeslauncher.app.R
+import org.hermeslauncher.app.vault.InboxDisplay
 import org.hermeslauncher.app.vault.ShadeBridge
 import org.hermeslauncher.app.vault.VaultImageStore
 import org.hermeslauncher.app.vault.VaultItem
@@ -47,6 +51,10 @@ fun VaultItemCard(
         }
     }
     val preview = VaultPreview.parse(item.extrasJson)
+    val app = LocalContext.current.applicationContext as HermesApplication
+    val truncate by app.inboxPrefs.truncateBody.collectAsStateWithLifecycle(true)
+    val maxChars by app.inboxPrefs.bodyMaxChars.collectAsStateWithLifecycle(InboxDisplay.DEFAULT_CHARS)
+    val hideSmall by app.inboxPrefs.hideSmallImages.collectAsStateWithLifecycle(true)
     InboxCard(
         title = item.title.orEmpty(),
         body = preview.body(item.text),
@@ -61,6 +69,9 @@ fun VaultItemCard(
         onOpen = onOpen,
         onAction = onAction,
         showDismiss = showDismiss,
+        bodyMaxChars = if (truncate) maxChars else 0,
+        minImagePx = if (hideSmall) InboxDisplay.MIN_IMAGE_PX else 0,
+        imageIsLargeIcon = preview.imageIsLargeIcon,
         modifier = modifier,
     )
 }

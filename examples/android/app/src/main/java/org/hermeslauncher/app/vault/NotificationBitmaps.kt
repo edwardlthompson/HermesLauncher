@@ -13,37 +13,52 @@ import androidx.core.app.NotificationCompat
 import androidx.core.graphics.drawable.toBitmap
 import java.io.ByteArrayOutputStream
 
+data class NotificationJpeg(
+    val bytes: ByteArray = byteArrayOf(),
+    val width: Int = 0,
+    val height: Int = 0,
+    val fromLargeIcon: Boolean = false,
+)
+
 object NotificationBitmaps {
-    fun jpeg(context: Context, notification: Notification): ByteArray {
+    fun jpeg(context: Context, notification: Notification): NotificationJpeg {
         val extras = notification.extras
-        bitmapOf(extras, Notification.EXTRA_PICTURE)?.let { return encode(it) }
+        bitmapOf(extras, Notification.EXTRA_PICTURE)?.let { return encode(it, false) }
         if (Build.VERSION.SDK_INT >= 31) {
-            bitmapOf(extras, Notification.EXTRA_PICTURE_ICON)?.let { return encode(it) }
+            bitmapOf(extras, Notification.EXTRA_PICTURE_ICON)?.let { return encode(it, false) }
         }
-        bitmapOf(extras, Notification.EXTRA_LARGE_ICON)?.let { return encode(it) }
+        bitmapOf(extras, Notification.EXTRA_LARGE_ICON)?.let { return encode(it, true) }
         drawableBitmap(notification.getLargeIcon()?.loadDrawable(context))
-            ?.let { return encode(it) }
-        return messageUriBytes(context, notification)
+            ?.let { return encode(it, true) }
+        return messageUriJpeg(context, notification)
     }
 
     fun messageUriBytes(context: Context, notification: Notification): ByteArray {
+        return messageUriJpeg(context, notification).bytes
+    }
+
+    private fun messageUriJpeg(context: Context, notification: Notification): NotificationJpeg {
         val style = NotificationCompat.MessagingStyle.extractMessagingStyleFromNotification(
             notification,
         )
         val uri = style?.messages.orEmpty().mapNotNull { it.dataUri }.lastOrNull()
-            ?: return byteArrayOf()
+            ?: return NotificationJpeg()
         return runCatching {
             context.contentResolver.openInputStream(uri)?.use { stream ->
                 val bytes = stream.readBytes()
-                if (bytes.size > ImageLimits.ORIGINAL_MAX_BYTES) byteArrayOf() else bytes
-            } ?: byteArrayOf()
+                if (bytes.size > ImageLimits.ORIGINAL_MAX_BYTES) {
+                    NotificationJpeg()
+                } else {
+                    NotificationJpeg(bytes = bytes)
+                }
+            } ?: NotificationJpeg()
         }.onFailure { err ->
             Log.w(
                 VaultImageStore.TAG,
                 "photo uri denied $uri (notification access, not storage)",
                 err,
             )
-        }.getOrDefault(byteArrayOf())
+        }.getOrDefault(NotificationJpeg())
     }
 
     private fun bitmapOf(extras: Bundle, key: String): Bitmap? {
@@ -69,12 +84,15 @@ object NotificationBitmaps {
             }.getOrNull()
     }
 
-    private fun encode(bitmap: Bitmap): ByteArray {
+    private fun encode(bitmap: Bitmap, fromLargeIcon: Boolean): NotificationJpeg {
         val out = ByteArrayOutputStream()
         if (!bitmap.compress(Bitmap.CompressFormat.JPEG, 85, out)) {
-            return byteArrayOf()
+            return NotificationJpeg()
         }
         val bytes = out.toByteArray()
-        return if (bytes.size > ImageLimits.ORIGINAL_MAX_BYTES) byteArrayOf() else bytes
+        if (bytes.size > ImageLimits.ORIGINAL_MAX_BYTES) {
+            return NotificationJpeg()
+        }
+        return NotificationJpeg(bytes, bitmap.width, bitmap.height, fromLargeIcon)
     }
 }

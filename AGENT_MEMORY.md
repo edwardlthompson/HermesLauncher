@@ -30,7 +30,7 @@
 
 ### Project Purpose
 
-Hermes Launcher: FOSS Android home-screen inbox for notifications, news, and podcasts. Reserved Launcher3 pages are Podcasts → News → Inbox (Home = Inbox). X-only dismiss. Local vault with 2000/30-day archived prune. Widget pages are a user-chosen occupancy grid with a trailing empty page. Home long-press opens Wallpaper / Widgets / Settings. Dock ranks usage (not launches). All Apps is a 5-column letter-rail grid. Home-again opens usage+inbox search. Notification dots come from vault unread. Double-tap empty chrome can lock or toggle flashlight. Live wallpapers ship in-tree (gradient, clock).
+Hermes Launcher: FOSS Android home-screen inbox for notifications, news, and podcasts. Reserved Launcher3 pages are Podcasts → News → Inbox (Home = Inbox). X-only dismiss. Local vault with 2000/30-day archived prune. Widget pages are a user-chosen occupancy grid with a trailing empty page. Home long-press opens Wallpaper / Widgets / Settings. Dock ranks usage (not launches). All Apps is a 5-column letter-rail grid. Home-again opens usage+inbox search. App search ranks recently opened packages first. Notification dots come from vault unread. Inbox settings can ignore apps, even card height, and hide small/avatar photos. Double-tap empty chrome can lock or toggle flashlight. Live wallpapers ship in-tree (gradient, clock).
 
 ### Key Constraints
 

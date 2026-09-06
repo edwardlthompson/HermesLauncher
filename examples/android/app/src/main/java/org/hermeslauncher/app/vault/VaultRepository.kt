@@ -98,21 +98,20 @@ class VaultRepository(
         ignoreOngoing: Boolean,
     ) {
         val storePhotos = inboxPrefs.storePhotos.first()
-        val decision = VaultMapper.decide(posted, policy, ignoreOngoing, storePhotos)
+        val hideSmall = inboxPrefs.hideSmallImages.first()
+        val decision = VaultMapper.decide(
+            posted,
+            policy,
+            ignoreOngoing,
+            storePhotos,
+            hideSmallImages = hideSmall,
+        )
         val item = VaultMapper.toItem(posted, decision) ?: return
         if (dao.itemById(item.id) != null) {
             return
         }
         dao.deleteParts(item.id)
-        var stored = item
-        if (decision.action == PersistAction.PERSIST_TEXT_AND_IMAGES) {
-            val ref = VaultImageStore.write(filesDir, item.id, posted.imageBytes)
-            stored = if (ref != null) {
-                item.copy(extrasJson = VaultPreview.parse(item.extrasJson).withImage(ref).encode())
-            } else {
-                item.copy(imagesStored = false)
-            }
-        }
+        val stored = VaultImageStore.attach(filesDir, item, posted, decision.action)
         Log.i(
             VaultImageStore.TAG,
             "persist pkg=${posted.packageName} action=${decision.action} images=${stored.imagesStored}",
