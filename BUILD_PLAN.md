@@ -334,6 +334,8 @@ When **Sprint 0** ends: stop re-reading `docs/INITIALIZATION_PROMPT.md` as the d
 
 ### Parallelization
 
+<!-- parallel_exception: single Android container; logic and settings share inbox prefs -->
+
 - Sequential lock: `InboxDisplay` + `InboxPrefs` + `LaunchRecency` + `PostedNotification` image metadata
 - `agent_count_target`: 1 (single Android container; release.yml is the only other prefix)
 - Dry-run: inline — logic/tests and settings UI share inbox prefs
@@ -362,6 +364,8 @@ When **Sprint 0** ends: stop re-reading `docs/INITIALIZATION_PROMPT.md` as the d
 | Duplicate ignore list | Blacklist lives only under Inbox |
 
 ### Parallelization
+
+<!-- parallel_exception: single Android settings/feeds container -->
 
 - Sequential lock: `FeedSubPolicy` + `SettingsSection.FEEDS_SUBS` + hub groups
 - `agent_count_target`: 1 (single Android settings/feeds container)
