@@ -274,7 +274,11 @@ jobs:
             echo "FAIL: no release APK produced"
             exit 1
           fi
-          APKSIGNER=$(ls "$ANDROID_HOME"/build-tools/*/apksigner | sort | tail -1)
+          APKSIGNER=$(find "$ANDROID_HOME/build-tools" -name apksigner -type f | sort | tail -1)
+          if [ -z "$APKSIGNER" ]; then
+            echo "FAIL: apksigner not found under ANDROID_HOME"
+            exit 1
+          fi
           "$APKSIGNER" verify --min-sdk-version 26 "$APK"
 
       - name: Upload FOSS APK to GitHub Release
