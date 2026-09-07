@@ -200,6 +200,6 @@
 | Field | Detail |
 |-------|--------|
 | **Symptom** | After merging the Release Please PR, CI `check-readme-badges` / upgrade-sim fail: `hero template badge must be template-X.Y.Z` |
-| **Cause** | `sync-template-version.sh` only rewrote markdown `![Template](shields…)` images; product README uses HTML `<img src="…badge/template-…">` |
+| **Cause** | `sync-template-version.sh` only rewrote markdown Template shield images; product README uses HTML img badges |
 | **Fix** | Rewrite both HTML `src`/`alt` and markdown shields; also sync `branding/generated/README.preview.md` |
 | **Prevention** | `test_readme_matches_repo` plus `test_sync_rewrites_html_shields_badge`; do not push a version bump that leaves the hero badge behind | |
