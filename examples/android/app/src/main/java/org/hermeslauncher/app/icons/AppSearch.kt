@@ -20,7 +20,7 @@ object AppSearch {
     }
 
     private fun matches(app: LaunchableApp, needle: String): Boolean {
-        if (app.label.lowercase().contains(needle)) {
+        if (app.label.lowercase().startsWith(needle)) {
             return true
         }
         val pkg = app.packageName.lowercase()

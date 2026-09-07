@@ -1,11 +1,7 @@
 package org.hermeslauncher.app.ui.settings
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,10 +17,8 @@ import org.hermeslauncher.app.R
 import org.hermeslauncher.app.launcher.GestureMap
 import org.hermeslauncher.app.launcher.GestureSlot
 import org.hermeslauncher.app.launcher.LauncherAction
-import org.hermeslauncher.app.ui.theme.SpacingMd
 import org.hermeslauncher.app.ui.theme.SpacingSm
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun GesturePickerSettings(modifier: Modifier = Modifier) {
     val context = LocalContext.current
@@ -46,16 +40,14 @@ fun GesturePickerSettings(modifier: Modifier = Modifier) {
             GestureSlot.SWIPE_DOWN to R.string.gesture_slot_swipe_down,
             GestureSlot.PINCH to R.string.gesture_slot_pinch,
         ).forEach { (slot, title) ->
-            Text(text = stringResource(title), modifier = Modifier.padding(top = SpacingSm))
-            FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
-                LauncherAction.entries.forEach { action ->
-                    FilterChip(
-                        selected = map[slot] == action,
-                        onClick = { scope.launch { app.gesturePrefs.setAction(slot, action) } },
-                        label = { Text(stringResource(actionLabel(action))) },
-                    )
-                }
-            }
+            SettingsDropdown(
+                title = stringResource(title),
+                options = LauncherAction.entries,
+                selected = map[slot] ?: LauncherAction.NONE,
+                labelOf = { action -> stringResource(actionLabel(action)) },
+                onSelect = { action -> scope.launch { app.gesturePrefs.setAction(slot, action) } },
+                modifier = Modifier.padding(top = SpacingSm),
+            )
         }
     }
 }

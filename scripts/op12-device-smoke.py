@@ -330,30 +330,46 @@ def smoke(adb: str, serial: str, *, require_widget_dnd: bool = False) -> None:
     press_back(adb, serial)
 
     open_settings(adb, serial)
+    assert_text(adb, serial, "Home", "Inbox", "Feeds", "System")
+    tap_text(adb, serial, "Open settings section Home", scrolls=4)
     tap_text(adb, serial, "Open settings section Desktop", scrolls=4)
     assert_text(adb, serial, "Wallpaper", "widget grid", scrolls=4)
 
     for extra, needles in (
         ("DESKTOP", ("Wallpaper", "widget grid")),
-        ("DOCK", ("Usage", "Custom")),
+        ("DOCK", ("Dock", "Usage")),
         ("DRAWER", ("Drawer columns",)),
         ("FOLDERS", ("Open folders fullscreen",)),
         ("SEARCH", ("no web provider",)),
         ("LOOK", ("Icon shape", "Night schedule", "Show notification dots")),
         ("GESTURES", ("Empty-space gestures", "Swipe sensitivity")),
-        ("INBOX", ("Ignore persistent notifications",)),
-        ("FEEDS", ("Import OPML", "Export OPML", "Preferred opener", "Add Android Authority")),
+        ("INBOX", ("Ignore persistent notifications", "Ignored apps")),
+        ("FEEDS", ("Subscriptions", "Import and export", "Refresh feeds")),
+        ("FEEDS_SUBS", ("Notify all", "Prefetch all")),
         ("BACKUP", ("Export Hermes backup", "Reset home layout")),
     ):
         open_settings(adb, serial, extra)
         assert_text(adb, serial, *needles, scrolls=4)
         if extra == "GESTURES":
+            tap_text(adb, serial, "Swipe sensitivity", required=False, scrolls=2)
             tap_text(adb, serial, "Low", required=False, scrolls=2)
             tap_text(adb, serial, "Medium", required=False, scrolls=2)
         if extra == "FEEDS":
+            tap_text(adb, serial, "Import and export", required=True, scrolls=4)
+            assert_text(adb, serial, "Import OPML", "Export OPML", "Add Android Authority", scrolls=4)
             tap_text(adb, serial, "Refresh feeds", required=False, scrolls=2)
+        if extra == "INBOX":
+            tap_text(adb, serial, "Ignored apps", required=False, scrolls=2)
+            tap_text(adb, serial, "Cards", required=False, scrolls=2)
 
     launch_home(adb, serial)
+    # News/Podcasts sit left of Inbox; drawer chrome ships the folder chevrons.
+    swipe(adb, serial, int(w * 0.18), int(h * 0.42), int(w * 0.82), int(h * 0.42), 280)
+    time.sleep(0.9)
+    root = dump_ui(adb, serial)
+    blob = ET.tostring(root, encoding="unicode")
+    if "Feeds drawer" not in blob and "All feeds" not in blob:
+        print("WARN feeds drawer chrome not on this page; continuing", flush=True)
     try:
         smoke_widget_tray(adb, serial, w, h, require_dnd=require_widget_dnd)
     except Exception as exc:  # noqa: BLE001
@@ -388,9 +404,9 @@ def ensure_hub(adb: str, serial: str) -> None:
     for _ in range(4):
         root = dump_ui(adb, serial)
         blob = ET.tostring(root, encoding="unicode")
-        if "Settings" in blob and find_node(root, text="Desktop") is not None:
+        if "Settings" in blob and find_node(root, text="Home") is not None:
             return
-        if "Settings" in blob or "Desktop" in blob or "Gestures" in blob:
+        if "Settings" in blob or "Home" in blob or "System" in blob:
             press_back(adb, serial)
             continue
         open_settings(adb, serial)

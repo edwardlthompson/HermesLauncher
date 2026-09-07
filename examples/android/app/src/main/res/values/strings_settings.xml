@@ -17,4 +17,6 @@
     <string name="settings_expand_storage">Storage</string>
     <string name="settings_expand_ignored">Ignored apps</string>
     <string name="settings_expand_labs">Desktop motion</string>
+    <string name="settings_drawer_layout">Drawer layout</string>
+    <string name="settings_icon_pack">Icon pack</string>
 </resources>

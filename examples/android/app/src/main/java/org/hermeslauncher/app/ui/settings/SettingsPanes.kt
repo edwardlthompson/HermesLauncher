@@ -3,11 +3,7 @@ package org.hermeslauncher.app.ui.settings
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.ListItem
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -40,7 +36,6 @@ fun SettingsDesktopPane() {
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun SettingsLookPane(
     themeMode: ThemeMode,
@@ -53,37 +48,30 @@ fun SettingsLookPane(
     val packs = remember {
         listOf(IconPackId()) + IconPackResources.installedPacks(context.packageManager)
     }
+    val systemPack = stringResource(R.string.chrome_icon_pack_system)
     Column(verticalArrangement = Arrangement.spacedBy(SpacingMd)) {
-        Text(text = stringResource(R.string.settings_theme_label))
-        FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
-            ThemeMode.entries.forEach { mode ->
-                FilterChip(
-                    selected = themeMode == mode,
-                    onClick = { onThemeModeSelect(mode) },
-                    label = {
-                        Text(
-                            when (mode) {
-                                ThemeMode.System -> stringResource(R.string.settings_theme_mode_system)
-                                ThemeMode.Light -> stringResource(R.string.settings_theme_mode_light)
-                                ThemeMode.Dark -> stringResource(R.string.settings_theme_mode_dark)
-                            },
-                        )
+        SettingsDropdown(
+            title = stringResource(R.string.settings_theme_label),
+            options = ThemeMode.entries,
+            selected = themeMode,
+            labelOf = { mode ->
+                stringResource(
+                    when (mode) {
+                        ThemeMode.System -> R.string.settings_theme_mode_system
+                        ThemeMode.Light -> R.string.settings_theme_mode_light
+                        ThemeMode.Dark -> R.string.settings_theme_mode_dark
                     },
                 )
-            }
-        }
-        Text(text = stringResource(R.string.chrome_icon_pack, pack.packageName ?: stringResource(R.string.chrome_icon_pack_system)))
-        FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
-            packs.forEach { option ->
-                FilterChip(
-                    selected = option.packageName == pack.packageName,
-                    onClick = { scope.launch { app.iconPackStore.save(option) } },
-                    label = {
-                        Text(option.packageName ?: stringResource(R.string.chrome_icon_pack_system))
-                    },
-                )
-            }
-        }
+            },
+            onSelect = onThemeModeSelect,
+        )
+        SettingsDropdown(
+            title = stringResource(R.string.settings_icon_pack),
+            options = packs,
+            selected = packs.firstOrNull { it.packageName == pack.packageName } ?: IconPackId(),
+            labelOf = { option -> option.packageName ?: systemPack },
+            onSelect = { option -> scope.launch { app.iconPackStore.save(option) } },
+        )
         UnreadDotSettings()
         LookSettings()
     }

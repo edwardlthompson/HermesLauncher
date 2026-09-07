@@ -31,7 +31,7 @@ class Op12BacklogSmokeTest {
         openRow("Look & feel")
         composeTestRule.onNodeWithText("Icon shape").performScrollTo().assertIsDisplayed()
         composeTestRule.onNodeWithText("Night schedule").performScrollTo().assertIsDisplayed()
-        composeTestRule.onNodeWithText("Dots").performScrollTo().assertIsDisplayed()
+        composeTestRule.onNodeWithText("Notification badges").performScrollTo().assertIsDisplayed()
         backOnce()
 
         openRow("Gestures")

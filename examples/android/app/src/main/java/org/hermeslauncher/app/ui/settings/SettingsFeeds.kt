@@ -3,10 +3,7 @@ package org.hermeslauncher.app.ui.settings
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.material3.Button
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -28,7 +25,6 @@ import org.hermeslauncher.app.feeds.ReaderSettings
 import org.hermeslauncher.app.feeds.ScanInterval
 import org.hermeslauncher.app.ui.theme.SpacingMd
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun SettingsFeedsPane(onSubscriptions: () -> Unit) {
     val context = LocalContext.current
@@ -42,17 +38,14 @@ fun SettingsFeedsPane(onSubscriptions: () -> Unit) {
             modifier = Modifier.clickable(onClick = onSubscriptions),
         )
         SettingsExpander(title = stringResource(R.string.settings_expand_sync)) {
-            Text(text = stringResource(R.string.feed_scan_title))
             Text(text = stringResource(R.string.feed_scan_body), style = MaterialTheme.typography.bodySmall)
-            FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
-                ScanInterval.OPTIONS.forEach { minutes ->
-                    FilterChip(
-                        selected = prefs.scanMinutes == minutes,
-                        onClick = { scope.launch { app.readerPrefs.setScanMinutes(minutes) } },
-                        label = { Text(scanLabel(minutes)) },
-                    )
-                }
-            }
+            SettingsDropdown(
+                title = stringResource(R.string.feed_scan_title),
+                options = ScanInterval.OPTIONS,
+                selected = prefs.scanMinutes,
+                labelOf = { scanLabel(it) },
+                onSelect = { minutes -> scope.launch { app.readerPrefs.setScanMinutes(minutes) } },
+            )
             SettingsSwitchRow(
                 title = R.string.feed_charging_title,
                 body = R.string.feed_charging_body,
@@ -67,48 +60,30 @@ fun SettingsFeedsPane(onSubscriptions: () -> Unit) {
             )
         }
         SettingsExpander(title = stringResource(R.string.settings_expand_reading)) {
-            Text(text = stringResource(R.string.feed_images_title))
             Text(text = stringResource(R.string.feed_images_body), style = MaterialTheme.typography.bodySmall)
-            FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
-                ImagePolicy.entries.forEach { policy ->
-                    FilterChip(
-                        selected = prefs.imagePolicy == policy,
-                        onClick = { scope.launch { app.readerPrefs.setImagePolicy(policy) } },
-                        label = { Text(stringResource(imageLabel(policy))) },
-                    )
-                }
-            }
-            Text(text = stringResource(R.string.feed_sort_title))
-            FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
-                FilterChip(
-                    selected = prefs.newestFirst,
-                    onClick = { scope.launch { app.readerPrefs.setNewestFirst(true) } },
-                    label = { Text(stringResource(R.string.feed_sort_newest)) },
-                )
-                FilterChip(
-                    selected = !prefs.newestFirst,
-                    onClick = { scope.launch { app.readerPrefs.setNewestFirst(false) } },
-                    label = { Text(stringResource(R.string.feed_sort_oldest)) },
-                )
-            }
-            Text(text = stringResource(R.string.feed_opener_title))
-            FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
-                FilterChip(
-                    selected = prefs.target == ArticleTarget.LAUNCHER,
-                    onClick = { scope.launch { app.readerPrefs.setTarget(ArticleTarget.LAUNCHER) } },
-                    label = { Text(stringResource(R.string.feed_opener_launcher)) },
-                )
-                FilterChip(
-                    selected = prefs.target == ArticleTarget.BROWSER,
-                    onClick = { scope.launch { app.readerPrefs.setTarget(ArticleTarget.BROWSER) } },
-                    label = { Text(stringResource(R.string.feed_opener_browser)) },
-                )
-                FilterChip(
-                    selected = prefs.target == ArticleTarget.CUSTOM_TAB,
-                    onClick = { scope.launch { app.readerPrefs.setTarget(ArticleTarget.CUSTOM_TAB) } },
-                    label = { Text(stringResource(R.string.feed_opener_custom_tab)) },
-                )
-            }
+            SettingsDropdown(
+                title = stringResource(R.string.feed_images_title),
+                options = ImagePolicy.entries,
+                selected = prefs.imagePolicy,
+                labelOf = { stringResource(imageLabel(it)) },
+                onSelect = { policy -> scope.launch { app.readerPrefs.setImagePolicy(policy) } },
+            )
+            SettingsDropdown(
+                title = stringResource(R.string.feed_sort_title),
+                options = listOf(true, false),
+                selected = prefs.newestFirst,
+                labelOf = { newest ->
+                    stringResource(if (newest) R.string.feed_sort_newest else R.string.feed_sort_oldest)
+                },
+                onSelect = { newest -> scope.launch { app.readerPrefs.setNewestFirst(newest) } },
+            )
+            SettingsDropdown(
+                title = stringResource(R.string.feed_opener_title),
+                options = ArticleTarget.entries,
+                selected = prefs.target,
+                labelOf = { stringResource(openerLabel(it)) },
+                onSelect = { target -> scope.launch { app.readerPrefs.setTarget(target) } },
+            )
             OutlinedTextField(
                 value = prefs.blocked,
                 onValueChange = { scope.launch { app.readerPrefs.setBlocked(it) } },
@@ -147,4 +122,10 @@ private fun imageLabel(policy: ImagePolicy): Int = when (policy) {
     ImagePolicy.ALWAYS -> R.string.feed_images_always
     ImagePolicy.WIFI -> R.string.feed_images_wifi
     ImagePolicy.NEVER -> R.string.feed_images_never
+}
+
+private fun openerLabel(target: ArticleTarget): Int = when (target) {
+    ArticleTarget.LAUNCHER -> R.string.feed_opener_launcher
+    ArticleTarget.BROWSER -> R.string.feed_opener_browser
+    ArticleTarget.CUSTOM_TAB -> R.string.feed_opener_custom_tab
 }

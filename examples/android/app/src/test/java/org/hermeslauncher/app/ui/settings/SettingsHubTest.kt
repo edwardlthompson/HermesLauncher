@@ -2,6 +2,7 @@ package org.hermeslauncher.app.ui.settings
 
 import org.hermeslauncher.app.R
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class SettingsHubTest {
@@ -29,5 +30,13 @@ class SettingsHubTest {
         assertEquals(SettingsSection.FEEDS_SUBS, SettingsSection.parse("feeds_subs"))
         assertEquals(null, SettingsSection.parse(null))
         assertEquals(null, SettingsSection.parse("nope"))
+    }
+
+    @Test
+    fun multiChoiceMenusHaveDropdownSources() {
+        assertEquals(8, org.hermeslauncher.app.feeds.ScanInterval.OPTIONS.size)
+        assertEquals(4, org.hermeslauncher.app.vault.InboxDisplay.CHAR_CHOICES.size)
+        assertTrue(org.hermeslauncher.app.ui.theme.ThemeMode.entries.size >= 3)
+        assertTrue(org.hermeslauncher.app.launcher.LauncherAction.entries.size >= 3)
     }
 }

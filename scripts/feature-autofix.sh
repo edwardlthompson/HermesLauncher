@@ -91,7 +91,9 @@ if command -v pre-commit >/dev/null 2>&1; then
   fi
   if [ -n "$FILES" ]; then
     # shellcheck disable=SC2086
-    run_fix pre-commit-whitespace pre-commit run trailing-whitespace end-of-file-fixer --files $FILES || true
+    run_fix pre-commit-whitespace pre-commit run trailing-whitespace --files $FILES || true
+    # shellcheck disable=SC2086
+    run_fix pre-commit-eof pre-commit run end-of-file-fixer --files $FILES || true
   fi
 fi
 

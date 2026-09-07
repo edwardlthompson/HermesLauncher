@@ -2,11 +2,8 @@ package org.hermeslauncher.app.ui.settings
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
@@ -31,7 +28,6 @@ import org.hermeslauncher.app.icons.DrawerSnapshot
 import org.hermeslauncher.app.icons.LaunchRecency
 import org.hermeslauncher.app.ui.theme.SpacingMd
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun DrawerSettings(modifier: Modifier = Modifier) {
     val context = LocalContext.current
@@ -45,28 +41,22 @@ fun DrawerSettings(modifier: Modifier = Modifier) {
         DrawerPolicy.picks(launchables, hideQuery, snapshot.hidden, lastUsed = recency)
     }
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(SpacingMd)) {
-        Text(text = stringResource(R.string.drawer_columns), style = MaterialTheme.typography.titleMedium)
-        FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
-            (DrawerPolicy.COLUMNS_MIN..DrawerPolicy.COLUMNS_MAX).forEach { columns ->
-                FilterChip(
-                    selected = snapshot.columns == columns,
-                    onClick = { scope.launch { app.drawerPrefs.setColumns(columns) } },
-                    label = { Text(columns.toString()) },
-                )
-            }
-        }
-        FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
-            FilterChip(
-                selected = !snapshot.listMode,
-                onClick = { scope.launch { app.drawerPrefs.setListMode(false) } },
-                label = { Text(stringResource(R.string.drawer_layout_grid)) },
-            )
-            FilterChip(
-                selected = snapshot.listMode,
-                onClick = { scope.launch { app.drawerPrefs.setListMode(true) } },
-                label = { Text(stringResource(R.string.drawer_layout_list)) },
-            )
-        }
+        SettingsDropdown(
+            title = stringResource(R.string.drawer_columns),
+            options = (DrawerPolicy.COLUMNS_MIN..DrawerPolicy.COLUMNS_MAX).toList(),
+            selected = snapshot.columns,
+            labelOf = { columns -> columns.toString() },
+            onSelect = { columns -> scope.launch { app.drawerPrefs.setColumns(columns) } },
+        )
+        SettingsDropdown(
+            title = stringResource(R.string.settings_drawer_layout),
+            options = listOf(false, true),
+            selected = snapshot.listMode,
+            labelOf = { listMode ->
+                stringResource(if (listMode) R.string.drawer_layout_list else R.string.drawer_layout_grid)
+            },
+            onSelect = { listMode -> scope.launch { app.drawerPrefs.setListMode(listMode) } },
+        )
         SettingsSwitchRow(
             title = R.string.drawer_rail,
             checked = snapshot.showRail,

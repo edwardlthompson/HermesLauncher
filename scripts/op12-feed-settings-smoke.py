@@ -53,17 +53,22 @@ def main() -> int:
     )
     time.sleep(2.0)
     blob = feed.ui_blob(mod, adb, SERIAL)
+    if "Sync" not in blob:
+        print("FAIL settings missing Sync expander", flush=True)
+        return 1
+    mod.tap_text(adb, SERIAL, "Sync", required=True)
+    time.sleep(0.8)
+    blob = feed.ui_blob(mod, adb, SERIAL)
     needles = (
         "Scan interval",
-        "Download over mobile data",
-        "15 min",
-        "Show thumbnails",
         "Scan only while charging",
     )
     missing = [name for name in needles if name not in blob]
     if missing:
         print(f"FAIL settings missing {missing!r}", flush=True)
         return 1
+    mod.tap_text(adb, SERIAL, "Scan interval", required=True)
+    time.sleep(0.6)
     mod.tap_text(adb, SERIAL, "15 min", required=True)
     time.sleep(0.8)
     mod.adb_cmd(

@@ -2,10 +2,8 @@ package org.hermeslauncher.app.ui.settings
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
@@ -27,7 +25,6 @@ import org.hermeslauncher.app.icons.HotseatPolicy
 import org.hermeslauncher.app.oem.LivePermissions
 import org.hermeslauncher.app.ui.theme.SpacingMd
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun DockSettings() {
     val context = LocalContext.current
@@ -35,48 +32,44 @@ fun DockSettings() {
     val scope = rememberCoroutineScope()
     val dock by app.dockStore.layout.collectAsStateWithLifecycle(DockLayout())
     val usageOk = LivePermissions.usageGranted(context)
-    FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
-        FilterChip(
-            selected = dock.mode == DockMode.USAGE,
-            onClick = { scope.launch { app.dockStore.save(dock.copy(mode = DockMode.USAGE)) } },
-            label = { Text(stringResource(R.string.settings_dock_usage)) },
-        )
-        FilterChip(
-            selected = dock.mode == DockMode.CUSTOM,
-            onClick = {
+    Column(verticalArrangement = Arrangement.spacedBy(SpacingMd)) {
+        SettingsDropdown(
+            title = stringResource(R.string.settings_dock_mode),
+            options = DockMode.entries,
+            selected = dock.mode,
+            labelOf = { mode ->
+                stringResource(
+                    if (mode == DockMode.USAGE) R.string.settings_dock_usage else R.string.settings_dock_custom,
+                )
+            },
+            onSelect = { mode ->
                 scope.launch {
-                    val pm = context.packageManager
-                    val next = if (dock.assigned.isEmpty()) {
-                        AppCatalog.seeded(pm).copy(mode = DockMode.CUSTOM)
+                    val next = if (mode == DockMode.CUSTOM && dock.assigned.isEmpty()) {
+                        AppCatalog.seeded(context.packageManager).copy(mode = DockMode.CUSTOM)
                     } else {
-                        dock.copy(mode = DockMode.CUSTOM)
+                        dock.copy(mode = mode)
                     }
                     app.dockStore.save(next)
                 }
             },
-            label = { Text(stringResource(R.string.settings_dock_custom)) },
         )
-    }
-    Text(text = stringResource(R.string.dock_pages))
-    FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
-        (HotseatPolicy.MIN_PAGES..HotseatPolicy.MAX_PAGES).forEach { pages ->
-            FilterChip(
-                selected = dock.pageCount == pages,
-                onClick = { scope.launch { app.dockStore.save(dock.copy(pageCount = pages)) } },
-                label = { Text(pages.toString()) },
+        SettingsDropdown(
+            title = stringResource(R.string.dock_pages),
+            options = (HotseatPolicy.MIN_PAGES..HotseatPolicy.MAX_PAGES).toList(),
+            selected = dock.pageCount,
+            labelOf = { pages -> pages.toString() },
+            onSelect = { pages -> scope.launch { app.dockStore.save(dock.copy(pageCount = pages)) } },
+        )
+        if (!usageOk) {
+            Text(
+                text = stringResource(R.string.settings_usage_body),
+                style = MaterialTheme.typography.bodySmall,
             )
-        }
-    }
-    if (!usageOk) {
-        Text(
-            text = stringResource(R.string.settings_usage_body),
-            style = MaterialTheme.typography.bodySmall,
-        )
-        Button(onClick = {
-            val intent = LivePermissions.usageSettings()
-            LivePermissions.startSafe(context, intent)
-        }) {
-            Text(stringResource(R.string.settings_usage_open))
+            Button(onClick = {
+                LivePermissions.startSafe(context, LivePermissions.usageSettings())
+            }) {
+                Text(stringResource(R.string.settings_usage_open))
+            }
         }
     }
 }
@@ -92,9 +85,9 @@ fun InboxRetentionSettings(onHistory: () -> Unit) {
         supportingContent = { Text(stringResource(R.string.inbox_history_body)) },
         modifier = Modifier.clickable(onClick = onHistory),
     )
-    Text(text = stringResource(R.string.settings_auto_delete))
-    Text(text = stringResource(R.string.settings_auto_delete_body), style = MaterialTheme.typography.bodySmall)
-    Switch(
+    SettingsSwitchRow(
+        title = R.string.settings_auto_delete,
+        body = R.string.settings_auto_delete_body,
         checked = autoDelete,
         onCheckedChange = { on ->
             scope.launch {
