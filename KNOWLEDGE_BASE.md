@@ -194,4 +194,12 @@
 | **Symptom** | After pre-commit passes, git commit hangs on a second `Check file line limits` under `hook-type=commit-msg` |
 | **Cause** | pre-commit 4 runs hooks without `stages` on every installed hook type, including commit-msg, while git holds the index |
 | **Fix** | `default_stages: [pre-commit]` in `.pre-commit-config.yaml`; conventional-commit keeps `stages: [commit-msg]` |
-| **Prevention** | Do not omit `default_stages` when commit-msg hooks are installed | |
+| **Prevention** | Do not omit `default_stages` when commit-msg hooks are installed |
+### KB-024 — Release Please README badge stays on the old template version
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | After merging the Release Please PR, CI `check-readme-badges` / upgrade-sim fail: `hero template badge must be template-X.Y.Z` |
+| **Cause** | `sync-template-version.sh` only rewrote markdown `![Template](shields…)` images; product README uses HTML `<img src="…badge/template-…">` |
+| **Fix** | Rewrite both HTML `src`/`alt` and markdown shields; also sync `branding/generated/README.preview.md` |
+| **Prevention** | `test_readme_matches_repo` plus `test_sync_rewrites_html_shields_badge`; do not push a version bump that leaves the hero badge behind | |

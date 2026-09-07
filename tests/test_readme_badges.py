@@ -32,6 +32,29 @@ class ReadmeBadgesTests(unittest.TestCase):
         text = (ROOT / "scripts" / "validate-bootstrap.sh").read_text(encoding="utf-8")
         self.assertIn("check-readme-badges.sh", text)
 
+    def test_sync_rewrites_html_shields_badge(self) -> None:
+        import re
+
+        sync = (ROOT / "scripts" / "sync-template-version.sh").read_text(encoding="utf-8")
+        self.assertIn("img.shields.io/badge/template-", sync)
+        self.assertIn("branding/generated/README.preview.md", sync)
+        html = (
+            '<img src="https://img.shields.io/badge/template-1.0.0-656d76'
+            '?style=flat-square" alt="template-1.0.0" />'
+        )
+        rewritten = re.sub(
+            r"(https://img\.shields\.io/badge/template-)[\d.]+",
+            r"\g<1>1.1.0",
+            html,
+        )
+        rewritten = re.sub(
+            r'(alt="template-)[\d.]+(")',
+            r"\g<1>1.1.0\2",
+            rewritten,
+        )
+        self.assertIn("template-1.1.0", rewritten)
+        self.assertNotIn("template-1.0.0", rewritten)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -7,7 +7,7 @@
 
 | Layer | Technology | Version | Notes |
 |-------|-----------|---------|-------|
-| Platform | Android (min 26, target 37), Kotlin, Jetpack Compose Material 3 | 1.0.1 | Child of agent-project-bootstrap 1.0.0; APK versionCode 101 |
+| Platform | Android (min 26, target 37), Kotlin, Jetpack Compose Material 3 | 1.0.1 | Child of agent-project-bootstrap 1.1.0; APK versionName 1.0.1 / versionCode 101 |
 | License | MIT | - | Pure FOSS |
 | Persistence | Room + SQLCipher (`hermes-vault-cipher.db`) + Android Keystore | 4.16.0 | Plaintext vault migrates; rebuild-required copy on failure |
 | Distribution | GitHub Releases + F-Droid | - | Reproducible APKs (`SOURCE_DATE_EPOCH`) |
@@ -40,6 +40,7 @@ Hermes Launcher: FOSS Android home-screen inbox for notifications, news, and pod
 
 ## Session Retrospectives
 
+| 2026-09-06 | /ship v1.1.0 | Tag [v1.1.0](https://github.com/edwardlthompson/HermesLauncher/releases/tag/v1.1.0); signed `hermes-launcher-1.0.1-foss.apk`; OP12 uninstall+sideload | HTML README badge must track `.template-version` (KB-024); APK versionName still 1.0.1 |
 | 2026-09-05 | /ship v1.0.0 | Tag [v1.0.0](https://github.com/edwardlthompson/HermesLauncher/releases/tag/v1.0.0) + SBOM; APK still 1.0.1; required CI/CodeQL green | Keep L3 HOME; Actions cannot open RP PRs (KB-021); stub launcher3 typedefs (KB-022) |
 | 2026-09-04 | Sprints 43–45 Podcasts page | Inoreader OPML seed, `FeedSub.kind`, Podcasts left of News, MediaSession player gaps | Home stays Inbox; no AntennaPod source; ADB `b5214fc6` only |
 | 2026-09-01 | Sprint 17 icons/search/gestures/wallpaper | Off-thread icon cache, usage banner, prune throttle, dots, HOME-again overlay, double-tap lock/flashlight, AOSP picker + in-tree live wallpapers | OP12 `[ADB]` smoke still open; never pin Google wallpaper package; no Accessibility lock; do not adb OP13 `8bf09993` |

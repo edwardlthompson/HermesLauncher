@@ -344,7 +344,7 @@ When **Sprint 0** ends: stop re-reading `docs/INITIALIZATION_PROMPT.md` as the d
 - ✅ [AGENT] Unit tests for mapper, filter, recency, display, and release workflow
 - ✅ [AGENT] Inbox settings UI + All Apps recency hook
 - 🔲 [ADB] OP12: ignore an app, confirm cards vanish; type a letter in All Apps and see last-opened first
-- 🔲 [HUMAN] Copy Windows `keystore.properties` + `.jks` into `examples/android/`, run `bash scripts/set-android-signing-secrets.sh`, then dispatch `Release` so the signed `hermes-launcher-*-foss.apk` attaches
+- ✅ [HUMAN] Copy Windows `keystore.properties` + `.jks` into `examples/android/`, run `bash scripts/set-android-signing-secrets.sh`, then dispatch `Release` so the signed `hermes-launcher-*-foss.apk` attaches
 
 ---
 

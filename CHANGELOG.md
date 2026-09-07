@@ -8,27 +8,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
-
-* **android:** notification ignore list hides blacklisted apps from the inbox
-* **android:** even notification height and hide-small-photo toggles on Inbox settings
-* **android:** app search ranks recently opened apps first as each letter is typed
-* **android:** unsubscribe, notify-all, and prefetch-all on a Feeds → Subscriptions submenu
-* **android:** settings hub grouped into Home, Inbox, Feeds, and System
-* **android:** feeds drawer nests folders in place with chevrons and a long-press menu
-* **ci:** attach `hermes-launcher-{version}-foss.apk` on GitHub Releases
-* **ci:** sign the GitHub Release FOSS APK from repository keystore secrets
-
-### Changed
-
-* **android:** settings multi-option chips are dropdown menus
-
-### Fixed
-
-* **android:** decode MessagingStyle URI photo bounds so hide-small keeps chat photos
-* **android:** letter search matches app labels, not every `com.*` package
-* **android:** grouped settings hub smokes open Home / Feeds / System instead of the old flat list
-
 ## [1.1.0](https://github.com/edwardlthompson/HermesLauncher/compare/v1.0.0...v1.1.0) (2026-09-07)
 
 

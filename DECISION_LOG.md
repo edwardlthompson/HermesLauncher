@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-09-07 — HTML README template badge after Release Please
+- **Status:** Accepted
+- **Context:** `v1.1.0` CI failed Validate Bootstrap and both upgrade-sim jobs: hero badge still said `template-1.0.0`.
+- **Decision:** Rewrite HTML `<img>` shields (src and alt) plus markdown images in `sync-template-version.sh`, including `README.preview.md`. Empty leftover Unreleased notes already published in 1.1.0.
+- **Alternatives considered:** Hand-edit README only (rejected: next RP would drift again). Change the badge gate for product repos (rejected: the version is still the template pin).
+- **Consequences:** Follow-up commit on `main` after the tag; next Release Please version will be 1.1.1 if this fix is `fix:`. APK `versionName` remains 1.0.1 until a dedicated bump.
+
 ### 2026-09-06 — New GitHub Actions upload keystore
 - **Status:** Accepted
 - **Context:** Windows upload keystore was unavailable. GitHub had no signing secrets, so Release could only emit an unsigned APK that cannot be sideloaded.
