@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0](https://github.com/edwardlthompson/HermesLauncher/compare/v1.0.0...v1.1.0) (2026-09-07)
+
+
+### Added
+
+* **android:** inbox chrome, compact settings, nested feed folders ([4a36600](https://github.com/edwardlthompson/HermesLauncher/commit/4a36600c43a6da61a3c02bd24ed918ed32113259))
+* **android:** inbox ignore list, even cards, recency search, release APK ([a9d71f6](https://github.com/edwardlthompson/HermesLauncher/commit/a9d71f6ba1e277c22336be9fd96b3c8a20630c29))
+* **android:** nest feed folders and add drawer long-press actions ([eb79964](https://github.com/edwardlthompson/HermesLauncher/commit/eb79964f9e45154ac0a5065ffbd4b3a71704b4f8))
+* **android:** replace settings chips with dropdown menus ([21e2292](https://github.com/edwardlthompson/HermesLauncher/commit/21e229224fc25604f8405014124919a908e84f92))
+* **android:** unsubscribe feeds and compact settings menus ([b78fef9](https://github.com/edwardlthompson/HermesLauncher/commit/b78fef9779da642c594ae8168c462f961b99db6c))
+
+
+### Fixed
+
+* **android:** decode MessagingStyle URI photo bounds ([d9545de](https://github.com/edwardlthompson/HermesLauncher/commit/d9545ded1a2c17acae1ff19a43f2599bd291ca06))
+* **android:** letter search and grouped-settings CI smokes ([a781cd3](https://github.com/edwardlthompson/HermesLauncher/commit/a781cd3540ef08d5339eb74696a76d727a5b71c4))
+* **android:** restore drawer rail switch after settings compact ([bcd4c69](https://github.com/edwardlthompson/HermesLauncher/commit/bcd4c6921ea0037acd843b75a22fd58e9e6c45a5))
+* **ci:** index signing scripts and keep Windows upgrade sim green ([91bf933](https://github.com/edwardlthompson/HermesLauncher/commit/91bf933bc1dc0aac509b7effd915915190a88fe5))
+
 ## [Unreleased]
 
 ### Added
