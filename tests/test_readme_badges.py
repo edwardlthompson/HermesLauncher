@@ -38,6 +38,10 @@ class ReadmeBadgesTests(unittest.TestCase):
         sync = (ROOT / "scripts" / "sync-template-version.sh").read_text(encoding="utf-8")
         self.assertIn("img.shields.io/badge/template-", sync)
         self.assertIn("branding/generated/README.preview.md", sync)
+        workflow = (ROOT / ".github" / "workflows" / "release-please.yml").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("branding/generated/README.preview.md", workflow)
         html = (
             '<img src="https://img.shields.io/badge/template-1.0.0-656d76'
             '?style=flat-square" alt="template-1.0.0" />'
