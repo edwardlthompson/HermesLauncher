@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-09-06 — New GitHub Actions upload keystore
+- **Status:** Accepted
+- **Context:** Windows upload keystore was unavailable. GitHub had no signing secrets, so Release could only emit an unsigned APK that cannot be sideloaded.
+- **Decision:** Generate a new PKCS12 `upload` keystore on the Linux laptop, keep `examples/android/upload-keystore.jks` and `keystore.properties` gitignored, and store `ANDROID_KEYSTORE_*` in GitHub Actions repository secrets. The Release workflow signs `hermes-launcher-*-foss.apk` from those secrets.
+- **Alternatives considered:** Wait for the Windows keystore (rejected: blocks `/ship`). Sign with the debug key in CI (rejected: not an official release signature).
+- **Consequences:** Installs signed with the old 1.0.1 key cannot update in place. Sideload of the new signed APK requires uninstalling debug first. Back up the two gitignored files off-disk; losing them and the GitHub secrets means another key rotation.
+
 ### 2026-09-06 — Merge staging for Sprint 48–49
 - **Status:** Accepted
 - **Context:** Two PRs overlapped (inbox chrome vs feeds/settings). CI failed after the hub regroup: letter search matched every `com.*` package, and instrumented smokes still looked for flat hub labels.
