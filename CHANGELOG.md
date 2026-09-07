@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * **android:** settings hub grouped into Home, Inbox, Feeds, and System
 * **android:** feeds drawer nests folders in place with chevrons and a long-press menu
 * **ci:** attach `hermes-launcher-{version}-foss.apk` on GitHub Releases
+* **ci:** sign the GitHub Release FOSS APK from repository keystore secrets
 
 ### Changed
 

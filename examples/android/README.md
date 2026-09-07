@@ -63,6 +63,20 @@ Local host-GPU path (skips if SDK missing): `python3 scripts/agent-run.py run-an
 - `SOURCE_DATE_EPOCH` for reproducible builds
 - Pinned Gradle wrapper SHA-256 in `gradle/wrapper/gradle-wrapper.properties`
 
+## Signed GitHub Release APK
+
+PR CI `assembleRelease` stays unsigned (hash check). The `Release` workflow signs `hermes-launcher-*-foss.apk` from repository secrets:
+
+`ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS`, `ANDROID_KEY_PASSWORD`
+
+Copy `keystore.properties` and the `.jks` into this folder (gitignored), then:
+
+```bash
+bash scripts/set-android-signing-secrets.sh
+```
+
+Do not commit the keystore. Do not paste passwords into chat.
+
 ## F-Droid notes
 
 Document dependency hashes and reproducible build verification steps in your project's `AGENT_MEMORY.md` when activating module A.

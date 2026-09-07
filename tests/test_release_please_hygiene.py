@@ -44,6 +44,7 @@ class ReleasePleaseHygieneTests(unittest.TestCase):
         self.assertIn("hermes-launcher-", text)
         self.assertIn("-foss.apk", text)
         self.assertIn("Upload FOSS APK", text)
+        self.assertIn("ci-write-android-keystore.sh", text)
 
     def test_session_state_json_gitignored(self) -> None:
         text = (ROOT / ".gitignore").read_text(encoding="utf-8")

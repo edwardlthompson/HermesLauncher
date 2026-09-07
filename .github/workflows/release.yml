@@ -253,11 +253,29 @@ jobs:
       - name: Accept Android SDK licenses
         run: yes | sdkmanager --licenses
 
+      - name: Write upload keystore from repository secrets
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: bash scripts/ci-write-android-keystore.sh
+
       - name: assembleRelease with SOURCE_DATE_EPOCH
         working-directory: examples/android
         env:
           SOURCE_DATE_EPOCH: "1700000000"
         run: chmod +x gradlew && ./gradlew assembleRelease --no-daemon
+
+      - name: Verify release APK is signed
+        run: |
+          APK=$(find examples/android/app/build/outputs/apk/release -name '*.apk' | head -1)
+          if [ -z "$APK" ]; then
+            echo "FAIL: no release APK produced"
+            exit 1
+          fi
+          APKSIGNER=$(ls "$ANDROID_HOME"/build-tools/*/apksigner | sort | tail -1)
+          "$APKSIGNER" verify --min-sdk-version 26 "$APK"
 
       - name: Upload FOSS APK to GitHub Release
         env:
