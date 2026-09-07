@@ -2,19 +2,17 @@ package org.hermeslauncher.app.ui.settings
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Remove
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,7 +26,6 @@ import org.hermeslauncher.app.ui.theme.SpacingMd
 import org.hermeslauncher.app.widgets.WidgetGridSpec
 import org.hermeslauncher.app.widgets.WidgetHostState
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun WidgetGridSettings(modifier: Modifier = Modifier) {
     val context = LocalContext.current
@@ -36,23 +33,23 @@ fun WidgetGridSettings(modifier: Modifier = Modifier) {
     val app = context.applicationContext as HermesApplication
     val widgets by app.widgetStore.state.collectAsStateWithLifecycle(WidgetHostState())
     val grid = widgets.grid.clamped()
+    val presets = remember(grid) { (WidgetGridSpec.PRESETS + grid).distinct() }
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(SpacingMd)) {
-        Text(text = stringResource(R.string.settings_widget_grid))
         Text(
             text = stringResource(R.string.settings_widget_grid_body),
             style = MaterialTheme.typography.bodySmall,
         )
-        FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
-            WidgetGridSpec.PRESETS.forEach { preset ->
-                FilterChip(
-                    selected = grid == preset,
-                    onClick = {
-                        scope.launch { app.widgetStore.save(widgets.withGrid(preset)) }
-                    },
-                    label = { Text(stringResource(R.string.settings_widget_grid_preset, preset.columns, preset.rows)) },
-                )
-            }
-        }
+        SettingsDropdown(
+            title = stringResource(R.string.settings_widget_grid),
+            options = presets,
+            selected = grid,
+            labelOf = { preset ->
+                stringResource(R.string.settings_widget_grid_preset, preset.columns, preset.rows)
+            },
+            onSelect = { preset ->
+                scope.launch { app.widgetStore.save(widgets.withGrid(preset)) }
+            },
+        )
         AxisStepper(
             label = stringResource(R.string.settings_widget_grid_columns, grid.columns),
             onDec = {

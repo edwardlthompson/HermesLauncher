@@ -15,6 +15,7 @@ import org.hermeslauncher.app.icons.AppCatalog
 import org.hermeslauncher.app.icons.DockLayout
 import org.hermeslauncher.app.icons.DockMode
 import org.hermeslauncher.app.icons.LaunchableApp
+import org.hermeslauncher.app.icons.LaunchRecency
 import org.hermeslauncher.app.icons.UsageRanker
 import org.hermeslauncher.app.icons.UsageRow
 import org.hermeslauncher.app.icons.UsageStatsQuery
@@ -51,6 +52,7 @@ fun rememberHomeDock(pm: PackageManager, stored: DockLayout, refresh: Int = 0): 
             } else {
                 emptyList()
             }
+            LaunchRecency.mergeUsage(rows)
             val top = if (usageOk) {
                 UsageRanker.rank(launchables, rows, AllAppsIndex.COLUMNS)
             } else {

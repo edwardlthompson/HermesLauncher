@@ -119,4 +119,22 @@ class VaultMapperTest {
         assertEquals("hello", parts[0].text)
         assertEquals(9L, parts[0].timestamp)
     }
+
+    @Test
+    fun hideSmallImagesSkipsAvatars() {
+        val avatar = posted.copy(imageWidth = 96, imageHeight = 96, imageIsLargeIcon = true)
+        val photo = posted.copy(imageWidth = 800, imageHeight = 600, imageIsLargeIcon = false)
+        assertEquals(
+            PersistAction.PERSIST_TEXT,
+            VaultMapper.decide(avatar, null, storePhotos = true, hideSmallImages = true).action,
+        )
+        assertEquals(
+            "small_or_avatar",
+            VaultMapper.decide(avatar, null, storePhotos = true, hideSmallImages = true).skipImageReason,
+        )
+        assertEquals(
+            PersistAction.PERSIST_TEXT_AND_IMAGES,
+            VaultMapper.decide(photo, null, storePhotos = true, hideSmallImages = true).action,
+        )
+    }
 }

@@ -8,6 +8,7 @@ import com.android.launcher3.model.data.WorkspaceItemInfo
 import org.hermeslauncher.app.icons.AppCatalog
 import org.hermeslauncher.app.icons.DockLayout
 import org.hermeslauncher.app.icons.DockMode
+import org.hermeslauncher.app.icons.LaunchRecency
 import org.hermeslauncher.app.icons.UsageStatsQuery
 import org.hermeslauncher.app.oem.LivePermissions
 
@@ -45,6 +46,7 @@ object L3Dock {
 
     private fun pinUsage(launcher: Launcher, count: Int): Boolean {
         val ranked = UsageStatsQuery.rank(launcher, AppCatalog.launchables(launcher.packageManager), count)
+        LaunchRecency.mergeUsage(UsageStatsQuery.rows(launcher))
         if (ranked.isEmpty()) {
             return false
         }

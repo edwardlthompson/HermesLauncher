@@ -26,12 +26,15 @@ object StatusBarNotificationMapper {
         val subText = extras.getCharSequence(Notification.EXTRA_SUB_TEXT)?.toString()
         val infoText = extras.getCharSequence(Notification.EXTRA_INFO_TEXT)?.toString()
         val summary = extras.getCharSequence(Notification.EXTRA_SUMMARY_TEXT)?.toString()
-        val imageBytes = NotificationBitmaps.jpeg(context, notification)
+        val image = NotificationBitmaps.jpeg(context, notification)
         val preview = VaultPreview(
             subText = subText,
             bigText = bigText,
             infoText = infoText,
             summaryText = summary,
+            imageWidth = image.width,
+            imageHeight = image.height,
+            imageIsLargeIcon = image.fromLargeIcon,
         )
         return PostedNotification(
             sbnKey = sbn.key,
@@ -44,12 +47,15 @@ object StatusBarNotificationMapper {
             conversationTitle = style?.conversationTitle?.toString(),
             type = when {
                 parts.isNotEmpty() -> VaultItemType.MESSAGE
-                imageBytes.isNotEmpty() -> VaultItemType.MEDIA
+                image.bytes.isNotEmpty() -> VaultItemType.MEDIA
                 else -> VaultItemType.OTHER
             },
             priority = notification.priority,
-            imageByteSize = imageBytes.size.toLong(),
-            imageBytes = imageBytes,
+            imageByteSize = image.bytes.size.toLong(),
+            imageWidth = image.width,
+            imageHeight = image.height,
+            imageIsLargeIcon = image.fromLargeIcon,
+            imageBytes = image.bytes,
             messageParts = parts,
             ongoing = sbn.isOngoing,
             groupSummary = notification.flags and Notification.FLAG_GROUP_SUMMARY != 0,

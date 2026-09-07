@@ -1,12 +1,5 @@
 package org.hermeslauncher.app.ui.settings
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -19,7 +12,6 @@ import org.hermeslauncher.app.HermesApplication
 import org.hermeslauncher.app.R
 import org.hermeslauncher.app.launcher.DoubleTapAction
 import org.hermeslauncher.app.launcher.SwipeSensitivity
-import org.hermeslauncher.app.ui.theme.SpacingMd
 
 @Composable
 fun UnreadDotSettings(modifier: Modifier = Modifier) {
@@ -27,12 +19,15 @@ fun UnreadDotSettings(modifier: Modifier = Modifier) {
     val app = context.applicationContext as HermesApplication
     val scope = rememberCoroutineScope()
     val showDots by app.homePrefs.showDots.collectAsStateWithLifecycle(true)
-    Text(text = stringResource(R.string.settings_show_dots), modifier = modifier)
-    Text(text = stringResource(R.string.settings_show_dots_body), style = MaterialTheme.typography.bodySmall)
-    Switch(checked = showDots, onCheckedChange = { on -> scope.launch { app.homePrefs.setShowDots(on) } })
+    SettingsSwitchRow(
+        title = R.string.settings_show_dots,
+        body = R.string.settings_show_dots_body,
+        checked = showDots,
+        onCheckedChange = { on -> scope.launch { app.homePrefs.setShowDots(on) } },
+        modifier = modifier,
+    )
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun GestureSettings() {
     val context = LocalContext.current
@@ -41,35 +36,28 @@ fun GestureSettings() {
     val doubleTap by app.homePrefs.doubleTap.collectAsStateWithLifecycle(DoubleTapAction.OFF)
     val sensitivity by app.gesturePrefs.sensitivity.collectAsStateWithLifecycle(SwipeSensitivity.DEFAULT)
     GesturePickerSettings()
-    Text(text = stringResource(R.string.gesture_sensitivity))
-    Text(text = stringResource(R.string.gesture_sensitivity_body), style = MaterialTheme.typography.bodySmall)
-    FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
-        SwipeSensitivity.entries.forEach { level ->
-            FilterChip(
-                selected = sensitivity == level,
-                onClick = { scope.launch { app.gesturePrefs.setSensitivity(level) } },
-                label = { Text(stringResource(sensitivityLabel(level))) },
-            )
-        }
-    }
-    Text(text = stringResource(R.string.settings_double_tap))
-    FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
-        DoubleTapAction.entries.forEach { action ->
-            FilterChip(
-                selected = doubleTap == action,
-                onClick = { scope.launch { app.homePrefs.setDoubleTap(action) } },
-                label = {
-                    Text(
-                        when (action) {
-                            DoubleTapAction.OFF -> stringResource(R.string.settings_double_tap_off)
-                            DoubleTapAction.LOCK -> stringResource(R.string.settings_double_tap_lock)
-                            DoubleTapAction.FLASHLIGHT -> stringResource(R.string.settings_double_tap_flashlight)
-                        },
-                    )
+    SettingsDropdown(
+        title = stringResource(R.string.gesture_sensitivity),
+        options = SwipeSensitivity.entries,
+        selected = sensitivity,
+        labelOf = { level -> stringResource(sensitivityLabel(level)) },
+        onSelect = { level -> scope.launch { app.gesturePrefs.setSensitivity(level) } },
+    )
+    SettingsDropdown(
+        title = stringResource(R.string.settings_double_tap),
+        options = DoubleTapAction.entries,
+        selected = doubleTap,
+        labelOf = { action ->
+            stringResource(
+                when (action) {
+                    DoubleTapAction.OFF -> R.string.settings_double_tap_off
+                    DoubleTapAction.LOCK -> R.string.settings_double_tap_lock
+                    DoubleTapAction.FLASHLIGHT -> R.string.settings_double_tap_flashlight
                 },
             )
-        }
-    }
+        },
+        onSelect = { action -> scope.launch { app.homePrefs.setDoubleTap(action) } },
+    )
 }
 
 private fun sensitivityLabel(level: SwipeSensitivity): Int = when (level) {

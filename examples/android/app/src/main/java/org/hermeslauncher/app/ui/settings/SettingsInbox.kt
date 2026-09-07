@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -61,15 +60,15 @@ fun SettingsInboxPane(
                 Text(stringResource(R.string.settings_listener_open))
             }
         }
-        Text(text = stringResource(R.string.settings_ignore_ongoing))
-        Text(text = stringResource(R.string.settings_ignore_ongoing_body), style = MaterialTheme.typography.bodySmall)
-        Switch(
+        SettingsSwitchRow(
+            title = R.string.settings_ignore_ongoing,
+            body = R.string.settings_ignore_ongoing_body,
             checked = ignoreOngoing,
             onCheckedChange = { on -> scope.launch { app.inboxPrefs.setIgnoreOngoing(on) } },
         )
-        Text(text = stringResource(R.string.settings_store_photos))
-        Text(text = stringResource(R.string.settings_store_photos_body), style = MaterialTheme.typography.bodySmall)
-        Switch(
+        SettingsSwitchRow(
+            title = R.string.settings_store_photos,
+            body = R.string.settings_store_photos_body,
             checked = storePhotos,
             onCheckedChange = { on -> scope.launch { app.inboxPrefs.setStorePhotos(on) } },
         )
@@ -78,8 +77,19 @@ fun SettingsInboxPane(
                 Text(stringResource(R.string.settings_grant_photos))
             }
         }
-        InboxRetentionSettings(onHistory = onHistory)
-        Text(text = stringResource(R.string.settings_feedback_save_crashes))
-        Switch(checked = saveCrashes, onCheckedChange = onSaveCrashes)
+        SettingsExpander(title = stringResource(R.string.settings_expand_cards)) {
+            InboxCardSettings()
+        }
+        SettingsExpander(title = stringResource(R.string.settings_expand_storage)) {
+            InboxRetentionSettings(onHistory = onHistory)
+        }
+        SettingsExpander(title = stringResource(R.string.settings_expand_ignored)) {
+            BlacklistSettings()
+        }
+        SettingsSwitchRow(
+            title = R.string.settings_feedback_save_crashes,
+            checked = saveCrashes,
+            onCheckedChange = onSaveCrashes,
+        )
     }
 }

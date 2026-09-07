@@ -85,4 +85,13 @@ class InboxFilterTest {
         assertEquals("3", InboxFilter.unreadLabel(3))
         assertEquals(mapOf("com.chat" to 1), InboxFilter.unreadByPackage(mixed))
     }
+
+    @Test
+    fun ignoredPackagesHideFromFeedAndUnread() {
+        val ignored = setOf("com.chat")
+        val out = InboxFilter.apply(items, InboxQuery(), ignored)
+        assertEquals(listOf("3", "4"), out.map { it.id })
+        assertEquals(1, InboxFilter.unreadCount(items, ignored))
+        assertTrue(InboxFilter.ignoredPackages(listOf(AppStorePolicy("com.chat"))).contains("com.chat"))
+    }
 }

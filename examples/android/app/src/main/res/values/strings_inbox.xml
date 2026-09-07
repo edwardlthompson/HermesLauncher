@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="inbox_truncate">Even notification height</string>
+    <string name="inbox_truncate_body">Trim long message text so inbox cards stay the same size.</string>
+    <string name="inbox_truncate_chars">%1$d characters</string>
+    <string name="inbox_hide_small_images">Hide small notification photos</string>
+    <string name="inbox_hide_small_images_body">Skip avatars and images below 240px so only full-size photos show.</string>
+</resources>

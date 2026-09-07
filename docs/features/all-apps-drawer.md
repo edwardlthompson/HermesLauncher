@@ -56,7 +56,7 @@
 
 ## Definition of Done
 
-Hide-apps ≠ blacklist. Blacklist X restores storage. Predicted row remains.
+Hide-apps ≠ blacklist. Blacklist X restores storage and inbox cards. Predicted row remains.
 
 ## Notes
 

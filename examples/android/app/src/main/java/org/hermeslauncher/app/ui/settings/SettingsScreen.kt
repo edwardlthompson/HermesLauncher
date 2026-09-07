@@ -40,15 +40,23 @@ fun SettingsScreen(
     initialSection: SettingsSection? = null,
 ) {
     var section by remember { mutableStateOf(initialSection) }
+    var group by remember { mutableStateOf<SettingsGroup?>(null) }
+    var skipGroupOnBack by remember { mutableStateOf(initialSection != null) }
     var historyOpen by remember { mutableStateOf(false) }
     var feedbackKind by remember { mutableStateOf<String?>(null) }
     val scroll = rememberScrollState()
-    LaunchedEffect(section, historyOpen, feedbackKind) { scroll.scrollTo(0) }
+    LaunchedEffect(section, group, historyOpen, feedbackKind) { scroll.scrollTo(0) }
     BackHandler {
         when {
             feedbackKind != null -> feedbackKind = null
             historyOpen -> historyOpen = false
-            section != null -> section = null
+            section != null -> {
+                val parent = SettingsGroup.of(section!!)
+                section = null
+                group = if (skipGroupOnBack) null else parent.takeIf { it.directSection() == null }
+                skipGroupOnBack = false
+            }
+            group != null -> group = null
             else -> onBack()
         }
     }
@@ -80,31 +88,69 @@ fun SettingsScreen(
         verticalArrangement = Arrangement.spacedBy(SpacingMd),
     ) {
         val open = section
-        if (open == null) {
-            SettingsHub(onOpen = { section = it })
-        } else {
-            Text(text = stringResource(open.titleRes()), style = MaterialTheme.typography.headlineSmall)
-            when (open) {
-                SettingsSection.PERMISSIONS -> SettingsPermissionsPane()
-                SettingsSection.DESKTOP -> SettingsDesktopPane()
-                SettingsSection.DOCK -> DockSettings()
-                SettingsSection.LOOK -> SettingsLookPane(themeMode, onThemeModeSelect)
-                SettingsSection.GESTURES -> GestureSettings()
-                SettingsSection.INBOX -> SettingsInboxPane(
-                    saveCrashes = saveCrashes,
-                    onSaveCrashes = onSaveCrashes,
-                    onHistory = { historyOpen = true },
-                )
-                SettingsSection.FEEDS -> SettingsFeedsPane()
-                SettingsSection.DRAWER -> DrawerSettings()
-                SettingsSection.FOLDERS -> FolderSettings()
-                SettingsSection.SEARCH -> SearchSettings()
-                SettingsSection.BACKUP -> BackupSettings()
-                SettingsSection.ABOUT -> SettingsAboutPane(
-                    onReportBug = { feedbackKind = "bug" },
-                    onRequestFeature = { feedbackKind = "feature" },
-                )
-            }
+        val openGroup = group
+        when {
+            open != null -> SettingsSectionPane(
+                section = open,
+                themeMode = themeMode,
+                onThemeModeSelect = onThemeModeSelect,
+                saveCrashes = saveCrashes,
+                onSaveCrashes = onSaveCrashes,
+                onHistory = { historyOpen = true },
+                onReportBug = { feedbackKind = "bug" },
+                onRequestFeature = { feedbackKind = "feature" },
+                onOpenSection = { next -> section = next },
+            )
+            openGroup != null -> SettingsGroupPane(group = openGroup, onOpen = { section = it })
+            else -> SettingsHub(
+                onOpen = { picked ->
+                    val direct = picked.directSection()
+                    if (direct != null) {
+                        section = direct
+                    } else {
+                        group = picked
+                    }
+                },
+            )
         }
+    }
+}
+
+@Composable
+private fun SettingsSectionPane(
+    section: SettingsSection,
+    themeMode: ThemeMode,
+    onThemeModeSelect: (ThemeMode) -> Unit,
+    saveCrashes: Boolean,
+    onSaveCrashes: (Boolean) -> Unit,
+    onHistory: () -> Unit,
+    onReportBug: () -> Unit,
+    onRequestFeature: () -> Unit,
+    onOpenSection: (SettingsSection) -> Unit,
+) {
+    Text(text = stringResource(section.titleRes()), style = MaterialTheme.typography.headlineSmall)
+    when (section) {
+        SettingsSection.PERMISSIONS -> SettingsPermissionsPane()
+        SettingsSection.DESKTOP -> SettingsDesktopPane()
+        SettingsSection.DOCK -> DockSettings()
+        SettingsSection.LOOK -> SettingsLookPane(themeMode, onThemeModeSelect)
+        SettingsSection.GESTURES -> GestureSettings()
+        SettingsSection.INBOX -> SettingsInboxPane(
+            saveCrashes = saveCrashes,
+            onSaveCrashes = onSaveCrashes,
+            onHistory = onHistory,
+        )
+        SettingsSection.FEEDS -> SettingsFeedsPane(
+            onSubscriptions = { onOpenSection(SettingsSection.FEEDS_SUBS) },
+        )
+        SettingsSection.FEEDS_SUBS -> SettingsFeedSubs()
+        SettingsSection.DRAWER -> DrawerSettings()
+        SettingsSection.FOLDERS -> FolderSettings()
+        SettingsSection.SEARCH -> SearchSettings()
+        SettingsSection.BACKUP -> BackupSettings()
+        SettingsSection.ABOUT -> SettingsAboutPane(
+            onReportBug = onReportBug,
+            onRequestFeature = onRequestFeature,
+        )
     }
 }

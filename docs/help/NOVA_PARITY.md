@@ -2,7 +2,7 @@
 
 Observed on OP12 (`b5214fc6`) from Nova Launcher settings on 2026-09-02. **Boarded** in `BUILD_PLAN.md` Sprints 18–27. Specs under `docs/features/`. Skip proprietary Nova Plus / Nova AI cloud.
 
-Hermes Settings hub target: **Desktop, Dock, App drawer, Folders, Search, Look & feel, Gestures, Inbox, Feeds, Backup**.
+Hermes Settings hub target: **Home** (Desktop, Dock, App drawer, Folders, Search, Look & feel, Gestures), **Inbox**, **Feeds** (sync + Subscriptions), **System** (Permissions, Backup, About).
 
 | Nova # | Sprint | Spec |
 |--------|--------|------|

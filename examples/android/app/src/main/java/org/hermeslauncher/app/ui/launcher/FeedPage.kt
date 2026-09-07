@@ -52,9 +52,11 @@ fun FeedPage(
         if (searching) app.vault.archivedItems else flowOf(emptyList())
     }
     val archived by archivedFlow.collectAsStateWithLifecycle(emptyList())
-    val live = remember(items, query) { InboxFilter.apply(items, query) }
-    val history = remember(archived, query) {
-        if (query.text.isBlank()) emptyList() else InboxFilter.apply(archived, query)
+    val policies by app.vault.policies.collectAsStateWithLifecycle(emptyList())
+    val ignored = remember(policies) { InboxFilter.ignoredPackages(policies) }
+    val live = remember(items, query, ignored) { InboxFilter.apply(items, query, ignored) }
+    val history = remember(archived, query, ignored) {
+        if (query.text.isBlank()) emptyList() else InboxFilter.apply(archived, query, ignored)
     }
     val kindOf = remember {
         val pm = context.packageManager
@@ -78,7 +80,7 @@ fun FeedPage(
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             FilterBar(
-                unread = InboxFilter.unreadCount(items),
+                unread = InboxFilter.unreadCount(items, ignored),
                 searchText = query.text,
                 onSearchText = { query = query.copy(text = it) },
                 filterMenu = { expanded, onDismiss ->

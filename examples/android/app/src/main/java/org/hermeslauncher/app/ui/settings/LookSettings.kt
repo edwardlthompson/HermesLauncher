@@ -2,13 +2,10 @@ package org.hermeslauncher.app.ui.settings
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.FilterChip
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -29,7 +26,6 @@ import org.hermeslauncher.app.ui.theme.LookPrefs
 import org.hermeslauncher.app.ui.theme.NightSchedule
 import org.hermeslauncher.app.ui.theme.SpacingMd
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun LookSettings(modifier: Modifier = Modifier) {
     val context = LocalContext.current
@@ -44,80 +40,79 @@ fun LookSettings(modifier: Modifier = Modifier) {
     var startText by remember(night.startMinute) { mutableStateOf(NightSchedule.formatTime(night.startMinute)) }
     var endText by remember(night.endMinute) { mutableStateOf(NightSchedule.formatTime(night.endMinute)) }
     val accentArgb = MaterialTheme.colorScheme.primary.toArgb()
+    val themeColor = stringResource(R.string.look_badge_color_theme)
+    val accentColor = stringResource(R.string.look_badge_color_accent)
 
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(SpacingMd)) {
-        Text(stringResource(R.string.look_shape), style = MaterialTheme.typography.titleSmall)
-        FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
-            IconShape.entries.forEach { option ->
-                FilterChip(
-                    selected = shape == option,
-                    onClick = { scope.launch { prefs.setIconShape(option) } },
-                    label = { Text(shapeLabel(option)) },
-                )
-            }
-        }
-        Text(stringResource(R.string.look_night), style = MaterialTheme.typography.titleSmall)
-        Text(stringResource(R.string.look_night_body), style = MaterialTheme.typography.bodySmall)
-        Switch(
+        SettingsDropdown(
+            title = stringResource(R.string.look_shape),
+            options = IconShape.entries,
+            selected = shape,
+            labelOf = { shapeLabel(it) },
+            onSelect = { option -> scope.launch { prefs.setIconShape(option) } },
+        )
+        SettingsSwitchRow(
+            title = R.string.look_night,
+            body = R.string.look_night_body,
             checked = night.enabled,
             onCheckedChange = { on -> scope.launch { prefs.setNightSchedule(night.copy(enabled = on)) } },
         )
-        OutlinedTextField(
-            value = startText,
-            onValueChange = { startText = it },
-            label = { Text(stringResource(R.string.look_night_start)) },
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth(),
-        )
-        OutlinedTextField(
-            value = endText,
-            onValueChange = { endText = it },
-            label = { Text(stringResource(R.string.look_night_end)) },
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth(),
-        )
-        FilterChip(
-            selected = false,
-            onClick = {
-                val start = NightSchedule.parseTime(startText) ?: night.startMinute
-                val end = NightSchedule.parseTime(endText) ?: night.endMinute
-                scope.launch { prefs.setNightSchedule(NightSchedule(night.enabled, start, end)) }
-            },
-            label = { Text(stringResource(R.string.look_night_save)) },
-        )
-        Text(stringResource(R.string.look_badge), style = MaterialTheme.typography.titleSmall)
-        FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
-            BadgeStyle.entries.forEach { option ->
-                FilterChip(
-                    selected = badge == option,
-                    onClick = { scope.launch { prefs.setBadgeStyle(option) } },
-                    label = {
-                        Text(
-                            if (option == BadgeStyle.DOTS) stringResource(R.string.look_badge_dots)
-                            else stringResource(R.string.look_badge_counts),
-                        )
-                    },
-                )
+        if (night.enabled) {
+            OutlinedTextField(
+                value = startText,
+                onValueChange = { startText = it },
+                label = { Text(stringResource(R.string.look_night_start)) },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth(),
+            )
+            OutlinedTextField(
+                value = endText,
+                onValueChange = { endText = it },
+                label = { Text(stringResource(R.string.look_night_end)) },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth(),
+            )
+            Button(
+                onClick = {
+                    val start = NightSchedule.parseTime(startText) ?: night.startMinute
+                    val end = NightSchedule.parseTime(endText) ?: night.endMinute
+                    scope.launch { prefs.setNightSchedule(NightSchedule(night.enabled, start, end)) }
+                },
+            ) {
+                Text(stringResource(R.string.look_night_save))
             }
         }
-        Text(stringResource(R.string.look_badge_color), style = MaterialTheme.typography.titleSmall)
-        FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
-            FilterChip(
-                selected = badgeColor == null,
-                onClick = { scope.launch { prefs.setBadgeColorArgb(null) } },
-                label = { Text(stringResource(R.string.look_badge_color_theme)) },
-            )
-            FilterChip(
-                selected = badgeColor != null,
-                onClick = { scope.launch { prefs.setBadgeColorArgb(accentArgb) } },
-                label = { Text(stringResource(R.string.look_badge_color_accent)) },
-            )
-        }
-        Text(stringResource(R.string.look_label_shadow))
-        Switch(checked = labelShadow, onCheckedChange = { on -> scope.launch { prefs.setLabelShadow(on) } })
-        Text(stringResource(R.string.look_wallpaper_palette))
-        Text(stringResource(R.string.look_wallpaper_palette_body), style = MaterialTheme.typography.bodySmall)
-        Switch(checked = wallpaper, onCheckedChange = { on -> scope.launch { prefs.setWallpaperPalette(on) } })
+        SettingsDropdown(
+            title = stringResource(R.string.look_badge),
+            options = BadgeStyle.entries,
+            selected = badge,
+            labelOf = { option ->
+                stringResource(
+                    if (option == BadgeStyle.DOTS) R.string.look_badge_dots else R.string.look_badge_counts,
+                )
+            },
+            onSelect = { option -> scope.launch { prefs.setBadgeStyle(option) } },
+        )
+        SettingsDropdown(
+            title = stringResource(R.string.look_badge_color),
+            options = listOf(true, false),
+            selected = badgeColor == null,
+            labelOf = { useTheme -> if (useTheme) themeColor else accentColor },
+            onSelect = { useTheme ->
+                scope.launch { prefs.setBadgeColorArgb(if (useTheme) null else accentArgb) }
+            },
+        )
+        SettingsSwitchRow(
+            title = R.string.look_label_shadow,
+            checked = labelShadow,
+            onCheckedChange = { on -> scope.launch { prefs.setLabelShadow(on) } },
+        )
+        SettingsSwitchRow(
+            title = R.string.look_wallpaper_palette,
+            body = R.string.look_wallpaper_palette_body,
+            checked = wallpaper,
+            onCheckedChange = { on -> scope.launch { prefs.setWallpaperPalette(on) } },
+        )
     }
 }
 

@@ -22,4 +22,38 @@ internal object FeedApply {
             .lowercase()
         return needles.any { it in hay }
     }
+
+    fun dropSource(
+        records: List<ArticleRecord>,
+        url: String,
+        keepStarred: Boolean = true,
+    ): List<ArticleRecord> {
+        if (url.isBlank()) {
+            return records
+        }
+        val canon = FeedDiscover.canonicalize(url)
+        return records.filter { rec ->
+            val src = rec.item.sourceUrl.orEmpty()
+            val match = src == url || (src.isNotBlank() && FeedDiscover.canonicalize(src) == canon)
+            !match || (keepStarred && rec.starred)
+        }
+    }
+
+    fun idsForUrls(records: List<ArticleRecord>, urls: Set<String>): Set<String> {
+        if (urls.isEmpty()) {
+            return emptySet()
+        }
+        return records.mapNotNull { rec ->
+            rec.item.id.takeIf { rec.item.sourceUrl in urls }
+        }.toSet()
+    }
+
+    fun idsForTag(records: List<ArticleRecord>, tag: String, tags: Map<String, String>): Set<String> {
+        if (tag.isBlank()) {
+            return emptySet()
+        }
+        return records.mapNotNull { rec ->
+            rec.item.id.takeIf { tags[rec.item.sourceUrl].orEmpty() == tag }
+        }.toSet()
+    }
 }

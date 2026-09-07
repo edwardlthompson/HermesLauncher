@@ -1,14 +1,29 @@
 package org.hermeslauncher.app.icons
 
 object AppSearch {
-    fun filter(apps: List<LaunchableApp>, query: String): List<LaunchableApp> {
+    fun filter(
+        apps: List<LaunchableApp>,
+        query: String,
+        lastUsed: Map<String, Long> = emptyMap(),
+    ): List<LaunchableApp> {
         val needle = query.trim()
-        if (needle.isEmpty()) {
-            return apps
+        val matched = if (needle.isEmpty()) {
+            apps
+        } else {
+            val lower = needle.lowercase()
+            apps.filter { matches(it, lower) }
         }
-        val lower = needle.lowercase()
-        return apps.filter {
-            it.label.lowercase().contains(lower) || it.packageName.lowercase().contains(lower)
+        return matched.sortedWith(
+            compareByDescending<LaunchableApp> { lastUsed[it.packageName] ?: 0L }
+                .thenBy { it.label.lowercase() },
+        )
+    }
+
+    private fun matches(app: LaunchableApp, needle: String): Boolean {
+        if (app.label.lowercase().startsWith(needle)) {
+            return true
         }
+        val pkg = app.packageName.lowercase()
+        return (needle.contains('.') || needle.length >= 3) && pkg.contains(needle)
     }
 }

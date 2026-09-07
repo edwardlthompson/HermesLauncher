@@ -2,9 +2,6 @@ package org.hermeslauncher.app.ui.settings
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -22,7 +19,6 @@ import org.hermeslauncher.app.ui.theme.SpacingMd
 import org.hermeslauncher.app.workspace.FolderPreviewKind
 import org.hermeslauncher.app.workspace.FolderSnapshot
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun FolderSettings(modifier: Modifier = Modifier) {
     val context = LocalContext.current
@@ -30,16 +26,13 @@ fun FolderSettings(modifier: Modifier = Modifier) {
     val scope = rememberCoroutineScope()
     val snapshot by app.folderPrefs.snapshot.collectAsStateWithLifecycle(FolderSnapshot())
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(SpacingMd)) {
-        Text(text = stringResource(R.string.folder_preview))
-        FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
-            FolderPreviewKind.entries.forEach { kind ->
-                FilterChip(
-                    selected = snapshot.preview == kind,
-                    onClick = { scope.launch { app.folderPrefs.setPreview(kind) } },
-                    label = { Text(stringResource(previewLabel(kind))) },
-                )
-            }
-        }
+        SettingsDropdown(
+            title = stringResource(R.string.folder_preview),
+            options = FolderPreviewKind.entries,
+            selected = snapshot.preview,
+            labelOf = { kind -> stringResource(previewLabel(kind)) },
+            onSelect = { kind -> scope.launch { app.folderPrefs.setPreview(kind) } },
+        )
         ListItem(
             headlineContent = { Text(stringResource(R.string.folder_fullscreen)) },
             trailingContent = {

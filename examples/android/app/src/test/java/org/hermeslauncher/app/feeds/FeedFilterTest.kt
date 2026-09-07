@@ -133,6 +133,33 @@ class FeedFilterTest {
     }
 
     @Test
+    fun taggedFeedsNestUnderFolderNotAtBottom() {
+        val rows = listOf(
+            rec("a", feed = "Zed", source = "https://z.example/feed"),
+            rec("b", feed = "Alpha", source = "https://a.example/feed"),
+            rec("c", feed = "Loose", source = "https://l.example/feed"),
+        )
+        val tags = mapOf(
+            "https://z.example/feed" to "News",
+            "https://a.example/feed" to "News",
+        )
+        val out = FeedFilter.drawerRows(rows, tags = tags)
+        val kinds = out.map { it.kind }
+        val titles = out.map { it.title }
+        assertEquals(
+            listOf(DrawerKind.ALL, DrawerKind.SAVED, DrawerKind.TAG, DrawerKind.FEED, DrawerKind.FEED, DrawerKind.FEED),
+            kinds,
+        )
+        assertEquals(listOf("All feeds", "Saved", "News", "Alpha", "Zed", "Loose"), titles)
+        assertEquals(1, out[3].depth)
+        assertEquals(2, out[2].childCount)
+        val collapsed = FeedFilter.drawerVisible(out, openTags = emptySet(), searching = false)
+        assertEquals(listOf("All feeds", "Saved", "News", "Loose"), collapsed.map { it.title })
+        val opened = FeedFilter.drawerVisible(out, openTags = setOf("News"), searching = false)
+        assertEquals(listOf("All feeds", "Saved", "News", "Alpha", "Zed", "Loose"), opened.map { it.title })
+    }
+
+    @Test
     fun blockListHidesMatchingTitle() {
         val rows = listOf(rec("a", title = "Ads inside"), rec("b", title = "News"))
         val out = FeedFilter.apply(rows, FeedQuery(blocked = "ads"))

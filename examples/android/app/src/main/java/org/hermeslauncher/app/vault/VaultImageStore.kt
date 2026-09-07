@@ -24,6 +24,23 @@ object VaultImageStore {
         }.getOrNull()
     }
 
+    fun attach(
+        filesDir: File,
+        item: VaultItem,
+        posted: PostedNotification,
+        action: PersistAction,
+    ): VaultItem {
+        if (action != PersistAction.PERSIST_TEXT_AND_IMAGES) {
+            return item
+        }
+        val ref = write(filesDir, item.id, posted.imageBytes) ?: return item.copy(imagesStored = false)
+        return item.copy(
+            extrasJson = VaultPreview.parse(item.extrasJson)
+                .withImage(ref, posted.imageWidth, posted.imageHeight, posted.imageIsLargeIcon)
+                .encode(),
+        )
+    }
+
     fun delete(filesDir: File, itemId: String) {
         val safe = itemId.replace(Regex("[^A-Za-z0-9._-]"), "_")
         val dir = File(filesDir, "${ImageLimits.RELATIVE_DIR}/$safe")

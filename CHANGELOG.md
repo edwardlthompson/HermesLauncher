@@ -8,13 +8,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.0.0](https://github.com/edwardlthompson/HermesLauncher/compare/v1.0.0...v1.0.0) (2026-09-05)
+### Added
 
+* **android:** notification ignore list hides blacklisted apps from the inbox
+* **android:** even notification height and hide-small-photo toggles on Inbox settings
+* **android:** app search ranks recently opened apps first as each letter is typed
+* **android:** unsubscribe, notify-all, and prefetch-all on a Feeds → Subscriptions submenu
+* **android:** settings hub grouped into Home, Inbox, Feeds, and System
+* **android:** feeds drawer nests folders in place with chevrons and a long-press menu
+* **ci:** attach `hermes-launcher-{version}-foss.apk` on GitHub Releases
+* **ci:** sign the GitHub Release FOSS APK from repository keystore secrets
+
+### Changed
+
+* **android:** settings multi-option chips are dropdown menus
+
+### Fixed
+
+* **android:** decode MessagingStyle URI photo bounds so hide-small keeps chat photos
+* **android:** letter search matches app labels, not every `com.*` package
+* **android:** grouped settings hub smokes open Home / Feeds / System instead of the old flat list
+
+## [1.0.0](https://github.com/edwardlthompson/HermesLauncher/compare/v1.0.0...v1.0.0) (2026-09-05)
 
 ### chore
 
 * **release:** prepare v1.0.0 release ([6e037a2](https://github.com/edwardlthompson/HermesLauncher/commit/6e037a237aaa62c9b6c4514264ca527437056e21))
-
 
 ### Added
 
@@ -89,7 +108,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * seed Hermes Launcher as a FOSS Android inbox home ([c2bb2c4](https://github.com/edwardlthompson/HermesLauncher/commit/c2bb2c4411b5489673156406f33a507ee9a44909))
 * template v0.2.0 with UTF-8 gates, lockfiles, and build verification ([2317440](https://github.com/edwardlthompson/HermesLauncher/commit/2317440eeecec0ef961bb9cf54ea3830c183d8cf))
 * turn the seeded shell into a FOSS inbox launcher ([3284227](https://github.com/edwardlthompson/HermesLauncher/commit/3284227361c975f9a7a4aa82a93f7d417cdcfbd7))
-
 
 ### Fixed
 

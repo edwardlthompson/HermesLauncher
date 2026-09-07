@@ -57,6 +57,21 @@ class FeedStore(private val context: Context) {
         }
     }
 
+    suspend fun remove(url: String) {
+        context.feedDataStore.edit { prefs ->
+            val current = migrate(prefs[SUBS], prefs[KEY])
+            prefs[SUBS] = FeedSubCodec.encode(FeedSubPolicy.withoutUrl(current, url))
+        }
+    }
+
+    suspend fun replaceSubs(subs: List<FeedSub>) {
+        context.feedDataStore.edit { prefs ->
+            prefs[SUBS] = FeedSubCodec.encode(
+                subs.filter { FeedFetcher.isHttpUrl(it.url) }.distinctBy { it.url },
+            )
+        }
+    }
+
     suspend fun seedIfNeeded() {
         context.feedDataStore.edit { prefs ->
             val from = prefs[SEED] ?: 0

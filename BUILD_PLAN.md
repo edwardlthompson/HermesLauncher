@@ -317,6 +317,68 @@ When **Sprint 0** ends: stop re-reading `docs/INITIALIZATION_PROMPT.md` as the d
 
 ---
 
+### Sprint 48 — Inbox ignore list, card chrome, recency search, release APK
+
+> Spec: `docs/features/inbox-chrome.md`. Notification blacklist hides live cards; even card height; skip small/avatar photos; letter-by-letter app search ranks recently opened first; GitHub Release uploads the FOSS APK.
+
+### Critique
+
+| Issue | Resolution |
+|-------|------------|
+| Null/empty package | `VaultRepository.blacklist` and `LaunchRecency.touch` ignore blanks; tests in `InboxFilterTest` / `LaunchRecencyTest` |
+| Network timeout | N/A for inbox prefs; release APK job fails closed if `gh release view` misses the tag |
+| Race | `LaunchRecency` in-memory map updates on touch; DataStore write is best-effort on `vaultScope` |
+| Unhandled exceptions | Image decode `runCatching`; APK find fails the job instead of uploading an empty asset |
+| Avatar mistaken for photo | `InboxDisplay.keepImage` skips `largeIcon` and min 240px; `VaultMapperTest` |
+| Search order | `AppSearch.filter` + L3 `DefaultAppSearchAlgorithm` sort by last-used then label |
+
+### Parallelization
+
+<!-- parallel_exception: single Android container; logic and settings share inbox prefs -->
+
+- Sequential lock: `InboxDisplay` + `InboxPrefs` + `LaunchRecency` + `PostedNotification` image metadata
+- `agent_count_target`: 1 (single Android container; release.yml is the only other prefix)
+- Dry-run: inline — logic/tests and settings UI share inbox prefs
+
+- ✅ [AGENT] Lock ignore-list filter, truncate/image prefs, recency rank, and FOSS APK release upload
+- ✅ [AGENT] Unit tests for mapper, filter, recency, display, and release workflow
+- ✅ [AGENT] Inbox settings UI + All Apps recency hook
+- 🔲 [ADB] OP12: ignore an app, confirm cards vanish; type a letter in All Apps and see last-opened first
+- 🔲 [HUMAN] Copy Windows `keystore.properties` + `.jks` into `examples/android/`, run `bash scripts/set-android-signing-secrets.sh`, then dispatch `Release` so the signed `hermes-launcher-*-foss.apk` attaches
+
+---
+
+### Sprint 49 — Unsubscribe, bulk feed knobs, compact settings hub
+
+> Spec: `docs/features/feed-unsubscribe.md`. Subscriptions move under Feeds; unsubscribe purges unstarred articles; notify-all / prefetch-all; hub is four groups with expanders.
+
+### Critique
+
+| Issue | Resolution |
+|-------|------------|
+| Null/empty URL | `FeedSubPolicy.withoutUrl` and `unsubscribe` ignore blanks; `FeedApplyTest` / `FeedSubPolicyTest` |
+| Network timeout | N/A — local DataStore |
+| Race | One `replaceSubs` edit for bulk toggles; unsubscribe then article purge |
+| Unhandled exceptions | Starred articles kept; decode already `runCatching` |
+| Twelve-row hub | `SettingsGroup` Home/Inbox/Feeds/System; Inbox opens directly; `SettingsHubTest` |
+| Duplicate ignore list | Blacklist lives only under Inbox |
+
+### Parallelization
+
+<!-- parallel_exception: single Android settings/feeds container -->
+
+- Sequential lock: `FeedSubPolicy` + `SettingsSection.FEEDS_SUBS` + hub groups
+- `agent_count_target`: 1 (single Android settings/feeds container)
+- Dry-run: inline
+
+- ✅ [AGENT] Lock unsubscribe, bulk notify/prefetch, grouped hub
+- ✅ [AGENT] Unit tests for policy, dropSource, and hub groups
+- ✅ [AGENT] Compact Feeds/Inbox/Home settings UI
+- 🔲 [ADB] OP12: unsubscribe a feed; confirm notify-all and the four-group hub
+- 🔲 [ADB] OP12: expand a feed folder in the drawer and long-press mark-read / move / unsubscribe
+
+---
+
 ## Ongoing Maintenance (recurring)
 
 > Child repo weekly: Dependabot alerts + `check-github-ci.sh` after push.

@@ -6,6 +6,8 @@ object VaultMapper {
         policy: AppStorePolicy?,
         ignoreOngoing: Boolean = false,
         storePhotos: Boolean = false,
+        hideSmallImages: Boolean = false,
+        minImagePx: Int = InboxDisplay.MIN_IMAGE_PX,
     ): PersistDecision {
         if (ignoreOngoing && posted.ongoing) {
             return PersistDecision(PersistAction.SKIP, skipImageReason = "ongoing")
@@ -20,6 +22,17 @@ object VaultMapper {
         val allowImages = storePhotos || (policy?.storeImages == true)
         if (!allowImages || posted.imageByteSize <= 0) {
             return PersistDecision(PersistAction.PERSIST_TEXT)
+        }
+        if (
+            !InboxDisplay.keepImage(
+                width = posted.imageWidth,
+                height = posted.imageHeight,
+                fromLargeIcon = posted.imageIsLargeIcon,
+                hideSmall = hideSmallImages,
+                minPx = minImagePx,
+            )
+        ) {
+            return PersistDecision(PersistAction.PERSIST_TEXT, skipImageReason = "small_or_avatar")
         }
         if (posted.imageByteSize > ImageLimits.ORIGINAL_MAX_BYTES) {
             return PersistDecision(

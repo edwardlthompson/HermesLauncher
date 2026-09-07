@@ -38,6 +38,14 @@ class ReleasePleaseHygieneTests(unittest.TestCase):
         )
         self.assertIn(".cursor-plugin/plugin.json", workflow)
 
+    def test_release_workflow_uploads_foss_apk(self) -> None:
+        text = (ROOT / ".github" / "workflows" / "release.yml").read_text(encoding="utf-8")
+        self.assertIn("assembleRelease", text)
+        self.assertIn("hermes-launcher-", text)
+        self.assertIn("-foss.apk", text)
+        self.assertIn("Upload FOSS APK", text)
+        self.assertIn("ci-write-android-keystore.sh", text)
+
     def test_session_state_json_gitignored(self) -> None:
         text = (ROOT / ".gitignore").read_text(encoding="utf-8")
         self.assertIn(".cursor-session-state.json", text)

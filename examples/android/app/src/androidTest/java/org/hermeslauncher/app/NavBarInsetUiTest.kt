@@ -37,23 +37,23 @@ class NavBarInsetUiTest {
         composeTestRule.skipFirstRunIfPresent()
         composeTestRule.onNodeWithContentDescription("Open settings").performClick()
         composeTestRule.onNodeWithText("Settings").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Backup").performScrollTo().assertIsDisplayed()
+        composeTestRule.onNodeWithText("System").performScrollTo().assertIsDisplayed()
 
         val decorView = context.window.decorView
         val navInset = ViewCompat.getRootWindowInsets(decorView)
             ?.getInsets(WindowInsetsCompat.Type.navigationBars())
             ?.bottom ?: 0
         if (navInset <= 0) {
-            composeTestRule.onNodeWithText("Backup").assertIsDisplayed()
+            composeTestRule.onNodeWithText("System").assertIsDisplayed()
             return
         }
         val screenHeight = decorView.height
-        val buttonBottom = composeTestRule.onNodeWithText("Backup")
+        val buttonBottom = composeTestRule.onNodeWithText("System")
             .fetchSemanticsNode()
             .boundsInRoot
             .bottom
         assertTrue(
-            "Backup row bottom ($buttonBottom) should be above nav bar (screen=$screenHeight inset=$navInset)",
+            "System row bottom ($buttonBottom) should be above nav bar (screen=$screenHeight inset=$navInset)",
             buttonBottom <= screenHeight - navInset + 8,
         )
     }
@@ -64,20 +64,20 @@ class NavBarInsetUiTest {
 
         composeTestRule.skipFirstRunIfPresent()
         composeTestRule.onNodeWithContentDescription("Open settings").performClick()
-        composeTestRule.onNodeWithText("Backup").performScrollTo().assertIsDisplayed()
+        composeTestRule.onNodeWithText("System").performScrollTo().assertIsDisplayed()
 
         val decorView = composeTestRule.activity.window.decorView
         val navInset = ViewCompat.getRootWindowInsets(decorView)
             ?.getInsets(WindowInsetsCompat.Type.navigationBars())
             ?.bottom ?: 0
         val screenHeight = decorView.height
-        val buttonBottom = composeTestRule.onNodeWithText("Backup")
+        val buttonBottom = composeTestRule.onNodeWithText("System")
             .fetchSemanticsNode()
             .boundsInRoot
             .bottom
 
         assertTrue(
-            "Backup row bottom ($buttonBottom) should clear gesture nav inset ($navInset)",
+            "System row bottom ($buttonBottom) should clear gesture nav inset ($navInset)",
             buttonBottom <= screenHeight - navInset + 8,
         )
     }

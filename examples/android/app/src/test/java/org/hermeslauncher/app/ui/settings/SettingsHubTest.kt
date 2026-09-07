@@ -2,17 +2,24 @@ package org.hermeslauncher.app.ui.settings
 
 import org.hermeslauncher.app.R
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class SettingsHubTest {
     @Test
-    fun hubListsTwelveSections() {
-        assertEquals(12, SettingsSection.entries.size)
-        assertEquals(R.string.settings_section_permissions, SettingsSection.PERMISSIONS.titleRes())
-        assertEquals(R.string.settings_section_home, SettingsSection.DESKTOP.titleRes())
-        assertEquals(R.string.settings_section_about, SettingsSection.ABOUT.titleRes())
+    fun hubListsFourGroups() {
+        assertEquals(4, SettingsGroup.entries.size)
+        assertEquals(13, SettingsSection.entries.size)
+        assertEquals(R.string.settings_group_home, SettingsGroup.HOME.titleRes())
+        assertEquals(R.string.settings_section_subs, SettingsSection.FEEDS_SUBS.titleRes())
+        assertEquals(
+            listOf(SettingsSection.FEEDS, SettingsSection.FEEDS_SUBS),
+            SettingsGroup.FEEDS.sections(),
+        )
+        assertEquals(SettingsSection.INBOX, SettingsGroup.INBOX.directSection())
+        assertEquals(null, SettingsGroup.HOME.directSection())
+        assertEquals(SettingsGroup.FEEDS, SettingsGroup.of(SettingsSection.FEEDS_SUBS))
         assertEquals(R.color.settings_hub_about, SettingsSection.ABOUT.accentRes())
-        assertEquals(R.string.settings_section_backup, SettingsSection.BACKUP.titleRes())
     }
 
     @Test
@@ -20,7 +27,16 @@ class SettingsHubTest {
         assertEquals(SettingsSection.PERMISSIONS, SettingsSection.parse("permissions"))
         assertEquals(SettingsSection.ABOUT, SettingsSection.parse("about"))
         assertEquals(SettingsSection.BACKUP, SettingsSection.parse(" BACKUP "))
+        assertEquals(SettingsSection.FEEDS_SUBS, SettingsSection.parse("feeds_subs"))
         assertEquals(null, SettingsSection.parse(null))
         assertEquals(null, SettingsSection.parse("nope"))
+    }
+
+    @Test
+    fun multiChoiceMenusHaveDropdownSources() {
+        assertEquals(8, org.hermeslauncher.app.feeds.ScanInterval.OPTIONS.size)
+        assertEquals(4, org.hermeslauncher.app.vault.InboxDisplay.CHAR_CHOICES.size)
+        assertTrue(org.hermeslauncher.app.ui.theme.ThemeMode.entries.size >= 3)
+        assertTrue(org.hermeslauncher.app.launcher.LauncherAction.entries.size >= 3)
     }
 }

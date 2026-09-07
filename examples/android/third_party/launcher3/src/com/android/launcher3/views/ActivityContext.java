@@ -53,6 +53,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.android.launcher3.AppFilter;
 import com.android.launcher3.BubbleTextView;
 import com.android.launcher3.DeviceProfile;
 import com.android.launcher3.DeviceProfile.OnDeviceProfileChangeListener;
@@ -362,6 +363,13 @@ public interface ActivityContext {
             } else {
                 context.getSystemService(LauncherApps.class).startMainActivity(
                         intent.getComponent(), user, intent.getSourceBounds(), optsBundle);
+            }
+            String launchedPkg = intent.getPackage();
+            if (launchedPkg == null && intent.getComponent() != null) {
+                launchedPkg = intent.getComponent().getPackageName();
+            }
+            if (launchedPkg != null) {
+                AppFilter.sOnAppLaunch.accept(launchedPkg);
             }
             if (item != null) {
                 InstanceId instanceId = new InstanceIdSequence().newInstanceId();

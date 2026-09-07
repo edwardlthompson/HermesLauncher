@@ -42,11 +42,12 @@ object DrawerPolicy {
         query: String,
         exclude: Set<String>,
         limit: Int = 8,
+        lastUsed: Map<String, Long> = emptyMap(),
     ): List<LaunchableApp> {
         if (query.trim().isEmpty()) {
             return emptyList()
         }
-        return AppSearch.filter(apps, query)
+        return AppSearch.filter(apps, query, lastUsed)
             .filter { it.packageName !in exclude }
             .take(limit)
     }

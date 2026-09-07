@@ -81,4 +81,20 @@
     <string name="feed_import_podcast_opml">Import podcast OPML</string>
     <string name="feed_export_podcast_opml">Export podcast OPML</string>
     <string name="feed_widget_unread">News unread</string>
+    <string name="feed_unsubscribe">Unsubscribe</string>
+    <string name="feed_unsubscribe_all">Unsubscribe all</string>
+    <string name="feed_notify_all">Notify all</string>
+    <string name="feed_notify_all_body">Post an alert for every new unread item from every subscription.</string>
+    <string name="feed_prefetch_all">Prefetch all</string>
+    <string name="feed_prefetch_all_body">Download articles and podcast audio for every subscription when the network policy allows it.</string>
+    <string name="feed_subs_news">News (%1$d)</string>
+    <string name="feed_subs_podcasts">Podcasts (%1$d)</string>
+    <string name="feed_subs_open_body">Unsubscribe, tags, notify, and prefetch</string>
+    <string name="feed_drawer_folder_open">%1$s folder, expanded</string>
+    <string name="feed_drawer_folder_closed">%1$s folder, collapsed</string>
+    <string name="feed_move_folder">Move to folder</string>
+    <string name="feed_move_none">No folder</string>
+    <string name="feed_new_folder">New folder</string>
+    <string name="feed_rename_folder">Rename folder</string>
+    <string name="feed_delete_folder">Remove folder</string>
 </resources>

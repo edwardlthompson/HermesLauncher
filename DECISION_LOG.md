@@ -17,6 +17,42 @@
 
 ## Entries
 
+### 2026-09-06 — New GitHub Actions upload keystore
+- **Status:** Accepted
+- **Context:** Windows upload keystore was unavailable. GitHub had no signing secrets, so Release could only emit an unsigned APK that cannot be sideloaded.
+- **Decision:** Generate a new PKCS12 `upload` keystore on the Linux laptop, keep `examples/android/upload-keystore.jks` and `keystore.properties` gitignored, and store `ANDROID_KEYSTORE_*` in GitHub Actions repository secrets. The Release workflow signs `hermes-launcher-*-foss.apk` from those secrets.
+- **Alternatives considered:** Wait for the Windows keystore (rejected: blocks `/ship`). Sign with the debug key in CI (rejected: not an official release signature).
+- **Consequences:** Installs signed with the old 1.0.1 key cannot update in place. Sideload of the new signed APK requires uninstalling debug first. Back up the two gitignored files off-disk; losing them and the GitHub secrets means another key rotation.
+
+### 2026-09-06 — Merge staging for Sprint 48–49
+- **Status:** Accepted
+- **Context:** Two PRs overlapped (inbox chrome vs feeds/settings). CI failed after the hub regroup: letter search matched every `com.*` package, and instrumented smokes still looked for flat hub labels.
+- **Decision:** Stage everything on PR 7 (`cursor/feed-unsub-compact-menus-78ec`). Include the MessagingStyle URI-photo bounds fix. Letter queries match labels; package match requires a dot or 3+ characters. Do not merge, tag, or dispatch Release here — human smokes on-device then ships.
+- **Alternatives considered:** Merge PR 6 then PR 7 (rejected: PR 7 already contains Sprint 48). Close PR 6 from this agent (rejected: human will drop the subset PR after merging 7).
+- **Consequences:** Merge PR 7 only. PR 6 is a subset and can be closed after that merge. Release APK still needs `[HUMAN]` workflow dispatch.
+
+
+### 2026-09-06 — Feeds drawer nested folders and long-press
+- **Status:** Accepted
+- **Context:** Expanding a tag dumped its feeds at the bottom of the drawer with no indent or chevron. Long-press only opened Settings.
+- **Decision:** `FeedDrawerModel` emits each folder then its children; the UI hides children until expanded, indents them, and shows ▸/▾. Long-press offers mark-read, move/rename folder, unsubscribe, and settings.
+- **Alternatives considered:** Filter the article list on folder tap (rejected: tap expands in place; click a child to filter). Drop 0-unread tagged feeds (rejected: need them visible to unsubscribe).
+- **Consequences:** Untagged 0-unread feeds still hide until search. Folder "Remove folder" clears tags; feeds stay subscribed.
+
+### 2026-09-06 — Unsubscribe, bulk feed knobs, compact settings hub
+- **Status:** Accepted
+- **Context:** Inoreader-seeded subscriptions dumped every feed inline on Settings → Feeds. There was no unsubscribe. The hub listed twelve flat sections, and Inbox ignore list was duplicated on the drawer pane.
+- **Decision:** `FeedStore.remove` + `FeedRepository.unsubscribe` (keep starred articles). Subscriptions live under Settings → Feeds → Subscriptions with News/Podcast expanders, Notify all, and Prefetch all. Hub is Home / Inbox / Feeds / System; long panes use `SettingsExpander`.
+- **Alternatives considered:** Per-feed screen from the drawer (rejected: one subscriptions list is enough). Drop starred articles on unsubscribe (rejected: saved items should remain).
+- **Consequences:** Mixed notify/prefetch lists show the bulk switch off until every row is on. Long-press a feed in the drawer opens Subscriptions.
+
+### 2026-09-06 — Inbox ignore list, even cards, photo floor, recency search, release APK
+- **Status:** Accepted
+- **Context:** Users needed a notification blacklist, uniform card height, no pixelated avatars, recency-first letter search, and a downloadable GitHub APK. Sprint 22 already stored deny policies but did not hide existing cards; `release.yml` uploaded SBOMs only.
+- **Decision:** Filter blacklisted packages in `InboxFilter`; Inbox settings own ignore/truncate/photo toggles; skip `largeIcon` and sub-240px images when the photo filter is on; rank All Apps matches by `LaunchRecency` (launcher opens plus usage stats); upload `hermes-launcher-{versionName}-foss.apk` from `release.yml`.
+- **Alternatives considered:** Delete vault rows on blacklist (rejected: X would not restore). Treat every square image as an avatar (rejected: real photos can be square). Depend only on `PACKAGE_USAGE_STATS` (rejected: letter search must work without that grant).
+- **Consequences:** Existing small photos remain on disk but are hidden in the inbox while the toggle is on. The current `v1.0.0` release still needs a `[HUMAN]` workflow dispatch to attach an APK.
+
 ### 2026-09-05 — Ship tag v1.0.0 while APK is 1.0.1
 - **Status:** Accepted
 - **Context:** Release Please manifest and `.template-version` are 1.0.0. No git tag existed, so RP prepared `chore(main): release 1.0.0`. Actions could not open the PR. The product APK is versionName 1.0.1.

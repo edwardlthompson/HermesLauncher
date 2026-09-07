@@ -28,31 +28,43 @@ data class InboxAppGroup(
 )
 
 object InboxFilter {
-    fun presentable(item: VaultItem): Boolean {
-        return ShadePolicy.hasSubject(item.title, item.conversationTitle)
+    fun ignoredPackages(policies: List<AppStorePolicy>): Set<String> {
+        return policies.filter { !it.storeContent }.map { it.packageName }.toSet()
     }
 
-    fun unreadCount(items: List<VaultItem>): Int {
-        return items.count { presentable(it) && it.unread && !it.archived }
+    fun presentable(item: VaultItem, ignored: Set<String> = emptySet()): Boolean {
+        return item.packageName !in ignored &&
+            ShadePolicy.hasSubject(item.title, item.conversationTitle)
+    }
+
+    fun unreadCount(items: List<VaultItem>, ignored: Set<String> = emptySet()): Int {
+        return items.count { presentable(it, ignored) && it.unread && !it.archived }
     }
 
     fun unreadLabel(count: Int): String {
         return if (count > 99) "99+" else count.toString()
     }
 
-    fun unreadByPackage(items: List<VaultItem>): Map<String, Int> {
+    fun unreadByPackage(
+        items: List<VaultItem>,
+        ignored: Set<String> = emptySet(),
+    ): Map<String, Int> {
         return items
             .filter {
-                presentable(it) && it.unread && !it.archived && it.packageName.isNotBlank()
+                presentable(it, ignored) && it.unread && !it.archived && it.packageName.isNotBlank()
             }
             .groupingBy { it.packageName }
             .eachCount()
     }
 
-    fun apply(items: List<VaultItem>, query: InboxQuery): List<VaultItem> {
+    fun apply(
+        items: List<VaultItem>,
+        query: InboxQuery,
+        ignored: Set<String> = emptySet(),
+    ): List<VaultItem> {
         val needle = query.text.trim()
         return items.filter { item ->
-            presentable(item) &&
+            presentable(item, ignored) &&
                 chipMatches(item, query.chip) &&
                 (query.packageName == null || item.packageName == query.packageName) &&
                 textMatches(item, needle)
