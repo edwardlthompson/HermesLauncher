@@ -50,17 +50,17 @@ android {
 
 dependencies {
     api(project(":iconloader"))
-    implementation("androidx.core:core-ktx:1.17.0")
+    implementation("androidx.core:core-ktx:1.19.0")
     implementation("androidx.recyclerview:recyclerview:1.4.0")
     implementation("androidx.dynamicanimation:dynamicanimation:1.1.0")
     implementation("androidx.preference:preference-ktx:1.2.1")
-    implementation("androidx.fragment:fragment-ktx:1.8.9")
+    implementation("androidx.fragment:fragment-ktx:1.9.0")
     implementation("androidx.slice:slice-view:1.1.0-alpha02")
     implementation("androidx.slice:slice-core:1.1.0-alpha02")
     implementation("androidx.cardview:cardview:1.0.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.2.1")
-    implementation("com.google.android.material:material:1.13.0")
-    implementation("com.google.protobuf:protobuf-javalite:3.25.5")
+    implementation("androidx.constraintlayout:constraintlayout:2.2.2")
+    implementation("com.google.android.material:material:1.14.0")
+    implementation("com.google.protobuf:protobuf-javalite:4.36.1")
 }
 
 tasks.matching { it.name.startsWith("extract") && it.name.endsWith("Annotations") }
