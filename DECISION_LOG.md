@@ -17,6 +17,20 @@
 
 ## Entries
 
+### 2026-09-08 — Homescreen grid applies cell counts in place
+- **Status:** Accepted
+- **Context:** Settings saved `widgetStore.grid`, but `L3Look.applyGrid` only switched named Launcher3 XML profiles (`4_by_4`, `5_by_5`). Large phones already on `5_by_5` treated 4×5 / 6×6 / 8×8 as no-ops. Changing `GRID_NAME` would also swap `launcher.db`.
+- **Decision:** `InvariantDeviceProfile.setHermesGrid` / `reapplyGrid` override columns and rows after partner overrides and before DeviceProfile construction. Do not call `setCurrentGrid` for user grid size.
+- **Alternatives considered:** Map every WxH to a new XML profile and DB file (rejected: loses home layout). Restart the process to rebuild IDP (rejected: slower and still named-profile bound).
+- **Consequences:** `L3Grid.shouldReapply` when IDP axes ≠ spec. Test `L3GridTest.shouldReapplyWhenAxesDifferFromIdp`. Sideloaded on OP12 and OP13 before `/ship`.
+
+### 2026-09-08 — Dock Most used ranks foreground time first
+- **Status:** Accepted (supersedes lastTimeUsed-primary from 2026-09-01)
+- **Context:** Recency-first put a briefly opened app above long-running ones. Most used should mean time in the foreground.
+- **Decision:** `UsageRanker.rank` sorts `totalTimeInForeground` then `lastTimeUsed`, still last 7 days, still no Hermes launch counter.
+- **Alternatives considered:** Keep recency-first (rejected: mismatches Most used). Launch count (already rejected 2026-09-01).
+- **Consequences:** `UsageRankerTest.foregroundTimeBeatsRecentLowTime`. Search overlay still ranks recency via `HomeSearchRank`.
+
 ### 2026-09-07 — HTML README template badge after Release Please
 - **Status:** Accepted
 - **Context:** `v1.1.0` CI failed Validate Bootstrap and both upgrade-sim jobs: hero badge still said `template-1.0.0`.

@@ -202,4 +202,13 @@
 | **Symptom** | After merging the Release Please PR, CI `check-readme-badges` / upgrade-sim fail: `hero template badge must be template-X.Y.Z` |
 | **Cause** | `sync-template-version.sh` only rewrote markdown Template shield images; product README uses HTML img badges |
 | **Fix** | Rewrite both HTML `src`/`alt` and markdown shields; also sync `branding/generated/README.preview.md` |
-| **Prevention** | `test_readme_matches_repo` plus `test_sync_rewrites_html_shields_badge`; do not push a version bump that leaves the hero badge behind | |
+| **Prevention** | `test_readme_matches_repo` plus `test_sync_rewrites_html_shields_badge`; do not push a version bump that leaves the hero badge behind |
+
+### KB-025 — Home grid size is a cell-count override, not a named Launcher3 profile
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | Desktop grid 4×5 / 6×6 / 8×8 looks unchanged on a large phone |
+| **Cause** | `L3Look.applyGrid` called `setCurrentGrid` with a named XML profile; devices already on `5_by_5` no-op, and a name change swaps `launcher.db` |
+| **Fix** | `InvariantDeviceProfile.setHermesGrid(cols, rows)` then `reapplyGrid()`; apply after partner overrides and before DeviceProfile construction |
+| **Prevention** | `L3Grid.shouldReapply` when IDP axes ≠ spec; never switch `GRID_NAME` to apply user grid size | |
