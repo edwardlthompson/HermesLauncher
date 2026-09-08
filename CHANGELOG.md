@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0](https://github.com/edwardlthompson/HermesLauncher/compare/v1.1.1...v1.2.0) (2026-09-08)
+
+
+### Added
+
+* **android:** hide empty feeds, scrub lists, and apply home grid ([22e066d](https://github.com/edwardlthompson/HermesLauncher/commit/22e066d76fa2aba82039617945c771e8101a549d))
+
 ## [1.1.1](https://github.com/edwardlthompson/HermesLauncher/compare/v1.1.0...v1.1.1) (2026-09-07)
 
 ### Fixed
