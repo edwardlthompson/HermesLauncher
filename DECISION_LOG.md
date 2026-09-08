@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-09-08 — Reserved pages stay empty after icon drop
+- **Status:** Accepted
+- **Context:** Home-to-home icon drop jumped to Podcasts (page 0). Wrap-around plus `removeExtraEmptyScreen` mapped the extra-empty index onto page 0.
+- **Decision:** Keep wrap off until drag unlock. `HermesDragPages.droppable` remaps out-of-range indices to a droppable desktop page. `EmptyPagePolicy.stayOnDroppable` after extra-empty removal. Podcasts/News/Inbox reject `addInScreen` for desktop items.
+- **Alternatives considered:** Disable wrap entirely (rejected: finger swipe last-to-first is wanted). Always remap `setCurrentPage(0)` (rejected: Home still needs Inbox; overlay snap to Podcasts is valid when already there).
+- **Consequences:** Tests in `EmptyPagePolicyTest` / `HermesDragPagesTest`. Sideloaded on OP12 before `/ship` v1.3.0.
+
 ### 2026-09-08 — Homescreen grid applies cell counts in place
 - **Status:** Accepted
 - **Context:** Settings saved `widgetStore.grid`, but `L3Look.applyGrid` only switched named Launcher3 XML profiles (`4_by_4`, `5_by_5`). Large phones already on `5_by_5` treated 4×5 / 6×6 / 8×8 as no-ops. Changing `GRID_NAME` would also swap `launcher.db`.

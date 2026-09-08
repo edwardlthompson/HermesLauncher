@@ -7,7 +7,7 @@
 
 | Layer | Technology | Version | Notes |
 |-------|-----------|---------|-------|
-| Platform | Android (min 26, target 37), Kotlin, Jetpack Compose Material 3 | 1.0.1 | Child of agent-project-bootstrap 1.2.0; APK versionName 1.0.1 / versionCode 101 |
+| Platform | Android (min 26, target 37), Kotlin, Jetpack Compose Material 3 | 1.0.1 | Child of agent-project-bootstrap 1.3.0; APK versionName 1.0.1 / versionCode 101 |
 | License | MIT | - | Pure FOSS |
 | Persistence | Room + SQLCipher (`hermes-vault-cipher.db`) + Android Keystore | 4.16.0 | Plaintext vault migrates; rebuild-required copy on failure |
 | Distribution | GitHub Releases + F-Droid | - | Reproducible APKs (`SOURCE_DATE_EPOCH`) |
@@ -30,7 +30,7 @@
 
 ### Project Purpose
 
-Hermes Launcher: FOSS Android home-screen inbox for notifications, news, and podcasts. Reserved Launcher3 pages are Podcasts → News → Inbox (Home = Inbox). X-only dismiss. Local vault with 2000/30-day archived prune. Widget pages are a user-chosen occupancy grid with a trailing empty page; grid size rewrites Launcher3 cell counts in-place (no named-profile DB swap). Home long-press opens Wallpaper / Widgets / Settings. Dock ranks last-7-day foreground time, then recency. All Apps is a 5-column letter-rail grid. Home-again opens usage+inbox search. App search ranks recently opened packages first; letters match labels, not every `com.*` package. Notification dots come from vault unread. Inbox settings can ignore apps, even card height, and hide small/avatar photos (MessagingStyle URI photos keep decoded bounds). Settings hub is Home / Inbox / Feeds / System; subscriptions (unsubscribe, notify-all, prefetch-all) live under Feeds. Hide-empty feeds is on by default. Overflow lists use scrub bars. Double-tap empty chrome can lock or toggle flashlight. Live wallpapers ship in-tree (gradient, clock).
+Hermes Launcher: FOSS Android home-screen inbox for notifications, news, and podcasts. Reserved Launcher3 pages are Podcasts → News → Inbox (Home = Inbox). Those pages never host icons or widgets; icon/widget drags stay on desktop and do not wrap to Podcasts after drop. X-only dismiss. Local vault with 2000/30-day archived prune. Widget pages are a user-chosen occupancy grid with a trailing empty page; grid size rewrites Launcher3 cell counts in-place (no named-profile DB swap). Home long-press opens Wallpaper / Widgets / Settings. Dock ranks last-7-day foreground time, then recency. All Apps is a 5-column letter-rail grid. Home-again opens usage+inbox search. App search ranks recently opened packages first; letters match labels, not every `com.*` package. Notification dots come from vault unread. Inbox settings can ignore apps, even card height, and hide small/avatar photos (MessagingStyle URI photos keep decoded bounds). Settings hub is Home / Inbox / Feeds / System; subscriptions (unsubscribe, notify-all, prefetch-all) live under Feeds. Hide-empty feeds is on by default. Overflow lists use scrub bars. Double-tap empty chrome can lock or toggle flashlight. Live wallpapers ship in-tree (gradient, clock). Unmatched icon-pack apps keep their glyph on a theme-colored plate.
 
 ### Key Constraints
 
@@ -40,6 +40,7 @@ Hermes Launcher: FOSS Android home-screen inbox for notifications, news, and pod
 
 ## Session Retrospectives
 
+| 2026-09-08 | /ship v1.3.0 | Tag [v1.3.0](https://github.com/edwardlthompson/HermesLauncher/releases/tag/v1.3.0); RP #11; extra empty page; pack plates; reserved-page drag lock | Drops wrap-modulo to Podcasts (KB follow-up); APK versionName still 1.0.1 |
 | 2026-09-08 | /ship v1.2.0 | Tag [v1.2.0](https://github.com/edwardlthompson/HermesLauncher/releases/tag/v1.2.0); RP #10; signed `hermes-launcher-1.0.1-foss.apk`; OP12+OP13 sideload | Grid via `setHermesGrid` (KB-025); dock foreground-time first; APK versionName still 1.0.1 |
 | 2026-09-06 | /ship v1.1.0 | Tag [v1.1.0](https://github.com/edwardlthompson/HermesLauncher/releases/tag/v1.1.0); signed `hermes-launcher-1.0.1-foss.apk`; OP12 uninstall+sideload | HTML README badge must track `.template-version` (KB-024); APK versionName still 1.0.1 |
 | 2026-09-05 | /ship v1.0.0 | Tag [v1.0.0](https://github.com/edwardlthompson/HermesLauncher/releases/tag/v1.0.0) + SBOM; APK still 1.0.1; required CI/CodeQL green | Keep L3 HOME; Actions cannot open RP PRs (KB-021); stub launcher3 typedefs (KB-022) |
