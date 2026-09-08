@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0](https://github.com/edwardlthompson/HermesLauncher/compare/v1.2.0...v1.3.0) (2026-09-08)
+
+
+### Added
+
+* **android:** keep a droppable home page and lock reserved screens ([3bfdc98](https://github.com/edwardlthompson/HermesLauncher/commit/3bfdc98d55239ab58deb46c6856c219c95b88690))
+
 ## [1.2.0](https://github.com/edwardlthompson/HermesLauncher/compare/v1.1.1...v1.2.0) (2026-09-08)
 
 
