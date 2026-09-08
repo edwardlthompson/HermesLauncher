@@ -194,6 +194,8 @@ public class InvariantDeviceProfile {
     public Point defaultWallpaperSize;
 
     private final ArrayList<OnIDPChangeListener> mChangeListeners = new ArrayList<>();
+    private static int sHermesColumns = -1;
+    private static int sHermesRows = -1;
 
     @VisibleForTesting
     public InvariantDeviceProfile() { }
@@ -401,6 +403,7 @@ public class InvariantDeviceProfile {
         // If the partner customization apk contains any grid overrides, apply them
         // Supported overrides: numRows, numColumns, iconSize
         applyPartnerDeviceProfileOverrides(context, metrics);
+        applyHermesGridOverride();
 
         final List<DeviceProfile> localSupportedProfiles = new ArrayList<>();
         defaultWallpaperSize = new Point(displayInfo.currentSize);
@@ -457,6 +460,24 @@ public class InvariantDeviceProfile {
     public void setCurrentGrid(Context context, String gridName) {
         LauncherPrefs.get(context).put(GRID_NAME, gridName);
         MAIN_EXECUTOR.execute(() -> onConfigChanged(context.getApplicationContext()));
+    }
+
+    /** Hermes: pin workspace columns/rows without switching Launcher3 DB files. */
+    public static void setHermesGrid(int columns, int rows) {
+        sHermesColumns = columns;
+        sHermesRows = rows;
+    }
+
+    public void reapplyGrid(Context context) {
+        MAIN_EXECUTOR.execute(() -> onConfigChanged(context.getApplicationContext()));
+    }
+
+    private void applyHermesGridOverride() {
+        if (sHermesColumns > 0 && sHermesRows > 0) {
+            numColumns = sHermesColumns;
+            numRows = sHermesRows;
+            numSearchContainerColumns = Math.min(numSearchContainerColumns, numColumns);
+        }
     }
 
     private Object[] toModelState() {

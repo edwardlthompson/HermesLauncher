@@ -17,6 +17,13 @@
     <string name="settings_expand_storage">Storage</string>
     <string name="settings_expand_ignored">Ignored apps</string>
     <string name="settings_expand_labs">Desktop motion</string>
+    <string name="settings_page_speed">Page switch speed</string>
+    <string name="settings_page_speed_fast">Fast</string>
+    <string name="settings_page_speed_normal">Normal</string>
+    <string name="settings_page_speed_slow">Slow</string>
+    <string name="settings_dock_most_used">Most used apps</string>
+    <string name="settings_dock_most_used_body">Fill the dock by time in the foreground. Turn off to pin apps yourself.</string>
     <string name="settings_drawer_layout">Drawer layout</string>
     <string name="settings_icon_pack">Icon pack</string>
+    <string name="scrub_scrollbar">Scrub list</string>
 </resources>

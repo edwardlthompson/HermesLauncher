@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
@@ -23,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,6 +46,8 @@ import org.hermeslauncher.app.feeds.FeedApply
 import org.hermeslauncher.app.feeds.FeedFilter
 import org.hermeslauncher.app.feeds.FeedQuery
 import org.hermeslauncher.app.feeds.FeedSubPolicy
+import org.hermeslauncher.app.ui.scroll.LazyScrubBar
+import org.hermeslauncher.app.ui.scroll.scrubGutter
 import org.hermeslauncher.app.ui.settings.SettingsSection
 import org.hermeslauncher.app.ui.theme.SpacingMd
 import org.hermeslauncher.app.ui.theme.SpacingSm
@@ -60,11 +65,13 @@ fun FeedsDrawer(
     val scope = rememberCoroutineScope()
     val subs by app.feedStore.subs.collectAsStateWithLifecycle(emptyList())
     var search by remember { mutableStateOf("") }
+    var hideEmpty by rememberSaveable { mutableStateOf(true) }
     var openTags by remember { mutableStateOf(setOf<String>()) }
     var menu by remember { mutableStateOf<DrawerRow?>(null) }
     var prompt by remember { mutableStateOf<DrawerPrompt?>(null) }
-    val rows = remember(records, query, search, tags) {
-        FeedFilter.drawerRows(records, query, search, tags)
+    val drawerList = rememberLazyListState()
+    val rows = remember(records, query, search, tags, hideEmpty) {
+        FeedFilter.drawerRows(records, query, search, tags, hideEmpty)
     }
     val visible = remember(rows, openTags, search) {
         FeedFilter.drawerVisible(rows, openTags, search.isNotBlank())
@@ -86,6 +93,7 @@ fun FeedsDrawer(
             color = MaterialTheme.colorScheme.surface,
         ) {
             Column(modifier = Modifier.fillMaxSize().padding(SpacingMd)) {
+                val hideEmptyLabel = stringResource(R.string.feed_drawer_hide_empty)
                 OutlinedTextField(
                     value = search,
                     onValueChange = { search = it },
@@ -93,7 +101,14 @@ fun FeedsDrawer(
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth().semantics { contentDescription = "Search feeds list" },
                 )
-                LazyColumn(modifier = Modifier.fillMaxSize()) {
+                FilterChip(
+                    selected = hideEmpty,
+                    onClick = { hideEmpty = !hideEmpty },
+                    label = { Text(hideEmptyLabel) },
+                    modifier = Modifier.semantics { contentDescription = hideEmptyLabel },
+                )
+                Box(modifier = Modifier.fillMaxSize()) {
+                LazyColumn(state = drawerList, modifier = Modifier.fillMaxSize().scrubGutter()) {
                     items(visible, key = { "${it.kind}-${it.sourceUrl}-${it.tag}-${it.title}-${it.depth}" }) { row ->
                         DrawerLine(
                             row = row,
@@ -109,6 +124,11 @@ fun FeedsDrawer(
                             onPrompt = { prompt = it; menu = null },
                         )
                     }
+                }
+                LazyScrubBar(
+                    state = drawerList,
+                    modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
+                )
                 }
             }
         }

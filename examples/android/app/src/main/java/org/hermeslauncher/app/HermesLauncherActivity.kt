@@ -98,7 +98,8 @@ class HermesLauncherActivity : Launcher() {
     override fun finishBindingItems(pagesBoundFirst: IntSet) {
         super.finishBindingItems(pagesBoundFirst)
         HermesPages.ensure(workspace)
-        workspace.moveToDefaultScreen()
+        val home = (workspace as? HermesWorkspace)?.homeIndex() ?: 0
+        workspace.setCurrentPage(home)
         L3WidgetTick.poke(this)
     }
 

@@ -1,9 +1,10 @@
 package org.hermeslauncher.app.ui.launcher
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
@@ -51,7 +52,6 @@ fun HomeOptionsPopup(
             Column(modifier = Modifier.padding(SpacingMd)) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     OptionAction(
@@ -78,9 +78,9 @@ fun HomeOptionsPopup(
                 }
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
+                    Spacer(modifier = Modifier.weight(0.5f))
                     OptionAction(
                         icon = Icons.Filled.Apps,
                         label = stringResource(R.string.home_option_icon),
@@ -91,6 +91,7 @@ fun HomeOptionsPopup(
                         label = stringResource(R.string.home_option_settings),
                         onClick = onSettings,
                     )
+                    Spacer(modifier = Modifier.weight(0.5f))
                 }
             }
         }
@@ -98,13 +99,14 @@ fun HomeOptionsPopup(
 }
 
 @Composable
-private fun OptionAction(
+private fun RowScope.OptionAction(
     icon: ImageVector,
     label: String,
     onClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
+            .weight(1f)
             .widthIn(min = 48.dp)
             .clickable(onClick = onClick)
             .padding(SpacingSm),

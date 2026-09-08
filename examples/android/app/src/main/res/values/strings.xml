@@ -160,6 +160,7 @@
     <string name="feeds_add_url">Feed or site URL</string>
     <string name="feeds_add_confirm">Add</string>
     <string name="feeds_add_cancel">Cancel</string>
+    <string name="dialog_ok">OK</string>
     <string name="feeds_add_error">Could not find an RSS or Atom feed at that link.</string>
     <string name="desktop_icon_grid">Icon cells match the widget grid (default 4×5) so current tiles stay put.</string>
     <string name="desktop_show_labels">Show desktop icon labels</string>
@@ -221,7 +222,7 @@
     <string name="settings_dock_mode">Dock</string>
     <string name="settings_dock_usage">Usage</string>
     <string name="settings_dock_custom">Custom</string>
-    <string name="settings_usage_body">Turn on Usage access so the dock ranks apps by time used, including apps opened from notifications.</string>
+    <string name="settings_usage_body">Turn on Usage access so the dock ranks apps by time in the foreground, including apps opened from notifications.</string>
     <string name="settings_usage_open">Open Usage access</string>
     <string name="drawer_predicted">Predicted</string>
     <string name="drawer_letter">Jump to %1$s</string>
@@ -236,7 +237,7 @@
     <string name="category_productivity">Productivity</string>
     <string name="category_accessibility">Accessibility</string>
     <string name="category_other">Other</string>
-    <string name="usage_banner_body">Turn on Usage access so the dock ranks apps by time used.</string>
+    <string name="usage_banner_body">Turn on Usage access so the dock ranks apps by time in the foreground.</string>
     <string name="usage_banner_dismiss">Not now</string>
     <string name="dock_unread_count">%1$d unread on dock</string>
     <string name="drawer_unread_count">%1$d unread</string>

@@ -16,7 +16,7 @@
     <string name="grant_media_title">Photos access</string>
     <string name="grant_media_body">Stores notification pictures inside Hermes, not Gallery.</string>
     <string name="grant_usage_title">Usage access</string>
-    <string name="grant_usage_body">Ranks dock apps by how often you open them.</string>
+    <string name="grant_usage_body">Ranks dock apps by time in the foreground.</string>
     <string name="grant_post_title">Alert permission</string>
     <string name="grant_post_body">Lets Hermes post feed alerts you opted into.</string>
     <string name="home_setup_usage">Allow usage access</string>

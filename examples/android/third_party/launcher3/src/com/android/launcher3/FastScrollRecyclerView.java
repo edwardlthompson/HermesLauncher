@@ -28,6 +28,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.launcher3.compat.AccessibilityManagerCompat;
 import com.android.launcher3.views.RecyclerViewFastScroller;
 
+import java.util.Collections;
+import java.util.List;
+
 
 /**
  * A base {@link RecyclerView}, which does the following:
@@ -61,6 +64,11 @@ public abstract class FastScrollRecyclerView extends RecyclerView  {
     @Nullable
     public RecyclerViewFastScroller getScrollbar() {
         return mScrollbar;
+    }
+
+    /** Section labels drawn along the scrollbar track (A–Z in All Apps). */
+    public List<String> getFastScrollSections() {
+        return Collections.emptyList();
     }
 
     public int getScrollBarTop() {

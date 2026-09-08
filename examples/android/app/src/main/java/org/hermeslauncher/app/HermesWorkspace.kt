@@ -39,18 +39,20 @@ class HermesWorkspace @JvmOverloads constructor(
         return super.dispatchTouchEvent(ev)
     }
 
-    fun applyMotion(wrap: Boolean, overlap: Boolean, inverse: Boolean) {
+    fun applyMotion(wrap: Boolean, overlap: Boolean, inverse: Boolean, snapMs: Int) {
         setWrapPages(wrap)
         setEnableOverscroll(!wrap)
         val gap = if (overlap) -(24f * resources.displayMetrics.density).toInt() else 0
         setPageSpacing(gap)
         setInvertScroll(inverse)
+        setPageSnapAnimationDuration(snapMs)
     }
+
     override fun moveToDefaultScreen() {
         val page = homeIndex()
         val launcher = Launcher.getLauncher(context)
         if (launcher.isInState(LauncherState.NORMAL) && nextPage != page) {
-            snapToPage(page)
+            setCurrentPage(page)
         }
         getChildAt(page)?.requestFocus()
     }

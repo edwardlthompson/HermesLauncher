@@ -1,9 +1,14 @@
 package org.hermeslauncher.app.ui.player
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AttachFile
+import androidx.compose.material.icons.filled.FormatSize
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.RecordVoiceOver
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -35,22 +40,27 @@ fun ReaderOverflow(
         DropdownMenuItem(
             text = { Text(stringResource(if (ttsPlaying) R.string.feed_reader_tts_stop else R.string.feed_reader_tts)) },
             onClick = { open = false; onTts() },
+            leadingIcon = { Icon(Icons.Filled.RecordVoiceOver, contentDescription = null) },
             modifier = Modifier.semantics { contentDescription = "Read aloud" },
         )
         DropdownMenuItem(
             text = { Text(stringResource(R.string.feed_reader_find)) },
             onClick = { open = false; onFind() },
+            leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
             modifier = Modifier.semantics { contentDescription = "Find in article" },
         )
         DropdownMenuItem(
             text = { Text(stringResource(R.string.feed_reader_scale)) },
             onClick = { open = false; onScale() },
+            leadingIcon = { Icon(Icons.Filled.FormatSize, contentDescription = null) },
             modifier = Modifier.semantics { contentDescription = "Text size" },
         )
         if (onEnclosure != null) {
+            HorizontalDivider()
             DropdownMenuItem(
                 text = { Text(stringResource(R.string.feed_reader_open_file)) },
                 onClick = { open = false; onEnclosure() },
+                leadingIcon = { Icon(Icons.Filled.AttachFile, contentDescription = null) },
                 modifier = Modifier.semantics { contentDescription = "Open file" },
             )
         }

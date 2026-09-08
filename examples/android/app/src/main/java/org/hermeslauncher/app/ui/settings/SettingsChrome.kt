@@ -5,10 +5,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.OutlinedTextField
@@ -36,13 +42,22 @@ fun SettingsExpander(
     Column(modifier = modifier) {
         ListItem(
             headlineContent = { Text(title) },
-            trailingContent = { Text(if (open) "▾" else "▸") },
+            trailingContent = {
+                Icon(
+                    imageVector = if (open) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
+                    contentDescription = title,
+                )
+            },
             modifier = Modifier
                 .clickable { open = !open }
                 .semantics { contentDescription = title },
         )
         if (open) {
-            Column(verticalArrangement = Arrangement.spacedBy(SpacingMd), content = content)
+            Column(
+                modifier = Modifier.padding(start = SpacingMd),
+                verticalArrangement = Arrangement.spacedBy(SpacingMd),
+                content = content,
+            )
         }
     }
 }
@@ -104,6 +119,13 @@ fun <T> SettingsDropdown(
                     onClick = {
                         onSelect(option)
                         expanded = false
+                    },
+                    trailingIcon = if (option == selected) {
+                        {
+                            Icon(imageVector = Icons.Filled.Check, contentDescription = null)
+                        }
+                    } else {
+                        null
                     },
                 )
             }

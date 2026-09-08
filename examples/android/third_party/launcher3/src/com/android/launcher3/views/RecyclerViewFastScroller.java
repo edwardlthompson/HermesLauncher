@@ -31,6 +31,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Build;
+import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Property;
@@ -107,6 +108,7 @@ public class RecyclerViewFastScroller extends View {
     private final Point mThumbDrawOffset = new Point();
 
     private final Paint mTrackPaint;
+    private final TextPaint mLetterPaint;
 
     private float mLastTouchY;
     private boolean mIsDragging;
@@ -148,12 +150,17 @@ public class RecyclerViewFastScroller extends View {
         mTrackPaint.setColor(Themes.getAttrColor(context, android.R.attr.textColorPrimary));
         mTrackPaint.setAlpha(MAX_TRACK_ALPHA);
 
+        mLetterPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        mLetterPaint.setColor(Themes.getAttrColor(context, android.R.attr.textColorPrimary));
+        mLetterPaint.setTextAlign(Paint.Align.CENTER);
+
         mThumbPaint = new Paint();
         mThumbPaint.setAntiAlias(true);
         mThumbPaint.setColor(Themes.getColorAccent(context));
         mThumbPaint.setStyle(Paint.Style.FILL);
 
         Resources res = getResources();
+        mLetterPaint.setTextSize(res.getDimensionPixelSize(R.dimen.fastscroll_letter_text));
         mWidth = mMinWidth = res.getDimensionPixelSize(R.dimen.fastscroll_track_min_width);
         mMaxWidth = res.getDimensionPixelSize(R.dimen.fastscroll_track_max_width);
 
@@ -258,23 +265,16 @@ public class RecyclerViewFastScroller extends View {
                 }
                 if (isNearThumb(x, y)) {
                     mTouchOffsetY = mDownY - mThumbOffsetY;
+                } else {
+                    mTouchOffsetY = 0;
+                }
+                if (mRv.supportsFastScrolling()) {
+                    calcTouchOffsetAndPrepToFastScroll(mDownY, y);
+                    updateFastScrollSectionNameAndThumbOffset(y);
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
                 mLastY = y;
-                int absDeltaY = Math.abs(y - mDownY);
-                int absDeltaX = Math.abs(x - mDownX);
-
-                // Check if we should start scrolling, but ignore this fastscroll gesture if we have
-                // exceeded some fixed movement
-                mIgnoreDragGesture |= absDeltaY > mConfig.getScaledPagingTouchSlop();
-
-                if (!mIsDragging && !mIgnoreDragGesture && mRv.supportsFastScrolling()) {
-                    if ((isNearThumb(mDownX, mLastY) && ev.getEventTime() - mDownTimeStampMillis
-                                    > FASTSCROLL_THRESHOLD_MILLIS)) {
-                        calcTouchOffsetAndPrepToFastScroll(mDownY, mLastY);
-                    }
-                }
                 if (mIsDragging) {
                     updateFastScrollSectionNameAndThumbOffset(y);
                 }
@@ -345,6 +345,7 @@ public class RecyclerViewFastScroller extends View {
         float halfW = mWidth / 2;
         canvas.drawRoundRect(-halfW, 0, halfW, mRv.getScrollbarTrackHeight(),
                 mWidth, mWidth, mTrackPaint);
+        drawSectionLetters(canvas, mRv.getScrollbarTrackHeight());
 
         canvas.translate(0, mThumbOffsetY);
         mThumbDrawOffset.y += mThumbOffsetY;
@@ -379,6 +380,19 @@ public class RecyclerViewFastScroller extends View {
         return mWidth + mThumbPadding + mThumbPadding;
     }
 
+    private void drawSectionLetters(Canvas canvas, float trackHeight) {
+        List<String> labels = mRv.getFastScrollSections();
+        if (labels.isEmpty() || trackHeight <= 0f) {
+            return;
+        }
+        Paint.FontMetrics fm = mLetterPaint.getFontMetrics();
+        float step = trackHeight / labels.size();
+        for (int i = 0; i < labels.size(); i++) {
+            float y = step * i + step / 2f - (fm.ascent + fm.descent) / 2f;
+            canvas.drawText(labels.get(i), 0, y, mLetterPaint);
+        }
+    }
+
     /**
      * Animates the width of the scrollbar.
      */
@@ -407,15 +421,14 @@ public class RecyclerViewFastScroller extends View {
      * beginning at this point.
      */
     public boolean shouldBlockIntercept(int x, int y) {
-        return isNearThumb(x, y);
+        return mThumbOffsetY >= 0 && x >= 0 && x < getWidth();
     }
 
     /**
      * Returns whether the specified x position is near the scroll bar.
      */
     public boolean isNearScrollBar(int x) {
-        return x >= (getWidth() - mMaxWidth) / 2 - mScrollbarLeftOffsetTouchDelegate
-                && x <= (getWidth() + mMaxWidth) / 2;
+        return x >= 0 && x < getWidth();
     }
 
     private void animatePopupVisibility(boolean visible) {

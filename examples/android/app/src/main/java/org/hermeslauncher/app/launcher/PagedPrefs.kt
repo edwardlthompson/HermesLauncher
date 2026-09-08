@@ -8,6 +8,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import org.hermeslauncher.app.workspace.LabsFlags
+import org.hermeslauncher.app.workspace.PageSnapSpeed
 import org.hermeslauncher.app.workspace.PinchTarget
 import org.hermeslauncher.app.workspace.QsbPlacement
 import org.hermeslauncher.app.workspace.ScrollMode
@@ -18,6 +19,7 @@ private val OVERLAP = booleanPreferencesKey("labs_overlap")
 private val QSB = stringPreferencesKey("qsb")
 private val SCROLL = stringPreferencesKey("scroll")
 private val PINCH = stringPreferencesKey("pinch")
+private val SNAP = stringPreferencesKey("page_snap")
 
 class PagedPrefs(private val context: Context) {
     val labs: Flow<LabsFlags> = context.pagedDataStore.data.map { prefs ->
@@ -39,6 +41,10 @@ class PagedPrefs(private val context: Context) {
             .getOrDefault(PinchTarget.ALL_APPS)
     }
 
+    val snapSpeed: Flow<PageSnapSpeed> = context.pagedDataStore.data.map { prefs ->
+        PageSnapSpeed.fromName(prefs[SNAP])
+    }
+
     suspend fun setWrap(value: Boolean) {
         context.pagedDataStore.edit { prefs -> prefs[WRAP] = value }
     }
@@ -57,5 +63,9 @@ class PagedPrefs(private val context: Context) {
 
     suspend fun setPinch(value: PinchTarget) {
         context.pagedDataStore.edit { prefs -> prefs[PINCH] = value.name }
+    }
+
+    suspend fun setSnapSpeed(value: PageSnapSpeed) {
+        context.pagedDataStore.edit { prefs -> prefs[SNAP] = value.name }
     }
 }

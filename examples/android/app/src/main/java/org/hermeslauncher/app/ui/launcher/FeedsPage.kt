@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -38,6 +39,8 @@ import org.hermeslauncher.app.feeds.FeedKindResolver
 import org.hermeslauncher.app.feeds.FeedQuery
 import org.hermeslauncher.app.ui.inbox.FilterBar
 import org.hermeslauncher.app.ui.player.FeedCard
+import org.hermeslauncher.app.ui.scroll.LazyScrubBar
+import org.hermeslauncher.app.ui.scroll.scrubGutter
 import org.hermeslauncher.app.ui.theme.SpacingMd
 
 @Composable
@@ -145,8 +148,9 @@ fun FeedsPage(
                         .clickable(onClick = onRetry),
                 )
             } else {
+                Box(modifier = Modifier.fillMaxSize()) {
                 LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize().scrubGutter(),
                     state = listState,
                     contentPadding = PaddingValues(bottom = SpacingMd * 5),
                     verticalArrangement = Arrangement.spacedBy(SpacingMd),
@@ -169,6 +173,11 @@ fun FeedsPage(
                             modifier = Modifier.padding(horizontal = SpacingMd),
                         )
                     }
+                }
+                LazyScrubBar(
+                    state = listState,
+                    modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
+                )
                 }
             }
         }

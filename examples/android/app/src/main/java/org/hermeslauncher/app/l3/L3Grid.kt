@@ -1,5 +1,6 @@
 package org.hermeslauncher.app.l3
 
+import org.hermeslauncher.app.widgets.WidgetGridSpec
 import kotlin.math.abs
 
 data class GridChoice(
@@ -24,5 +25,10 @@ object L3Grid {
             return Int.MAX_VALUE
         }
         return columns.coerceAtLeast(1)
+    }
+
+    fun shouldReapply(idpColumns: Int, idpRows: Int, spec: WidgetGridSpec): Boolean {
+        val grid = spec.clamped()
+        return idpColumns != grid.columns || idpRows != grid.rows
     }
 }

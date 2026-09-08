@@ -6,6 +6,7 @@ import com.android.launcher3.BubbleTextView
 import com.android.launcher3.Launcher
 import org.hermeslauncher.app.HermesWorkspace
 import org.hermeslauncher.app.workspace.LabsFlags
+import org.hermeslauncher.app.workspace.PageSnapSpeed
 import org.hermeslauncher.app.workspace.ScrollMode
 
 object L3Chrome {
@@ -15,10 +16,16 @@ object L3Chrome {
         showDots: Boolean,
         labs: LabsFlags,
         scrollMode: ScrollMode,
+        snapSpeed: PageSnapSpeed,
         labelShadow: Boolean,
     ) {
         val workspace = launcher.workspace as? HermesWorkspace
-        workspace?.applyMotion(labs.wrap, labs.overlap, scrollMode == ScrollMode.INVERSE)
+        workspace?.applyMotion(
+            labs.wrap,
+            labs.overlap,
+            scrollMode == ScrollMode.INVERSE,
+            snapSpeed.durationMs,
+        )
         walk(launcher.workspace) { view ->
             val bubble = view as? BubbleTextView ?: return@walk
             bubble.setTextVisibility(showLabels)

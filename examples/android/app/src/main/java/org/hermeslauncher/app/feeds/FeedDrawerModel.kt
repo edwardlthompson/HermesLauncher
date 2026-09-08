@@ -31,6 +31,7 @@ object FeedDrawerModel {
         query: FeedQuery = FeedQuery(),
         search: String = "",
         tags: Map<String, String> = emptyMap(),
+        hideEmpty: Boolean = true,
     ): List<DrawerRow> {
         val needle = search.trim()
         val out = mutableListOf(
@@ -47,7 +48,7 @@ object FeedDrawerModel {
         }
         val byTag = nodes.groupBy { it.tag }
         for ((tag, children) in byTag.filter { it.key.isNotBlank() }.toSortedMap(String.CASE_INSENSITIVE_ORDER)) {
-            val kids = folderKids(children, tag, needle)
+            val kids = folderKids(children, tag, needle, query, hideEmpty)
             if (kids.isEmpty()) {
                 continue
             }
@@ -55,7 +56,7 @@ object FeedDrawerModel {
                 DrawerRow(
                     DrawerKind.TAG,
                     tag,
-                    children.sumOf { it.unread },
+                    kids.sumOf { it.unread },
                     tag = tag,
                     childCount = kids.size,
                 ),
@@ -74,7 +75,7 @@ object FeedDrawerModel {
             }
         }
         byTag[""].orEmpty().sortedBy { it.title.lowercase() }.forEach { node ->
-            if (includeUntagged(node, needle, query)) {
+            if (includeFeed(node, needle, query, hideEmpty)) {
                 out.add(DrawerRow(DrawerKind.FEED, node.title, node.unread, sourceUrl = node.url))
             }
         }
@@ -87,20 +88,31 @@ object FeedDrawerModel {
         }
     }
 
-    private fun folderKids(children: List<DrawerNode>, tag: String, needle: String): List<DrawerNode> {
+    private fun folderKids(
+        children: List<DrawerNode>,
+        tag: String,
+        needle: String,
+        query: FeedQuery,
+        hideEmpty: Boolean,
+    ): List<DrawerNode> {
         val sorted = children.sortedBy { it.title.lowercase() }
-        if (needle.isEmpty()) {
-            return sorted
+        if (needle.isNotEmpty()) {
+            val tagHit = tag.contains(needle, ignoreCase = true)
+            return sorted.filter { tagHit || it.title.contains(needle, ignoreCase = true) }
         }
-        val tagHit = tag.contains(needle, ignoreCase = true)
-        return sorted.filter { tagHit || it.title.contains(needle, ignoreCase = true) }
+        return sorted.filter { includeFeed(it, needle, query, hideEmpty) }
     }
 
-    private fun includeUntagged(node: DrawerNode, needle: String, query: FeedQuery): Boolean {
+    private fun includeFeed(
+        node: DrawerNode,
+        needle: String,
+        query: FeedQuery,
+        hideEmpty: Boolean,
+    ): Boolean {
         if (needle.isNotEmpty()) {
             return node.title.contains(needle, ignoreCase = true)
         }
         val pinned = query.sourceUrl != null && (query.sourceUrl == node.url || query.sourceUrl == node.title)
-        return node.unread > 0 || pinned
+        return !hideEmpty || node.unread > 0 || pinned
     }
 }

@@ -2,7 +2,9 @@ package org.hermeslauncher.app.ui.launcher
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -27,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -44,6 +47,8 @@ import org.hermeslauncher.app.icons.IconPackId
 import org.hermeslauncher.app.icons.LaunchableApp
 import org.hermeslauncher.app.icons.LaunchRecency
 import org.hermeslauncher.app.icons.UsageRow
+import org.hermeslauncher.app.ui.scroll.OverflowScrubBar
+import org.hermeslauncher.app.ui.scroll.scrubGutter
 import org.hermeslauncher.app.ui.theme.SpacingMd
 import org.hermeslauncher.app.vault.VaultItem
 
@@ -85,6 +90,7 @@ fun HomeSearchOverlay(
     }
     LaunchedEffect(Unit) { requester.requestFocus() }
     BackHandler { onClose() }
+    val resultsScroll = rememberScrollState()
     Surface(
         modifier = modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.surface,
@@ -111,7 +117,8 @@ fun HomeSearchOverlay(
                     }
                 },
             )
-            Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+            Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
+            Column(modifier = Modifier.fillMaxSize().verticalScroll(resultsScroll).scrubGutter()) {
                 if (hits.apps.isNotEmpty()) {
                     Text(stringResource(R.string.home_search_apps), style = MaterialTheme.typography.titleSmall)
                     hits.apps.forEach { app ->
@@ -149,6 +156,11 @@ fun HomeSearchOverlay(
                 if (hits.apps.isEmpty() && hits.inbox.isEmpty() && hits.feeds.isEmpty()) {
                     Text(stringResource(R.string.home_search_empty), style = MaterialTheme.typography.bodyMedium)
                 }
+            }
+            OverflowScrubBar(
+                scroll = resultsScroll,
+                modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
+            )
             }
         }
     }

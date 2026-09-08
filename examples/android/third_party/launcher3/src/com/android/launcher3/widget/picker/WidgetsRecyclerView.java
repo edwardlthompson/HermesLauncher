@@ -29,6 +29,11 @@ import com.android.launcher3.FastScrollRecyclerView;
 import com.android.launcher3.R;
 import com.android.launcher3.util.ScrollableLayoutManager;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.List;
+
 /**
  * The widgets recycler view.
  */
@@ -90,6 +95,21 @@ public class WidgetsRecyclerView extends FastScrollRecyclerView implements OnIte
 
         int posInt = (int) ((touchFraction == 1) ? pos - 1 : pos);
         return mAdapter.getSectionName(posInt);
+    }
+
+    @Override
+    public List<String> getFastScrollSections() {
+        if (mAdapter == null || mAdapter.getItemCount() == 0) {
+            return Collections.emptyList();
+        }
+        LinkedHashSet<String> names = new LinkedHashSet<>();
+        for (int i = 0; i < mAdapter.getItemCount(); i++) {
+            String name = mAdapter.getSectionName(i);
+            if (name != null && !name.isEmpty()) {
+                names.add(name);
+            }
+        }
+        return new ArrayList<>(names);
     }
 
     /**

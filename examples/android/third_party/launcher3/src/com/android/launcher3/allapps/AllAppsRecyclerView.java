@@ -44,6 +44,8 @@ import com.android.launcher3.Utilities;
 import com.android.launcher3.logging.StatsLogManager;
 import com.android.launcher3.views.ActivityContext;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -149,9 +151,18 @@ public class AllAppsRecyclerView extends FastScrollRecyclerView {
         mCumulativeVerticalScroll += dy;
     }
 
-    /**
-     * Maps the touch (from 0..1) to the adapter position that should be visible.
-     */
+    @Override
+    public List<String> getFastScrollSections() {
+        if (mApps == null) {
+            return Collections.emptyList();
+        }
+        List<String> labels = new ArrayList<>();
+        for (AlphabeticalAppsList.FastScrollSectionInfo info : mApps.getFastScrollerSections()) {
+            labels.add(info.sectionName);
+        }
+        return labels;
+    }
+
     @Override
     public String scrollToPositionAtProgress(float touchFraction) {
         int rowCount = mApps.getNumAppRows();

@@ -3,7 +3,10 @@ package org.hermeslauncher.app.ui.feedback
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -16,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
@@ -26,6 +30,8 @@ import org.hermeslauncher.app.display.highRefreshScroll
 import org.hermeslauncher.app.feedback.FeedbackPreview
 import org.hermeslauncher.app.githubfeedback.IssueFormUrl
 import org.hermeslauncher.app.ui.insets.bottomInsetPadding
+import org.hermeslauncher.app.ui.scroll.OverflowScrubBar
+import org.hermeslauncher.app.ui.scroll.scrubGutter
 import org.hermeslauncher.app.ui.theme.SpacingMd
 
 @Composable
@@ -41,11 +47,15 @@ fun FeedbackScreen(
     val clipboard = LocalClipboardManager.current
     val context = LocalContext.current
     val canSubmit = FeedbackPreview.canSubmit(description, stack)
+    val scroll = rememberScrollState()
+    Box(modifier = modifier) {
     Column(
-        modifier = modifier
+        modifier = Modifier
+            .fillMaxSize()
             .highRefreshScroll()
-            .verticalScroll(rememberScrollState())
-            .padding(SpacingMd),
+            .verticalScroll(scroll)
+            .padding(SpacingMd)
+            .scrubGutter(),
         verticalArrangement = Arrangement.spacedBy(SpacingMd),
     ) {
         Text(
@@ -96,5 +106,10 @@ fun FeedbackScreen(
         ) {
             Text(stringResource(R.string.feedback_discard))
         }
+    }
+    OverflowScrubBar(
+        scroll = scroll,
+        modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
+    )
     }
 }

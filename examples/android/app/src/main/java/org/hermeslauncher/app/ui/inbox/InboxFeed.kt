@@ -1,6 +1,8 @@
 package org.hermeslauncher.app.ui.inbox
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import org.hermeslauncher.app.R
@@ -24,6 +27,8 @@ import org.hermeslauncher.app.feeds.FeedKindResolver
 import org.hermeslauncher.app.feeds.MixedEntry
 import org.hermeslauncher.app.feeds.MixPolicy
 import org.hermeslauncher.app.ui.player.FeedCard
+import org.hermeslauncher.app.ui.scroll.LazyScrubBar
+import org.hermeslauncher.app.ui.scroll.scrubGutter
 import org.hermeslauncher.app.ui.theme.SpacingMd
 import org.hermeslauncher.app.vault.InboxAppGroup
 import org.hermeslauncher.app.vault.InboxChip
@@ -60,8 +65,14 @@ fun InboxFeed(
     when {
         itemsEmpty && history.isEmpty() && (!showFeeds || feedHits.isEmpty()) -> inboxHint()
         live.isEmpty() && history.isEmpty() && !(showFeeds && feedHits.isNotEmpty()) -> filterEmpty()
-        else -> LazyColumn(
-            modifier = modifier.fillMaxSize(),
+        else -> Box(modifier = modifier.fillMaxSize()) {
+            InboxStickToTop(
+                listState = listState,
+                newestFirst = query.newestFirst,
+                revision = live.size to (live.maxOfOrNull { it.postedAt } ?: 0L),
+            )
+            LazyColumn(
+            modifier = Modifier.fillMaxSize().scrubGutter(),
             state = listState,
             verticalArrangement = Arrangement.spacedBy(SpacingMd),
         ) {
@@ -105,6 +116,8 @@ fun InboxFeed(
                     keyPrefix = "hist",
                 )
             }
+            }
+            LazyScrubBar(state = listState, modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight())
         }
     }
 }

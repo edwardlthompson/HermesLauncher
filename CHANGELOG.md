@@ -8,15 +8,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.1.1](https://github.com/edwardlthompson/HermesLauncher/compare/v1.1.0...v1.1.1) (2026-09-07)
+### Added
 
+* **android:** Hide empty toggle on the homescreen feeds list (on by default)
+* **android:** scrub-to-scroll bars on overflow lists, settings, widget picker, and the article reader
+
+### Changed
+
+* **android:** Material-style overflow menus — grouped items, checkmarks, destructive color, centered home actions
+* **android:** rank Most used dock by last-7-day foreground time, then recency
+
+### Fixed
+
+* **android:** apply the homescreen icon grid to Launcher3 cell counts, not only named XML profiles
+* **android:** keep the inbox pinned to newest apps when the list is already at the top
+* **android:** apply ADW/Nova icon packs (LineX and others) via appfilter.xml on the drawer and home
+* **android:** stop reserving the first widget-page row for unused Google QSB / Happening Now
+
+## [1.1.1](https://github.com/edwardlthompson/HermesLauncher/compare/v1.1.0...v1.1.1) (2026-09-07)
 
 ### Fixed
 
 * **ci:** keep the HTML README template badge on 1.1.0 ([6c07fff](https://github.com/edwardlthompson/HermesLauncher/commit/6c07fff2815dd778356b5ae281837892f010e8d8))
 
 ## [1.1.0](https://github.com/edwardlthompson/HermesLauncher/compare/v1.0.0...v1.1.0) (2026-09-07)
-
 
 ### Added
 
@@ -25,7 +40,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * **android:** nest feed folders and add drawer long-press actions ([eb79964](https://github.com/edwardlthompson/HermesLauncher/commit/eb79964f9e45154ac0a5065ffbd4b3a71704b4f8))
 * **android:** replace settings chips with dropdown menus ([21e2292](https://github.com/edwardlthompson/HermesLauncher/commit/21e229224fc25604f8405014124919a908e84f92))
 * **android:** unsubscribe feeds and compact settings menus ([b78fef9](https://github.com/edwardlthompson/HermesLauncher/commit/b78fef9779da642c594ae8168c462f961b99db6c))
-
 
 ### Fixed
 

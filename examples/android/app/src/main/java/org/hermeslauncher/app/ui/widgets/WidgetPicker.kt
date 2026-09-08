@@ -4,14 +4,18 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Apps
@@ -31,6 +35,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.asImageBitmap
@@ -44,6 +49,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import org.hermeslauncher.app.R
+import org.hermeslauncher.app.ui.scroll.LazyScrubBar
+import org.hermeslauncher.app.ui.scroll.scrubGutter
 import org.hermeslauncher.app.ui.theme.RadiusMd
 import org.hermeslauncher.app.ui.theme.SpacingMd
 import org.hermeslauncher.app.ui.theme.SpacingSm
@@ -65,6 +72,7 @@ fun WidgetPicker(
 ) {
     var searchOpen by remember { mutableStateOf(false) }
     var query by remember { mutableStateOf("") }
+    val listState = rememberLazyListState()
     val groups = remember(choices, query) { WidgetCatalog.grouped(WidgetCatalog.filter(choices, query)) }
     fun closeSearch() {
         searchOpen = false
@@ -107,42 +115,48 @@ fun WidgetPicker(
                     Text(stringResource(R.string.widget_picker_search))
                 }
             }
-            LazyColumn(modifier = Modifier.weight(1f)) {
-                groups.forEach { (app, widgets) ->
-                    stickyHeader(key = "h:$app") {
-                        Surface(color = MaterialTheme.colorScheme.surface) {
-                            Text(
-                                text = app,
-                                style = MaterialTheme.typography.titleSmall,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(vertical = SpacingSm),
-                            )
-                        }
-                    }
-                    items(widgets.chunked(2), key = { row ->
-                        row.joinToString { it.provider.flattenToString() }
-                    }) { row ->
-                        Row(modifier = Modifier.fillMaxWidth()) {
-                            row.forEach { choice ->
-                                PreviewCard(
-                                    choice = choice,
-                                    onPick = onPick,
-                                    onDragStart = onDragStart,
-                                    onDrag = onDrag,
-                                    onDragEnd = onDragEnd,
-                                    modifier = Modifier.weight(1f),
+            Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
+                LazyColumn(state = listState, modifier = Modifier.fillMaxSize().scrubGutter()) {
+                    groups.forEach { (app, widgets) ->
+                        stickyHeader(key = "h:$app") {
+                            Surface(color = MaterialTheme.colorScheme.surface) {
+                                Text(
+                                    text = app,
+                                    style = MaterialTheme.typography.titleSmall,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = SpacingSm),
                                 )
                             }
-                            if (row.size == 1) {
-                                Surface(
-                                    modifier = Modifier.weight(1f),
-                                    color = MaterialTheme.colorScheme.surface,
-                                ) {}
+                        }
+                        items(widgets.chunked(2), key = { row ->
+                            row.joinToString { it.provider.flattenToString() }
+                        }) { row ->
+                            Row(modifier = Modifier.fillMaxWidth()) {
+                                row.forEach { choice ->
+                                    PreviewCard(
+                                        choice = choice,
+                                        onPick = onPick,
+                                        onDragStart = onDragStart,
+                                        onDrag = onDrag,
+                                        onDragEnd = onDragEnd,
+                                        modifier = Modifier.weight(1f),
+                                    )
+                                }
+                                if (row.size == 1) {
+                                    Surface(
+                                        modifier = Modifier.weight(1f),
+                                        color = MaterialTheme.colorScheme.surface,
+                                    ) {}
+                                }
                             }
                         }
                     }
                 }
+                LazyScrubBar(
+                    state = listState,
+                    modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
+                )
             }
             TextButton(onClick = onCancel) {
                 Text(stringResource(R.string.widget_picker_cancel))

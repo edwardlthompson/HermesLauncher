@@ -18,6 +18,7 @@ import org.hermeslauncher.app.HermesApplication
 import org.hermeslauncher.app.R
 import org.hermeslauncher.app.ui.theme.SpacingMd
 import org.hermeslauncher.app.workspace.LabsFlags
+import org.hermeslauncher.app.workspace.PageSnapSpeed
 import org.hermeslauncher.app.workspace.ScrollMode
 
 @Composable
@@ -28,6 +29,7 @@ fun DesktopSettings(modifier: Modifier = Modifier) {
     val showLabels by app.homePrefs.showLabels.collectAsStateWithLifecycle(true)
     val labs by app.pagedPrefs.labs.collectAsStateWithLifecycle(LabsFlags())
     val scrollMode by app.pagedPrefs.scrollMode.collectAsStateWithLifecycle(ScrollMode.ADJACENT)
+    val snapSpeed by app.pagedPrefs.snapSpeed.collectAsStateWithLifecycle(PageSnapSpeed.DEFAULT)
     val wrapLabel = stringResource(R.string.labs_wrap)
     val overlapLabel = stringResource(R.string.labs_overlap)
     val inverseLabel = stringResource(R.string.paged_inverse)
@@ -65,6 +67,21 @@ fun DesktopSettings(modifier: Modifier = Modifier) {
                     }
                 },
                 modifier = Modifier.semantics { contentDescription = inverseLabel },
+            )
+            SettingsDropdown(
+                title = stringResource(R.string.settings_page_speed),
+                options = PageSnapSpeed.entries,
+                selected = snapSpeed,
+                labelOf = { speed ->
+                    stringResource(
+                        when (speed) {
+                            PageSnapSpeed.FAST -> R.string.settings_page_speed_fast
+                            PageSnapSpeed.NORMAL -> R.string.settings_page_speed_normal
+                            PageSnapSpeed.SLOW -> R.string.settings_page_speed_slow
+                        },
+                    )
+                },
+                onSelect = { speed -> scope.launch { app.pagedPrefs.setSnapSpeed(speed) } },
             )
         }
     }

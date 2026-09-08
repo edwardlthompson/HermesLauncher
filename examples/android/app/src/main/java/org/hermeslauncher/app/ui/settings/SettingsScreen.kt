@@ -2,7 +2,9 @@ package org.hermeslauncher.app.ui.settings
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -17,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -26,6 +29,8 @@ import org.hermeslauncher.app.crashcapture.PendingCrashStore
 import org.hermeslauncher.app.display.highRefreshScroll
 import org.hermeslauncher.app.ui.feedback.FeedbackScreen
 import org.hermeslauncher.app.ui.inbox.InboxHistoryScreen
+import org.hermeslauncher.app.ui.scroll.OverflowScrubBar
+import org.hermeslauncher.app.ui.scroll.scrubGutter
 import org.hermeslauncher.app.ui.theme.SpacingMd
 import org.hermeslauncher.app.ui.theme.ThemeMode
 
@@ -80,11 +85,14 @@ fun SettingsScreen(
         )
         return
     }
+    Box(modifier = inset) {
     Column(
-        modifier = inset
+        modifier = Modifier
+            .fillMaxSize()
             .highRefreshScroll()
             .verticalScroll(scroll)
-            .padding(SpacingMd),
+            .padding(SpacingMd)
+            .scrubGutter(),
         verticalArrangement = Arrangement.spacedBy(SpacingMd),
     ) {
         val open = section
@@ -113,6 +121,11 @@ fun SettingsScreen(
                 },
             )
         }
+    }
+    OverflowScrubBar(
+        scroll = scroll,
+        modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
+    )
     }
 }
 

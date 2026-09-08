@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,17 +32,13 @@ fun DockSettings() {
     val dock by app.dockStore.layout.collectAsStateWithLifecycle(DockLayout())
     val usageOk = LivePermissions.usageGranted(context)
     Column(verticalArrangement = Arrangement.spacedBy(SpacingMd)) {
-        SettingsDropdown(
-            title = stringResource(R.string.settings_dock_mode),
-            options = DockMode.entries,
-            selected = dock.mode,
-            labelOf = { mode ->
-                stringResource(
-                    if (mode == DockMode.USAGE) R.string.settings_dock_usage else R.string.settings_dock_custom,
-                )
-            },
-            onSelect = { mode ->
+        SettingsSwitchRow(
+            title = R.string.settings_dock_most_used,
+            body = R.string.settings_dock_most_used_body,
+            checked = dock.mode == DockMode.USAGE,
+            onCheckedChange = { on ->
                 scope.launch {
+                    val mode = if (on) DockMode.USAGE else DockMode.CUSTOM
                     val next = if (mode == DockMode.CUSTOM && dock.assigned.isEmpty()) {
                         AppCatalog.seeded(context.packageManager).copy(mode = DockMode.CUSTOM)
                     } else {

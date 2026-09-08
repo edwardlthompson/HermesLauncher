@@ -1,16 +1,20 @@
 package org.hermeslauncher.app.ui.inbox
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -18,6 +22,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
 import org.hermeslauncher.app.HermesApplication
 import org.hermeslauncher.app.R
+import org.hermeslauncher.app.ui.scroll.LazyScrubBar
+import org.hermeslauncher.app.ui.scroll.scrubGutter
 import org.hermeslauncher.app.ui.theme.SpacingMd
 import org.hermeslauncher.app.vault.ShadeBridge
 
@@ -30,6 +36,7 @@ fun InboxHistoryScreen(
     val archived by app.vault.archivedItems.collectAsStateWithLifecycle(emptyList())
     val filesDir = context.applicationContext.filesDir
     val scope = rememberCoroutineScope()
+    val historyList = rememberLazyListState()
     Column(modifier = modifier.fillMaxSize().padding(SpacingMd)) {
         Text(
             text = stringResource(R.string.inbox_history),
@@ -42,8 +49,10 @@ fun InboxHistoryScreen(
                 modifier = Modifier.padding(vertical = SpacingMd),
             )
         } else {
+            Box(modifier = Modifier.weight(1f)) {
             LazyColumn(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.fillMaxSize().scrubGutter(),
+                state = historyList,
                 verticalArrangement = Arrangement.spacedBy(SpacingMd),
             ) {
                 items(archived, key = { it.id }) { item ->
@@ -57,6 +66,11 @@ fun InboxHistoryScreen(
                         onAction = { index -> ShadeBridge.runAction(item.sbnKey, index) },
                     )
                 }
+            }
+            LazyScrubBar(
+                state = historyList,
+                modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
+            )
             }
         }
     }

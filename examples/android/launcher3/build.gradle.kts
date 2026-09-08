@@ -9,7 +9,7 @@ android {
         minSdk = 26
         buildConfigField("String", "APPLICATION_ID", "\"org.hermeslauncher.app\"")
         buildConfigField("boolean", "IS_STUDIO_BUILD", "true")
-        buildConfigField("boolean", "QSB_ON_FIRST_SCREEN", "true")
+        buildConfigField("boolean", "QSB_ON_FIRST_SCREEN", "false")
         buildConfigField("boolean", "IS_DEBUG_DEVICE", "false")
     }
     compileOptions {

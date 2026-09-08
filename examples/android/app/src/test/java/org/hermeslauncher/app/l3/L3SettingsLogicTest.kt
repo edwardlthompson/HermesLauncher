@@ -57,6 +57,13 @@ class L3GridTest {
     }
 
     @Test
+    fun shouldReapplyWhenAxesDifferFromIdp() {
+        assertTrue(L3Grid.shouldReapply(5, 5, org.hermeslauncher.app.widgets.WidgetGridSpec(4, 5)))
+        assertFalse(L3Grid.shouldReapply(4, 5, org.hermeslauncher.app.widgets.WidgetGridSpec(4, 5)))
+        assertTrue(L3Grid.shouldReapply(4, 5, org.hermeslauncher.app.widgets.WidgetGridSpec(6, 6)))
+    }
+
+    @Test
     fun searchCapFollowsAppRowToggle() {
         assertEquals(5, L3Grid.previewCap(true, 5))
         assertEquals(Int.MAX_VALUE, L3Grid.previewCap(false, 5))

@@ -25,6 +25,20 @@ class AndroidFossPushTests(unittest.TestCase):
             for needle in BANNED:
                 self.assertNotIn(needle, text, msg=str(path))
 
+    def test_first_screen_qsb_is_disabled(self) -> None:
+        gradle = ANDROID / "launcher3" / "build.gradle.kts"
+        if not gradle.is_file():
+            self.skipTest("android example pruned")
+        text = gradle.read_text(encoding="utf-8")
+        self.assertIn(
+            'buildConfigField("boolean", "QSB_ON_FIRST_SCREEN", "false")',
+            text,
+        )
+        self.assertNotIn(
+            'buildConfigField("boolean", "QSB_ON_FIRST_SCREEN", "true")',
+            text,
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

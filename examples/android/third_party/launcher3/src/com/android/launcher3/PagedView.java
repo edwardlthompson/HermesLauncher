@@ -90,6 +90,8 @@ public abstract class PagedView<T extends View & PageIndicator> extends ViewGrou
     private int mMinFlingVelocity;
     private int mMinSnapVelocity;
     private int mPageSnapAnimationDuration;
+    private int mPageSnapDurationBaseline;
+    private int mPageSnapDurationOverride = -1;
 
     protected boolean mFirstLayout = true;
 
@@ -635,7 +637,14 @@ public abstract class PagedView<T extends View & PageIndicator> extends ViewGrou
                 res.getDimensionPixelSize(R.dimen.easy_fling_threshold_velocity);
         mMinFlingVelocity = res.getDimensionPixelSize(R.dimen.min_fling_velocity);
         mMinSnapVelocity = res.getDimensionPixelSize(R.dimen.min_page_snap_velocity);
-        mPageSnapAnimationDuration = res.getInteger(R.integer.config_pageSnapAnimationDuration);
+        mPageSnapDurationBaseline = res.getInteger(R.integer.config_pageSnapAnimationDuration);
+        mPageSnapAnimationDuration = mPageSnapDurationOverride >= 0
+                ? mPageSnapDurationOverride : mPageSnapDurationBaseline;
+    }
+
+    public void setPageSnapAnimationDuration(int durationMs) {
+        mPageSnapDurationOverride = Math.max(0, durationMs);
+        mPageSnapAnimationDuration = mPageSnapDurationOverride;
     }
 
     @Override
@@ -1698,6 +1707,11 @@ public abstract class PagedView<T extends View & PageIndicator> extends ViewGrou
         // user flings, so we scale the duration by a value near to the derivative of the scroll
         // interpolator at zero, ie. 5. We use 4 to make it a little slower.
         duration = 4 * Math.round(1000 * Math.abs(distance / velocity));
+        if (mPageSnapDurationBaseline > 0
+                && mPageSnapAnimationDuration != mPageSnapDurationBaseline) {
+            duration = Math.max(1, Math.round(duration * (mPageSnapAnimationDuration
+                    / (float) mPageSnapDurationBaseline)));
+        }
 
         return snapToPage(whichPage, delta, duration);
     }

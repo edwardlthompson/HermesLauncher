@@ -116,6 +116,24 @@ class FeedFilterTest {
         assertEquals(listOf("Alpha"), out.filter { it.kind == DrawerKind.FEED }.map { it.title })
         val searched = FeedFilter.drawerRows(rows, search = "zeb")
         assertTrue(searched.any { it.title == "Zebra" })
+        val shown = FeedFilter.drawerRows(rows, hideEmpty = false)
+        assertEquals(setOf("Alpha", "Zebra"), shown.filter { it.kind == DrawerKind.FEED }.map { it.title }.toSet())
+    }
+
+    @Test
+    fun drawerRowsHideEmptyDropsEmptyFolders() {
+        val rows = listOf(
+            rec("a", feed = "Quiet", source = "https://q.example/feed", read = true),
+            rec("b", feed = "Loud", source = "https://l.example/feed", read = false),
+        )
+        val tags = mapOf("https://q.example/feed" to "Idle")
+        val hidden = FeedFilter.drawerRows(rows, tags = tags)
+        assertTrue(hidden.none { it.kind == DrawerKind.TAG && it.tag == "Idle" })
+        assertTrue(hidden.none { it.title == "Quiet" })
+        assertEquals(listOf("Loud"), hidden.filter { it.kind == DrawerKind.FEED }.map { it.title })
+        val shown = FeedFilter.drawerRows(rows, tags = tags, hideEmpty = false)
+        assertTrue(shown.any { it.kind == DrawerKind.TAG && it.tag == "Idle" })
+        assertTrue(shown.any { it.title == "Quiet" })
     }
 
     @Test

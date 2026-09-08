@@ -17,6 +17,21 @@ enum class PinchTarget {
     ALL_APPS,
 }
 
+enum class PageSnapSpeed(val durationMs: Int) {
+    FAST(200),
+    NORMAL(350),
+    SLOW(750),
+    ;
+
+    companion object {
+        val DEFAULT: PageSnapSpeed = FAST
+
+        fun fromName(raw: String?): PageSnapSpeed {
+            return entries.firstOrNull { it.name == raw } ?: DEFAULT
+        }
+    }
+}
+
 data class LabsFlags(
     val wrap: Boolean = false,
     val overlap: Boolean = false,

@@ -4,7 +4,7 @@
 
 ## Acceptance criteria
 
-- User-visible behavior: customization copy explains dock slots and the active icon pack; dock ranks last-7-day usage (`lastTimeUsed`, then foreground time) unless Custom; All Apps is a 5-column A–Z grid with a letter rail and dismissible search; long-press shows `LauncherApps` shortcuts when Hermes is default Home; search filters launchable labels; long-press empty home opens Wallpaper / Widgets / Settings; Settings is grouped Home / Appearance / Inbox
+- User-visible behavior: customization copy explains dock slots and the active icon pack; dock ranks last-7-day usage (`totalTimeInForeground`, then `lastTimeUsed`) unless Custom; All Apps is a 5-column A–Z grid with a letter rail and dismissible search; long-press shows `LauncherApps` shortcuts when Hermes is default Home; search filters launchable labels; long-press empty home opens Wallpaper / Widgets / Settings; Settings is grouped Home / Appearance / Inbox
 - Offline/error behavior: empty query returns the full list; unknown pack falls back to the system key; no PackageManager in unit tests; missing wallpaper picker toasts
 - Accessibility: search field and pack name are labeled
 - i18n: keys under `chrome_*` in `res/values/strings.xml`
@@ -23,7 +23,6 @@
 | View | `examples/android/app/src/main/java/org/hermeslauncher/app/ui/customize/` |
 | Tests | `examples/android/app/src/test/java/org/hermeslauncher/app/icons/` |
 | Wiring | Customize screen is standalone this slice; Settings hook is later |
-
 ## Public API (locked)
 
 | Symbol | Contract |
@@ -34,7 +33,6 @@
 | `AppSearch.filter(apps, query)` | case-insensitive substring on label |
 | `IconPackResolver.componentKey(pack, app)` | `{packOrSystem}/{package}/{activity}` |
 | `IconPackResources.drawable` | pack APK `Resources`; null falls back to system icons |
-
 ## Tests
 
 Automated: yes

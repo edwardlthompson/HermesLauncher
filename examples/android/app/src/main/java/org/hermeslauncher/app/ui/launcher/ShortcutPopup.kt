@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -12,13 +13,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import org.hermeslauncher.app.icons.AppShortcuts
 import org.hermeslauncher.app.icons.LaunchableApp
 import org.hermeslauncher.app.ui.theme.RadiusMd
 import org.hermeslauncher.app.ui.theme.SpacingMd
 import org.hermeslauncher.app.ui.theme.SpacingSm
-import androidx.compose.foundation.shape.RoundedCornerShape
 
 @Composable
 fun ShortcutPopup(
@@ -39,8 +40,8 @@ fun ShortcutPopup(
             shape = RoundedCornerShape(RadiusMd),
             color = MaterialTheme.colorScheme.surface,
             contentColor = MaterialTheme.colorScheme.onSurface,
-            tonalElevation = SpacingSm,
-            shadowElevation = SpacingSm,
+            tonalElevation = 3.dp,
+            shadowElevation = 3.dp,
         ) {
             Column(modifier = Modifier.padding(SpacingSm)) {
                 shortcuts.forEach { shortcut ->
@@ -53,7 +54,7 @@ fun ShortcutPopup(
                                 AppShortcuts.start(context, shortcut)
                                 onDismiss()
                             }
-                            .padding(SpacingMd),
+                            .padding(horizontal = SpacingMd, vertical = SpacingMd),
                     )
                 }
             }

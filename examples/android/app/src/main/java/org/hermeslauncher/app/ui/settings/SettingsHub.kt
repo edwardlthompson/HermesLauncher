@@ -8,6 +8,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -146,8 +149,15 @@ internal fun SettingsHubRow(
                     .background(accent, RoundedCornerShape(2.dp)),
             )
         },
-        headlineContent = { Text(title, color = accent) },
-        supportingContent = { Text(body, color = accent.copy(alpha = 0.86f)) },
+        headlineContent = { Text(title) },
+        supportingContent = { Text(body) },
+        trailingContent = {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        },
         modifier = Modifier
             .clickable(onClick = onClick)
             .semantics { contentDescription = "Open settings section $title" },

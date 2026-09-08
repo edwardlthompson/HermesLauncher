@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -38,6 +39,8 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.hermeslauncher.app.R
+import org.hermeslauncher.app.ui.scroll.OverflowScrubBar
+import org.hermeslauncher.app.ui.scroll.scrubGutter
 import org.hermeslauncher.app.feeds.ArticleBlock
 import org.hermeslauncher.app.feeds.ArticleExtract
 import org.hermeslauncher.app.feeds.ArticleOpen
@@ -214,21 +217,33 @@ private fun ReaderBody(
             mode == ReaderMode.WEB && url != null -> ReaderWeb(url = url, find = find, modifier = Modifier.fillMaxSize())
             loading -> CircularProgressIndicator(modifier = Modifier.align(Alignment.Center).padding(SpacingMd))
             blocks.isEmpty() -> Text(text = stringResource(R.string.feed_reader_empty), style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(SpacingMd))
-            else -> Column(modifier = Modifier.fillMaxSize().verticalScroll(scroll).padding(SpacingMd)) {
-                blocks.forEachIndexed { index, block ->
-                    when (block) {
-                        is ArticleBlock.Text -> if (ReaderFind.matches(block.value, find)) {
-                            Text(
-                                text = block.value,
-                                style = MaterialTheme.typography.bodyLarge.copy(
-                                    fontSize = MaterialTheme.typography.bodyLarge.fontSize * scale,
-                                ),
-                                modifier = Modifier.padding(bottom = SpacingMd),
-                            )
+            else -> {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(scroll)
+                        .padding(SpacingMd)
+                        .scrubGutter(),
+                ) {
+                    blocks.forEachIndexed { index, block ->
+                        when (block) {
+                            is ArticleBlock.Text -> if (ReaderFind.matches(block.value, find)) {
+                                Text(
+                                    text = block.value,
+                                    style = MaterialTheme.typography.bodyLarge.copy(
+                                        fontSize = MaterialTheme.typography.bodyLarge.fontSize * scale,
+                                    ),
+                                    modifier = Modifier.padding(bottom = SpacingMd),
+                                )
+                            }
+                            is ArticleBlock.Image -> ReaderImage(id = "$itemId-$index", url = block.url, dir = dir, download = download)
                         }
-                        is ArticleBlock.Image -> ReaderImage(id = "$itemId-$index", url = block.url, dir = dir, download = download)
                     }
                 }
+                OverflowScrubBar(
+                    scroll = scroll,
+                    modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
+                )
             }
         }
     }

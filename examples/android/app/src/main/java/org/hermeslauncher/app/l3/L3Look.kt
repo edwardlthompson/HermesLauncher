@@ -13,15 +13,13 @@ import org.hermeslauncher.app.widgets.WidgetGridSpec
 
 object L3Look {
     fun applyGrid(launcher: Launcher, spec: WidgetGridSpec) {
+        val grid = spec.clamped()
+        InvariantDeviceProfile.setHermesGrid(grid.columns, grid.rows)
         val idp = InvariantDeviceProfile.INSTANCE.get(launcher)
-        val options = idp.parseAllGridOptions(launcher).map { option ->
-            GridChoice(option.name, option.numColumns, option.numRows)
+        if (!L3Grid.shouldReapply(idp.numColumns, idp.numRows, grid)) {
+            return
         }
-        val pick = L3Grid.pick(spec.columns, spec.rows, options) ?: return
-        val current = InvariantDeviceProfile.getCurrentGridName(launcher)
-        if (pick.name != current) {
-            idp.setCurrentGrid(launcher, pick.name)
-        }
+        idp.reapplyGrid(launcher)
     }
 
     fun applyShape(launcher: Launcher, shape: HermesShape) {

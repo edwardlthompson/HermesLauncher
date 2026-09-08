@@ -13,8 +13,8 @@ object UsageRanker {
         val stats = merge(rows)
         return apps.distinctBy { it.packageName }
             .sortedWith(
-                compareByDescending<LaunchableApp> { stats[it.packageName]?.lastTimeUsed ?: 0L }
-                    .thenByDescending { stats[it.packageName]?.totalTimeInForeground ?: 0L }
+                compareByDescending<LaunchableApp> { stats[it.packageName]?.totalTimeInForeground ?: 0L }
+                    .thenByDescending { stats[it.packageName]?.lastTimeUsed ?: 0L }
                     .thenBy { it.label.lowercase() },
             )
             .take(slotCount.coerceAtLeast(0))

@@ -8,17 +8,17 @@ import org.hermeslauncher.app.HermesApplication
 import org.hermeslauncher.app.HermesLauncherActivity
 import org.hermeslauncher.app.ui.theme.LookPrefs
 import org.hermeslauncher.app.ui.theme.ThemePreferences
-import org.hermeslauncher.app.widgets.WidgetGridSpec
 import java.lang.ref.WeakReference
 
 object L3Live {
     private var job: Job? = null
-    private var lastGrid: String = WidgetGridSpec.DEFAULT.encoded()
+    private var lastGrid: String = ""
     private var lastHidden: Set<String> = emptySet()
     private var lastPack: String = ""
 
     fun attach(launcher: HermesLauncherActivity) {
         job?.cancel()
+        lastPack = "\u0000"
         val app = launcher.application as HermesApplication
         val look = LookPrefs(launcher)
         val theme = ThemePreferences(launcher)
@@ -31,6 +31,7 @@ object L3Live {
             launch { app.homePrefs.showDots.collect { L3Caches.showDots = it; paint(ref) } }
             launch { app.pagedPrefs.labs.collect { L3Caches.labs = it; paint(ref) } }
             launch { app.pagedPrefs.scrollMode.collect { L3Caches.scrollMode = it; paint(ref) } }
+            launch { app.pagedPrefs.snapSpeed.collect { L3Caches.snapSpeed = it; paint(ref) } }
             launch { app.drawerPrefs.snapshot.collect { L3Caches.drawer = it; paint(ref) } }
             launch { app.dockStore.layout.collect { L3Caches.dock = it; paint(ref) } }
             launch { app.folderPrefs.snapshot.collect { L3Caches.folder = it; paint(ref) } }
@@ -64,6 +65,7 @@ object L3Live {
             L3Caches.showDots,
             L3Caches.labs,
             L3Caches.scrollMode,
+            L3Caches.snapSpeed,
             L3Caches.labelShadow,
         )
         L3Drawer.apply(launcher, L3Caches.drawer, L3Caches.appRowCap, L3Caches.folder)
@@ -76,9 +78,7 @@ object L3Live {
         val packKey = L3Caches.iconPack.packageName.orEmpty()
         if (packKey != lastPack) {
             lastPack = packKey
-            if (packKey.isNotEmpty()) {
-                launcher.model.forceReload()
-            }
+            launcher.model.forceReload()
         }
         L3Look.applyThemedIcons(launcher, L3Caches.wallpaperPalette)
         L3NightMode.apply(

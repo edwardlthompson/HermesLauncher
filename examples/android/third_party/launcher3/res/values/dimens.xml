@@ -69,6 +69,7 @@
     <!-- Fast scroll -->
     <dimen name="fastscroll_track_min_width">6dp</dimen>
     <dimen name="fastscroll_track_max_width">8dp</dimen>
+    <dimen name="fastscroll_letter_text">10dp</dimen>
     <dimen name="fastscroll_thumb_padding">1dp</dimen>
     <dimen name="fastscroll_thumb_height">52dp</dimen>
     <dimen name="fastscroll_thumb_touch_inset">-24dp</dimen>

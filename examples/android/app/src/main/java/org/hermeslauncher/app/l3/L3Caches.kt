@@ -15,6 +15,7 @@ import org.hermeslauncher.app.ui.theme.ThemeMode
 import org.hermeslauncher.app.widgets.WidgetGridSpec
 import org.hermeslauncher.app.workspace.FolderSnapshot
 import org.hermeslauncher.app.workspace.LabsFlags
+import org.hermeslauncher.app.workspace.PageSnapSpeed
 import org.hermeslauncher.app.workspace.ScrollMode
 
 /** Latest settings snapshot for touch controllers (updated off the UI thread). */
@@ -26,6 +27,7 @@ object L3Caches {
     @Volatile var showDots: Boolean = true
     @Volatile var labs: LabsFlags = LabsFlags()
     @Volatile var scrollMode: ScrollMode = ScrollMode.ADJACENT
+    @Volatile var snapSpeed: PageSnapSpeed = PageSnapSpeed.DEFAULT
     @Volatile var drawer: DrawerSnapshot = DrawerSnapshot()
     @Volatile var dock: DockLayout = DockLayout()
     @Volatile var folder: FolderSnapshot = FolderSnapshot()

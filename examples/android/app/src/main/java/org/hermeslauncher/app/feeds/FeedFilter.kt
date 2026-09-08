@@ -90,7 +90,8 @@ object FeedFilter {
         query: FeedQuery = FeedQuery(),
         search: String = "",
         tags: Map<String, String> = emptyMap(),
-    ): List<DrawerRow> = FeedDrawerModel.rows(records, query, search, tags)
+        hideEmpty: Boolean = true,
+    ): List<DrawerRow> = FeedDrawerModel.rows(records, query, search, tags, hideEmpty)
 
     fun drawerVisible(
         rows: List<DrawerRow>,
