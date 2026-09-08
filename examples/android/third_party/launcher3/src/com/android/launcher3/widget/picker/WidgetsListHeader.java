@@ -16,6 +16,7 @@
 package com.android.launcher3.widget.picker;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ import androidx.annotation.UiThread;
 import com.android.launcher3.DeviceProfile;
 import com.android.launcher3.LauncherAppState;
 import com.android.launcher3.R;
+import com.android.launcher3.icons.IconCache;
 import com.android.launcher3.icons.IconCache.ItemInfoUpdateReceiver;
 import com.android.launcher3.icons.PlaceHolderIconDrawable;
 import com.android.launcher3.icons.cache.HandlerRunnable;
@@ -139,7 +141,7 @@ public final class WidgetsListHeader extends LinearLayout implements ItemInfoUpd
     @UiThread
     public void applyFromItemInfoWithIcon(WidgetsListHeaderEntry entry) {
         PackageItemInfo info = entry.mPkgItem;
-        setIcon(info.newIcon(getContext()));
+        setIcon(themedPackageIcon(info));
         setTitles(entry);
         setExpanded(entry.isWidgetListShown());
 
@@ -155,6 +157,21 @@ public final class WidgetsListHeader extends LinearLayout implements ItemInfoUpd
             mIconDrawable.setVisible(
                     /* visible= */ getWindowVisibility() == VISIBLE && isShown(),
                     /* restart= */ false);
+        }
+    }
+
+    private Drawable themedPackageIcon(PackageItemInfo info) {
+        Drawable fallback = info.newIcon(getContext());
+        IconCache.PackageIcon hook = IconCache.sPackageIcon;
+        if (hook == null || info.packageName == null) {
+            return fallback;
+        }
+        try {
+            Drawable system = getContext().getPackageManager().getApplicationIcon(info.packageName);
+            Drawable wrapped = hook.wrap(info.packageName, system);
+            return wrapped != null ? wrapped : fallback;
+        } catch (PackageManager.NameNotFoundException ignored) {
+            return fallback;
         }
     }
 
@@ -197,7 +214,9 @@ public final class WidgetsListHeader extends LinearLayout implements ItemInfoUpd
             // Optimization: Starting in N, pre-uploads the bitmap to RenderThread.
             info.bitmap.icon.prepareToDraw();
 
-            setIcon(info.newIcon(getContext()));
+            setIcon(info instanceof PackageItemInfo
+                    ? themedPackageIcon((PackageItemInfo) info)
+                    : info.newIcon(getContext()));
 
             mEnableIconUpdateAnimation = false;
         }

@@ -1,24 +1,29 @@
 package org.hermeslauncher.app.l3
 
+import android.content.res.Configuration
 import com.android.launcher3.Launcher
+import com.android.launcher3.icons.IconCache
 import com.android.launcher3.util.Executors
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.hermeslauncher.app.HermesApplication
 import org.hermeslauncher.app.HermesLauncherActivity
+import org.hermeslauncher.app.icons.IconPackFilter
+import org.hermeslauncher.app.icons.IconPlate
 import org.hermeslauncher.app.ui.theme.LookPrefs
 import org.hermeslauncher.app.ui.theme.ThemePreferences
+import org.hermeslauncher.app.ui.theme.ThemeResolve
 import java.lang.ref.WeakReference
 
 object L3Live {
     private var job: Job? = null
     private var lastGrid: String = ""
     private var lastHidden: Set<String> = emptySet()
-    private var lastPack: String = ""
+    private var lastStamp: String = "\u0000"
 
     fun attach(launcher: HermesLauncherActivity) {
         job?.cancel()
-        lastPack = "\u0000"
+        lastStamp = "\u0000"
         val app = launcher.application as HermesApplication
         val look = LookPrefs(launcher)
         val theme = ThemePreferences(launcher)
@@ -73,12 +78,22 @@ object L3Live {
             lastHidden = L3Caches.drawer.hidden
             launcher.model.forceReload()
         }
+        val nightNow = launcher.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        IconPlate.apply(
+            ThemeResolve.isDark(
+                L3Caches.themeMode,
+                L3Caches.night,
+                nightNow == Configuration.UI_MODE_NIGHT_YES,
+                L3NightMode.nowMinute(),
+            ),
+        )
         L3Look.applyShape(launcher, L3Caches.iconShape)
         L3Look.applyPack(launcher, L3Caches.iconPack)
-        val packKey = L3Caches.iconPack.packageName.orEmpty()
-        if (packKey != lastPack) {
-            lastPack = packKey
-            launcher.model.forceReload()
+        val stamp = IconCache.sPackStamp
+        if (stamp != lastStamp) {
+            lastStamp = stamp
+            IconPackFilter.forget()
+            L3Look.reloadIcons(launcher)
         }
         L3Look.applyThemedIcons(launcher, L3Caches.wallpaperPalette)
         L3NightMode.apply(

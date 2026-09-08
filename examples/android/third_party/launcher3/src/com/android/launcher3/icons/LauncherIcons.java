@@ -51,13 +51,17 @@ public class LauncherIcons extends BaseIconFactory implements AutoCloseable {
                 LauncherIcons m = sPool;
                 sPool = m.next;
                 m.next = null;
+                m.setWrapperBackgroundColor(IconCache.sWrapperBackground);
                 return m;
             }
             poolId = sPoolId;
         }
 
         InvariantDeviceProfile idp = InvariantDeviceProfile.INSTANCE.get(context);
-        return new LauncherIcons(context, idp.fillResIconDpi, idp.iconBitmapSize, poolId);
+        LauncherIcons created = new LauncherIcons(context, idp.fillResIconDpi, idp.iconBitmapSize,
+                poolId);
+        created.setWrapperBackgroundColor(IconCache.sWrapperBackground);
+        return created;
     }
 
     public static void clearPool() {

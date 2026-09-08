@@ -242,6 +242,16 @@ public class DragLayer extends BaseDragLayer<Launcher> implements LauncherOverla
     public void animateViewIntoPosition(DragView dragView, final View child, int duration,
             View anchorView) {
 
+        if (child == null || !(child.getParent() instanceof ShortcutAndWidgetContainer)) {
+            if (child != null) {
+                child.setVisibility(VISIBLE);
+            }
+            if (dragView != null) {
+                mDropView = dragView;
+            }
+            clearAnimatedView();
+            return;
+        }
         ShortcutAndWidgetContainer parentChildren = (ShortcutAndWidgetContainer) child.getParent();
         CellLayoutLayoutParams lp =  (CellLayoutLayoutParams) child.getLayoutParams();
         parentChildren.measureChild(child);
@@ -393,10 +403,17 @@ public class DragLayer extends BaseDragLayer<Launcher> implements LauncherOverla
             mDropAnim.cancel();
         }
         mDropAnim = null;
-        if (mDropView != null) {
-            mDragController.onDeferredEndDrag(mDropView);
-        }
+        DragView drop = mDropView;
         mDropView = null;
+        if (drop != null) {
+            mDragController.onDeferredEndDrag(drop);
+        }
+        for (int i = getChildCount() - 1; i >= 0; i--) {
+            View child = getChildAt(i);
+            if (child instanceof DragView && child != drop) {
+                ((DragView) child).remove();
+            }
+        }
         invalidate();
     }
 

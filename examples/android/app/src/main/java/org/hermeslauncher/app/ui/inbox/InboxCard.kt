@@ -144,7 +144,7 @@ fun InboxCard(
                             text = shownBody,
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            maxLines = if (bodyMaxChars > 0) 2 else Int.MAX_VALUE,
+                            maxLines = InboxDisplay.bodyLines(bodyMaxChars),
                             overflow = TextOverflow.Ellipsis,
                         )
                     }

@@ -29,6 +29,18 @@ class FeedSubCodecTest {
         assertTrue(back[0].notify)
         assertFalse(back[0].prefetch)
     }
+
+    @Test
+    fun jsonNullIsNotLiteralText() {
+        assertNull(FeedSubCodec.visibleCopy("null"))
+        assertNull(FeedSubCodec.visibleCopy(" NULL "))
+        assertEquals("timeout", FeedSubCodec.visibleCopy("timeout"))
+        val raw = """[{"url":"https://a.example/f","title":"null","tag":"null","kind":"NEWS","notify":false,"prefetch":true,"lastError":null}]"""
+        val back = FeedSubCodec.decode(raw)
+        assertEquals("", back[0].title)
+        assertEquals("", back[0].tag)
+        assertNull(back[0].lastError)
+    }
 }
 
 class FeedFullTest {

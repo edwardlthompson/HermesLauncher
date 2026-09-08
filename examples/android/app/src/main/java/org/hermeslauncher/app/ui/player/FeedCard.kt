@@ -42,6 +42,7 @@ import org.hermeslauncher.app.feeds.ArticleStamp
 import org.hermeslauncher.app.feeds.ArticleThumb
 import org.hermeslauncher.app.feeds.FeedItem
 import org.hermeslauncher.app.feeds.FeedKind
+import org.hermeslauncher.app.feeds.FeedSubCodec
 import org.hermeslauncher.app.ui.theme.SpacingMd
 import org.hermeslauncher.app.ui.theme.SpacingSm
 import java.io.File
@@ -140,11 +141,14 @@ fun FeedCard(
                         modifier = Modifier.padding(horizontal = SpacingMd),
                     )
                 }
-                Text(
-                    text = item.feedTitle,
-                    style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier.padding(horizontal = SpacingMd),
-                )
+                val feedName = FeedSubCodec.visibleCopy(item.feedTitle)
+                if (feedName != null) {
+                    Text(
+                        text = feedName,
+                        style = MaterialTheme.typography.bodySmall,
+                        modifier = Modifier.padding(horizontal = SpacingMd),
+                    )
+                }
                 if (canPlay) {
                     TextButton(onClick = onPlay) {
                         Text(stringResource(R.string.player_play))

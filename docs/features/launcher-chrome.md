@@ -4,7 +4,7 @@
 
 ## Acceptance criteria
 
-- User-visible behavior: customization copy explains dock slots and the active icon pack; dock ranks last-7-day usage (`totalTimeInForeground`, then `lastTimeUsed`) unless Custom; All Apps is a 5-column A–Z grid with a letter rail and dismissible search; long-press shows `LauncherApps` shortcuts when Hermes is default Home; search filters launchable labels; long-press empty home opens Wallpaper / Widgets / Settings; Settings is grouped Home / Appearance / Inbox
+- User-visible behavior: customization copy explains dock slots and the active icon pack; selected packs apply through the Launcher3 icon cache (drawer, home, inbox cards, widget picker); dock ranks last-7-day usage (`totalTimeInForeground`, then `lastTimeUsed`) unless Custom; All Apps is a 5-column A–Z grid with a letter rail and dismissible search; long-press shows `LauncherApps` shortcuts when Hermes is default Home; search filters launchable labels; long-press empty home opens Wallpaper / Widgets / Settings; Settings is grouped Home / Appearance / Inbox
 - Offline/error behavior: empty query returns the full list; unknown pack falls back to the system key; no PackageManager in unit tests; missing wallpaper picker toasts
 - Accessibility: search field and pack name are labeled
 - i18n: keys under `chrome_*` in `res/values/strings.xml`

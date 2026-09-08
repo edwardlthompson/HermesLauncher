@@ -28,7 +28,17 @@ class InboxDisplayTest {
     @Test
     fun clampChars() {
         assertEquals(40, InboxDisplay.clampChars(1))
-        assertEquals(400, InboxDisplay.clampChars(999))
+        assertEquals(240, InboxDisplay.clampChars(999))
         assertEquals(120, InboxDisplay.clampChars(120))
+        assertEquals(0, InboxDisplay.clampChars(0))
+        assertEquals(0, InboxDisplay.clampChars(-8))
+    }
+
+    @Test
+    fun bodyLinesGrowWithCap() {
+        assertEquals(Int.MAX_VALUE, InboxDisplay.bodyLines(0))
+        assertEquals(3, InboxDisplay.bodyLines(80))
+        assertEquals(6, InboxDisplay.bodyLines(240))
+        assertTrue(InboxDisplay.bodyLines(240) > InboxDisplay.bodyLines(80))
     }
 }

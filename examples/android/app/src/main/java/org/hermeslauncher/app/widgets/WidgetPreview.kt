@@ -9,6 +9,8 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import androidx.core.graphics.drawable.toBitmap
 import kotlin.math.max
+import org.hermeslauncher.app.icons.IconPackResources
+import org.hermeslauncher.app.l3.L3Caches
 
 enum class WidgetPreviewKind {
     IMAGE,
@@ -31,9 +33,8 @@ object WidgetPreview {
         val info = AppWidgetManager.getInstance(context).installedProviders
             .firstOrNull { it.provider == provider }
         val preview = info?.let { runCatching { it.loadPreviewImage(context, 0) }.getOrNull() }
-        val icon = runCatching {
-            context.packageManager.getApplicationIcon(provider.packageName)
-        }.getOrNull()
+        val icon = IconPackResources.visibleIcon(context, L3Caches.iconPack, provider.packageName)
+            ?: runCatching { context.packageManager.getApplicationIcon(provider.packageName) }.getOrNull()
         return raster(preview ?: icon, maxPx)
     }
 

@@ -37,6 +37,7 @@ import org.hermeslauncher.app.feeds.FeedFilter
 import org.hermeslauncher.app.feeds.FeedItem
 import org.hermeslauncher.app.feeds.FeedKindResolver
 import org.hermeslauncher.app.feeds.FeedQuery
+import org.hermeslauncher.app.feeds.FeedSubCodec
 import org.hermeslauncher.app.ui.inbox.FilterBar
 import org.hermeslauncher.app.ui.player.FeedCard
 import org.hermeslauncher.app.ui.scroll.LazyScrubBar
@@ -124,9 +125,10 @@ fun FeedsPage(
                 feedsUnread = feedUnread,
                 feedsLabel = stringResource(R.string.feed_open_feeds),
             )
-            if (!lastError.isNullOrBlank()) {
+            val error = FeedSubCodec.visibleCopy(lastError)
+            if (error != null) {
                 Text(
-                    text = lastError,
+                    text = error,
                     style = MaterialTheme.typography.bodySmall,
                     color = Color.White,
                     modifier = Modifier.padding(horizontal = SpacingMd).clickable(onClick = onRetry),

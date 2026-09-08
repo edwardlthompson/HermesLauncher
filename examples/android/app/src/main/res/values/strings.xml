@@ -42,6 +42,7 @@
     <string name="launcher_drawer_open">Open app drawer</string>
     <string name="launcher_drawer_title">Apps</string>
     <string name="launcher_page_feed">Inbox</string>
+    <string name="launcher_page_new">New home screen</string>
     <string name="launcher_page_podcasts">Podcasts</string>
     <string name="launcher_page_news">News</string>
     <string name="overlay_minus_one">News and inbox</string>

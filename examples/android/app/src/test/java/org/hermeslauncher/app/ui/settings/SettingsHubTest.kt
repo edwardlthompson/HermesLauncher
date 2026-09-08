@@ -35,7 +35,7 @@ class SettingsHubTest {
     @Test
     fun multiChoiceMenusHaveDropdownSources() {
         assertEquals(8, org.hermeslauncher.app.feeds.ScanInterval.OPTIONS.size)
-        assertEquals(4, org.hermeslauncher.app.vault.InboxDisplay.CHAR_CHOICES.size)
+        assertEquals(5, org.hermeslauncher.app.vault.InboxDisplay.CHAR_CHOICES.size)
         assertTrue(org.hermeslauncher.app.ui.theme.ThemeMode.entries.size >= 3)
         assertTrue(org.hermeslauncher.app.launcher.LauncherAction.entries.size >= 3)
     }

@@ -29,10 +29,43 @@ class IconPackFilterTest {
     }
 
     @Test
+    fun mapsIconTagAndDrawablePath() {
+        val maps = IconPackFilter.parseXml(
+            """
+            <resources>
+              <icon component="ComponentInfo{com.mail/.Inbox}" drawable="@drawable/com_mail"/>
+            </resources>
+            """.trimIndent(),
+        )
+        assertEquals("com_mail", maps.byComponent["com.mail/com.mail.Inbox"])
+        assertEquals("chrome", IconPackFilter.drawableName("@drawable/Chrome.PNG"))
+    }
+
+    @Test
     fun relativeClassExpandsToPackage() {
         assertEquals(
             "com.mail/com.mail.Inbox",
             IconPackFilter.normalizeComponent("ComponentInfo{com.mail/.Inbox}"),
         )
+    }
+
+    @Test
+    fun parsesPackChrome() {
+        val maps = IconPackFilter.parseXml(
+            """
+            <resources>
+              <iconback img1="back_plate" img2="back_alt"/>
+              <iconmask img1="mask_squircle"/>
+              <iconupon img1="upon_gloss"/>
+              <scale factor="0.75"/>
+              <item component="ComponentInfo{com.app/.Main}" drawable="app"/>
+            </resources>
+            """.trimIndent(),
+        )
+        assertEquals(listOf("back_plate", "back_alt"), maps.chrome.backs)
+        assertEquals(listOf("mask_squircle"), maps.chrome.masks)
+        assertEquals(listOf("upon_gloss"), maps.chrome.upons)
+        assertEquals(0.75f, maps.chrome.scale, 0.001f)
+        assertEquals("app", maps.byComponent["com.app/com.app.Main"])
     }
 }

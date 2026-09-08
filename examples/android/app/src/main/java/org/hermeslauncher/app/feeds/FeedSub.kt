@@ -19,6 +19,11 @@ data class FeedSub(
 )
 
 object FeedSubCodec {
+    fun visibleCopy(raw: String?): String? {
+        val t = raw?.trim().orEmpty()
+        return t.takeIf { it.isNotEmpty() && !it.equals("null", ignoreCase = true) }
+    }
+
     fun encode(subs: List<FeedSub>): String {
         val arr = JSONArray()
         for (sub in subs) {
@@ -52,13 +57,13 @@ object FeedSubCodec {
                     add(
                         FeedSub(
                             url = url,
-                            title = obj.optString("title"),
-                            tag = obj.optString("tag"),
+                            title = visibleCopy(obj.optString("title")).orEmpty(),
+                            tag = visibleCopy(obj.optString("tag")).orEmpty(),
                             kind = runCatching { SubKind.valueOf(obj.optString("kind", SubKind.NEWS.name)) }
                                 .getOrDefault(SubKind.NEWS),
                             notify = obj.optBoolean("notify"),
                             prefetch = obj.optBoolean("prefetch", true),
-                            lastError = obj.optString("lastError").takeIf { it.isNotBlank() },
+                            lastError = visibleCopy(obj.optString("lastError")),
                         ),
                     )
                 }

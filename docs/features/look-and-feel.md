@@ -4,7 +4,7 @@
 
 ## Acceptance criteria
 
-- ✅ User-visible behavior: adaptive icon shape; wallpaper-extracted palette (`WallpaperColors`); night schedule beyond system; dots vs counts + badge color; label shadow; icon packs stay
+- ✅ User-visible behavior: adaptive icon shape; wallpaper-extracted palette (`WallpaperColors`); night schedule beyond system; dots vs counts + badge color; label shadow; icon packs apply to drawer/home/inbox and the widget picker; unmatched apps keep their glyph inside pack chrome with a theme-colored plate
 - ✅ Offline/error behavior: no wallpaper colors → theme palette; schedule invalid times kept with last good / defaults; unknown shape → SYSTEM
 - ✅ Accessibility: contrast for badge and labels
 - ✅ i18n: `look_*`

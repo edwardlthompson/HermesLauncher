@@ -36,6 +36,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ShortcutInfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Process;
 import android.os.Trace;
@@ -556,17 +557,59 @@ public class IconCache extends BaseIconCache {
         @Nullable Drawable getIcon(LauncherActivityInfo info);
     }
 
+    /** Wrap unmatched system icons in pack chrome / themed plates. */
+    public interface IconFallback {
+        @Nullable Drawable adapt(LauncherActivityInfo info, Drawable system);
+    }
+
     public static volatile IconOverride sIconOverride;
+    public static volatile IconFallback sIconFallback;
+    public static volatile PackageIcon sPackageIcon;
+    public static volatile String sPackStamp = "";
+    public static volatile int sWrapperBackground = Color.WHITE;
+
+    /** Theme package-level icons used by the widget picker headers. */
+    public interface PackageIcon {
+        @Nullable Drawable wrap(String packageName, Drawable system);
+    }
+
+    @Override
+    protected boolean skipPackageDb() {
+        return sPackageIcon != null;
+    }
+
+    @Override
+    protected Drawable decoratePackageIcon(String packageName, Drawable icon) {
+        PackageIcon hook = sPackageIcon;
+        if (hook == null || icon == null || packageName == null) {
+            return icon;
+        }
+        Drawable next = hook.wrap(packageName, icon);
+        return next != null ? next : icon;
+    }
+
+    @Override
+    public Drawable getFullResIcon(String packageName, int iconId) {
+        return decoratePackageIcon(packageName, super.getFullResIcon(packageName, iconId));
+    }
 
     public Drawable getFullResIcon(LauncherActivityInfo info) {
         IconOverride override = sIconOverride;
         if (override != null) {
             Drawable packed = override.getIcon(info);
             if (packed != null) {
-                return packed;
+                return packed.mutate();
             }
         }
-        return mIconProvider.getIcon(info, mIconDpi);
+        Drawable system = mIconProvider.getIcon(info, mIconDpi);
+        IconFallback fallback = sIconFallback;
+        if (fallback != null) {
+            Drawable adapted = fallback.adapt(info, system);
+            if (adapted != null) {
+                return adapted.mutate();
+            }
+        }
+        return system;
     }
 
     public void updateSessionCache(PackageUserKey key, PackageInstaller.SessionInfo info) {
@@ -577,7 +620,8 @@ public class IconCache extends BaseIconCache {
     @Override
     @NonNull
     protected String getIconSystemState(String packageName) {
-        return mIconProvider.getSystemStateForPackage(mSystemState, packageName);
+        return mIconProvider.getSystemStateForPackage(mSystemState, packageName)
+                + ",hp=" + sPackStamp;
     }
 
     /**

@@ -2304,6 +2304,20 @@ public class Workspace<T extends View & PageIndicator> extends PagedView<T>
         setCurrentDropOverCell(-1, -1);
     }
 
+    protected CellLayout getDropToLayout() {
+        return mDropToLayout;
+    }
+
+    protected void retargetDropLayout(CellLayout layout) {
+        mDropToLayout = layout;
+        setCurrentDropLayout(layout);
+    }
+
+    /** Hermes: reserved News/Inbox pages cannot receive icons. */
+    protected CellLayout retargetOccupiedDropLayout(CellLayout layout) {
+        return layout;
+    }
+
     void setCurrentDragOverlappingLayout(CellLayout layout) {
         if (mDragOverlappingLayout != null) {
             mDragOverlappingLayout.setIsDragOverlapping(false);
@@ -2530,6 +2544,8 @@ public class Workspace<T extends View & PageIndicator> extends PagedView<T>
                 }
             }
         }
+
+        layout = retargetOccupiedDropLayout(layout);
 
         // Update the current drop layout if the target changed
         if (layout != mDragTargetLayout) {
@@ -2890,7 +2906,9 @@ public class Workspace<T extends View & PageIndicator> extends PagedView<T>
             addInScreen(view, container, screenId, mTargetCell[0], mTargetCell[1],
                     info.spanX, info.spanY);
             cellLayout.onDropChild(view);
-            cellLayout.getShortcutsAndWidgets().measureChild(view);
+            if (view.getParent() instanceof ShortcutAndWidgetContainer) {
+                cellLayout.getShortcutsAndWidgets().measureChild(view);
+            }
 
             if (d.dragView != null) {
                 // We wrap the animation call in the temporary set and reset of the current

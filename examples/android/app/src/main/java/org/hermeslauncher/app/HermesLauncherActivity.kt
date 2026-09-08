@@ -22,7 +22,6 @@ import org.hermeslauncher.app.l3.L3GestureHost
 import org.hermeslauncher.app.l3.L3Live
 import org.hermeslauncher.app.l3.L3WidgetTick
 import org.hermeslauncher.app.ui.launcher.WallpaperIntents
-import org.hermeslauncher.app.workspace.HermesPages
 
 class HermesLauncherActivity : Launcher() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,12 +91,12 @@ class HermesLauncherActivity : Launcher() {
 
     override fun bindScreens(orderedScreenIds: IntArray) {
         super.bindScreens(orderedScreenIds)
-        HermesPages.ensure(workspace)
+        (workspace as HermesWorkspace).keepDroppableEmpty()
     }
 
     override fun finishBindingItems(pagesBoundFirst: IntSet) {
         super.finishBindingItems(pagesBoundFirst)
-        HermesPages.ensure(workspace)
+        (workspace as HermesWorkspace).keepDroppableEmpty()
         val home = (workspace as? HermesWorkspace)?.homeIndex() ?: 0
         workspace.setCurrentPage(home)
         L3WidgetTick.poke(this)

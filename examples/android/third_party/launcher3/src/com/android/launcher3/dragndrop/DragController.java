@@ -300,6 +300,15 @@ public abstract class DragController<T extends ActivityContext>
             // Only end the drag if we are not deferred
             if (!isDeferred) {
                 callOnDragEnd();
+            } else {
+                mActivity.getDragLayer().postDelayed(() -> {
+                    if (mActivity.getDragLayer() instanceof DragLayer) {
+                        ((DragLayer) mActivity.getDragLayer()).clearAnimatedView();
+                    }
+                    if (mOptions != null) {
+                        callOnDragEnd();
+                    }
+                }, 750);
             }
         }
     }

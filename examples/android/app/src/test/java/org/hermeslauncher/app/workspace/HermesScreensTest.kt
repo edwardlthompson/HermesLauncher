@@ -33,5 +33,15 @@ class HermesScreensTest {
         assertFalse(HermesScreens.canDrop(HermesScreens.NEWS))
         assertFalse(HermesScreens.canDrop(HermesScreens.INBOX))
         assertTrue(HermesScreens.canDrop(0))
+        assertTrue(HermesScreens.canDrop(-201))
+    }
+
+    @Test
+    fun desktopItemsCannotBindOnReservedPages() {
+        assertTrue(HermesDragPages.refuseDesktop(-100, HermesScreens.PODCASTS))
+        assertTrue(HermesDragPages.refuseDesktop(-100, HermesScreens.NEWS))
+        assertTrue(HermesDragPages.refuseDesktop(-100, HermesScreens.INBOX))
+        assertFalse(HermesDragPages.refuseDesktop(-100, 0))
+        assertFalse(HermesDragPages.refuseDesktop(-101, HermesScreens.INBOX))
     }
 }

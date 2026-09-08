@@ -1,16 +1,13 @@
 package org.hermeslauncher.app.ui.inbox
 
 import android.content.pm.PackageManager
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.OpenInNew
-import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -22,11 +19,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.drawable.toBitmap
 import org.hermeslauncher.app.R
 import org.hermeslauncher.app.ui.theme.SpacingMd
 import org.hermeslauncher.app.ui.theme.SpacingSm
@@ -54,15 +49,6 @@ fun InboxGroup(
     val label = remember(group.packageName, resolved, unknown) {
         resolved ?: if (group.packageName.isBlank()) unknown else inboxAppLabel(pm, group.packageName)
     }
-    val bitmap = remember(group.packageName) {
-        if (group.packageName.isBlank()) {
-            null
-        } else {
-            runCatching {
-                pm.getApplicationIcon(group.packageName).toBitmap(width = 96, height = 96).asImageBitmap()
-            }.getOrNull()
-        }
-    }
     val launch = showGroupLaunch(expanded, group.packageName)
     Card(
         modifier = modifier.fillMaxWidth(),
@@ -84,20 +70,11 @@ fun InboxGroup(
                         ),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    if (bitmap != null) {
-                        Image(
-                            bitmap = bitmap,
-                            contentDescription = label,
-                            modifier = Modifier.size(40.dp),
-                        )
-                    } else {
-                        Icon(
-                            imageVector = Icons.Filled.Apps,
-                            contentDescription = label,
-                            modifier = Modifier.size(40.dp),
-                            tint = MaterialTheme.colorScheme.onSurface,
-                        )
-                    }
+                    InboxAppGlyph(
+                        packageName = group.packageName,
+                        size = 40.dp,
+                        contentDescription = label,
+                    )
                     Text(
                         text = "$label (${group.items.size})",
                         style = MaterialTheme.typography.titleMedium,

@@ -2,8 +2,6 @@ package org.hermeslauncher.app.ui.settings
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -22,25 +20,22 @@ fun InboxCardSettings(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val app = context.applicationContext as HermesApplication
-    val truncate by app.inboxPrefs.truncateBody.collectAsStateWithLifecycle(true)
     val maxChars by app.inboxPrefs.bodyMaxChars.collectAsStateWithLifecycle(InboxDisplay.DEFAULT_CHARS)
     val hideSmall by app.inboxPrefs.hideSmallImages.collectAsStateWithLifecycle(true)
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(SpacingMd)) {
-        SettingsSwitchRow(
-            title = R.string.inbox_truncate,
-            body = R.string.inbox_truncate_body,
-            checked = truncate,
-            onCheckedChange = { on -> scope.launch { app.inboxPrefs.setTruncateBody(on) } },
+        SettingsDropdown(
+            title = stringResource(R.string.inbox_body_length),
+            options = InboxDisplay.CHAR_CHOICES,
+            selected = maxChars,
+            labelOf = { chars ->
+                if (chars <= InboxDisplay.ALL_CHARS) {
+                    stringResource(R.string.inbox_body_length_all)
+                } else {
+                    stringResource(R.string.inbox_truncate_chars, chars)
+                }
+            },
+            onSelect = { chars -> scope.launch { app.inboxPrefs.setBodyMaxChars(chars) } },
         )
-        if (truncate) {
-            SettingsDropdown(
-                title = stringResource(R.string.inbox_truncate),
-                options = InboxDisplay.CHAR_CHOICES,
-                selected = maxChars,
-                labelOf = { chars -> stringResource(R.string.inbox_truncate_chars, chars) },
-                onSelect = { chars -> scope.launch { app.inboxPrefs.setBodyMaxChars(chars) } },
-            )
-        }
         SettingsSwitchRow(
             title = R.string.inbox_hide_small_images,
             body = R.string.inbox_hide_small_images_body,

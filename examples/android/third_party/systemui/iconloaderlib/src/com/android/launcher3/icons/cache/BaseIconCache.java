@@ -196,6 +196,15 @@ public abstract class BaseIconCache {
     }
 
     @Nullable
+    protected Drawable decoratePackageIcon(@NonNull String packageName, @Nullable Drawable icon) {
+        return icon;
+    }
+
+    protected boolean skipPackageDb() {
+        return false;
+    }
+
+    @Nullable
     private Drawable getFullResIcon(@Nullable final Resources resources, final int iconId) {
         if (resources != null && iconId != 0) {
             try {
@@ -545,14 +554,15 @@ public abstract class BaseIconCache {
             @NonNull final UserHandle user, final boolean useLowResIcon) {
         assertWorkerThread();
         ComponentKey cacheKey = getPackageKey(packageName, user);
-        CacheEntry entry = mCache.get(cacheKey);
+        CacheEntry entry = skipPackageDb() ? null : mCache.get(cacheKey);
 
         if (entry == null || (entry.bitmap.isLowRes() && !useLowResIcon)) {
             entry = new CacheEntry();
             boolean entryUpdated = true;
 
-            // Check the DB first.
-            if (!getEntryFromDBLocked(cacheKey, entry, useLowResIcon)) {
+            // Check the DB first unless an icon pack must wrap package icons live.
+            if (skipPackageDb()
+                    || !getEntryFromDBLocked(cacheKey, entry, useLowResIcon)) {
                 try {
                     int flags = Process.myUserHandle().equals(user) ? 0 :
                             PackageManager.GET_UNINSTALLED_PACKAGES;
@@ -566,7 +576,7 @@ public abstract class BaseIconCache {
                     // Load the full res icon for the application, but if useLowResIcon is set, then
                     // only keep the low resolution icon instead of the larger full-sized icon
                     BitmapInfo iconInfo = li.createBadgedIconBitmap(
-                            appInfo.loadIcon(mPackageManager),
+                            decoratePackageIcon(packageName, appInfo.loadIcon(mPackageManager)),
                             new IconOptions().setUser(user).setInstantApp(isInstantApp(appInfo)));
                     li.close();
 
@@ -575,12 +585,12 @@ public abstract class BaseIconCache {
                     entry.bitmap = BitmapInfo.of(
                             useLowResIcon ? LOW_RES_ICON : iconInfo.icon, iconInfo.color);
 
-                    // Add the icon in the DB here, since these do not get written during
-                    // package updates.
-                    ContentValues values = newContentValues(
-                            iconInfo, entry.title.toString(), packageName, null);
-                    addIconToDB(values, cacheKey.componentName, info, getSerialNumberForUser(user),
-                            info.lastUpdateTime);
+                    if (!skipPackageDb()) {
+                        ContentValues values = newContentValues(
+                                iconInfo, entry.title.toString(), packageName, null);
+                        addIconToDB(values, cacheKey.componentName, info,
+                                getSerialNumberForUser(user), info.lastUpdateTime);
+                    }
 
                 } catch (NameNotFoundException e) {
                     if (DEBUG) Log.d(TAG, "Application not installed " + packageName);

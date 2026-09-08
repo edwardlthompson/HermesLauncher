@@ -4,7 +4,7 @@
 
 ## Acceptance criteria
 
-- ✅ User-visible behavior: Workspace order is News, Inbox, desktop pages; Home / `moveToDefaultScreen` lands on Inbox; the Launcher3 dock stays visible; long-press empty News/Inbox/desktop opens Wallpaper, Widgets, live wallpaper, add icon, Settings
+- ✅ User-visible behavior: Workspace order is Podcasts, News, Inbox, desktop pages, then a trailing empty page; Home / `moveToDefaultScreen` lands on Inbox; Podcasts/News/Inbox never host icons or widgets and icon/widget drags never snap onto them; dropping an icon stays on a desktop page instead of wrapping to Podcasts; dragging from the drawer snaps to the empty page (not Podcasts/News/Inbox), does not leave a floating icon, and creates the empty page instead of crashing; widget resize and home-to-home icon drags stay on droppable desktop pages; the Launcher3 dock stays visible; long-press empty News/Inbox/desktop opens Wallpaper, Widgets, live wallpaper, add icon, Settings
 - ✅ Offline/error behavior: empty News and Inbox copy stay in `FeedsPage` / `FeedPage`; `HermesPages.ensure` no-ops when reserved screens already exist
 - ✅ Accessibility: News/Inbox pages use `launcher_page_news` and `launcher_page_feed`; they are Workspace children (no overlay in the a11y tree)
 - ✅ i18n: existing `launcher_page_news` / `launcher_page_feed`; L3 pref labels come from library strings
@@ -19,7 +19,7 @@
 
 | Layer | Path |
 |-------|------|
-| Logic | `examples/android/app/src/main/java/org/hermeslauncher/app/workspace/HermesScreens.kt`, `HermesPageHost` |
+| Logic | `examples/android/app/src/main/java/org/hermeslauncher/app/workspace/HermesScreens.kt`, `HermesDragPages`, `EmptyPagePolicy`, `HermesPageHost` |
 | View | `HermesWorkspace`, `HermesPages`, `ui/launcher/HermesWorkspacePages.kt`, `ui/settings/` |
 | Tests | `src/test/.../workspace/HermesScreensTest.kt`, `HermesSettingsActivityTest.kt` |
 | Wiring | `launcher.xml` `@id/workspace` is `HermesWorkspace`; `HermesLauncherActivity` bind + options; manifest `APPLICATION_PREFERENCES` |
@@ -31,12 +31,13 @@
 | `HermesScreens.INBOX` | `-302` |
 | `HermesScreens.homePageIndex` | Inbox child index `1` when `pageCount > 1` |
 | `HermesScreens.canDrop` | false on reserved IDs |
-| `HermesPages.ensure` | insert News at 0 and Inbox at 1 if missing; idempotent |
+| `HermesDragPages.refuseDesktop` | true for desktop items on reserved IDs |
+| `HermesPages.ensure` | insert Podcasts/News/Inbox at 0/1/2 if missing; idempotent |
 | `HermesSettingsActivity` | `ACTION_APPLICATION_PREFERENCES` |
 ## Tests
 
-- Automated: yes — `HermesScreensTest`, `HermesSettingsActivityTest`
-- Coverage: reserved IDs, home index, drop deny, preferences intent resolve
+- Automated: yes — `HermesScreensTest`, `HermesDragPagesTest`, `EmptyPagePolicyTest`, `HermesSettingsActivityTest`
+- Coverage: reserved IDs, home index, drop deny, drag snap skip, extra-empty wrap settle, desktop bind refuse, preferences intent resolve
 
 ## Fallback validation
 

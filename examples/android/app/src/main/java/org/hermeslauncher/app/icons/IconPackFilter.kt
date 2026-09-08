@@ -8,19 +8,25 @@ import java.util.concurrent.ConcurrentHashMap
 data class IconPackMap(
     val byComponent: Map<String, String>,
     val byPackage: Map<String, String>,
+    val chrome: IconPackChrome = IconPackChrome(),
 )
 
 object IconPackFilter {
     private val cache = ConcurrentHashMap<String, IconPackMap>()
 
-    fun nameFor(context: Context, packPkg: String, app: LaunchableApp): String {
-        val maps = cache.getOrPut(packPkg) {
+    fun mapsFor(context: Context, packPkg: String): IconPackMap {
+        return cache.getOrPut(packPkg) {
             runCatching { load(context, packPkg) }.getOrDefault(emptyMaps())
         }
+    }
+
+    fun nameFor(context: Context, packPkg: String, app: LaunchableApp): String {
+        val maps = mapsFor(context, packPkg)
         val exact = componentKey(app.packageName, app.activityName)
-        return maps.byComponent[exact]
+        val raw = maps.byComponent[exact]
             ?: maps.byPackage[app.packageName]
             ?: IconPackResources.drawableName(app)
+        return drawableName(raw)
     }
 
     fun forget(packPkg: String? = null) {
@@ -54,7 +60,11 @@ object IconPackFilter {
         return "$pkg/$cls"
     }
 
-    private fun emptyMaps(): IconPackMap = IconPackMap(emptyMap(), emptyMap())
+    internal fun drawableName(raw: String): String {
+        return raw.trim().substringAfterLast('/').substringBefore('.').lowercase()
+    }
+
+    private fun emptyMaps(): IconPackMap = IconPackMap(emptyMap(), emptyMap(), IconPackChrome())
 
     private fun load(context: Context, packPkg: String): IconPackMap {
         val res = context.packageManager.getResourcesForApplication(packPkg)
@@ -69,29 +79,49 @@ object IconPackFilter {
                 }
             }
         }
-        res.assets.open("appfilter.xml").use { stream ->
-            val parser = Xml.newPullParser()
-            parser.setInput(stream, Charsets.UTF_8.name())
-            return parse(parser)
+        for (asset in listOf("appfilter.xml", "xml/appfilter.xml", "app_filter.xml")) {
+            val parsed = runCatching {
+                res.assets.open(asset).use { stream ->
+                    val parser = Xml.newPullParser()
+                    parser.setInput(stream, Charsets.UTF_8.name())
+                    parse(parser)
+                }
+            }.getOrNull()
+            if (parsed != null) {
+                return parsed
+            }
         }
+        return emptyMaps()
     }
 
     private fun parse(parser: XmlPullParser): IconPackMap {
         val byComponent = LinkedHashMap<String, String>()
         val byPackage = LinkedHashMap<String, String>()
+        val backs = ArrayList<String>()
+        val masks = ArrayList<String>()
+        val upons = ArrayList<String>()
+        var scale = IconPackChrome.DEFAULT_SCALE
         var event = parser.eventType
         while (event != XmlPullParser.END_DOCUMENT) {
-            if (event == XmlPullParser.START_TAG && parser.name == "item") {
-                val key = attr(parser, "component")?.let { normalizeComponent(it) }
-                val drawable = attr(parser, "drawable")
-                if (key != null && !drawable.isNullOrBlank()) {
-                    byComponent.putIfAbsent(key, drawable)
-                    byPackage.putIfAbsent(key.substringBefore('/'), drawable)
+            if (event == XmlPullParser.START_TAG) {
+                when (parser.name) {
+                    "item", "icon" -> {
+                        val key = attr(parser, "component")?.let { normalizeComponent(it) }
+                        val drawable = attr(parser, "drawable")?.let { drawableName(it) }
+                        if (key != null && !drawable.isNullOrBlank()) {
+                            byComponent.putIfAbsent(key, drawable)
+                            byPackage.putIfAbsent(key.substringBefore('/'), drawable)
+                        }
+                    }
+                    "iconback" -> backs.addAll(IconPackChrome.imgs(parser))
+                    "iconmask" -> masks.addAll(IconPackChrome.imgs(parser))
+                    "iconupon" -> upons.addAll(IconPackChrome.imgs(parser))
+                    "scale" -> scale = IconPackChrome.scaleOf(parser)
                 }
             }
             event = parser.next()
         }
-        return IconPackMap(byComponent, byPackage)
+        return IconPackMap(byComponent, byPackage, IconPackChrome(backs, masks, upons, scale))
     }
 
     private fun attr(parser: XmlPullParser, name: String): String? {

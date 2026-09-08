@@ -57,12 +57,27 @@ class InboxPrefsTest {
     @Test
     fun persistsCardChromeToggles() = runBlocking {
         val prefs = InboxPrefs(context)
-        prefs.setTruncateBody(false)
         prefs.setBodyMaxChars(80)
         prefs.setHideSmallImages(false)
-        assertEquals(false, prefs.truncateBody.first())
+        assertEquals(true, prefs.truncateBody.first())
         assertEquals(80, prefs.bodyMaxChars.first())
         assertEquals(false, prefs.hideSmallImages.first())
+    }
+
+    @Test
+    fun allCharsClearsTruncate() = runBlocking {
+        val prefs = InboxPrefs(context)
+        prefs.setBodyMaxChars(InboxDisplay.ALL_CHARS)
+        assertEquals(0, prefs.bodyMaxChars.first())
+        assertEquals(false, prefs.truncateBody.first())
+    }
+
+    @Test
+    fun persistsFilterLayoutAndSort() = runBlocking {
+        val prefs = InboxPrefs(context)
+        prefs.setFilter(InboxLayout.TIME, newestFirst = false)
+        assertEquals(InboxLayout.TIME, prefs.layout.first())
+        assertEquals(false, prefs.newestFirst.first())
     }
 
     @Test

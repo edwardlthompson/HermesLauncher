@@ -11,6 +11,9 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.hermeslauncher.app.HermesApplication
 import org.hermeslauncher.app.R
+import org.hermeslauncher.app.icons.IconPackId
+import org.hermeslauncher.app.icons.IconPackResources
+import org.hermeslauncher.app.icons.IconPlate
 import org.hermeslauncher.app.vault.InboxDisplay
 import org.hermeslauncher.app.vault.ShadeBridge
 import org.hermeslauncher.app.vault.VaultImageStore
@@ -30,8 +33,11 @@ fun VaultItemCard(
     showSource: Boolean = false,
     modifier: Modifier = Modifier,
 ) {
-    val pm = LocalContext.current.packageManager
+    val context = LocalContext.current
+    val pm = context.packageManager
     val unknown = stringResource(R.string.inbox_unknown_app)
+    val app = context.applicationContext as HermesApplication
+    val pack by app.iconPackStore.pack.collectAsStateWithLifecycle(IconPackId())
     val sourceName = remember(item.packageName, showSource, unknown) {
         if (!showSource) {
             ""
@@ -41,18 +47,18 @@ fun VaultItemCard(
             inboxAppLabel(pm, item.packageName).ifBlank { unknown }
         }
     }
-    val sourceIcon = remember(item.packageName, showSource) {
+    val sourceIcon = remember(item.packageName, showSource, pack.packageName, IconPlate.color) {
         if (!showSource || item.packageName.isBlank()) {
             null
         } else {
             runCatching {
-                pm.getApplicationIcon(item.packageName).toBitmap(width = 72, height = 72).asImageBitmap()
+                val drawable = IconPackResources.visibleIcon(context, pack, item.packageName)
+                    ?: pm.getApplicationIcon(item.packageName)
+                drawable.toBitmap(width = 72, height = 72).asImageBitmap()
             }.getOrNull()
         }
     }
     val preview = VaultPreview.parse(item.extrasJson)
-    val app = LocalContext.current.applicationContext as HermesApplication
-    val truncate by app.inboxPrefs.truncateBody.collectAsStateWithLifecycle(true)
     val maxChars by app.inboxPrefs.bodyMaxChars.collectAsStateWithLifecycle(InboxDisplay.DEFAULT_CHARS)
     val hideSmall by app.inboxPrefs.hideSmallImages.collectAsStateWithLifecycle(true)
     InboxCard(
@@ -69,7 +75,7 @@ fun VaultItemCard(
         onOpen = onOpen,
         onAction = onAction,
         showDismiss = showDismiss,
-        bodyMaxChars = if (truncate) maxChars else 0,
+        bodyMaxChars = maxChars,
         minImagePx = if (hideSmall) InboxDisplay.MIN_IMAGE_PX else 0,
         imageIsLargeIcon = preview.imageIsLargeIcon,
         modifier = modifier,
