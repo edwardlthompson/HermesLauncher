@@ -98,5 +98,5 @@ Hermes Launcher: FOSS Android home-screen inbox for notifications, news, and pod
 ## Template Provenance
 
 - **Source template:** `edwardlthompson/agent-project-bootstrap`
-- **Template version:** `1.4.0` (see `.template-version`)
+- **Template version:** `1.0.0` (see `.template-version`)
 - **Last update check:** See `.template-update.json`
