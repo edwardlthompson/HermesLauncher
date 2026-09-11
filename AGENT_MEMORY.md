@@ -7,7 +7,7 @@
 
 | Layer | Technology | Version | Notes |
 |-------|-----------|---------|-------|
-| Platform | Android (min 26, target 37), Kotlin, Jetpack Compose Material 3 | 1.0.1 | Child of agent-project-bootstrap 1.3.0; APK versionName 1.0.1 / versionCode 101 |
+| Platform | Android (min 26, target 37), Kotlin, Jetpack Compose Material 3 | 1.0.1 | Child of agent-project-bootstrap 1.4.0; APK versionName 1.0.1 / versionCode 101 |
 | License | MIT | - | Pure FOSS |
 | Persistence | Room + SQLCipher (`hermes-vault-cipher.db`) + Android Keystore | 4.16.0 | Plaintext vault migrates; rebuild-required copy on failure |
 | Distribution | GitHub Releases + F-Droid | - | Reproducible APKs (`SOURCE_DATE_EPOCH`) |
@@ -40,6 +40,7 @@ Hermes Launcher: FOSS Android home-screen inbox for notifications, news, and pod
 
 ## Session Retrospectives
 
+| 2026-09-11 | /audit | Local gates green; GitHub crash/bug inbox empty; Scorecard SARIF only (no CodeQL/Dependabot). Widget force-fill stretch reverted before audit. | Do not restore independent X/Y widget fill; TokenPermissions stay `/triage` |
 | 2026-09-08 | /ship v1.3.0 | Tag [v1.3.0](https://github.com/edwardlthompson/HermesLauncher/releases/tag/v1.3.0); RP #11; extra empty page; pack plates; reserved-page drag lock | Drops wrap-modulo to Podcasts (KB follow-up); APK versionName still 1.0.1 |
 | 2026-09-08 | /ship v1.2.0 | Tag [v1.2.0](https://github.com/edwardlthompson/HermesLauncher/releases/tag/v1.2.0); RP #10; signed `hermes-launcher-1.0.1-foss.apk`; OP12+OP13 sideload | Grid via `setHermesGrid` (KB-025); dock foreground-time first; APK versionName still 1.0.1 |
 | 2026-09-06 | /ship v1.1.0 | Tag [v1.1.0](https://github.com/edwardlthompson/HermesLauncher/releases/tag/v1.1.0); signed `hermes-launcher-1.0.1-foss.apk`; OP12 uninstall+sideload | HTML README badge must track `.template-version` (KB-024); APK versionName still 1.0.1 |
@@ -97,5 +98,5 @@ Hermes Launcher: FOSS Android home-screen inbox for notifications, news, and pod
 ## Template Provenance
 
 - **Source template:** `edwardlthompson/agent-project-bootstrap`
-- **Template version:** `1.3.0` (see `.template-version`)
+- **Template version:** `1.4.0` (see `.template-version`)
 - **Last update check:** See `.template-update.json`

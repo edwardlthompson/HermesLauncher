@@ -2413,6 +2413,48 @@
       "owner": "maintainer"
     },
     {
+      "path": "scripts/check-build-plan-tally.sh",
+      "purpose": "Fail when BUILD_PLAN remaining tallies are stale",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-ci-gaps.sh",
+      "purpose": "Gate: living ci-gap registry stays aligned with the issue form",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/resume-handoff.sh",
+      "purpose": "Cloud to PC handoff digest (fetch, sync open PRs, next AGENT row)",
+      "read_when": "session_start",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/run-python-mypy.sh",
+      "purpose": "Optional pre-commit mypy on examples/python/src when uv is installed",
+      "read_when": "python_quality_gate",
+      "update_when": "python_tooling_change",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/sync-open-prs-build-plan.sh",
+      "purpose": "Mirror open Dependabot/Release Please PRs into BUILD_PLAN managed block",
+      "read_when": "session_start",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": ".github/workflows/sync-open-prs-build-plan.yml",
+      "purpose": "On Dependabot/Release Please PR events, sync BUILD_PLAN open-prs block",
+      "read_when": "reference",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": "scripts/lib/sync_template_gaps_build_plan.py",
       "purpose": "Rewrite template-gaps-sync BUILD_PLAN markers from gap report",
       "read_when": "reference",

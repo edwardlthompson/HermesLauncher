@@ -19,6 +19,8 @@ See [`docs/CURSOR_MODES.md`](CURSOR_MODES.md) — pick the Cursor mode before ed
 
 In Cursor, type **`/`** in Agent chat. Start with **[docs/help/BATCH_COMMANDS.md](help/BATCH_COMMANDS.md)** — try `/tour` (10 minutes) or `/bootstrap` on a new project, `/verify` before merge. Print every command: [`help/batch-commands-print.html`](help/batch-commands-print.html). On a product repo, `/upgrade` plans template catch-up without overwriting the app.
 
+Optional commercial Grok Bots (not required to build or ship): [`GROK_BOTS.md`](GROK_BOTS.md).
+
 In Windsurf, Antigravity, or any other agent: ask it to read [`docs/help/TOUR.md`](help/TOUR.md) (first run) or [`docs/help/COACH.md`](help/COACH.md) (what next).
 
 ## Bootstrap Read Order

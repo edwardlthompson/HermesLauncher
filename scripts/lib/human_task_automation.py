@@ -12,6 +12,7 @@ from human_task_android import (
 )
 from human_task_op12 import (
     automate_op12_device_smoke,
+    automate_op12_inbox_feeds,
     automate_op12_widget_dnd,
 )
 from human_task_core import AttemptResult, resolve_config
@@ -48,6 +49,12 @@ HUMAN_RULES: list[tuple[re.Pattern[str], str, object]] = [
     (re.compile(r"Approve ADR|Approve.*BUILD_PLAN", re.I), "human", automate_approve_adr),
     (re.compile(r"Optional product smoke", re.I), "human", automate_product_smoke),
     (re.compile(r"Approve release tag", re.I), "human", automate_release_tag),
+    (re.compile(r"Release Please|keep manifest 1\.4\.0", re.I), "human", lambda r, c: automate_informational(r, c, "rp-keep-1.4.0")),
+    (re.compile(r"examples/node|lockfile bumps", re.I), "human", lambda r, c: automate_informational(r, c, "sacred-lockfiles")),
+    (re.compile(r"Review `AGENTS\.md`", re.I), "human", lambda r, c: automate_informational(r, c, "sacred-agents")),
+    (re.compile(r"spec\.md|INITIALIZATION_PROMPT", re.I), "human", lambda r, c: automate_informational(r, c, "sacred-docs")),
+    (re.compile(r"LICENSE|scratchpad\.md|CODE_REVIEW", re.I), "human", lambda r, c: automate_informational(r, c, "sacred-license")),
+    (re.compile(r"examples/android/` stays|Golden Path stub overwrite", re.I), "human", lambda r, c: automate_informational(r, c, "sacred-android")),
     (re.compile(r"required status checks|branch protection|setup-github-repo", re.I), "human", automate_branch_protection),
     (re.compile(r"Dependabot PR|Review/merge Dependabot|TypeScript \d+ major", re.I), "human", automate_dependabot_major_merge),
     (re.compile(r"AUTOMERGE_TOKEN", re.I), "human", automate_automerge_token),
@@ -62,6 +69,7 @@ HUMAN_RULES: list[tuple[re.Pattern[str], str, object]] = [
 
 ADB_RULES: list[tuple[re.Pattern[str], str, object]] = [
     (re.compile(r"widget tray|drag a widget", re.I), "adb", automate_op12_widget_dnd),
+    (re.compile(r"ignore an app|unsubscribe a feed|feed folder", re.I), "adb", automate_op12_inbox_feeds),
     (re.compile(r"b5214fc6|OP12|Sideload OP12|vault rows survive|folder window|swipe down search|shape change|OPML export", re.I), "adb", automate_op12_device_smoke),
     (re.compile(r"instrumented|connectedDebugAndroidTest|\badb\b", re.I), "adb", automate_adb_instrumented),
     (re.compile(r"F-Droid|device dry-run", re.I), "adb", automate_fdroid_dry_run),

@@ -17,6 +17,20 @@
 
 ## Entries
 
+### 2026-09-11 — Keep Release Please at 1.4.0 (next product tag 1.5.0)
+- **Status:** Accepted
+- **Context:** Template catch-up copied `.template-version` and `.release-please-manifest.json` to 1.4.0. Last published Hermes tag is v1.3.0. Reverting the manifest would let the next tag be v1.4.0; keeping it skips a product 1.4.0.
+- **Decision:** Keep the manifest at 1.4.0. Next Hermes product tag is v1.5.0. Do not revert to 1.3.0.
+- **Alternatives considered:** Revert manifest to 1.3.0 so RP can cut v1.4.0 (rejected: template and product versions would diverge again after the next catch-up).
+- **Consequences:** `/push` after Sprint 50 lands chore commits on `main`. Release Please opens v1.5.0 only if a `feat`/`fix` lands after the 1.4.0 manifest bump.
+
+### 2026-09-11 — HOME widgets keep stock Launcher3 layout
+- **Status:** Accepted
+- **Context:** Independent X/Y scale on `HermesLauncherAppWidgetHostView` filled dragged cells but distorted MiBanco (stretched type and card).
+- **Decision:** Revert force-fill. HOME stays `LauncherAppWidgetHostView` with L3 uniform `setScaleToFit`. Do not scale RemoteViews axes independently to erase provider empty space.
+- **Alternatives considered:** MATCH_PARENT exact measure (still left a gap). Visual-content scale after list bind (filled the frame, distorted the widget).
+- **Consequences:** Uncommitted stretch files deleted; signed APK sideloaded on OP12/OP13. `/audit` 2026-09-11 recorded this as F-001 Deferred.
+
 ### 2026-09-08 — Reserved pages stay empty after icon drop
 - **Status:** Accepted
 - **Context:** Home-to-home icon drop jumped to Podcasts (page 0). Wrap-around plus `removeExtraEmptyScreen` mapped the extra-empty index onto page 0.
@@ -58,7 +72,6 @@
 - **Decision:** Stage everything on PR 7 (`cursor/feed-unsub-compact-menus-78ec`). Include the MessagingStyle URI-photo bounds fix. Letter queries match labels; package match requires a dot or 3+ characters. Do not merge, tag, or dispatch Release here — human smokes on-device then ships.
 - **Alternatives considered:** Merge PR 6 then PR 7 (rejected: PR 7 already contains Sprint 48). Close PR 6 from this agent (rejected: human will drop the subset PR after merging 7).
 - **Consequences:** Merge PR 7 only. PR 6 is a subset and can be closed after that merge. Release APK still needs `[HUMAN]` workflow dispatch.
-
 
 ### 2026-09-06 — Feeds drawer nested folders and long-press
 - **Status:** Accepted

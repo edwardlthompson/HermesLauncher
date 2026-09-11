@@ -27,6 +27,18 @@ def _gh(args: list[str], timeout: int = 20) -> str:
     return proc.stdout if proc.returncode == 0 else ""
 
 
+def load_required_names(root: Path) -> list[str]:
+    path = root / ".github" / "required-checks.json"
+    if not path.is_file():
+        return []
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return []
+    names = data.get("required_status_checks") or []
+    return [str(n) for n in names if n]
+
+
 def filter_runs(runs: list[dict], default_branch: str = "main") -> list[dict]:
     kept: list[dict] = []
     for run in runs:
@@ -46,6 +58,54 @@ def format_run(run: dict) -> str:
     name = run.get("name") or ""
     branch = run.get("headBranch") or ""
     return f"{status}\t{conclusion}\t{title}\t{name}\t{branch}"
+
+
+def failed_required_from_runs(runs: list[dict], required: list[str]) -> list[str]:
+    """Map recent failed workflow runs to required-check names (exact match on run.name)."""
+    req = {n.lower(): n for n in required}
+    failed: list[str] = []
+    seen: set[str] = set()
+    for run in runs:
+        conclusion = (run.get("conclusion") or "").lower()
+        if conclusion not in ("failure", "cancelled", "timed_out"):
+            continue
+        name = str(run.get("name") or "")
+        key = name.lower()
+        if key in req and key not in seen:
+            seen.add(key)
+            failed.append(req[key])
+    return failed
+
+
+def ci_red_one_liner(root: Path, runs: list[dict] | None = None) -> str:
+    """One-line CI status for /resume and /coach."""
+    required = load_required_names(root)
+    if runs is None:
+        raw = _gh(
+            [
+                "run",
+                "list",
+                "--branch",
+                "main",
+                "--limit",
+                "30",
+                "--json",
+                "status,conclusion,name,displayTitle,headBranch,url,databaseId",
+            ]
+        )
+        if not raw.strip():
+            return "CI: unknown (gh unavailable)"
+        try:
+            runs = json.loads(raw)
+        except json.JSONDecodeError:
+            return "CI: unknown (bad gh JSON)"
+    if not isinstance(runs, list):
+        return "CI: unknown"
+    shown = filter_runs(runs)
+    failed = failed_required_from_runs(shown, required)
+    if failed:
+        return "CI red: failed required checks: " + ", ".join(failed)
+    return "CI: no failed required checks on recent main runs"
 
 
 def print_ci_snapshot(root: Path) -> int:
@@ -72,9 +132,10 @@ def print_ci_snapshot(root: Path) -> int:
     shown = filter_runs(runs)[:5]
     if not shown:
         print("No recent workflow runs on non-Release-Please branches.")
-        return 0
-    for run in shown:
-        print(format_run(run))
+    else:
+        for run in shown:
+            print(format_run(run))
+    print(ci_red_one_liner(root, runs))
     return 0
 
 

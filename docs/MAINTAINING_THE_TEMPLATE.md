@@ -50,7 +50,7 @@ Encourage `template_improvement` issues. Triage labels:
 
 - `agent-confusion` — agent could not self-route
 - `token-waste` — unnecessary files read
-- `ci-gap` — missing quality gate
+- `ci-gap` — missing quality gate (living registry: [`docs/CI_GAPS.md`](CI_GAPS.md), [`schemas/ci-gaps.json`](../schemas/ci-gaps.json))
 - `module-request` — new ecosystem module
 
 ## Coach layer

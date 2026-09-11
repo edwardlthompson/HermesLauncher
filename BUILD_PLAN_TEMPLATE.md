@@ -24,7 +24,7 @@ python3 scripts/agent-run.py smoke-sprint --require
 
 ```
 
-That command re-smokes **every** ✅ row: no errors or crashes, plus startup time and load order. Details: [`docs/FEATURE_MODULES.md`](docs/FEATURE_MODULES.md). Fail → leave the last row open or ❌; fix; re-run. `/gates` wrap-up includes the same check.
+That command re-smokes **every** ✅ row: no errors or crashes, plus startup time and load order. Details: [`docs/SPRINT_SMOKE.md`](docs/SPRINT_SMOKE.md). Fail → leave the last row open or ❌; fix; re-run. `/gates` wrap-up includes the same check.
 
 ---
 

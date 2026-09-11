@@ -2,7 +2,7 @@
 
 > Technical catalog for agents and maintainers. **Humans:** start with [docs/help/BATCH_COMMANDS.md](help/BATCH_COMMANDS.md).
 
-35 slash commands: **30 atomic** workflows + **5 super** orchestrators. Bare-word triggers: `.cursor/rules/batch-commands.mdc`. Other IDEs: paste the matching file under `docs/help/` (start with `docs/help/TOUR.md`, `docs/help/IDEAS.md`, or `docs/help/ALLIDEAS.md`). Novice print sheet: [`docs/help/batch-commands-print.html`](help/batch-commands-print.html).
+36 slash commands: **31 atomic** workflows + **5 super** orchestrators. Bare-word triggers: `.cursor/rules/batch-commands.mdc`. Other IDEs: paste the matching file under `docs/help/` (start with `docs/help/TOUR.md`, `docs/help/IDEAS.md`, or `docs/help/ALLIDEAS.md`). Novice print sheet: [`docs/help/batch-commands-print.html`](help/batch-commands-print.html).
 
 ## Super commands
 
@@ -42,6 +42,7 @@
 | `/adr` | Write the next numbered `docs/adr/` record | — | — |
 | `/restore` | Restore from `.cursor-session-state.json` | — | 13 |
 | `/compact` | Save session state before clearing chat | — | 13 |
+| `/resume` | After Cloud Agent: fetch + sync open Dependabot/release PRs + list `cursor/*` PRs + next AGENT row | — | — |
 | `/scope` | Parallel manifest + auto Task dispatch | — | 14 |
 | `/coach` | Project health + next action + industry why (BEST_PRACTICES) | bootstrap | — |
 | `/tour` | 10-minute first-run walk (START_HERE → why → Golden Path → Week 1) | bootstrap | — |
@@ -60,6 +61,7 @@ Weekly maintenance? → /maintain (heavy) or /triage + /update-deps (light)
 Template catch-up?   → /upgrade (child: plan only; this template: sim)
 Bug with evidence?  → /debug  (not /audit)
 Long chat session?  → /compact before clear · /restore after
+Back from Cloud?    → /resume (fetch + open PRs + next AGENT row)
 
 ```
 

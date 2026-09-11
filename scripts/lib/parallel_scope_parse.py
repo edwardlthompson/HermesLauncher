@@ -50,11 +50,12 @@ def parse_parallel_rows(text: str) -> list[ParallelRow]:
 
 
 def parse_sprint_blocks(text: str) -> list[SprintBlock]:
-    """Return sprint sections from Child Repo Playbook (### Sprint ...) onward."""
+    """Return sprint sections from Product / Child Repo Playbook (### Sprint ...) onward."""
     lines = text.splitlines()
     start_idx = 0
     for i, line in enumerate(lines):
-        if line.strip().startswith("## Child Repo Playbook"):
+        stripped = line.strip()
+        if stripped.startswith("## Child Repo Playbook") or stripped.startswith("## Product"):
             start_idx = i
             break
     blocks: list[SprintBlock] = []
@@ -102,7 +103,8 @@ def sequential_agent_open(text: str, before_parallel: bool = True) -> list[str]:
     seen_parallel = False
     open_items: list[str] = []
     for line in lines:
-        if line.strip().startswith("## Child Repo Playbook"):
+        stripped = line.strip()
+        if stripped.startswith("## Child Repo Playbook") or stripped.startswith("## Product"):
             in_child = True
             continue
         if not in_child:
@@ -119,4 +121,3 @@ def sequential_agent_open(text: str, before_parallel: bool = True) -> list[str]:
         if OPEN_AGENT_SEQ.match(line):
             open_items.append(line.strip())
     return open_items
-

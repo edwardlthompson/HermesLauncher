@@ -62,6 +62,12 @@ repos:
         entry: bash scripts/check-conventional-commit.sh
         language: system
         stages: [commit-msg]
+      - id: python-mypy
+        name: mypy (examples/python)
+        entry: bash scripts/run-python-mypy.sh
+        language: system
+        pass_filenames: false
+        files: ^examples/python/
 
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.30.1

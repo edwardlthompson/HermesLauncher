@@ -9,7 +9,7 @@ ERRORS=0
 
 ATOMIC=(
   audit cleanup debug gates triage dependabot push prerelease regress
-  feature fix init prune ci docs upgrade setup plan restore compact scope
+  feature fix init prune ci docs upgrade setup plan restore compact resume scope
   codex-review coach tour ideas allideas update-deps best-of-n emulator adr
 )
 

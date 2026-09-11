@@ -2,6 +2,51 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## Sprint 50 — Template v1.4.0 leftover options (2026-09-11)
+
+- ✅ [AGENT] Copy `docs/SPRINT_SMOKE.md` from template v1.4.0 and point `BUILD_PLAN_TEMPLATE.md` at it
+- ✅ [AGENT] Add `scripts/check-build-plan-tally.sh` and wire remaining-tally `--check` into local gates
+- ✅ [AGENT] Add `scripts/resume-handoff.sh` + `scripts/lib/resume_handoff.py` (`/resume` Cloud→PC digest)
+- ✅ [AGENT] Add `sync-open-prs-build-plan` script/workflow and an **Open PRs (synced)** marker block
+- ✅ [AGENT] Add `docs/CI_GAPS.md` + `schemas/ci-gaps.json` and link from maintainer docs
+- ✅ [AGENT] Add Python mypy pre-commit hook + `scripts/run-python-mypy.sh` (skip-if-no `examples/python/`)
+- ✅ [AGENT] Add `tests/test_grok_bots.py` (depends on row 8)
+- ✅ [AGENT] Copy `docs/GROK_BOTS.md` (not on the FOSS production path)
+- ✅ [HUMAN] Decide Release Please: keep manifest 1.4.0 (next tag 1.5.0) or revert to 1.3.0 so the next Hermes tag can be v1.4.0
+- ✅ [HUMAN] Review unused `examples/node` / `examples/web` / `examples/python` lockfile bumps — do not overwrite Android product
+- ✅ [HUMAN] Review `AGENTS.md` vs template 1.4.0 — never blind-overwrite
+- ✅ [HUMAN] Review `docs/spec.md` / `docs/plan.md` / `docs/INITIALIZATION_PROMPT.md` — never blind-overwrite
+- ✅ [HUMAN] Confirm `LICENSE`, live `.env`, `scratchpad.md`, and `CODE_REVIEW.md` stay child-owned
+- ✅ [HUMAN] Confirm `examples/android/` stays the Hermes product — no Golden Path stub overwrite
+- ✅ [AGENT] Golden Path polish: About screen vs `docs/features/donations-updates.md` (existing `about/` — no stub copy)
+- ✅ [AGENT] Golden Path polish: crash capture vs `docs/features/crash-capture.md` (existing `crashcapture/`)
+- ✅ [AGENT] Golden Path polish: Settings vs `docs/features/settings.md` (existing `settings/`)
+- ✅ [AGENT] Golden Path polish: Feedback dialogs vs `docs/features/feedback.md` (existing `feedback/`)
+- ✅ [AGENT] Golden Path polish: GitHub issue composer vs `docs/features/github-feedback.md` (existing `githubfeedback/`)
+- ✅ [AGENT] Golden Path polish: Privacy sanitizer vs `docs/features/privacy-report.md` (existing `privacyreport/`)
+- ✅ [AGENT] Golden Path polish: Display refresh vs `docs/features/display-refresh.md` (existing `display/`)
+- ✅ [ADB] OP12: ignore an app, confirm cards vanish; type a letter in All Apps and see last-opened first
+- ✅ [ADB] OP12: unsubscribe a feed; confirm notify-all and the four-group hub
+- ✅ [ADB] OP12: expand a feed folder in the drawer and long-press mark-read / move / unsubscribe
+
+## Sprint 49 — Unsubscribe, bulk feed knobs, compact settings hub (2026-09-11)
+
+- ✅ [AGENT] Lock unsubscribe, bulk notify/prefetch, grouped hub
+- ✅ [AGENT] Unit tests for policy, dropSource, and hub groups
+- ✅ [AGENT] Compact Feeds/Inbox/Home settings UI
+
+## Sprint 48 — Inbox ignore list, card chrome, recency search, release APK (2026-09-11)
+
+- ✅ [AGENT] Lock ignore-list filter, truncate/image prefs, recency rank, and FOSS APK release upload
+- ✅ [AGENT] Unit tests for mapper, filter, recency, display, and release workflow
+- ✅ [AGENT] Inbox settings UI + All Apps recency hook
+- ✅ [HUMAN] Copy Windows `keystore.properties` + `.jks` into `examples/android/`, run `bash scripts/set-android-signing-secrets.sh`, then dispatch `Release` so the signed `hermes-launcher-*-foss.apk` attaches
+
+## Ongoing Maintenance checklist retired (2026-09-11)
+
+- ✅ [AUTO] `check-security-triage.sh --wait-ci 300` (Dependabot + CI) — green on `b68a43a` / v1.0.0 (2026-09-05)
+- ✅ [HUMAN] Approve release tag when product-ready
+
 ## Sprint 47 — Launcher3 live widgets (2026-09-05)
 
 - ✅ [AGENT] `L3WidgetTick` + `WidgetHostTick.merge`; stop Application `startListening`; News unread honors options changes

@@ -71,3 +71,18 @@ def automate_op12_device_smoke(root: Path, _cfg: dict) -> AttemptResult:
 def automate_op12_widget_dnd(root: Path, _cfg: dict) -> AttemptResult:
     """OP12 smoke plus widget tray long-press-drag onto the desktop grid."""
     return run_op12_smoke(root, ["--require-widget-dnd"], allow_cache=False)
+
+
+def automate_op12_inbox_feeds(root: Path, _cfg: dict) -> AttemptResult:
+    """Sprint 48–49 leftover ADB rows on the installed OP12 APK (no assembleDebug)."""
+    script = root / "scripts/op12-inbox-feeds-smoke.py"
+    if not script.is_file():
+        return AttemptResult(1, "op12-inbox-feeds", "scripts/op12-inbox-feeds-smoke.py missing", True)
+    serial = os.environ.get("HERMES_ADB_SERIAL", "b5214fc6")
+    if not adb_serial_authorized(root, serial):
+        return AttemptResult(1, "op12-inbox-feeds", f"serial {serial} not authorized", True)
+    cmd = [sys.executable, str(script)]
+    code, tail = run_cmd(root, cmd)
+    if code == 0:
+        return AttemptResult(0, "op12-inbox-feeds", f"OP12 inbox/feeds ADB passed on {serial}", False)
+    return AttemptResult(1, "op12-inbox-feeds", tail or f"exit {code}", True)

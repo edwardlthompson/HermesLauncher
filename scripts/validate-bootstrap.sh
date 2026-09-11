@@ -59,6 +59,7 @@ REQUIRED=(
   docs/FIRST_30_DAYS.md
   docs/first-30-days.json
   docs/WINGET.md
+  docs/GROK_BOTS.md
   docs/AGENT_PORTABILITY.md
   docs/help/TOUR.md
   docs/help/IDEAS.md
@@ -159,6 +160,7 @@ if ! python3 scripts/lib/run_checks_parallel.py \
   check-batch-commands.sh \
   check-cursor-hooks.sh \
   check-build-plan-parallel.sh \
+  check-build-plan-tally.sh \
   check-template-version-sync.sh \
   validate-template-index.sh \
   check-bootstrap-engine.sh \
@@ -196,6 +198,7 @@ if ! python3 scripts/lib/run_checks_parallel.py \
   check-template-upgrade-form.sh \
   check-ideas-discussion.sh \
   check-adr-command.sh \
+  check-ci-gaps.sh \
   check-readme-mermaid.sh \
   check-social-preview.sh \
   check-fdroid-screenshots.sh \
