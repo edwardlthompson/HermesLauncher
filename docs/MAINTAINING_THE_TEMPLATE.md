@@ -23,11 +23,17 @@ Playbook for template maintainers optimizing agent-project-bootstrap over time.
 9. Run `scripts/validate-template-index.sh`
 10. Merge Release Please PR; **release published** event attaches SBOM assets automatically
 11. Update repo About if description changed
-12. Weekly CVE triage completed within last 7 days (`docs/SECURITY_TRIAGE.md`)
+12. Latest **Weekly Health Check** (Monday cron) is green (`docs/SECURITY_TRIAGE.md`)
 13. Zero open Critical/High Dependabot alerts (or documented exception with linked issue)
 14. `THIRD_PARTY_LICENSES.md` reviewed; SBOM attached to release
 15. Move completed Sprint M* items to `COMPLETED_TASKS.md`
 16. Desktop installer children: follow [`docs/WINGET.md`](WINGET.md) before a `microsoft/winget-pkgs` PR
+
+## Open PRs on the board + Cloud → PC
+
+Dependabot and Release Please PRs sync into the **Open PRs (synced)** block on `BUILD_PLAN.md` via `scripts/sync-open-prs-build-plan.sh` (weekly health + PR lifecycle workflow) when that script is present. Do not hand-edit that block.
+
+Child product repos also get a Monday **Template gaps (synced)** block via `scripts/sync-template-gaps-build-plan.sh` — plan-only; Sacred never auto-overwritten.
 
 ## Safe Edit Zones
 

@@ -123,10 +123,21 @@ def report(root: Path, *, compare=None, latest_fn=None) -> dict:
         else ([], rel_err or "offline: no file diff")
     )
     classified = [{"path": p, "policy": classify(p, rules)} for p in files]
+    optional = [
+        {
+            "id": name,
+            "present": (root / "examples" / name).is_dir(),
+            "required": stack == name,
+            "docs": "docs/OPTIONAL_STACKS.md",
+        }
+        for name in ("rust", "go", "lightroom")
+    ]
     return {
         "ok": not skip, "current": version, "latest": latest, "stack": stack,
+        "upstream": upstream,
         "skip": skip, "warning": cmp_err or rel_err or "", "files": classified,
         "apply": recommended_apply(classified), "features": feature_gaps(root, catalog, stack),
+        "optional_stacks": optional,
     }
 
 

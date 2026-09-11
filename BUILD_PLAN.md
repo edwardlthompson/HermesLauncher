@@ -1,5 +1,9 @@
 # Build Plan
 
+<!-- remaining-tally -->
+**Remaining:** AGENT 0 · AUTO 0 · HUMAN 0 · ADB 3 · **3 open**
+<!-- /remaining-tally -->
+
 > Prioritized task board with owner labels. **Completed sprints:** `COMPLETED_TASKS.md`.
 
 ## Owner Label Legend
@@ -57,7 +61,17 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 > **Child repo:** Hermes Launcher. Upstream template history is archived below. Use this playbook.
 
+> **Feedback fixes (audit 2026-09-11):** inbox empty (0 crash/bug). No Fix rows this run.
+
 > **Feedback fixes (audit 2026-09-03)** archived in `COMPLETED_TASKS.md`.
+
+### Template gaps (synced)
+
+> Auto-managed Monday cron + `sync-template-gaps-build-plan`. Do not hand-edit inside markers. Plan-only — run `/upgrade` then name item numbers.
+
+<!-- template-gaps-sync:begin -->
+_No template gaps; .template-version matches upstream (or template maintainer N/A)._
+<!-- template-gaps-sync:end -->
 
 ---
 

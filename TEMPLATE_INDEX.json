@@ -1,5 +1,5 @@
 {
-  "template_version": "1.3.0",
+  "template_version": "1.4.0",
   "entry_points": {
     "bootstrap": "docs/START_HERE.md",
     "reference": "docs/FOR_AGENTS.md",
@@ -1056,7 +1056,7 @@
     },
     {
       "path": ".github/workflows/dependency-review.yml",
-      "purpose": "PR dependency review — fail on new High/Critical vulnerabilities",
+      "purpose": "PR dependency review \u2014 fail on new High/Critical vulnerabilities",
       "read_when": "contributing",
       "update_when": "milestone_boundary",
       "owner": "maintainer"
@@ -1686,7 +1686,7 @@
     },
     {
       "path": "scripts/run-codex-review.sh",
-      "purpose": "Local Codex CLI review → CODE_REVIEW.md",
+      "purpose": "Local Codex CLI review \u2192 CODE_REVIEW.md",
       "read_when": "audit",
       "update_when": "milestone_boundary",
       "owner": "maintainer"
@@ -2390,6 +2390,55 @@
       "read_when": "milestone_boundary",
       "update_when": "milestone_boundary",
       "owner": "maintainer"
+    },
+    {
+      "path": "BUILD_PLAN_TEMPLATE.md",
+      "purpose": "Child product BUILD_PLAN model; copied onto BUILD_PLAN.md at init",
+      "read_when": "session_start",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/refresh-build-plan-tally.sh",
+      "purpose": "Rewrite remaining AGENT/AUTO/HUMAN/ADB counts on build plan files",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/sync-template-gaps-build-plan.sh",
+      "purpose": "Mirror parent template gaps into BUILD_PLAN managed block (plan-only)",
+      "read_when": "session_start",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/lib/sync_template_gaps_build_plan.py",
+      "purpose": "Rewrite template-gaps-sync BUILD_PLAN markers from gap report",
+      "read_when": "reference",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/lib/sync_template_gaps_render.py",
+      "purpose": "Render Canon/Mixed/Sacred/feature rows for template-gaps-sync",
+      "read_when": "reference",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/lib/repo_mode.py",
+      "purpose": "Print template|child for weekly-health workflow branching",
+      "read_when": "reference",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "docs/features/template-gaps-build-plan-sync.md",
+      "purpose": "Feature slice: Monday child template-gap BUILD_PLAN sync",
+      "read_when": "reference",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
     }
   ],
   "modules": {
@@ -2400,7 +2449,7 @@
     }
   },
   "roadmap": {
-    "active": "BUILD_PLAN.md — M46 /allideas backlog + human leftovers",
+    "active": "BUILD_PLAN.md \u2014 M46 /allideas backlog + human leftovers",
     "completed_archive": "COMPLETED_TASKS.md",
     "batch_commands": [
       ".cursor/commands/audit.md",
