@@ -8,6 +8,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.0](https://github.com/edwardlthompson/HermesLauncher/compare/v1.3.0...v1.5.0) (2026-09-11)
+
+
+### Added
+
+* **bootstrap:** catch up agent-project-bootstrap v1.4.0 leftover options (`/resume`, open-PR BUILD_PLAN sync, CI-gap registry, remaining-tally, Grok Bots docs)
+* **android:** apply Dependabot library patches under the CodeQL Kotlin cap (KSP 2.3.11, Gradle 9.7.1, Media3 1.11, SQLCipher 4.18)
+
+
+### Fixed
+
+* **ci:** bump GitHub Actions group (cache, github-script, setup-python, sbom-action)
+
 ## [1.3.0](https://github.com/edwardlthompson/HermesLauncher/compare/v1.2.0...v1.3.0) (2026-09-08)
 
 
