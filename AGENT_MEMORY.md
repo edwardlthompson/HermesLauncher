@@ -40,6 +40,7 @@ Hermes Launcher: FOSS Android home-screen inbox for notifications, news, and pod
 
 ## Session Retrospectives
 
+| 2026-09-11 | /push v1.5.0 | Tag [v1.5.0](https://github.com/edwardlthompson/HermesLauncher/releases/tag/v1.5.0); RP [#15](https://github.com/edwardlthompson/HermesLauncher/pull/15); merged Actions [#13](https://github.com/edwardlthompson/HermesLauncher/pull/13); closed Android [#4](https://github.com/edwardlthompson/HermesLauncher/pull/4) (Kotlin 2.4). | Delete stale `release-please--branches--main` before `Release-As`; never merge Kotlin `>=2.3.30` |
 | 2026-09-11 | /push | `7b42792` on `main`; CI + Security Scan + CodeQL green. Closed RP [#12](https://github.com/edwardlthompson/HermesLauncher/pull/12) (1.4.0→1.0.0 downgrade). No v1.5.0 tag. | Do not merge RP that rewinds the manifest; next product tag stays v1.5.0 after a real `feat`/`fix` |
 | 2026-09-11 | /audit | Local gates green; GitHub crash/bug inbox empty; Scorecard SARIF only (no CodeQL/Dependabot). Widget force-fill stretch reverted before audit. | Do not restore independent X/Y widget fill; TokenPermissions stay `/triage` |
 | 2026-09-08 | /ship v1.3.0 | Tag [v1.3.0](https://github.com/edwardlthompson/HermesLauncher/releases/tag/v1.3.0); RP #11; extra empty page; pack plates; reserved-page drag lock | Drops wrap-modulo to Podcasts (KB follow-up); APK versionName still 1.0.1 |

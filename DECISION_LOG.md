@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-09-11 — Cut v1.5.0 after deleting the stale 1.0.0 RP branch
+- **Status:** Accepted
+- **Context:** After `/push` of Sprint 50, Release Please reused `release-please--branches--main` and opened 1.0.0 rewind PRs (#12, #14). Manifest was 1.4.0 with no `v1.4.0` tag. Dependabot #4 wanted Kotlin 2.4.10.
+- **Decision:** Merge Actions #13. Close #4; land library bumps under the Kotlin cap. Delete the stale RP branch. Commit `Release-As: 1.5.0`. Merge RP #15 only after the title is 1.5.0. Trim the 1.5.0 changelog to work since v1.3.0.
+- **Alternatives considered:** Merge #4 as written (rejected: Kotlin `>=2.3.30` CodeQL cap). Tag a silent v1.4.0 (rejected: would fire `release.yml` on `v*`).
+- **Consequences:** Tag [v1.5.0](https://github.com/edwardlthompson/HermesLauncher/releases/tag/v1.5.0). Parent template remains 1.4.0; child extra-files now say 1.5.0. APK versionName still 1.0.1.
+
 ### 2026-09-11 — Do not merge Release Please #12 (1.0.0 downgrade)
 - **Status:** Accepted
 - **Context:** After `/push` of `7b42792`, Release Please opened [#12](https://github.com/edwardlthompson/HermesLauncher/pull/12) `chore(main): release 1.0.0`, rewriting the manifest and `.template-version` from 1.4.0 to 1.0.0.
