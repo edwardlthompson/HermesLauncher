@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-09-11 — Do not merge Release Please #12 (1.0.0 downgrade)
+- **Status:** Accepted
+- **Context:** After `/push` of `7b42792`, Release Please opened [#12](https://github.com/edwardlthompson/HermesLauncher/pull/12) `chore(main): release 1.0.0`, rewriting the manifest and `.template-version` from 1.4.0 to 1.0.0.
+- **Decision:** Close #12. Do not run `merge-release-please-pr` on a version rewind. Last published tag stays v1.3.0 until a correct v1.5.0 PR exists.
+- **Alternatives considered:** Merge #12 then retag (rejected: would publish 1.0.0 over a 1.3.0 history). Force a v1.4.0 tag to unstick RP (rejected: `[HUMAN]` tag decision; manifest already 1.4.0).
+- **Consequences:** `main` is at `7b42792` with CI green. Next product tag is still v1.5.0 and needs a `feat`/`fix` plus a sane Release Please PR.
+
 ### 2026-09-11 — Keep Release Please at 1.4.0 (next product tag 1.5.0)
 - **Status:** Accepted
 - **Context:** Template catch-up copied `.template-version` and `.release-please-manifest.json` to 1.4.0. Last published Hermes tag is v1.3.0. Reverting the manifest would let the next tag be v1.4.0; keeping it skips a product 1.4.0.
