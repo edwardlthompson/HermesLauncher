@@ -30,6 +30,7 @@ That command re-smokes **every** ✅ row: no errors or crashes, plus startup tim
 
 **Now:** AGENT/AUTO board empty. Next product work is a new sprint.
 
+> **Sprint 54** archived in COMPLETED_TASKS.md.
 > **Sprint 53** archived in COMPLETED_TASKS.md @ `ccd382d`.
 > **Sprint 52** archived in COMPLETED_TASKS.md @ `ccd382d`.
 > **Sprint 51** archived in COMPLETED_TASKS.md @ `ccd382d`.
@@ -53,7 +54,7 @@ _No open Dependabot or Release Please PRs._
 _No template gaps; .template-version matches upstream (or template maintainer N/A)._
 <!-- template-gaps-sync:end -->
 
-Done on this board: **Sprints 0–50** · **51** inbox feel · **52** inbox calm · **53** inbox-calm leftovers. Archive: `COMPLETED_TASKS.md`.
+Done on this board: **Sprints 0–50** · **51** inbox feel · **52** inbox calm · **53** inbox-calm leftovers · **54** Home snap. Archive: `COMPLETED_TASKS.md`.
 
 ---
 

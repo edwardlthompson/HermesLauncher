@@ -10,11 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.6.0](https://github.com/edwardlthompson/HermesLauncher/compare/v1.5.0...v1.6.0) (2026-09-15)
 
-
 ### Added
 
 * **android:** calm Inbox chrome, grant CTA, and L3 HOME honesty ([f770bdc](https://github.com/edwardlthompson/HermesLauncher/commit/f770bdcca9b97df976a8f23adfeb8d351fa42e43))
-
 
 ### Fixed
 

@@ -42,6 +42,14 @@ class HomeAgainSearchTest {
         )
         assertFalse(HomeAgainSearch.fromPulse(page = 0, homeIndex = 1))
     }
+
+    @Test
+    fun homeFromOtherPagesSnapsToInbox() {
+        assertTrue(HomeAgainSearch.shouldSnap(actionMain = true, onInbox = false, openSearch = false))
+        assertFalse(HomeAgainSearch.shouldSnap(actionMain = true, onInbox = true, openSearch = false))
+        assertFalse(HomeAgainSearch.shouldSnap(actionMain = true, onInbox = false, openSearch = true))
+        assertFalse(HomeAgainSearch.shouldSnap(actionMain = false, onInbox = false, openSearch = false))
+    }
 }
 
 class L3GridTest {

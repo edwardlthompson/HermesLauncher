@@ -59,7 +59,7 @@ class HermesWorkspace @JvmOverloads constructor(
     override fun moveToDefaultScreen() {
         val page = homeIndex()
         if (Launcher.getLauncher(context).isInState(LauncherState.NORMAL) && nextPage != page) {
-            setCurrentPage(page)
+            snapToPage(page)
         }
         getChildAt(page)?.requestFocus()
     }

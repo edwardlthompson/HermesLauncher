@@ -2,6 +2,10 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## Sprint 54 — Home snap (2026-09-15)
+
+- ✅ [AGENT] Home on any workspace page snaps to Inbox
+
 ## Sprint 53 — Inbox calm leftovers (2026-09-15)
 
 - ✅ [AGENT] Motion-feel: search expand, group size, dismiss fade, stick-to-top gated on MotionPrefs (`docs/features/motion-feel.md`)

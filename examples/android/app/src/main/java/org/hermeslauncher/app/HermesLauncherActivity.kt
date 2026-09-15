@@ -12,7 +12,6 @@ import com.android.launcher3.statemanager.StateManager
 import com.android.launcher3.util.TouchController
 import com.android.launcher3.util.IntArray
 import com.android.launcher3.util.IntSet
-import com.android.launcher3.AbstractFloatingView
 import com.android.launcher3.views.OptionsPopupView
 import com.android.systemui.plugins.shared.LauncherOverlayManager
 import org.hermeslauncher.app.l3.HermesSwipeController
@@ -65,18 +64,10 @@ class HermesLauncherActivity : Launcher() {
     }
 
     override fun onNewIntent(intent: Intent) {
-        val openSearch = HomeAgainSearch.shouldOpen(
-            alreadyOnHome = HomeAgainSearch.alreadyOnHome(this, intent),
-            inNormal = isInState(LauncherState.NORMAL),
-            onInbox = HomeAgainSearch.onInbox(this),
-            floatingOpen = AbstractFloatingView.getTopOpenView(this) != null,
-            actionMain = Intent.ACTION_MAIN == intent.action,
-        )
+        val press = HomeAgainSearch.plan(this, intent)
         super.onNewIntent(intent)
         handleArticleExtra(intent)
-        if (openSearch) {
-            HomeAgainSearch.show(this)
-        }
+        HomeAgainSearch.apply(this, press)
     }
 
     private fun handleArticleExtra(intent: Intent?) {
