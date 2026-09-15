@@ -60,7 +60,7 @@ dependencies {
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.constraintlayout:constraintlayout:2.2.2")
     implementation("com.google.android.material:material:1.14.0")
-    implementation("com.google.protobuf:protobuf-javalite:3.25.5")
+    implementation("com.google.protobuf:protobuf-javalite:4.36.1")
 }
 
 tasks.matching { it.name.startsWith("extract") && it.name.endsWith("Annotations") }
