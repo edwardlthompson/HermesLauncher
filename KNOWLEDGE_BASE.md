@@ -221,3 +221,12 @@
 | **Cause** | Google stopped serving the legacy `sdkmanager tools` package on 2026-09-15; `android-actions/setup-android@v4` still defaults to `tools platform-tools` |
 | **Fix** | Pass `packages: platform-tools` (skip `tools`); cmdline-tools already come from the action |
 | **Prevention** | Do not re-add default packages; do not apply `upd` tags like `github/codeql-action@vcodeql-bundle-*` |
+
+### KB-027 — Home snap to Inbox only when Hermes already has focus
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | Home from Chrome/News-app always landed on Inbox instead of the last workspace page |
+| **Cause** | v1.6.1 snapped on every `ACTION_MAIN` because OxygenOS often sets `FLAG_ACTIVITY_BROUGHT_TO_FRONT` even when already on the launcher |
+| **Fix** | `HomeAgainSearch.shouldSnap` requires `alreadyOnHome` from `hasWindowFocus()`; unfocused Home keeps `nextPage` |
+| **Prevention** | Test `homeFromOtherAppsKeepsLastPage`; do not drop the focus check to work around OxygenOS flags |

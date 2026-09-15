@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-09-15 — Ship v1.6.2 Home from apps restores last page
+- **Status:** Accepted
+- **Context:** v1.6.1 snapped to Inbox on every `ACTION_MAIN`, including Home from Chrome. Users wanted last-page restore when leaving other apps.
+- **Decision:** Snap only when `hasWindowFocus()` is true at `onNewIntent`. Merge RP [#20](https://github.com/edwardlthompson/HermesLauncher/pull/20) as 1.6.2. Leave Dependabot #17 (Kotlin cap) and #18 (setup-java 6) unmerged.
+- **Alternatives considered:** Keep snapping on every MAIN (rejected: overwrites last page). Use stock `FLAG_ACTIVITY_BROUGHT_TO_FRONT` (rejected: OxygenOS still sets it on-launcher).
+- **Consequences:** Tag [v1.6.2](https://github.com/edwardlthompson/HermesLauncher/releases/tag/v1.6.2). APK versionName still 1.0.1. KB-027.
+
 ### 2026-09-15 — Ship v1.6.1 Home snap to Inbox
 - **Status:** Accepted
 - **Context:** Home on News, Podcasts, or a desktop page often stayed there because Launcher3 only calls `moveToDefaultScreen` when `alreadyOnHome` is true (window focus and no `FLAG_ACTIVITY_BROUGHT_TO_FRONT`). Hermes also used `setCurrentPage` instead of `snapToPage`.
