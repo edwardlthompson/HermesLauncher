@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
 ## [1.6.0](https://github.com/edwardlthompson/HermesLauncher/compare/v1.5.0...v1.6.0) (2026-09-15)
 
 
@@ -17,8 +19,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 * **ci:** skip obsolete Android SDK tools package ([5380ea3](https://github.com/edwardlthompson/HermesLauncher/commit/5380ea3d3e0e580e291489e75f518bb95aa645d1))
-
-## [Unreleased]
 
 ## [1.5.0](https://github.com/edwardlthompson/HermesLauncher/compare/v1.3.0...v1.5.0) (2026-09-11)
 
