@@ -23,21 +23,27 @@ object HomeAgainSearch {
         return true
     }
 
-    fun shouldSnap(actionMain: Boolean, onInbox: Boolean, openSearch: Boolean): Boolean {
-        return actionMain && !onInbox && !openSearch
+    fun shouldSnap(
+        alreadyOnHome: Boolean,
+        actionMain: Boolean,
+        onInbox: Boolean,
+        openSearch: Boolean,
+    ): Boolean {
+        return alreadyOnHome && actionMain && !onInbox && !openSearch
     }
 
     fun plan(launcher: Launcher, intent: Intent): HomePress {
         val actionMain = Intent.ACTION_MAIN == intent.action
         val onInbox = onInbox(launcher)
+        val already = alreadyOnHome(launcher, intent)
         val openSearch = shouldOpen(
-            alreadyOnHome = alreadyOnHome(launcher, intent),
+            alreadyOnHome = already,
             inNormal = launcher.isInState(LauncherState.NORMAL),
             onInbox = onInbox,
             floatingOpen = AbstractFloatingView.getTopOpenView(launcher) != null,
             actionMain = actionMain,
         )
-        return HomePress(openSearch, shouldSnap(actionMain, onInbox, openSearch))
+        return HomePress(openSearch, shouldSnap(already, actionMain, onInbox, openSearch))
     }
 
     fun apply(launcher: Launcher, press: HomePress) {

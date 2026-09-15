@@ -4,16 +4,15 @@
 
 ## Acceptance criteria
 
-- ✅ User-visible behavior: Home from Podcasts, News, or a desktop page snaps to Inbox; a second Home on Inbox still opens All Apps search
-- ✅ Offline/error behavior: missing workspace or a non-MAIN intent leaves the current page
+- ✅ User-visible behavior: Home while already on Hermes (Podcasts, News, or desktop) snaps to Inbox; Home from another app restores the last workspace page; a second Home on Inbox still opens All Apps search
+- ✅ Offline/error behavior: missing workspace, a non-MAIN intent, or Home from another app leaves the current page
 - ✅ Accessibility: Inbox page description stays `launcher_page_feed`
 - ✅ i18n: N/A (no new strings)
 
 ## Smoke scenario
 
-1. Given Hermes is Home showing News, Podcasts, or a widget page
-2. When the user presses Home
-3. Then the workspace snaps to Inbox without opening All Apps
+1. Given Hermes is Home showing News, press Home — the workspace snaps to Inbox
+2. Given they open Chrome from News without pressing Home first, then press Home — News is restored
 
 ## Container map
 
@@ -23,7 +22,6 @@
 | View | `HermesWorkspace.moveToDefaultScreen`, `HermesLauncherActivity.onNewIntent` |
 | Tests | `l3/L3SettingsLogicTest.kt` `HomeAgainSearchTest` |
 | Wiring | `HermesLauncherActivity.onNewIntent` |
-
 ## Tests
 
 - Automated: yes — `HomeAgainSearch.shouldSnap`
@@ -35,7 +33,7 @@
 
 ## Definition of Done
 
-Home from any workspace page lands on Inbox. Inbox Home-again search is unchanged.
+Home while already on Hermes snaps to Inbox. Home from other apps keeps the last page. Inbox Home-again search is unchanged.
 
 ## Notes
 

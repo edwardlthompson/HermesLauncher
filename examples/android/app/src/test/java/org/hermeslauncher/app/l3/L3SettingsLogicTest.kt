@@ -45,10 +45,50 @@ class HomeAgainSearchTest {
 
     @Test
     fun homeFromOtherPagesSnapsToInbox() {
-        assertTrue(HomeAgainSearch.shouldSnap(actionMain = true, onInbox = false, openSearch = false))
-        assertFalse(HomeAgainSearch.shouldSnap(actionMain = true, onInbox = true, openSearch = false))
-        assertFalse(HomeAgainSearch.shouldSnap(actionMain = true, onInbox = false, openSearch = true))
-        assertFalse(HomeAgainSearch.shouldSnap(actionMain = false, onInbox = false, openSearch = false))
+        assertTrue(
+            HomeAgainSearch.shouldSnap(
+                alreadyOnHome = true,
+                actionMain = true,
+                onInbox = false,
+                openSearch = false,
+            ),
+        )
+        assertFalse(
+            HomeAgainSearch.shouldSnap(
+                alreadyOnHome = true,
+                actionMain = true,
+                onInbox = true,
+                openSearch = false,
+            ),
+        )
+        assertFalse(
+            HomeAgainSearch.shouldSnap(
+                alreadyOnHome = true,
+                actionMain = true,
+                onInbox = false,
+                openSearch = true,
+            ),
+        )
+        assertFalse(
+            HomeAgainSearch.shouldSnap(
+                alreadyOnHome = true,
+                actionMain = false,
+                onInbox = false,
+                openSearch = false,
+            ),
+        )
+    }
+
+    @Test
+    fun homeFromOtherAppsKeepsLastPage() {
+        assertFalse(
+            HomeAgainSearch.shouldSnap(
+                alreadyOnHome = false,
+                actionMain = true,
+                onInbox = false,
+                openSearch = false,
+            ),
+        )
     }
 }
 
