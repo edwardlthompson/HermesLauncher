@@ -41,6 +41,7 @@ CURSOR_RADAR_BACKLOG.md
 CURSOR_RADAR_SUGGESTIONS.md
 .cursor/gates-status.md
 .cursor/upd-status.md
+.cursor/sprint-smoke.json
 .cursor/encoding-strict
 
 # Cursor plugin pack output (see scripts/pack-cursor-plugin.sh)

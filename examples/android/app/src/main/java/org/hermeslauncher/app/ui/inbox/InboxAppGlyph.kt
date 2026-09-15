@@ -25,7 +25,7 @@ import org.hermeslauncher.app.icons.IconPlate
 fun InboxAppGlyph(
     packageName: String,
     size: Dp,
-    contentDescription: String,
+    contentDescription: String? = null,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current

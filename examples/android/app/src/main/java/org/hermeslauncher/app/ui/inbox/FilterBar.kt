@@ -1,14 +1,12 @@
 package org.hermeslauncher.app.ui.inbox
 
+import androidx.compose.animation.animateContentSize
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -35,17 +33,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import org.hermeslauncher.app.R
-import org.hermeslauncher.app.ui.theme.SpacingMd
+import org.hermeslauncher.app.ui.launcher.UnreadDot
+import org.hermeslauncher.app.ui.theme.ElevationLevel2
+import org.hermeslauncher.app.ui.theme.MotionPrefs
 import org.hermeslauncher.app.ui.theme.SpacingSm
-import org.hermeslauncher.app.vault.InboxFilter
 
 @Composable
 fun FilterBar(
@@ -53,6 +53,7 @@ fun FilterBar(
     searchText: String,
     onSearchText: (String) -> Unit,
     modifier: Modifier = Modifier,
+    barTitle: String = stringResource(R.string.launcher_page_feed),
     searchLabel: String = stringResource(R.string.filter_search),
     filterLabel: String = stringResource(R.string.filter_open),
     filterMenu: @Composable (expanded: Boolean, onDismiss: () -> Unit) -> Unit,
@@ -67,6 +68,7 @@ fun FilterBar(
 ) {
     var searchOpen by remember { mutableStateOf(false) }
     var filterOpen by remember { mutableStateOf(false) }
+    val reduced = MotionPrefs.reduced(LocalContext.current)
     val focus = LocalFocusManager.current
     val searchFocus = remember { FocusRequester() }
     fun closeSearch() {
@@ -82,173 +84,93 @@ fun FilterBar(
     }
     Surface(
         modifier = modifier.fillMaxWidth(),
-        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.62f),
+        color = MaterialTheme.colorScheme.surfaceContainerHigh,
         contentColor = MaterialTheme.colorScheme.onSurface,
+        tonalElevation = ElevationLevel2,
+        shadowElevation = ElevationLevel2,
     ) {
-        Box(modifier = Modifier.fillMaxWidth()) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = SpacingMd, vertical = SpacingSm),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                ContrastIcon(
-                    imageVector = Icons.Filled.Search,
-                    contentDescription = searchLabel,
-                    onClick = { if (searchOpen) closeSearch() else searchOpen = true },
-                )
-                if (searchOpen) {
-                    OutlinedTextField(
-                        value = searchText,
-                        onValueChange = onSearchText,
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(horizontal = SpacingSm)
-                            .focusRequester(searchFocus),
-                        label = { Text(searchLabel) },
-                        singleLine = true,
-                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                        keyboardActions = KeyboardActions(onDone = { closeSearch() }),
-                        trailingIcon = {
-                            IconButton(onClick = { closeSearch() }) {
-                                Icon(
-                                    imageVector = Icons.Filled.Close,
-                                    contentDescription = stringResource(R.string.filter_close),
-                                )
-                            }
-                        },
-                    )
-                } else {
-                    Spacer(Modifier.weight(1f))
-                }
-                Box {
-                    ContrastIcon(
-                        imageVector = Icons.Filled.FilterList,
-                        contentDescription = filterLabel,
-                        onClick = { filterOpen = true },
-                    )
-                    filterMenu(filterOpen) { filterOpen = false }
-                }
-                if (onSettings != null && !searchOpen) {
-                    ContrastIcon(
-                        imageVector = Icons.Filled.Settings,
-                        contentDescription = settingsLabel,
-                        onClick = onSettings,
-                    )
-                }
-                if (onRefresh != null && !searchOpen) {
-                    if (refreshing) {
-                        CircularProgressIndicator(
-                            modifier = Modifier
-                                .padding(start = SpacingSm)
-                                .size(24.dp)
-                                .semantics { contentDescription = refreshLabel },
-                        )
-                    } else {
-                        ContrastIcon(
-                            imageVector = Icons.Filled.Refresh,
-                            contentDescription = refreshLabel,
-                            onClick = onRefresh,
-                        )
-                    }
-                }
-            }
-            if (!searchOpen) {
-                if (onOpenFeeds != null) {
-                    Row(
-                        modifier = Modifier.align(Alignment.Center),
-                        horizontalArrangement = Arrangement.spacedBy(SpacingSm),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        FeedsBubble(unread = feedsUnread, label = feedsLabel, onClick = onOpenFeeds)
-                        UnreadBubble(unread = unread)
-                    }
-                } else {
-                    UnreadBubble(
-                        unread = unread,
-                        modifier = Modifier.align(Alignment.Center),
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun FeedsBubble(unread: Int, label: String, onClick: () -> Unit) {
-    val active = unread > 0
-    Surface(
-        modifier = Modifier
-            .size(40.dp)
-            .semantics { contentDescription = label },
-        shape = CircleShape,
-        color = if (active) {
-            MaterialTheme.colorScheme.primary
-        } else {
-            MaterialTheme.colorScheme.inverseSurface
-        },
-        contentColor = if (active) {
-            MaterialTheme.colorScheme.onPrimary
-        } else {
-            MaterialTheme.colorScheme.inverseOnSurface
-        },
-        onClick = onClick,
-    ) {
-        Box(contentAlignment = Alignment.Center) {
-            if (unread > 0) {
-                Text(text = InboxFilter.unreadLabel(unread), style = MaterialTheme.typography.labelMedium)
-            } else {
-                Icon(imageVector = Icons.Filled.RssFeed, contentDescription = label)
-            }
-        }
-    }
-}
-
-@Composable
-private fun UnreadBubble(unread: Int, modifier: Modifier = Modifier) {
-    val label = InboxFilter.unreadLabel(unread)
-    val cd = stringResource(R.string.inbox_unread_count, unread)
-    val active = unread > 0
-    Surface(
-        modifier = modifier
-            .size(40.dp)
-            .semantics { contentDescription = cd },
-        shape = CircleShape,
-        color = if (active) {
-            MaterialTheme.colorScheme.error
-        } else {
-            MaterialTheme.colorScheme.inverseSurface
-        },
-        contentColor = if (active) {
-            MaterialTheme.colorScheme.onError
-        } else {
-            MaterialTheme.colorScheme.inverseOnSurface
-        },
-    ) {
-        Box(contentAlignment = Alignment.Center) {
-            Text(text = label, style = MaterialTheme.typography.labelMedium)
-        }
-    }
-}
-
-@Composable
-private fun ContrastIcon(
-    imageVector: ImageVector,
-    contentDescription: String,
-    onClick: () -> Unit,
-) {
-    IconButton(onClick = onClick) {
-        Surface(
-            modifier = Modifier.size(40.dp),
-            shape = CircleShape,
-            color = MaterialTheme.colorScheme.inverseSurface,
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .then(if (MotionPrefs.animateSize(reduced)) Modifier.animateContentSize() else Modifier)
+                .padding(horizontal = SpacingSm, vertical = SpacingSm),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            Box(contentAlignment = Alignment.Center) {
-                Icon(
-                    imageVector = imageVector,
-                    contentDescription = contentDescription,
-                    tint = MaterialTheme.colorScheme.inverseOnSurface,
+            IconButton(onClick = { if (searchOpen) closeSearch() else searchOpen = true }) {
+                Icon(imageVector = Icons.Filled.Search, contentDescription = searchLabel)
+            }
+            if (searchOpen) {
+                OutlinedTextField(
+                    value = searchText,
+                    onValueChange = onSearchText,
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(horizontal = SpacingSm)
+                        .focusRequester(searchFocus),
+                    label = { Text(searchLabel) },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                    keyboardActions = KeyboardActions(onDone = { closeSearch() }),
+                    trailingIcon = {
+                        IconButton(onClick = { closeSearch() }) {
+                            Icon(
+                                imageVector = Icons.Filled.Close,
+                                contentDescription = stringResource(R.string.filter_close),
+                            )
+                        }
+                    },
                 )
+            } else {
+                Text(
+                    text = barTitle,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    maxLines = 1,
+                    modifier = Modifier.padding(end = SpacingSm),
+                )
+                UnreadDot(
+                    count = unread,
+                    description = stringResource(R.string.inbox_unread_count, unread),
+                    modifier = Modifier.padding(end = SpacingSm),
+                )
+                Box(modifier = Modifier.weight(1f))
+            }
+            Box {
+                IconButton(onClick = { filterOpen = true }) {
+                    Icon(imageVector = Icons.Filled.FilterList, contentDescription = filterLabel)
+                }
+                filterMenu(filterOpen) { filterOpen = false }
+            }
+            if (onOpenFeeds != null && !searchOpen) {
+                Box {
+                    IconButton(onClick = onOpenFeeds) {
+                        Icon(imageVector = Icons.Filled.RssFeed, contentDescription = feedsLabel)
+                    }
+                    UnreadDot(
+                        count = feedsUnread,
+                        description = feedsLabel,
+                        modifier = Modifier.align(Alignment.TopEnd),
+                    )
+                }
+            }
+            if (onSettings != null && !searchOpen) {
+                IconButton(onClick = onSettings) {
+                    Icon(imageVector = Icons.Filled.Settings, contentDescription = settingsLabel)
+                }
+            }
+            if (onRefresh != null && !searchOpen) {
+                if (refreshing) {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .padding(end = SpacingSm)
+                            .size(24.dp)
+                            .semantics { contentDescription = refreshLabel },
+                    )
+                } else {
+                    IconButton(onClick = onRefresh) {
+                        Icon(imageVector = Icons.Filled.Refresh, contentDescription = refreshLabel)
+                    }
+                }
             }
         }
     }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -16,6 +17,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
@@ -23,12 +27,15 @@ import org.hermeslauncher.app.HermesApplication
 import org.hermeslauncher.app.R
 import org.hermeslauncher.app.feeds.FeedItem
 import org.hermeslauncher.app.icons.AppCategory
+import org.hermeslauncher.app.oem.LivePermissions
 import org.hermeslauncher.app.ui.inbox.FilterBar
 import org.hermeslauncher.app.ui.inbox.FilterMenu
 import org.hermeslauncher.app.ui.inbox.InboxFeed
+import org.hermeslauncher.app.ui.inbox.PageRefreshBox
 import org.hermeslauncher.app.vault.InboxFilter
 import org.hermeslauncher.app.vault.InboxLayout
 import org.hermeslauncher.app.vault.InboxQuery
+import org.hermeslauncher.app.vault.InboxRefresh
 import org.hermeslauncher.app.vault.ShadeBridge
 import org.hermeslauncher.app.vault.VaultItem
 
@@ -50,6 +57,18 @@ fun FeedPage(
     val app = context.applicationContext as HermesApplication
     val scope = rememberCoroutineScope()
     val filesDir = context.applicationContext.filesDir
+    val lifecycleOwner = LocalLifecycleOwner.current
+    var listenerOn by remember { mutableStateOf(LivePermissions.snapshot(context).notificationListenerEnabled) }
+    var refreshing by remember { mutableStateOf(false) }
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                listenerOn = LivePermissions.snapshot(context).notificationListenerEnabled
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+    }
     val storedLayout by app.inboxPrefs.layout.collectAsStateWithLifecycle(InboxLayout.APP)
     val storedNewest by app.inboxPrefs.newestFirst.collectAsStateWithLifecycle(true)
     var query by remember { mutableStateOf(InboxQuery()) }
@@ -90,6 +109,7 @@ fun FeedPage(
         Column(modifier = Modifier.fillMaxSize()) {
             FilterBar(
                 unread = InboxFilter.unreadCount(items, ignored),
+                barTitle = stringResource(R.string.launcher_page_feed),
                 searchText = query.text,
                 onSearchText = { query = query.copy(text = it) },
                 filterMenu = { expanded, onDismiss ->
@@ -107,6 +127,16 @@ fun FeedPage(
                 onSettings = onSettings,
                 settingsLabel = stringResource(R.string.settings_open),
             )
+            PageRefreshBox(
+                refreshing = refreshing,
+                onRefresh = {
+                    refreshing = true
+                    InboxRefresh.rebind(context)
+                    listenerOn = LivePermissions.snapshot(context).notificationListenerEnabled
+                    refreshing = false
+                },
+                modifier = Modifier.fillMaxSize(),
+            ) {
             InboxFeed(
                 query = query,
                 live = live,
@@ -127,7 +157,9 @@ fun FeedPage(
                 onPlay = onPlay,
                 imageDir = filesDir,
                 itemsEmpty = items.isEmpty(),
+                listenerOn = listenerOn,
             )
+            }
         }
     }
 }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="zero_inbox_1">Nada en espera. Las notificaciones nuevas aparecerán aquí.</string>
+    <string name="zero_inbox_2">Inbox está vacío. Estás al día.</string>
+    <string name="zero_inbox_3">No hay notificaciones ahora.</string>
+    <string name="zero_news_1">Estás al día. Los titulares nuevos aparecerán aquí.</string>
+    <string name="zero_news_2">No hay noticias sin leer.</string>
+    <string name="zero_news_3">No hay noticias en esta lista.</string>
+    <string name="zero_podcast_1">Cola vacía. Los episodios nuevos aparecerán aquí.</string>
+    <string name="zero_podcast_2">No hay episodios en espera.</string>
+    <string name="zero_podcast_3">No hay pódcasts en esta lista.</string>
+</resources>

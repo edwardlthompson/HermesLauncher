@@ -1,8 +1,9 @@
 package org.hermeslauncher.app.ui.inbox
 
 import android.graphics.BitmapFactory
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -33,6 +34,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import org.hermeslauncher.app.R
@@ -43,7 +45,7 @@ import org.hermeslauncher.app.vault.InboxDisplay
 import org.hermeslauncher.app.vault.ShadeAction
 import java.io.File
 
-@OptIn(ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun InboxCard(
     title: String,
@@ -54,6 +56,7 @@ fun InboxCard(
     actions: List<ShadeAction> = emptyList(),
     onAction: (Int) -> Unit = {},
     pinned: Boolean = false,
+    unread: Boolean = true,
     caption: String = "",
     sourceName: String = "",
     sourceIcon: ImageBitmap? = null,
@@ -80,12 +83,14 @@ fun InboxCard(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .clickable(
+            .combinedClickable(
                 onClick = onOpen,
                 onClickLabel = stringResource(R.string.inbox_open),
+                onLongClick = onPin,
+                onLongClickLabel = stringResource(R.string.inbox_feel_pin_hint),
             ),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.78f),
+            containerColor = MaterialTheme.colorScheme.surface,
         ),
     ) {
         Column(modifier = Modifier.padding(SpacingMd)) {
@@ -106,13 +111,13 @@ fun InboxCard(
                             if (sourceIcon != null) {
                                 Image(
                                     bitmap = sourceIcon,
-                                    contentDescription = sourceName,
+                                    contentDescription = null,
                                     modifier = Modifier.size(20.dp),
                                 )
                             } else {
                                 Icon(
                                     imageVector = Icons.Filled.Apps,
-                                    contentDescription = sourceName,
+                                    contentDescription = null,
                                     modifier = Modifier.size(20.dp),
                                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
                                 )
@@ -130,6 +135,11 @@ fun InboxCard(
                     Text(
                         text = title.ifBlank { stringResource(R.string.inbox_untitled) },
                         style = MaterialTheme.typography.titleMedium,
+                        fontWeight = if (InboxDisplay.titleBold(unread)) {
+                            FontWeight.Bold
+                        } else {
+                            FontWeight.Normal
+                        },
                         color = MaterialTheme.colorScheme.onSurface,
                     )
                     if (caption.isNotBlank()) {
@@ -149,16 +159,14 @@ fun InboxCard(
                         )
                     }
                 }
-                IconButton(onClick = onPin, modifier = Modifier.size(48.dp)) {
-                    Icon(
-                        imageVector = Icons.Filled.PushPin,
-                        contentDescription = stringResource(R.string.inbox_pin),
-                        tint = if (pinned) {
-                            MaterialTheme.colorScheme.primary
-                        } else {
-                            MaterialTheme.colorScheme.onSurfaceVariant
-                        },
-                    )
+                if (InboxDisplay.showPinIcon(pinned)) {
+                    IconButton(onClick = onPin, modifier = Modifier.size(48.dp)) {
+                        Icon(
+                            imageVector = Icons.Filled.PushPin,
+                            contentDescription = stringResource(R.string.inbox_pin),
+                            tint = MaterialTheme.colorScheme.primary,
+                        )
+                    }
                 }
                 if (showDismiss) {
                     IconButton(onClick = onDismiss, modifier = Modifier.size(48.dp)) {

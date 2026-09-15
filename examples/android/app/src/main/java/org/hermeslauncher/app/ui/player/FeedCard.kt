@@ -3,7 +3,6 @@ package org.hermeslauncher.app.ui.player
 import android.graphics.Bitmap
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,6 +16,7 @@ import androidx.compose.material.icons.outlined.StarBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -89,16 +89,24 @@ fun FeedCard(
                         .semantics { contentDescription = openCd }
                         .combinedClickable(
                             onClick = onOpen,
+                            onClickLabel = openCd,
                             onLongClick = {
                                 if (canPlay && onPlayNext != null) onPlayNext() else onShare()
                             },
+                            onLongClickLabel = stringResource(
+                                if (canPlay && onPlayNext != null) {
+                                    R.string.player_play_next
+                                } else {
+                                    R.string.feed_reader_share
+                                },
+                            ),
                         )
                 } else {
                     Modifier
                 },
             ),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.72f),
+            containerColor = MaterialTheme.colorScheme.surface,
         ),
     ) {
         Row(modifier = Modifier.fillMaxWidth()) {
@@ -124,13 +132,14 @@ fun FeedCard(
                             .weight(1f)
                             .padding(SpacingMd),
                     )
-                    Icon(
-                        imageVector = if (starred) Icons.Filled.Star else Icons.Outlined.StarBorder,
-                        contentDescription = stringResource(if (starred) R.string.feed_reader_unstar else R.string.feed_reader_star),
-                        modifier = Modifier
-                            .padding(end = SpacingMd, top = SpacingMd)
-                            .clickable(onClick = onStar),
-                    )
+                    IconButton(onClick = onStar) {
+                        Icon(
+                            imageVector = if (starred) Icons.Filled.Star else Icons.Outlined.StarBorder,
+                            contentDescription = stringResource(
+                                if (starred) R.string.feed_reader_unstar else R.string.feed_reader_star,
+                            ),
+                        )
+                    }
                 }
                 val published = ArticleStamp.format(item.publishedAt)
                 if (published.isNotBlank()) {

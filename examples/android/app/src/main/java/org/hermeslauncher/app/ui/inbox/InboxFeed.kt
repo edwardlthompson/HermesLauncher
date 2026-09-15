@@ -6,11 +6,11 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -20,6 +20,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import org.hermeslauncher.app.R
 import org.hermeslauncher.app.feeds.FeedItem
@@ -29,9 +30,11 @@ import org.hermeslauncher.app.feeds.MixPolicy
 import org.hermeslauncher.app.ui.player.FeedCard
 import org.hermeslauncher.app.ui.scroll.LazyScrubBar
 import org.hermeslauncher.app.ui.scroll.scrubGutter
+import org.hermeslauncher.app.ui.theme.MotionPrefs
 import org.hermeslauncher.app.ui.theme.SpacingMd
 import org.hermeslauncher.app.vault.InboxAppGroup
 import org.hermeslauncher.app.vault.InboxChip
+import org.hermeslauncher.app.vault.InboxEmpty
 import org.hermeslauncher.app.vault.InboxFilter
 import org.hermeslauncher.app.vault.InboxLayout
 import org.hermeslauncher.app.vault.InboxQuery
@@ -53,19 +56,29 @@ fun InboxFeed(
     onPlay: (FeedItem) -> Unit,
     imageDir: File,
     itemsEmpty: Boolean,
+    listenerOn: Boolean,
     modifier: Modifier = Modifier,
 ) {
+    val reduced = MotionPrefs.reduced(LocalContext.current)
     val showFeeds = query.chip == InboxChip.ALL && query.packageName == null
     val feedHits = matchingFeeds(feeds, query.text)
     val searching = query.text.isNotBlank()
     val listState = rememberLazyListState()
+    val emptyKind = InboxEmpty.kind(
+        listenerOn = listenerOn,
+        itemsEmpty = itemsEmpty,
+        liveEmpty = live.isEmpty(),
+        historyEmpty = history.isEmpty(),
+        hasVisibleFeeds = showFeeds && feedHits.isNotEmpty(),
+    )
     LaunchedEffect(query.layout, query.newestFirst, query.chip, query.packageName) {
         listState.scrollToItem(0)
     }
-    when {
-        itemsEmpty && history.isEmpty() && (!showFeeds || feedHits.isEmpty()) -> inboxHint()
-        live.isEmpty() && history.isEmpty() && !(showFeeds && feedHits.isNotEmpty()) -> filterEmpty()
-        else -> Box(modifier = modifier.fillMaxSize()) {
+    if (emptyKind != InboxEmpty.Kind.CONTENT) {
+        InboxEmptyPane(kind = emptyKind)
+        return
+    }
+    Box(modifier = modifier.fillMaxSize()) {
             InboxStickToTop(
                 listState = listState,
                 newestFirst = query.newestFirst,
@@ -90,6 +103,7 @@ fun InboxFeed(
                 imageDir = imageDir,
                 showDismiss = true,
                 keyPrefix = "live",
+                reduced = reduced,
             )
             if (searching && history.isNotEmpty()) {
                 item(key = "history-header") {
@@ -114,12 +128,12 @@ fun InboxFeed(
                     imageDir = imageDir,
                     showDismiss = false,
                     keyPrefix = "hist",
+                    reduced = reduced,
                 )
             }
             }
             LazyScrubBar(state = listState, modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight())
         }
-    }
 }
 
 private fun LazyListScope.inboxSection(
@@ -136,12 +150,23 @@ private fun LazyListScope.inboxSection(
     imageDir: File,
     showDismiss: Boolean,
     keyPrefix: String,
+    reduced: Boolean,
 ) {
     when (query.layout) {
         InboxLayout.TIME -> {
             val mixed = MixPolicy.merge(items, feeds, query.newestFirst)
             items(mixed, key = { "$keyPrefix:${mixKey(it)}" }) { entry ->
-                mixedRow(entry, imageDir, onDismiss, onOpen, onAction, onPin, onPlay, showDismiss)
+                mixedRow(
+                    entry,
+                    imageDir,
+                    onDismiss,
+                    onOpen,
+                    onAction,
+                    onPin,
+                    onPlay,
+                    showDismiss,
+                    rowModifier(reduced),
+                )
             }
         }
         InboxLayout.CATEGORY, InboxLayout.APP -> {
@@ -160,6 +185,7 @@ private fun LazyListScope.inboxSection(
                     onPin = onPin,
                     imageDir = imageDir,
                     showDismiss = showDismiss,
+                    modifier = rowModifier(reduced),
                 )
             }
             if (query.layout == InboxLayout.APP && feeds.isNotEmpty()) {
@@ -169,7 +195,7 @@ private fun LazyListScope.inboxSection(
                         kind = FeedKindResolver.kindOf(item),
                         onPlay = { onPlay(item) },
                         thumbDir = imageDir,
-                        modifier = Modifier.padding(horizontal = SpacingMd),
+                        modifier = rowModifier(reduced),
                     )
                 }
             }
@@ -187,6 +213,7 @@ private fun GroupBlock(
     onPin: (String) -> Unit,
     imageDir: File,
     showDismiss: Boolean,
+    modifier: Modifier = Modifier,
 ) {
     var expanded by rememberSaveable(group.packageName, group.displayLabel) { mutableStateOf(false) }
     InboxGroup(
@@ -200,7 +227,7 @@ private fun GroupBlock(
         onPin = onPin,
         imageDir = imageDir,
         showDismiss = showDismiss,
-        modifier = Modifier.padding(horizontal = SpacingMd),
+        modifier = modifier,
     )
 }
 
@@ -214,6 +241,7 @@ private fun mixedRow(
     onPin: (String) -> Unit,
     onPlay: (FeedItem) -> Unit,
     showDismiss: Boolean,
+    modifier: Modifier,
 ) {
     when (entry) {
         is MixedEntry.Vault -> VaultItemCard(
@@ -225,14 +253,14 @@ private fun mixedRow(
             onPin = { onPin(entry.item.id) },
             onOpen = { onOpen(entry.item.id) },
             onAction = { onAction(entry.item.id, it) },
-            modifier = Modifier.padding(horizontal = SpacingMd),
+            modifier = modifier,
         )
         is MixedEntry.Feed -> FeedCard(
             item = entry.item,
             kind = entry.kind,
             onPlay = { onPlay(entry.item) },
             thumbDir = imageDir,
-            modifier = Modifier.padding(horizontal = SpacingMd),
+            modifier = modifier,
         )
     }
 }
@@ -255,33 +283,11 @@ private fun mixKey(entry: MixedEntry): String {
     }
 }
 
-@Composable
-private fun inboxHint() {
-    val day = rememberSaveable { java.time.LocalDate.now().toEpochDay() }
-    Surface(
-        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.62f),
-        modifier = Modifier.padding(SpacingMd),
-    ) {
-        Text(
-            text = stringResource(ZeroCopy.pick(ZeroKind.INBOX, day)),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.padding(SpacingMd),
-        )
-    }
-}
-
-@Composable
-private fun filterEmpty() {
-    Surface(
-        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.62f),
-        modifier = Modifier.padding(SpacingMd),
-    ) {
-        Text(
-            text = stringResource(R.string.filter_empty),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.padding(SpacingMd),
-        )
+private fun LazyItemScope.rowModifier(reduced: Boolean): Modifier {
+    val pad = Modifier.padding(horizontal = SpacingMd)
+    return if (MotionPrefs.animateDismiss(reduced)) {
+        Modifier.animateItem().then(pad)
+    } else {
+        pad
     }
 }

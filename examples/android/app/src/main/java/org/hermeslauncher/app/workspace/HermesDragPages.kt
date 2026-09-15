@@ -30,6 +30,11 @@ object HermesDragPages {
         return EmptyPagePolicy.step(ids(ws), ws.nextPage, delta, wrap = false)
     }
 
+    fun stepSnap(ws: Workspace<*>, delta: Int): Boolean {
+        val next = step(ws, delta)
+        return next != ws.nextPage && ws.snapToPage(next)
+    }
+
     fun refuseDesktop(container: Int, screenId: Int): Boolean {
         return container == CONTAINER_DESKTOP && HermesScreens.isReserved(screenId)
     }

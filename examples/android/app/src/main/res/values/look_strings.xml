@@ -12,6 +12,7 @@
     <string name="look_night_end">Ends</string>
     <string name="look_night_save">Save times</string>
     <string name="look_badge">Notification badges</string>
+    <string name="look_badge_body">Styles Hermes counts on Inbox, News, and Podcasts. Also tints notification dots on desktop app icons.</string>
     <string name="look_badge_dots">Dots</string>
     <string name="look_badge_counts">Counts</string>
     <string name="look_badge_color">Badge color</string>

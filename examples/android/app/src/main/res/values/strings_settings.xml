@@ -8,6 +8,7 @@
     <string name="settings_group_feeds_body">Sync, reading, and subscriptions</string>
     <string name="settings_group_system">System</string>
     <string name="settings_group_system_body">Permissions, backup, and about</string>
+    <string name="settings_hub_open">Open settings section %1$s</string>
     <string name="settings_section_subs">Subscriptions</string>
     <string name="settings_section_subs_body">Unsubscribe, tags, notify, and prefetch</string>
     <string name="settings_expand_sync">Sync</string>
@@ -22,7 +23,7 @@
     <string name="settings_page_speed_normal">Normal</string>
     <string name="settings_page_speed_slow">Slow</string>
     <string name="settings_dock_most_used">Most used apps</string>
-    <string name="settings_dock_most_used_body">Fill the dock by time in the foreground. Turn off to pin apps yourself.</string>
+    <string name="settings_dock_most_used_body">Fills the dock from apps you use (needs usage access). Turn off to pin apps from Settings or by long-pressing the dock.</string>
     <string name="settings_drawer_layout">Drawer layout</string>
     <string name="settings_icon_pack">Icon pack</string>
     <string name="scrub_scrollbar">Scrub list</string>

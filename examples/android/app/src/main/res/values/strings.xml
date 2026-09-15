@@ -5,11 +5,9 @@
     <string name="app_greeting">Your notifications, news, and podcasts — as home.</string>
     <string name="app_status_online">Online</string>
     <string name="app_status_offline">Offline</string>
-    <string name="launcher_feed_placeholder">Tap X to dismiss a card. Horizontal swipe changes pages.</string>
-    <string name="home_inbox_hint">Tap X to dismiss a card. Horizontal swipe changes pages.</string>
     <string name="home_setup_title">Set up Hermes as Home</string>
-    <string name="home_setup_query_all">Hermes lists installed apps with QUERY_ALL_PACKAGES. That permission is granted at install, not in a runtime dialog.</string>
-    <string name="home_setup_photos">Allow Photos once so notification pictures can be stored without asking for each app. Copies stay inside Hermes.</string>
+    <string name="home_setup_query_all">Hermes needs notification access so Inbox can show what other apps post. Photos is optional for pictures.</string>
+    <string name="home_setup_photos">Optional: allow Photos so notification pictures can be stored inside Hermes, not Gallery.</string>
     <string name="home_setup_media">Allow Photos access</string>
     <string name="home_setup_notifications">Turn on notification access</string>
     <string name="home_setup_battery">Allow unrestricted battery</string>
@@ -24,7 +22,7 @@
     <string name="dock_empty_slot">Empty dock slot</string>
     <string name="dock_assign_title">Choose a dock app</string>
     <string name="drawer_search">Search apps</string>
-    <string name="drawer_empty">No launchable apps. QUERY_ALL_PACKAGES is install-time only.</string>
+    <string name="drawer_empty">No apps to open. If this stays empty after a reboot, reinstall Hermes.</string>
     <string name="filter_search">Search inbox</string>
     <string name="filter_open">Filter inbox</string>
     <string name="filter_all">All</string>
@@ -34,6 +32,7 @@
     <string name="filter_empty">No notifications match this filter</string>
     <string name="inbox_pin">Pin notification</string>
     <string name="inbox_group_expand">Expand %1$s notifications</string>
+    <string name="inbox_group_collapse">Collapse %1$s notifications</string>
     <string name="inbox_group_open">Open %1$s</string>
     <string name="inbox_group_dismiss">Dismiss all from %1$s</string>
     <string name="inbox_unknown_app">Unknown app</string>
@@ -243,7 +242,7 @@
     <string name="dock_unread_count">%1$d unread on dock</string>
     <string name="drawer_unread_count">%1$d unread</string>
     <string name="settings_show_dots">Show notification dots</string>
-    <string name="settings_show_dots_body">Red counts on dock and All Apps from unread inbox items. Tap still launches the app.</string>
+    <string name="settings_show_dots_body">Styles Hermes counts on Inbox, News, and Podcasts. Also tints notification dots on desktop app icons.</string>
     <string name="settings_double_tap">Double-tap empty home</string>
     <string name="settings_double_tap_off">Off</string>
     <string name="settings_double_tap_lock">Lock</string>
@@ -267,8 +266,8 @@
     <string name="paged_inverse_body">Swap left and right workspace fling.</string>
     <string name="labs_wrap">Infinite page wrap</string>
     <string name="labs_wrap_body">Off by default. When on, flinging past the last desktop wraps to feeds.</string>
-    <string name="labs_overlap">Allow widget overlap</string>
-    <string name="labs_overlap_body">Off by default. Occupancy still denies overlap until this Labs switch is on.</string>
+    <string name="labs_overlap">Page peek</string>
+    <string name="labs_overlap_body">Lets the next page show a sliver while you swipe. Icons still cannot share a cell.</string>
     <string name="dock_pages">Dock pages</string>
     <string name="blacklist_title">Ignored notification apps</string>
     <string name="blacklist_body">X restores storing notifications from that app. Hide-from-drawer is separate.</string>

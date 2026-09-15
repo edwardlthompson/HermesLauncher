@@ -1,6 +1,7 @@
 package org.hermeslauncher.app.ui.inbox
 
 import android.content.pm.PackageManager
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,11 +22,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.hermeslauncher.app.R
+import org.hermeslauncher.app.ui.theme.MotionPrefs
 import org.hermeslauncher.app.ui.theme.SpacingMd
 import org.hermeslauncher.app.ui.theme.SpacingSm
 import org.hermeslauncher.app.vault.InboxAppGroup
+import org.hermeslauncher.app.vault.InboxDisplay
 import java.io.File
 
 @Composable
@@ -50,13 +54,18 @@ fun InboxGroup(
         resolved ?: if (group.packageName.isBlank()) unknown else inboxAppLabel(pm, group.packageName)
     }
     val launch = showGroupLaunch(expanded, group.packageName)
+    val reduced = MotionPrefs.reduced(LocalContext.current)
     Card(
         modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.78f),
+            containerColor = MaterialTheme.colorScheme.surface,
         ),
     ) {
-        Column(modifier = Modifier.padding(SpacingSm)) {
+        Column(
+            modifier = Modifier
+                .padding(SpacingSm)
+                .then(if (MotionPrefs.animateSize(reduced)) Modifier.animateContentSize() else Modifier),
+        ) {
             Row(
                 modifier = Modifier.fillMaxWidth().padding(SpacingSm),
                 verticalAlignment = Alignment.CenterVertically,
@@ -66,18 +75,26 @@ fun InboxGroup(
                         .weight(1f)
                         .clickable(
                             onClick = onToggle,
-                            onClickLabel = stringResource(R.string.inbox_group_expand, label),
+                            onClickLabel = stringResource(
+                                if (expanded) R.string.inbox_group_collapse else R.string.inbox_group_expand,
+                                label,
+                            ),
                         ),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     InboxAppGlyph(
                         packageName = group.packageName,
                         size = 40.dp,
-                        contentDescription = label,
+                        contentDescription = null,
                     )
                     Text(
                         text = "$label (${group.items.size})",
                         style = MaterialTheme.typography.titleMedium,
+                        fontWeight = if (InboxDisplay.groupBold(group.items)) {
+                            FontWeight.Bold
+                        } else {
+                            FontWeight.Normal
+                        },
                         color = MaterialTheme.colorScheme.onSurface,
                         modifier = Modifier.padding(horizontal = SpacingMd),
                     )

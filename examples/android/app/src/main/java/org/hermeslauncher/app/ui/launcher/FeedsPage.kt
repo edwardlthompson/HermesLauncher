@@ -17,6 +17,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -26,7 +27,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -39,6 +39,7 @@ import org.hermeslauncher.app.feeds.FeedKindResolver
 import org.hermeslauncher.app.feeds.FeedQuery
 import org.hermeslauncher.app.feeds.FeedSubCodec
 import org.hermeslauncher.app.ui.inbox.FilterBar
+import org.hermeslauncher.app.ui.inbox.PageRefreshBox
 import org.hermeslauncher.app.ui.player.FeedCard
 import org.hermeslauncher.app.ui.scroll.LazyScrubBar
 import org.hermeslauncher.app.ui.scroll.scrubGutter
@@ -76,7 +77,6 @@ fun FeedsPage(
     val visible = remember(records, query) { FeedFilter.apply(records, query) }
     val context = LocalContext.current
     val listState = rememberLazyListState()
-    val emptyDay = remember { java.time.LocalDate.now().toEpochDay() }
     val feedUnread = remember(records) {
         records.groupBy { it.item.sourceUrl ?: it.item.feedTitle }.count { (_, rows) -> rows.any { !it.read } }
     }
@@ -96,6 +96,12 @@ fun FeedsPage(
         Column(modifier = Modifier.fillMaxSize()) {
             FilterBar(
                 unread = FeedFilter.unreadCount(records),
+                barTitle = stringResource(
+                    when (emptyKind) {
+                        org.hermeslauncher.app.ui.inbox.ZeroKind.PODCAST -> R.string.launcher_page_podcasts
+                        else -> R.string.launcher_page_news
+                    },
+                ),
                 searchText = query.text,
                 onSearchText = { onQuery(query.copy(text = it)) },
                 searchLabel = stringResource(R.string.feed_search),
@@ -125,30 +131,43 @@ fun FeedsPage(
                 feedsUnread = feedUnread,
                 feedsLabel = stringResource(R.string.feed_open_feeds),
             )
+            PageRefreshBox(
+                refreshing = refreshing,
+                onRefresh = onRefresh,
+                modifier = Modifier.fillMaxSize(),
+            ) {
             val error = FeedSubCodec.visibleCopy(lastError)
             if (error != null) {
-                Text(
-                    text = error,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = Color.White,
+                Surface(
+                    color = MaterialTheme.colorScheme.surfaceContainerHigh,
                     modifier = Modifier.padding(horizontal = SpacingMd).clickable(onClick = onRetry),
-                )
+                ) {
+                    Text(
+                        text = error,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.padding(SpacingMd),
+                    )
+                }
             }
             if (visible.isEmpty()) {
-                Text(
-                    text = stringResource(
-                        when {
-                            records.isEmpty() && refreshFailed -> R.string.workspace_feeds_fetch_failed
-                            records.isEmpty() -> org.hermeslauncher.app.ui.inbox.ZeroCopy.pick(emptyKind, emptyDay)
-                            else -> R.string.feed_empty_filter
-                        },
-                    ),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color.White,
-                    modifier = Modifier
-                        .padding(SpacingMd)
-                        .clickable(onClick = onRetry),
-                )
+                Surface(
+                    color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                    modifier = Modifier.padding(SpacingMd).clickable(onClick = onRetry),
+                ) {
+                    Text(
+                        text = stringResource(
+                            when {
+                                records.isEmpty() && refreshFailed -> R.string.workspace_feeds_fetch_failed
+                                records.isEmpty() -> R.string.workspace_feeds_empty
+                                else -> R.string.feed_empty_filter
+                            },
+                        ),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.padding(SpacingMd),
+                    )
+                }
             } else {
                 Box(modifier = Modifier.fillMaxSize()) {
                 LazyColumn(
@@ -181,6 +200,7 @@ fun FeedsPage(
                     modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
                 )
                 }
+            }
             }
         }
         FloatingActionButton(

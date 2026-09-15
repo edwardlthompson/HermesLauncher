@@ -102,6 +102,10 @@ fun LookSettings(modifier: Modifier = Modifier) {
                 scope.launch { prefs.setBadgeColorArgb(if (useTheme) null else accentArgb) }
             },
         )
+        Text(
+            text = stringResource(R.string.look_badge_body),
+            style = MaterialTheme.typography.bodySmall,
+        )
         SettingsSwitchRow(
             title = R.string.look_label_shadow,
             checked = labelShadow,

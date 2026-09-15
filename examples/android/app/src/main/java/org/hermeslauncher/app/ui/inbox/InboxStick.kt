@@ -8,6 +8,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.platform.LocalContext
+import org.hermeslauncher.app.ui.theme.MotionPrefs
 
 object InboxStickPolicy {
     fun isAtTop(index: Int, offset: Int): Boolean = index == 0 && offset <= 0
@@ -23,6 +25,7 @@ fun InboxStickToTop(
     newestFirst: Boolean,
     revision: Any,
 ) {
+    val reduced = MotionPrefs.reduced(LocalContext.current)
     var stickToTop by remember {
         mutableStateOf(
             InboxStickPolicy.isAtTop(
@@ -41,9 +44,13 @@ fun InboxStickToTop(
             }
         }
     }
-    LaunchedEffect(revision, newestFirst, stickToTop) {
+    LaunchedEffect(revision, newestFirst, stickToTop, reduced) {
         if (InboxStickPolicy.shouldPinToTop(stickToTop, newestFirst)) {
-            listState.scrollToItem(0)
+            if (MotionPrefs.animateScroll(reduced)) {
+                listState.animateScrollToItem(0)
+            } else {
+                listState.scrollToItem(0)
+            }
         }
     }
 }

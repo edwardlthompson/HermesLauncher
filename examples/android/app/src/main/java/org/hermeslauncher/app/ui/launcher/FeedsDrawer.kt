@@ -77,6 +77,8 @@ fun FeedsDrawer(
         FeedFilter.drawerVisible(rows, openTags, search.isNotBlank())
     }
     val folders = remember(subs) { FeedSubPolicy.folderNames(subs) }
+    val drawerTitle = stringResource(R.string.feed_drawer_title)
+    val searchFeedsLabel = stringResource(R.string.feed_drawer_search)
     BackHandler(onBack = onDismiss)
     Box(modifier = Modifier.fillMaxSize()) {
         Surface(
@@ -89,7 +91,7 @@ fun FeedsDrawer(
                 .align(Alignment.CenterStart)
                 .fillMaxHeight()
                 .width(300.dp)
-                .semantics { contentDescription = "Feeds drawer" },
+                .semantics { contentDescription = drawerTitle },
             color = MaterialTheme.colorScheme.surface,
         ) {
             Column(modifier = Modifier.fillMaxSize().padding(SpacingMd)) {
@@ -99,7 +101,7 @@ fun FeedsDrawer(
                     onValueChange = { search = it },
                     label = { Text(stringResource(R.string.feed_drawer_search)) },
                     singleLine = true,
-                    modifier = Modifier.fillMaxWidth().semantics { contentDescription = "Search feeds list" },
+                    modifier = Modifier.fillMaxWidth().semantics { contentDescription = searchFeedsLabel },
                 )
                 FilterChip(
                     selected = hideEmpty,

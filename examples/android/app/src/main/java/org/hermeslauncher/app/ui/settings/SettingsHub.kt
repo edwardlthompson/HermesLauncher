@@ -140,6 +140,7 @@ internal fun SettingsHubRow(
     accent: Color,
     onClick: () -> Unit,
 ) {
+    val openLabel = stringResource(R.string.settings_hub_open, title)
     ListItem(
         leadingContent = {
             Box(
@@ -160,6 +161,6 @@ internal fun SettingsHubRow(
         },
         modifier = Modifier
             .clickable(onClick = onClick)
-            .semantics { contentDescription = "Open settings section $title" },
+            .semantics { contentDescription = openLabel },
     )
 }

@@ -69,6 +69,7 @@ fun VaultItemCard(
         sourceIcon = sourceIcon,
         imageFile = VaultImageStore.file(imageDir, preview.imageRef),
         pinned = item.pinned,
+        unread = item.unread,
         actions = ShadeBridge.actions(item.sbnKey),
         onDismiss = onDismiss,
         onPin = onPin,

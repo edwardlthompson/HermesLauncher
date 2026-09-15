@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_setup_query_all">Hermes necesita acceso a notificaciones para mostrar en Inbox lo que publican otras apps. Fotos es opcional.</string>
+    <string name="home_setup_photos">Opcional: permite Fotos para guardar imágenes de notificaciones dentro de Hermes, no en Galería.</string>
+    <string name="drawer_empty">No hay apps que abrir. Si sigue vacío tras un reinicio, reinstala Hermes.</string>
+    <string name="settings_show_dots_body">Estiliza los recuentos de Hermes en Inbox, Noticias y Pódcasts. También colorea los puntos de notificación en iconos del escritorio.</string>
+    <string name="inbox_group_expand">Expandir notificaciones de %1$s</string>
+    <string name="inbox_group_collapse">Contraer notificaciones de %1$s</string>
+    <string name="workspace_feeds_empty">Aún no hay noticias ni pódcasts. Pulsa + para añadir un enlace.</string>
+    <string name="filter_empty">Ninguna notificación coincide con este filtro</string>
+</resources>

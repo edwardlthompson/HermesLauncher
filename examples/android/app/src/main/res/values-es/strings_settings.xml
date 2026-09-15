@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_listener_body">Activa el acceso a notificaciones para que Inbox reciba lo que publican otras apps.</string>
+    <string name="settings_hub_open">Abrir sección de ajustes %1$s</string>
+    <string name="settings_dock_most_used_body">Llena el dock con las apps que usas (necesita acceso de uso). Apágalo para fijar apps desde Ajustes o manteniendo pulsado el dock.</string>
+    <string name="labs_overlap">Vista previa de página</string>
+    <string name="labs_overlap_body">Muestra un borde de la página siguiente al deslizar. Los iconos siguen sin compartir celda.</string>
+</resources>

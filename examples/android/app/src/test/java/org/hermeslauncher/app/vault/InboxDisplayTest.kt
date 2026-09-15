@@ -41,4 +41,25 @@ class InboxDisplayTest {
         assertEquals(6, InboxDisplay.bodyLines(240))
         assertTrue(InboxDisplay.bodyLines(240) > InboxDisplay.bodyLines(80))
     }
+
+    @Test
+    fun titleBoldOnlyWhenUnread() {
+        assertTrue(InboxDisplay.titleBold(true))
+        assertFalse(InboxDisplay.titleBold(false))
+    }
+
+    @Test
+    fun showPinIconOnlyWhenPinned() {
+        assertTrue(InboxDisplay.showPinIcon(true))
+        assertFalse(InboxDisplay.showPinIcon(false))
+    }
+
+    @Test
+    fun groupBoldWhenAnyUnread() {
+        val unread = filterSample("u", VaultItemType.MESSAGE, unread = true, pinned = false, title = "U", text = "a")
+        val read = filterSample("r", VaultItemType.OTHER, unread = false, pinned = false, title = "R", text = "b")
+        assertTrue(InboxDisplay.groupBold(listOf(read, unread)))
+        assertFalse(InboxDisplay.groupBold(listOf(read)))
+        assertFalse(InboxDisplay.groupBold(emptyList()))
+    }
 }

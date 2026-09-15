@@ -31,6 +31,10 @@ fun ReaderOverflow(
     onScale: () -> Unit,
     onEnclosure: (() -> Unit)?,
 ) {
+    val ttsLabel = stringResource(if (ttsPlaying) R.string.feed_reader_tts_stop else R.string.feed_reader_tts)
+    val findLabel = stringResource(R.string.feed_reader_find)
+    val scaleLabel = stringResource(R.string.feed_reader_scale)
+    val fileLabel = stringResource(R.string.feed_reader_open_file)
     var open by remember { mutableStateOf(false) }
     val more = stringResource(R.string.feed_reader_more)
     IconButton(onClick = { open = true }, modifier = Modifier.semantics { contentDescription = more }) {
@@ -38,30 +42,30 @@ fun ReaderOverflow(
     }
     DropdownMenu(expanded = open, onDismissRequest = { open = false }) {
         DropdownMenuItem(
-            text = { Text(stringResource(if (ttsPlaying) R.string.feed_reader_tts_stop else R.string.feed_reader_tts)) },
+            text = { Text(ttsLabel) },
             onClick = { open = false; onTts() },
             leadingIcon = { Icon(Icons.Filled.RecordVoiceOver, contentDescription = null) },
-            modifier = Modifier.semantics { contentDescription = "Read aloud" },
+            modifier = Modifier.semantics { contentDescription = ttsLabel },
         )
         DropdownMenuItem(
-            text = { Text(stringResource(R.string.feed_reader_find)) },
+            text = { Text(findLabel) },
             onClick = { open = false; onFind() },
             leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
-            modifier = Modifier.semantics { contentDescription = "Find in article" },
+            modifier = Modifier.semantics { contentDescription = findLabel },
         )
         DropdownMenuItem(
-            text = { Text(stringResource(R.string.feed_reader_scale)) },
+            text = { Text(scaleLabel) },
             onClick = { open = false; onScale() },
             leadingIcon = { Icon(Icons.Filled.FormatSize, contentDescription = null) },
-            modifier = Modifier.semantics { contentDescription = "Text size" },
+            modifier = Modifier.semantics { contentDescription = scaleLabel },
         )
         if (onEnclosure != null) {
             HorizontalDivider()
             DropdownMenuItem(
-                text = { Text(stringResource(R.string.feed_reader_open_file)) },
+                text = { Text(fileLabel) },
                 onClick = { open = false; onEnclosure() },
                 leadingIcon = { Icon(Icons.Filled.AttachFile, contentDescription = null) },
-                modifier = Modifier.semantics { contentDescription = "Open file" },
+                modifier = Modifier.semantics { contentDescription = fileLabel },
             )
         }
     }

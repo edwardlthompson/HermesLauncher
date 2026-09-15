@@ -10,7 +10,13 @@ LIB = Path(__file__).resolve().parent.parent / "scripts" / "lib"
 if str(LIB) not in sys.path:
     sys.path.insert(0, str(LIB))
 
-from gates_canvas import fix_banner, load_gate_rows, markdown_report, write_status  # noqa: E402
+from gates_canvas import (  # noqa: E402
+    fix_banner,
+    load_gate_rows,
+    markdown_report,
+    next_open_row,
+    write_status,
+)
 
 
 class GatesCanvasTests(unittest.TestCase):
@@ -22,7 +28,7 @@ class GatesCanvasTests(unittest.TestCase):
             (cursor / "stack-selection.json").write_text(
                 '{"stack":"web","distribution_tier":"foss"}', encoding="utf-8"
             )
-            (root / "BUILD_PLAN.md").write_text("1. 🔲 [HUMAN] smoke\n", encoding="utf-8")
+            (root / "BUILD_PLAN.md").write_text("- 🔲 [HUMAN] smoke\n", encoding="utf-8")
             md = markdown_report(root, [("encoding", "Pass")])
             self.assertIn("`web`", md)
             self.assertIn("encoding", md)
@@ -53,6 +59,17 @@ class GatesCanvasTests(unittest.TestCase):
             text = fix_banner(root)
             self.assertIn("strikes=2", text)
             self.assertIn("failed_stage=web-lint", text)
+
+    def test_next_open_row_skips_format_legend(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "BUILD_PLAN.md").write_text(
+                "Format: `🔲 [AGENT] Short task`. Sequential `[AGENT]` first.\n"
+                "- 🔲 [ADB] OP12 grant CTA\n",
+                encoding="utf-8",
+            )
+            self.assertIn("[ADB]", next_open_row(root))
+            self.assertNotIn("Format:", next_open_row(root))
 
 
 if __name__ == "__main__":

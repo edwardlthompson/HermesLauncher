@@ -21,12 +21,16 @@ def next_open_row(root: Path) -> str:
     path = root / "BUILD_PLAN.md"
     if not path.is_file():
         return "(no BUILD_PLAN.md)"
-    for line in path.read_text(encoding="utf-8").splitlines():
-        if "🔲" in line and "[AGENT]" in line:
-            return line.strip()[:120]
-    for line in path.read_text(encoding="utf-8").splitlines():
-        if "🔲" in line:
-            return line.strip()[:120]
+    rows = [
+        line.strip()
+        for line in path.read_text(encoding="utf-8").splitlines()
+        if line.strip().startswith("- 🔲") or line.strip().startswith("* 🔲")
+    ]
+    for row in rows:
+        if "[AGENT]" in row:
+            return row[:120]
+    if rows:
+        return rows[0][:120]
     return "(no open rows)"
 
 

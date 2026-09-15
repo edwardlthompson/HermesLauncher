@@ -7,4 +7,5 @@
     <string name="inbox_body_length_all">All</string>
     <string name="inbox_hide_small_images">Hide small notification photos</string>
     <string name="inbox_hide_small_images_body">Skip avatars and images below 240px so only full-size photos show.</string>
+    <string name="inbox_feel_pin_hint">Long-press to pin</string>
 </resources>

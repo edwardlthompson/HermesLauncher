@@ -26,7 +26,7 @@ PLAN = f"""# Build Plan
 {EMPTY_NOTE}
 {END}
 
-1. 🔲 [AGENT] Do the next thing
+- 🔲 [AGENT] Do the next thing
 """
 
 

@@ -1,5 +1,5 @@
 // GENERATED — do not edit; run scripts/sync-design-tokens.py
-// source-hash: 091bb9f1760f
+// source-hash: fd29592c0931
 package org.hermeslauncher.app.ui.theme
 
 import androidx.compose.ui.unit.dp

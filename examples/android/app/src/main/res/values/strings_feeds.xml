@@ -52,6 +52,7 @@
     <string name="feed_reader_scale">Text size</string>
     <string name="feed_reader_open_file">Open file</string>
     <string name="feed_open_feeds">Open feeds</string>
+    <string name="feed_drawer_title">Feeds</string>
     <string name="feed_drawer_search">Search subscriptions</string>
     <string name="feed_drawer_hide_empty">Hide empty</string>
     <string name="feed_drawer_feed_settings">Feed settings</string>

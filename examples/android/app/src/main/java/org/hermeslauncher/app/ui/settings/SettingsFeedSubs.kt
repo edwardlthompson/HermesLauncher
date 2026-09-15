@@ -84,6 +84,7 @@ fun SettingsFeedSubs() {
 private fun SubRow(sub: FeedSub, onChange: (FeedSub) -> Unit, onRemove: () -> Unit) {
     var open by remember(sub.url) { mutableStateOf(false) }
     val label = sub.title.ifBlank { sub.url }
+    val tagLabel = stringResource(R.string.feed_sub_tag)
     ListItem(
         headlineContent = { Text(label, style = MaterialTheme.typography.titleSmall) },
         supportingContent = {
@@ -102,9 +103,9 @@ private fun SubRow(sub: FeedSub, onChange: (FeedSub) -> Unit, onRemove: () -> Un
         OutlinedTextField(
             value = sub.tag,
             onValueChange = { onChange(sub.copy(tag = it)) },
-            label = { Text(stringResource(R.string.feed_sub_tag)) },
+            label = { Text(tagLabel) },
             singleLine = true,
-            modifier = Modifier.semantics { contentDescription = "Feed tag" },
+            modifier = Modifier.semantics { contentDescription = tagLabel },
         )
         SettingsSwitchRow(
             title = R.string.feed_sub_notify,

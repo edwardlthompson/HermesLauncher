@@ -45,4 +45,10 @@ object InboxDisplay {
         val floor = minPx.coerceAtLeast(1)
         return width >= floor && height >= floor
     }
+
+    fun titleBold(unread: Boolean): Boolean = unread
+
+    fun showPinIcon(pinned: Boolean): Boolean = pinned
+
+    fun groupBold(items: List<VaultItem>): Boolean = items.any { it.unread }
 }

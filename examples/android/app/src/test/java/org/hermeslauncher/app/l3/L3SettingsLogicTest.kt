@@ -115,6 +115,24 @@ class L3DockTest {
     }
 }
 
+class L3HomeEffectTest {
+    @Test
+    fun captionsMatchL3() {
+        assertTrue(L3HomeEffect.dockCustomWritesFavorites())
+        assertFalse(L3HomeEffect.labsOverlapSharesCells())
+        assertTrue(L3HomeEffect.labsOverlapPeeksPages())
+        assertTrue(L3HomeEffect.lookBadgePaintsDesktopIcons())
+        assertTrue(L3HomeEffect.lookBadgeStylesReservedChrome())
+    }
+
+    @Test
+    fun hideDotFollowsShowDots() {
+        assertTrue(L3Badge.hideDot(showDots = false))
+        assertFalse(L3Badge.hideDot(showDots = true))
+        assertTrue(L3Badge.paintsDesktopIcons())
+    }
+}
+
 class HermesSwipeGateTest {
     @Test
     fun inboxScrollDoesNotOpenDrawerDockStillCan() {

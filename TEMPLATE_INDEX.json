@@ -2014,6 +2014,13 @@
       "owner": "maintainer"
     },
     {
+      "path": "scripts/smoke-sprint.sh",
+      "purpose": "Prove BUILD_PLAN ✅ rows via Android HOME manifest smoke",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": "scripts/check-file-limits.sh",
       "purpose": "Enforce 300-line static data and 150-line pure logic file limits",
       "read_when": "milestone_boundary",

@@ -15,11 +15,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.PlatformTextStyle
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import org.hermeslauncher.app.ui.theme.BadgeStyle
 import org.hermeslauncher.app.ui.theme.LocalBadgeColorArgb
 import org.hermeslauncher.app.ui.theme.LocalBadgeStyle
@@ -60,10 +58,9 @@ fun UnreadDot(
         Text(
             text = InboxFilter.unreadLabel(count),
             color = onTint,
-            fontSize = 9.sp,
-            lineHeight = 10.sp,
             textAlign = TextAlign.Center,
-            style = TextStyle(
+            style = MaterialTheme.typography.labelSmall.copy(
+                color = onTint,
                 platformStyle = PlatformTextStyle(includeFontPadding = false),
                 lineHeightStyle = LineHeightStyle(
                     alignment = LineHeightStyle.Alignment.Center,

@@ -2,6 +2,35 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## Sprint 53 — Inbox calm leftovers (2026-09-15)
+
+- ✅ [AGENT] Motion-feel: search expand, group size, dismiss fade, stick-to-top gated on MotionPrefs (`docs/features/motion-feel.md`)
+- ✅ [AGENT] i18n leftover semantics (reader overflow, feed tag) (`docs/features/a11y-i18n-leftover.md`)
+- ✅ [AGENT] UnreadDot uses labelSmall instead of hardcoded 9sp (`docs/features/unread-dot-type.md`)
+- ✅ [AGENT] Pull-to-refresh on Inbox, News, and Podcasts (`docs/features/pull-to-refresh.md`)
+- ✅ [AGENT] L3 desktop icon badges from Look badge style (`docs/features/l3-desktop-badges.md`)
+- ✅ [AGENT] Dock Settings CUSTOM writes L3 Favorites (`docs/features/dock-custom-favorites.md`)
+- ✅ [AGENT] Add values-* locales for inbox-calm strings (`docs/features/inbox-calm-locales.md`)
+- ✅ [AGENT] Expand HermesTypography from design tokens (`docs/features/hermes-typography.md`)
+- ✅ [AGENT] Add missing `smoke-sprint --require` script (`docs/features/smoke-sprint.md`)
+- ✅ [ADB] OP12 then OP13: listener-off grant CTA; News empty on light wallpaper; TalkBack expand/collapse/star; signed `install -r`
+
+## Sprint 52 — Inbox calm (2026-09-15)
+
+- ✅ [AGENT] Empty Inbox grant CTA when notification access is off (`docs/features/empty-grant.md`)
+- ✅ [AGENT] Opaque FeedCard and Feeds empty/error onSurface chip (`docs/features/feed-surface.md`)
+- ✅ [AGENT] First-run copy: lead with notification access; strip ZeroCopy emoji (`docs/features/first-run-copy.md`)
+- ✅ [AGENT] A11y chrome: 48dp star, decorative CD, expand/collapse, reduce-motion helper (`docs/features/a11y-chrome.md`)
+
+## Sprint 51 — Inbox feel (2026-09-15)
+
+- ✅ [AGENT] Lock InboxFeel API and `docs/features/inbox-feel.md` (unread title weight, FilterBar slots, pin overflow)
+- ✅ [AGENT] Restyle shared FilterBar to M3 tonal bar (Inbox/News/Podcasts)
+- ✅ [AGENT] Restyle InboxCard/VaultItemCard: unread bold, pin via long-press, keep 48dp X
+- ✅ [AGENT] Settings honesty: hide or caption Desktop/Dock/Drawer/Labs knobs that do not change L3 HOME
+- ✅ [AGENT] Page-settle haptic on L3 workspace swipe
+- ✅ [ADB] OP12 then OP13: Inbox unread/search/X; no HOME from Inbox; signed `install -r`
+
 ## Sprint 50 — Template v1.4.0 leftover options (2026-09-11)
 
 - ✅ [AGENT] Copy `docs/SPRINT_SMOKE.md` from template v1.4.0 and point `BUILD_PLAN_TEMPLATE.md` at it

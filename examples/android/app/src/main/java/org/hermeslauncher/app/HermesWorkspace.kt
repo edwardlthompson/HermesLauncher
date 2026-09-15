@@ -14,12 +14,12 @@ import com.android.launcher3.dragndrop.DragOptions
 import com.android.launcher3.pageindicators.WorkspacePageIndicator
 import org.hermeslauncher.app.l3.L3GestureHost
 import org.hermeslauncher.app.l3.L3Pinch
+import org.hermeslauncher.app.l3.PageSettleHaptic
 import org.hermeslauncher.app.workspace.EmptyPagePolicy
 import org.hermeslauncher.app.workspace.HermesDragPages
 import org.hermeslauncher.app.workspace.HermesPages
 import org.hermeslauncher.app.workspace.HermesScreens
 
-/** Workspace that keeps News/Inbox as real pages and snaps Home to Inbox. */
 class HermesWorkspace @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet,
@@ -35,10 +35,12 @@ class HermesWorkspace @JvmOverloads constructor(
         },
     )
     private val pinch = L3Pinch(context)
+    private val settle = PageSettleHaptic.Session()
     private var wrapWanted = false
     private var dragLock = false
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        if (ev.actionMasked == MotionEvent.ACTION_MOVE) settle.onMove()
         taps.onTouchEvent(ev)
         setWrapPages(wrapWanted && !pageLock())
         if (!HermesScreens.isReserved(getScreenIdForPageIndex(nextPage))) pinch.onTouch(ev)
@@ -80,11 +82,18 @@ class HermesWorkspace @JvmOverloads constructor(
     override fun setCurrentPage(currentPage: Int, overridePrevPage: Int) =
         super.setCurrentPage(droppable(currentPage), overridePrevPage)
 
-    override fun snapToPage(whichPage: Int, duration: Int, immediate: Boolean) =
-        super.snapToPage(droppable(whichPage), duration, immediate)
+    override fun snapToPage(whichPage: Int, duration: Int, immediate: Boolean): Boolean {
+        settle.onSnap(immediate)
+        return super.snapToPage(droppable(whichPage), duration, immediate)
+    }
 
-    override fun scrollLeft() = if (pageLock()) step(-1) else super.scrollLeft()
-    override fun scrollRight() = if (pageLock()) step(1) else super.scrollRight()
+    override fun onPageEndTransition() {
+        super.onPageEndTransition()
+        settle.onEnd(context, nextPage, dragLock)
+    }
+
+    override fun scrollLeft() = if (pageLock()) HermesDragPages.stepSnap(this, -1) else super.scrollLeft()
+    override fun scrollRight() = if (pageLock()) HermesDragPages.stepSnap(this, 1) else super.scrollRight()
 
     override fun addInScreen(child: View, container: Int, screenId: Int, x: Int, y: Int, spanX: Int, spanY: Int) {
         if (HermesDragPages.refuseDesktop(container, screenId)) return
@@ -116,9 +125,7 @@ class HermesWorkspace @JvmOverloads constructor(
 
     override fun removeExtraEmptyScreenDelayed(delay: Int, stripEmptyScreens: Boolean, onComplete: Runnable?) {
         super.removeExtraEmptyScreenDelayed(delay, stripEmptyScreens) {
-            keepDroppableEmpty()
-            unlockDrag()
-            onComplete?.run()
+            keepDroppableEmpty(); unlockDrag(); onComplete?.run()
         }
     }
 
@@ -132,17 +139,10 @@ class HermesWorkspace @JvmOverloads constructor(
     fun homeIndex() = HermesDragPages.homeIndex(this)
 
     private fun pageLock() = HermesDragPages.pageLock(dragLock, Launcher.getLauncher(context))
-
     private fun droppable(page: Int) = HermesDragPages.droppable(pageLock(), this, page)
-
     private fun unlockDrag() {
         dragLock = false
         setCurrentPage(HermesDragPages.stayPage(this, nextPage))
         setWrapPages(wrapWanted)
-    }
-
-    private fun step(delta: Int): Boolean {
-        val next = HermesDragPages.step(this, delta)
-        return next != nextPage && snapToPage(next)
     }
 }

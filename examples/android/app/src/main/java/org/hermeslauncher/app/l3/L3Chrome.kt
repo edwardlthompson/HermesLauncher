@@ -29,7 +29,8 @@ object L3Chrome {
         walk(launcher.workspace) { view ->
             val bubble = view as? BubbleTextView ?: return@walk
             bubble.setTextVisibility(showLabels)
-            bubble.setForceHideDot(!showDots)
+            bubble.setForceHideDot(L3Badge.hideDot(showDots))
+            L3Badge.applyColor(bubble, L3Caches.badgeColor)
             if (labelShadow) {
                 bubble.setShadowLayer(bubble.textSize / 12f, 0f, 1f, 0x80000000.toInt())
             } else {
@@ -39,7 +40,8 @@ object L3Chrome {
         walk(launcher.hotseat) { view ->
             val bubble = view as? BubbleTextView ?: return@walk
             bubble.setTextVisibility(showLabels)
-            bubble.setForceHideDot(!showDots)
+            bubble.setForceHideDot(L3Badge.hideDot(showDots))
+            L3Badge.applyColor(bubble, L3Caches.badgeColor)
         }
     }
 

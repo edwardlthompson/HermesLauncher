@@ -31,7 +31,17 @@ object L3Dock {
             launcher.hotseat.requestLayout()
         }
         val usage = layout.mode == DockMode.USAGE && LivePermissions.usageGranted(launcher)
-        val key = "${layout.mode}:$count:$usage"
+        val assignedKey = layout.assigned.entries.sortedBy { it.key }.joinToString { "${it.key}:${it.value.packageName}" }
+        val key = "${layout.mode}:$count:$usage:$assignedKey"
+        if (layout.mode == DockMode.CUSTOM) {
+            if (key == lastUsageKey) {
+                return
+            }
+            if (pinCustom(launcher, layout, count)) {
+                lastUsageKey = key
+            }
+            return
+        }
         if (!usage) {
             lastUsageKey = key
             return
@@ -58,6 +68,21 @@ object L3Dock {
             val info = store.firstOrNull { match ->
                 match.componentName.packageName == app.packageName
             } ?: return@forEachIndexed
+            bindHotseat(launcher, info, rank)
+        }
+        return true
+    }
+
+    private fun pinCustom(launcher: Launcher, layout: DockLayout, count: Int): Boolean {
+        val store = launcher.appsView.appsStore.apps.toList()
+        if (store.isEmpty()) {
+            return false
+        }
+        for (rank in 0 until count) {
+            val app = layout.assigned[rank] ?: continue
+            val info = store.firstOrNull { match ->
+                match.componentName.packageName == app.packageName
+            } ?: continue
             bindHotseat(launcher, info, rank)
         }
         return true
