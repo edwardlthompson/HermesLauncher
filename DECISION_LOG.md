@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-09-15 — Ship v1.6.1 Home snap to Inbox
+- **Status:** Accepted
+- **Context:** Home on News, Podcasts, or a desktop page often stayed there because Launcher3 only calls `moveToDefaultScreen` when `alreadyOnHome` is true (window focus and no `FLAG_ACTIVITY_BROUGHT_TO_FRONT`). Hermes also used `setCurrentPage` instead of `snapToPage`.
+- **Decision:** Plan the Home press before `super.onNewIntent`; if it is not Inbox Home-again search, `snapToPage(homeIndex())`. Merge RP [#19](https://github.com/edwardlthompson/HermesLauncher/pull/19) only as 1.6.1. Leave Dependabot Android group #17 unmerged (Kotlin cap).
+- **Alternatives considered:** Snap only when already focused (rejected: OxygenOS often sets brought-to-front). Open search from every page (rejected: Inbox-only).
+- **Consequences:** Tag [v1.6.1](https://github.com/edwardlthompson/HermesLauncher/releases/tag/v1.6.1). APK versionName still 1.0.1.
+
 ### 2026-09-15 — Ship v1.6.0 Inbox calm + skip obsolete SDK `tools`
 - **Status:** Accepted
 - **Context:** Sprints 51–53 (calm FilterBar, grant CTA, opaque feeds, a11y, L3 badges/dock) were uncommitted. `/ship` needed a user-facing `feat` so Release Please could cut 1.6.0. The same day Google stopped serving `sdkmanager tools`, so CodeQL and assemble failed on `setup-android@v4` defaults.

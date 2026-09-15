@@ -30,7 +30,7 @@ That command re-smokes **every** ✅ row: no errors or crashes, plus startup tim
 
 **Now:** AGENT/AUTO board empty. Next product work is a new sprint.
 
-> **Sprint 54** archived in COMPLETED_TASKS.md.
+> **Sprint 54** archived in COMPLETED_TASKS.md @ `37225b4`.
 > **Sprint 53** archived in COMPLETED_TASKS.md @ `ccd382d`.
 > **Sprint 52** archived in COMPLETED_TASKS.md @ `ccd382d`.
 > **Sprint 51** archived in COMPLETED_TASKS.md @ `ccd382d`.
