@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-09-15 — Ship v1.6.0 Inbox calm + skip obsolete SDK `tools`
+- **Status:** Accepted
+- **Context:** Sprints 51–53 (calm FilterBar, grant CTA, opaque feeds, a11y, L3 badges/dock) were uncommitted. `/ship` needed a user-facing `feat` so Release Please could cut 1.6.0. The same day Google stopped serving `sdkmanager tools`, so CodeQL and assemble failed on `setup-android@v4` defaults.
+- **Decision:** Commit `feat(android)` then `fix(ci)` with `packages: platform-tools`. Merge RP [#16](https://github.com/edwardlthompson/HermesLauncher/pull/16) only after confirming the title is 1.6.0. Leave `github/codeql-action/*@v4` (upd's `vcodeql-bundle-v2.27.0` is not a real tag).
+- **Alternatives considered:** Apply the upd CodeQL pin (rejected: not a real tag). Wait for setup-android to change its default (rejected: ship was blocked today).
+- **Consequences:** Tag [v1.6.0](https://github.com/edwardlthompson/HermesLauncher/releases/tag/v1.6.0) with SBOM + signed `hermes-launcher-1.0.1-foss.apk`. APK versionName still 1.0.1. KB-026.
+
 ### 2026-09-11 — Cut v1.5.0 after deleting the stale 1.0.0 RP branch
 - **Status:** Accepted
 - **Context:** After `/push` of Sprint 50, Release Please reused `release-please--branches--main` and opened 1.0.0 rewind PRs (#12, #14). Manifest was 1.4.0 with no `v1.4.0` tag. Dependabot #4 wanted Kotlin 2.4.10.

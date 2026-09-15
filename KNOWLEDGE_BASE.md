@@ -211,4 +211,13 @@
 | **Symptom** | Desktop grid 4×5 / 6×6 / 8×8 looks unchanged on a large phone |
 | **Cause** | `L3Look.applyGrid` called `setCurrentGrid` with a named XML profile; devices already on `5_by_5` no-op, and a name change swaps `launcher.db` |
 | **Fix** | `InvariantDeviceProfile.setHermesGrid(cols, rows)` then `reapplyGrid()`; apply after partner overrides and before DeviceProfile construction |
-| **Prevention** | `L3Grid.shouldReapply` when IDP axes ≠ spec; never switch `GRID_NAME` to apply user grid size | |
+| **Prevention** | `L3Grid.shouldReapply` when IDP axes ≠ spec; never switch `GRID_NAME` to apply user grid size |
+
+### KB-026 — `setup-android@v4` default `tools` package is gone
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | CodeQL java-kotlin and `assembleDebug`/`assembleRelease` fail at Setup Android SDK: `Failed to find package 'tools'` |
+| **Cause** | Google stopped serving the legacy `sdkmanager tools` package on 2026-09-15; `android-actions/setup-android@v4` still defaults to `tools platform-tools` |
+| **Fix** | Pass `packages: platform-tools` (skip `tools`); cmdline-tools already come from the action |
+| **Prevention** | Do not re-add default packages; do not apply `upd` tags like `github/codeql-action@vcodeql-bundle-*` |
