@@ -362,6 +362,8 @@ jobs:
           distribution: temurin
           java-version: "17"
       - uses: android-actions/setup-android@v4
+        with:
+          packages: platform-tools
       - name: Accept Android SDK licenses
         run: yes | sdkmanager --licenses
       - name: assembleDebug
@@ -522,6 +524,8 @@ jobs:
           distribution: temurin
           java-version: "17"
       - uses: android-actions/setup-android@v4
+        with:
+          packages: platform-tools
       - name: Accept Android SDK licenses
         run: yes | sdkmanager --licenses
       - name: FOSS compliance grep
