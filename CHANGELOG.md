@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
 ## [1.6.3](https://github.com/edwardlthompson/HermesLauncher/compare/v1.6.2...v1.6.3) (2026-10-04)
 
 
@@ -13,8 +15,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * **android:** add F-Droid changelog for APK 1.0.2 ([83f4a41](https://github.com/edwardlthompson/HermesLauncher/commit/83f4a411d2f7bdb363d6b7af021199b7487dd53e))
 * **android:** stop feed OOM and keep widgets after crash ([ad6c181](https://github.com/edwardlthompson/HermesLauncher/commit/ad6c1815f4f50db4f68ac34fbefd85fe1df3ac02))
-
-## [Unreleased]
 
 ## [1.6.2](https://github.com/edwardlthompson/HermesLauncher/compare/v1.6.1...v1.6.2) (2026-09-15)
 
