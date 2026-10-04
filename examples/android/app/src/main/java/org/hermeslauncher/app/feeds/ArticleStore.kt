@@ -1,6 +1,7 @@
 package org.hermeslauncher.app.feeds
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -51,8 +52,25 @@ class ArticleStore(private val context: Context) {
     }
 
     private suspend fun persist(records: List<ArticleRecord>) {
-        context.articleDataStore.edit { prefs ->
-            prefs[KEY] = ArticleCodec.encode(records)
+        var encoded = runCatching { ArticleCodec.encode(records) }.getOrElse { err ->
+            Log.e(TAG, "encode failed", err)
+            null
         }
+        if (encoded == null) {
+            val purged = FeedFilter.purge(records, System.currentTimeMillis())
+            encoded = runCatching { ArticleCodec.encode(purged) }.getOrElse { err ->
+                Log.e(TAG, "encode after purge failed; keeping prior prefs", err)
+                return
+            }
+        }
+        runCatching {
+            context.articleDataStore.edit { prefs ->
+                prefs[KEY] = encoded
+            }
+        }.onFailure { Log.e(TAG, "datastore edit failed; keeping prior prefs", it) }
+    }
+
+    companion object {
+        private const val TAG = "HermesFeeds"
     }
 }

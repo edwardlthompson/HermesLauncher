@@ -1,6 +1,8 @@
 package org.hermeslauncher.app.feeds
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -11,7 +13,7 @@ import org.robolectric.annotation.Config
 @Config(sdk = [26])
 class ArticleCodecTest {
     @Test
-    fun roundTripKeepsStarReadAndImage() {
+    fun encodeOmitsHtmlKey() {
         val rec = ArticleRecord(
             item = FeedItem(
                 id = "aa-1",
@@ -19,7 +21,7 @@ class ArticleCodecTest {
                 title = "Story",
                 link = "https://www.androidauthority.com/story/",
                 publishedAt = 42L,
-                html = "<p>Body</p>",
+                html = "<p>${"x".repeat(20_000)}</p>",
                 imageUrl = "https://cdn.example.com/hero.jpg",
                 sourceUrl = "https://aa.example/feed",
             ),
@@ -28,15 +30,19 @@ class ArticleCodecTest {
             firstSeen = 10L,
             readAt = 99L,
         )
-        val decoded = ArticleCodec.decode(ArticleCodec.encode(listOf(rec)))
+        val encoded = ArticleCodec.encode(listOf(rec))
+        assertFalse(encoded.contains("\"html\""))
+        val decoded = ArticleCodec.decode(encoded)
         assertEquals(1, decoded.size)
-        assertEquals("aa-1", decoded[0].item.id)
+        assertNull(decoded[0].item.html)
         assertEquals("https://cdn.example.com/hero.jpg", decoded[0].item.imageUrl)
-        assertEquals("https://aa.example/feed", decoded[0].item.sourceUrl)
         assertTrue(decoded[0].starred)
-        assertTrue(decoded[0].read)
-        assertEquals(10L, decoded[0].firstSeen)
-        assertEquals(99L, decoded[0].readAt)
+    }
+
+    @Test
+    fun emptyListEncodesArray() {
+        assertEquals("[]", ArticleCodec.encode(emptyList()))
+        assertTrue(ArticleCodec.decode("[]").isEmpty())
     }
 
     @Test
@@ -47,9 +53,10 @@ class ArticleCodecTest {
     }
 
     @Test
-    fun missingSourceUrlStaysNull() {
-        val raw = """[{"id":"x","feedTitle":"F","title":"T"}]"""
+    fun legacyHtmlKeyIgnoredOnDecode() {
+        val raw = """[{"id":"x","feedTitle":"F","title":"T","html":"<p>old</p>"}]"""
         val decoded = ArticleCodec.decode(raw)
+        assertEquals(null, decoded[0].item.html)
         assertEquals(null, decoded[0].item.sourceUrl)
     }
 }

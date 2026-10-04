@@ -6,16 +6,19 @@ import org.junit.Test
 
 class InboxStickPolicyTest {
     @Test
-    fun atTopOnlyWhenFirstItemAndNoOffset() {
-        assertTrue(InboxStickPolicy.isAtTop(0, 0))
-        assertFalse(InboxStickPolicy.isAtTop(0, 12))
-        assertFalse(InboxStickPolicy.isAtTop(1, 0))
+    fun leaveTopWhileScrollingClearsStick() {
+        assertFalse(InboxStickPolicy.nextStick(true, index = 1, offset = 0, isScrollInProgress = true))
+        assertFalse(InboxStickPolicy.nextStick(true, index = 0, offset = 12, isScrollInProgress = true))
     }
 
     @Test
-    fun pinOnlyWhenStuckToTopAndNewestFirst() {
-        assertTrue(InboxStickPolicy.shouldPinToTop(stickToTop = true, newestFirst = true))
-        assertFalse(InboxStickPolicy.shouldPinToTop(stickToTop = false, newestFirst = true))
-        assertFalse(InboxStickPolicy.shouldPinToTop(stickToTop = true, newestFirst = false))
+    fun atTopAfterScrollSettlesKeepsStick() {
+        assertTrue(InboxStickPolicy.nextStick(false, index = 0, offset = 0, isScrollInProgress = false))
+    }
+
+    @Test
+    fun noPinWhileScrolling() {
+        assertFalse(InboxStickPolicy.shouldScrollToTop(true, newestFirst = true, isScrollInProgress = true))
+        assertTrue(InboxStickPolicy.shouldScrollToTop(true, newestFirst = true, isScrollInProgress = false))
     }
 }

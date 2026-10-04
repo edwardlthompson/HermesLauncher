@@ -44,6 +44,7 @@ fun InboxGroup(
     onPin: (String) -> Unit,
     imageDir: File,
     showDismiss: Boolean = true,
+    showChildren: Boolean = true,
     modifier: Modifier = Modifier,
 ) {
     val pm = LocalContext.current.packageManager
@@ -120,7 +121,7 @@ fun InboxGroup(
                     }
                 }
             }
-            if (expanded) {
+            if (expanded && showChildren) {
                 group.items.forEach { item ->
                     VaultItemCard(
                         item = item,

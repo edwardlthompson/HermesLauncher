@@ -2,13 +2,12 @@ package org.hermeslauncher.app.feeds
 
 import android.content.Context
 import androidx.work.Constraints
+import androidx.work.CoroutineWorker
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import androidx.work.Worker
 import androidx.work.WorkerParameters
-import kotlinx.coroutines.runBlocking
 import org.hermeslauncher.app.HermesApplication
 import java.util.concurrent.TimeUnit
 
@@ -39,16 +38,14 @@ object FeedWork {
     }
 }
 
-class FeedSyncWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
-    override fun doWork(): Result {
+class FeedSyncWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
+    override suspend fun doWork(): Result {
         val app = applicationContext as? HermesApplication ?: return Result.success()
         return runCatching {
-            kotlinx.coroutines.runBlocking {
-                val prefs = app.readerPrefs.settingsFirst()
-                app.feeds.expire()
-                if (FeedSync.allowAuto(app, prefs)) {
-                    app.feeds.refresh()
-                }
+            val prefs = app.readerPrefs.settingsFirst()
+            app.feeds.expire()
+            if (FeedSync.allowAuto(app, prefs)) {
+                app.feeds.refresh()
             }
             Result.success()
         }.getOrDefault(Result.retry())

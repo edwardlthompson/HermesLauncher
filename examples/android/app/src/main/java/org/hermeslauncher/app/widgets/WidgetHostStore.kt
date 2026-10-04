@@ -16,6 +16,7 @@ class WidgetHostStore(private val context: Context) {
     }
 
     suspend fun save(state: WidgetHostState) {
+        org.hermeslauncher.app.l3.HermesGridPin.write(context, state.grid)
         context.widgetDataStore.edit { prefs ->
             prefs[KEY] = WidgetHostCodec.encode(state)
         }

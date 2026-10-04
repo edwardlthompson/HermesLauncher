@@ -1,6 +1,9 @@
 package org.hermeslauncher.app.vault
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.Log
+import java.io.ByteArrayOutputStream
 import java.io.File
 
 object VaultImageStore {
@@ -17,11 +20,38 @@ object VaultImageStore {
         return runCatching {
             dest.parentFile?.mkdirs()
             dest.writeBytes(bytes)
+            writeThumb(dest.parentFile!!, bytes)
             Log.i(TAG, "wrote image $rel bytes=${bytes.size}")
             rel
         }.onFailure { err ->
             Log.w(TAG, "write image failed item=$itemId", err)
         }.getOrNull()
+    }
+
+    fun writeThumb(dir: File, bytes: ByteArray) {
+        runCatching {
+            val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+            BitmapFactory.decodeByteArray(bytes, 0, bytes.size, bounds)
+            var sample = 1
+            val target = 720
+            while (bounds.outWidth / (sample * 2) >= target && bounds.outHeight / (sample * 2) >= 1) {
+                sample *= 2
+            }
+            val opts = BitmapFactory.Options().apply { inSampleSize = sample }
+            val bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.size, opts) ?: return
+            val out = ByteArrayOutputStream()
+            var quality = 85
+            do {
+                out.reset()
+                bmp.compress(Bitmap.CompressFormat.JPEG, quality, out)
+                quality -= 10
+            } while (out.size() > ImageLimits.THUMB_MAX_BYTES && quality >= 40)
+            val thumb = File(dir, "thumb.jpg")
+            if (out.size() <= ImageLimits.THUMB_MAX_BYTES) {
+                thumb.writeBytes(out.toByteArray())
+            }
+            bmp.recycle()
+        }
     }
 
     fun attach(
@@ -53,5 +83,11 @@ object VaultImageStore {
         }
         val dest = File(filesDir, rel)
         return dest.takeIf { it.isFile }
+    }
+
+    fun displayFile(filesDir: File, rel: String?): File? {
+        val original = file(filesDir, rel) ?: return null
+        val thumb = File(original.parentFile, "thumb.jpg")
+        return if (thumb.isFile) thumb else original
     }
 }

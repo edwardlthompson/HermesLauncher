@@ -2,13 +2,11 @@ package org.hermeslauncher.app.feeds
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.withContext
-import org.hermeslauncher.app.HermesApplication
 
 class FeedRepository(
     private val context: Context,
@@ -41,59 +39,21 @@ class FeedRepository(
     }
 
     suspend fun refresh() {
-        busy.value = true
-        try {
-            ArticleThumb.purgeLegacyThumbs(context.filesDir)
-            store.seedIfNeeded()
-            val subs = store.snapshot().sortedBy { sub -> if (sub.kind == SubKind.PODCAST) 0 else 1 }
-            val urls = subs.map { FeedDiscover.canonicalize(it.url) }.distinct()
-            if (urls.toSet() != store.snapshot().map { it.url }.toSet()) {
-                store.replaceAll(urls)
-            }
-            val now = System.currentTimeMillis()
-            val before = articles.snapshot()
-            val errors = mutableMapOf<String, String?>()
-            val xmls = mutableMapOf<String, String?>()
-            val fetched = mutableListOf<FeedItem>()
-            var shown = before
-            withContext(Dispatchers.IO) {
-                for (url in urls) {
-                    val outcome = FeedFetch.items(url)
-                    errors[url] = outcome.error
-                    xmls[url] = outcome.xml
-                    fetched += outcome.items
-                    shown = FeedFilter.merge(before, MixPolicy.withinWindow(fetched, now), now)
-                    articles.replaceAll(shown)
-                    items.value = shown.map { it.item }
-                }
-            }
-            for (sub in store.snapshot()) {
-                var next = sub
-                if (sub.url in errors) {
-                    next = next.copy(lastError = errors[sub.url])
-                }
-                next = FeedKindSync.afterFetch(next, xmls[sub.url])
-                if (next != sub) {
-                    store.upsert(next)
-                }
-            }
-            val filled = withContext(Dispatchers.IO) { ArticleEnrich.fillRecords(shown) }
-            FeedFull.deleteIds(context.filesDir, FeedFilter.droppedIds(before, filled))
-            articles.replaceAll(filled)
-            items.value = filled.map { it.item }
-            failed.value = urls.isNotEmpty() && fetched.isEmpty()
-            val prefs = (context.applicationContext as? HermesApplication)?.readerPrefs?.settingsFirst() ?: ReaderSettings()
-            val live = store.snapshot()
-            if (FeedSync.allowDownload(context, prefs)) {
+        FeedRefreshGate.runOrSkip {
+            busy.value = true
+            try {
                 withContext(Dispatchers.IO) {
-                    FeedFull.prefetch(context.filesDir, filled, true, live.filter { it.prefetch }.map { it.url }.toSet())
-                    PodcastAudio.prefetch(context.filesDir, filled, live, FeedSync.allowImages(context, prefs))
+                    FeedRefresh.run(
+                        context,
+                        store,
+                        articles,
+                        publishItems = { items.value = it },
+                        publishFailed = { failed.value = it },
+                    )
                 }
+            } finally {
+                busy.value = false
             }
-            FeedNotify.post(context, FeedNotify.newUnread(before, filled, live.filter { it.notify }.map { it.url }.toSet()))
-            Log.i(TAG, "refresh urls=${urls.size} items=${items.value.size}")
-        } finally {
-            busy.value = false
         }
     }
 
@@ -130,9 +90,5 @@ class FeedRepository(
         FeedFull.deleteIds(context.filesDir, FeedFilter.droppedIds(before, next))
         articles.replaceAll(next)
         items.value = next.map { it.item }
-    }
-
-    companion object {
-        private const val TAG = "HermesFeeds"
     }
 }

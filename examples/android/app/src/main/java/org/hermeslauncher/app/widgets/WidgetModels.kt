@@ -136,13 +136,3 @@ data class WidgetHostState(
         const val DEFAULT_WIDGET_PAGES: Int = 1
     }
 }
-
-object WidgetHostIds {
-    const val HOST_ID: Int = 1024
-}
-
-object WidgetBindPolicy {
-    fun canRecord(appWidgetId: Int): Boolean {
-        return appWidgetId > 0
-    }
-}

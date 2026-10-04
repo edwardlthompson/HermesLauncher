@@ -21,13 +21,16 @@ import androidx.compose.ui.semantics.semantics
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.hermeslauncher.app.HermesApplication
 import org.hermeslauncher.app.R
 import org.hermeslauncher.app.feeds.ArticleOpen
 import org.hermeslauncher.app.feeds.ArticleRecord
 import org.hermeslauncher.app.feeds.ArticleTarget
 import org.hermeslauncher.app.feeds.FeedFilter
+import org.hermeslauncher.app.feeds.FeedPersistPolicy
 import org.hermeslauncher.app.feeds.FeedQuery
+import org.hermeslauncher.app.feeds.FeedRefreshClock
 import org.hermeslauncher.app.feeds.FeedSync
 import org.hermeslauncher.app.feeds.ReaderSettings
 import org.hermeslauncher.app.feeds.SubKind
@@ -52,8 +55,15 @@ fun HermesNewsPage(
     val prefs by app.readerPrefs.settings.collectAsStateWithLifecycle(ReaderSettings())
     val subs by app.feedStore.subs.collectAsStateWithLifecycle(emptyList())
     val pending by app.pendingArticleId.collectAsStateWithLifecycle(null)
-    LaunchedEffect(app, prefs.refreshOnOpen) {
-        if (prefs.refreshOnOpen && FeedSync.allowAuto(context, prefs)) {
+    LaunchedEffect(app, prefs.refreshOnOpen, prefs.scanMinutes) {
+        if (!prefs.refreshOnOpen || !FeedSync.allowAuto(context, prefs)) {
+            return@LaunchedEffect
+        }
+        val last = FeedRefreshClock.lastRefreshAt(context)
+        if (!FeedPersistPolicy.shouldRefreshOnOpen(last, System.currentTimeMillis(), prefs.scanMinutes)) {
+            return@LaunchedEffect
+        }
+        withContext(Dispatchers.IO) {
             app.feeds.refresh()
         }
     }

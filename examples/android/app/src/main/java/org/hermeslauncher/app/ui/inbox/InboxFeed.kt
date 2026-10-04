@@ -32,7 +32,6 @@ import org.hermeslauncher.app.ui.scroll.LazyScrubBar
 import org.hermeslauncher.app.ui.scroll.scrubGutter
 import org.hermeslauncher.app.ui.theme.MotionPrefs
 import org.hermeslauncher.app.ui.theme.SpacingMd
-import org.hermeslauncher.app.vault.InboxAppGroup
 import org.hermeslauncher.app.vault.InboxChip
 import org.hermeslauncher.app.vault.InboxEmpty
 import org.hermeslauncher.app.vault.InboxFilter
@@ -71,6 +70,7 @@ fun InboxFeed(
         historyEmpty = history.isEmpty(),
         hasVisibleFeeds = showFeeds && feedHits.isNotEmpty(),
     )
+    var expandedKeys by rememberSaveable { mutableStateOf(setOf<String>()) }
     LaunchedEffect(query.layout, query.newestFirst, query.chip, query.packageName) {
         listState.scrollToItem(0)
     }
@@ -104,6 +104,10 @@ fun InboxFeed(
                 showDismiss = true,
                 keyPrefix = "live",
                 reduced = reduced,
+                expandedKeys = expandedKeys,
+                onToggleGroup = { key ->
+                    expandedKeys = if (key in expandedKeys) expandedKeys - key else expandedKeys + key
+                },
             )
             if (searching && history.isNotEmpty()) {
                 item(key = "history-header") {
@@ -129,6 +133,10 @@ fun InboxFeed(
                     showDismiss = false,
                     keyPrefix = "hist",
                     reduced = reduced,
+                    expandedKeys = expandedKeys,
+                    onToggleGroup = { key ->
+                        expandedKeys = if (key in expandedKeys) expandedKeys - key else expandedKeys + key
+                    },
                 )
             }
             }
@@ -151,6 +159,8 @@ private fun LazyListScope.inboxSection(
     showDismiss: Boolean,
     keyPrefix: String,
     reduced: Boolean,
+    expandedKeys: Set<String>,
+    onToggleGroup: (String) -> Unit,
 ) {
     when (query.layout) {
         InboxLayout.TIME -> {
@@ -175,18 +185,42 @@ private fun LazyListScope.inboxSection(
             } else {
                 InboxFilter.groups(items, query.newestFirst)
             }
-            items(groups, key = { "$keyPrefix:${it.displayLabel ?: it.packageName}" }) { group ->
-                GroupBlock(
-                    group = group,
-                    onDismissGroup = { onDismissGroup(group.items.map { it.id }) },
-                    onDismissItem = onDismiss,
-                    onOpenItem = onOpen,
-                    onAction = onAction,
-                    onPin = onPin,
-                    imageDir = imageDir,
-                    showDismiss = showDismiss,
-                    modifier = rowModifier(reduced),
-                )
+            val rows = InboxGroupRows.flatten(groups, expandedKeys)
+            items(rows, key = { row ->
+                when (row) {
+                    is InboxGroupRow.Header -> "$keyPrefix:h:${InboxGroupRows.groupKey(row.group)}"
+                    is InboxGroupRow.Child -> "$keyPrefix:c:${row.item.id}"
+                }
+            }) { row ->
+                when (row) {
+                    is InboxGroupRow.Header -> {
+                        val key = InboxGroupRows.groupKey(row.group)
+                        InboxGroup(
+                            group = row.group,
+                            expanded = row.expanded,
+                            onToggle = { onToggleGroup(key) },
+                            onDismissGroup = { onDismissGroup(row.group.items.map { it.id }) },
+                            onDismissItem = onDismiss,
+                            onOpenItem = onOpen,
+                            onAction = onAction,
+                            onPin = onPin,
+                            imageDir = imageDir,
+                            showDismiss = showDismiss,
+                            showChildren = false,
+                            modifier = Modifier.padding(horizontal = SpacingMd),
+                        )
+                    }
+                    is InboxGroupRow.Child -> VaultItemCard(
+                        item = row.item,
+                        imageDir = imageDir,
+                        showDismiss = showDismiss,
+                        onDismiss = { onDismiss(row.item.id) },
+                        onPin = { onPin(row.item.id) },
+                        onOpen = { onOpen(row.item.id) },
+                        onAction = { index -> onAction(row.item.id, index) },
+                        modifier = Modifier.padding(horizontal = SpacingMd),
+                    )
+                }
             }
             if (query.layout == InboxLayout.APP && feeds.isNotEmpty()) {
                 items(feeds, key = { "$keyPrefix:f:${it.id}" }) { item ->
@@ -201,34 +235,6 @@ private fun LazyListScope.inboxSection(
             }
         }
     }
-}
-
-@Composable
-private fun GroupBlock(
-    group: InboxAppGroup,
-    onDismissGroup: () -> Unit,
-    onDismissItem: (String) -> Unit,
-    onOpenItem: (String) -> Unit,
-    onAction: (String, Int) -> Unit,
-    onPin: (String) -> Unit,
-    imageDir: File,
-    showDismiss: Boolean,
-    modifier: Modifier = Modifier,
-) {
-    var expanded by rememberSaveable(group.packageName, group.displayLabel) { mutableStateOf(false) }
-    InboxGroup(
-        group = group,
-        expanded = expanded,
-        onToggle = { expanded = !expanded },
-        onDismissGroup = onDismissGroup,
-        onDismissItem = onDismissItem,
-        onOpenItem = onOpenItem,
-        onAction = onAction,
-        onPin = onPin,
-        imageDir = imageDir,
-        showDismiss = showDismiss,
-        modifier = modifier,
-    )
 }
 
 @Composable

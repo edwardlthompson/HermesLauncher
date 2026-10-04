@@ -79,6 +79,7 @@ class HermesApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        org.hermeslauncher.app.l3.HermesGridPin.applyPinned(this)
         inboxPrefs = InboxPrefs(this)
         homePrefs = HomePrefs(this)
         pagedPrefs = PagedPrefs(this)
@@ -92,6 +93,9 @@ class HermesApplication : Application() {
         }
         widgetHost = HermesAppWidgetHost(this)
         widgetStore = WidgetHostStore(this)
+        vaultScope.launch {
+            org.hermeslauncher.app.widgets.ComposeHostMigration.runIfNeeded(this@HermesApplication, widgetStore)
+        }
         desktopStore = DesktopStore(this)
         folderPrefs = FolderPrefs(this)
         dockStore = DockStore(this)

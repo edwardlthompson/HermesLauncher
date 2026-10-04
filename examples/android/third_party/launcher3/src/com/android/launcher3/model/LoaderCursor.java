@@ -475,6 +475,10 @@ public class LoaderCursor extends CursorWrapper {
         }
         if (checkItemPlacement(info)) {
             dataModel.addItem(mContext, info, false, logger);
+        } else if (info.itemType == Favorites.ITEM_TYPE_APPWIDGET) {
+            // Hermes: never hard-delete desktop widgets on bounds/overlap races.
+            // Grid pin + DesktopReflow should place them; skip add for this load only.
+            FileLog.e(TAG, "Skipping out-of-bounds appwidget without delete id=" + info.id);
         } else {
             markDeleted("Item position overlap");
         }

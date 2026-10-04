@@ -9,6 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.platform.LocalContext
+import kotlinx.coroutines.flow.distinctUntilChanged
 import org.hermeslauncher.app.ui.theme.MotionPrefs
 
 object InboxStickPolicy {
@@ -16,6 +17,30 @@ object InboxStickPolicy {
 
     fun shouldPinToTop(stickToTop: Boolean, newestFirst: Boolean): Boolean {
         return stickToTop && newestFirst
+    }
+
+    /** Clear stick as soon as the list leaves the top, even while a fling is in progress. */
+    fun nextStick(
+        stickToTop: Boolean,
+        index: Int,
+        offset: Int,
+        isScrollInProgress: Boolean,
+    ): Boolean {
+        if (!isAtTop(index, offset)) {
+            return false
+        }
+        if (!isScrollInProgress) {
+            return true
+        }
+        return stickToTop
+    }
+
+    fun shouldScrollToTop(
+        stickToTop: Boolean,
+        newestFirst: Boolean,
+        isScrollInProgress: Boolean,
+    ): Boolean {
+        return shouldPinToTop(stickToTop, newestFirst) && !isScrollInProgress
     }
 }
 
@@ -35,17 +60,18 @@ fun InboxStickToTop(
         )
     }
     LaunchedEffect(listState) {
-        snapshotFlow { listState.isScrollInProgress }.collect { dragging ->
-            if (!dragging) {
-                stickToTop = InboxStickPolicy.isAtTop(
-                    listState.firstVisibleItemIndex,
-                    listState.firstVisibleItemScrollOffset,
-                )
-            }
+        snapshotFlow {
+            Triple(
+                listState.isScrollInProgress,
+                listState.firstVisibleItemIndex,
+                listState.firstVisibleItemScrollOffset,
+            )
+        }.distinctUntilChanged().collect { (scrolling, index, offset) ->
+            stickToTop = InboxStickPolicy.nextStick(stickToTop, index, offset, scrolling)
         }
     }
-    LaunchedEffect(revision, newestFirst, stickToTop, reduced) {
-        if (InboxStickPolicy.shouldPinToTop(stickToTop, newestFirst)) {
+    LaunchedEffect(revision, newestFirst, stickToTop, reduced, listState.isScrollInProgress) {
+        if (InboxStickPolicy.shouldScrollToTop(stickToTop, newestFirst, listState.isScrollInProgress)) {
             if (MotionPrefs.animateScroll(reduced)) {
                 listState.animateScrollToItem(0)
             } else {

@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-10-04 — Crash stability: omit HTML persist, pin grid, no widget delete
+- **Status:** Accepted
+- **Context:** OP13 dropbox showed `OutOfMemoryError` in `ArticleCodec.encode` during News `refreshOnOpen`. Process death reset IDP to the XML profile; Compose then applied 4×5 and LoaderCursor deleted out-of-bounds APPWIDGET favorites.
+- **Decision:** Persist articles without `html` (bodies in `FeedFull`); single-flight IO refresh with one DataStore write; pin grid cols/rows via sync SharedPreferences in `Application.onCreate`; reflow overflow cells; never `markDeleted` APPWIDGET on bounds fail; Compose host id `2048`.
+- **Alternatives considered:** Keep HTML snippets in DataStore (rejected: OOM). Soft-delete widgets to a trash screen only (rejected: reflow preserves layout better). Leave Compose host on 1024 (rejected: host collision risk with L3).
+- **Consequences:** Sprint 50 tests + OP12/OP13 `install -r` / force-stop smoke. Spec `docs/features/crash-stability.md`.
+
 ### 2026-09-15 — Ship v1.6.2 Home from apps restores last page
 - **Status:** Accepted
 - **Context:** v1.6.1 snapped to Inbox on every `ACTION_MAIN`, including Home from Chrome. Users wanted last-page restore when leaving other apps.

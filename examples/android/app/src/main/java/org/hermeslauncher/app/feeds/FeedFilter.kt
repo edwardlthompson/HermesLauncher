@@ -72,7 +72,8 @@ object FeedFilter {
             val prev = byId[item.id]
             byId[item.id] = ArticleRecord(
                 item = item.copy(
-                    html = item.html ?: prev?.item?.html,
+                    // Persist path omits html; keep only fresh RSS snippet in memory until strip.
+                    html = item.html,
                     imageUrl = item.imageUrl ?: prev?.item?.imageUrl,
                     sourceUrl = item.sourceUrl ?: prev?.item?.sourceUrl,
                 ),

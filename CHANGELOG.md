@@ -10,7 +10,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.6.2](https://github.com/edwardlthompson/HermesLauncher/compare/v1.6.1...v1.6.2) (2026-09-15)
 
-
 ### Fixed
 
 * **android:** restore last workspace page when Home from other apps ([6c1e462](https://github.com/edwardlthompson/HermesLauncher/commit/6c1e462330a096274e525e5a88cd62b898b95d61))

@@ -1,6 +1,5 @@
 package org.hermeslauncher.app.ui.inbox
 
-import android.graphics.BitmapFactory
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.combinedClickable
@@ -26,7 +25,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -68,8 +71,10 @@ fun InboxCard(
     modifier: Modifier = Modifier,
 ) {
     val shownBody = InboxDisplay.truncate(body, bodyMaxChars)
-    val bitmap = remember(imageFile?.path, imageFile?.length(), minImagePx, imageIsLargeIcon) {
-        imageFile?.takeIf { it.isFile }?.let { BitmapFactory.decodeFile(it.absolutePath) }
+    var bitmap by remember(imageFile?.path, imageFile?.length()) { mutableStateOf<ImageBitmap?>(null) }
+    LaunchedEffect(imageFile?.path, imageFile?.length(), minImagePx, imageIsLargeIcon) {
+        val decoded = InboxImageDecode.decodeAsync(imageFile)
+        bitmap = decoded
             ?.takeIf {
                 InboxDisplay.keepImage(
                     width = it.width,
@@ -79,6 +84,7 @@ fun InboxCard(
                     minPx = if (minImagePx > 0) minImagePx else InboxDisplay.MIN_IMAGE_PX,
                 )
             }
+            ?.asImageBitmap()
     }
     Card(
         modifier = modifier
@@ -187,7 +193,8 @@ fun InboxCard(
                     }
                 }
             }
-            if (bitmap != null) {
+            val preview = bitmap
+            if (preview != null) {
                 BoxWithConstraints(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -195,11 +202,11 @@ fun InboxCard(
                         .clip(RoundedCornerShape(RadiusMd)),
                 ) {
                     val maxH = 480.dp
-                    val ratio = bitmap.width.toFloat() / bitmap.height.coerceAtLeast(1).toFloat()
+                    val ratio = preview.width.toFloat() / preview.height.coerceAtLeast(1).toFloat()
                     val fitted = maxWidth / ratio
                     val height = if (fitted > maxH) maxH else fitted
                     Image(
-                        bitmap = bitmap.asImageBitmap(),
+                        bitmap = preview,
                         contentDescription = stringResource(R.string.inbox_preview),
                         modifier = Modifier
                             .fillMaxWidth()

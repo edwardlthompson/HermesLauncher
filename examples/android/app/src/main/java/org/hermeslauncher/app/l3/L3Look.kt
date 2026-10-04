@@ -6,6 +6,7 @@ import com.android.launcher3.LauncherAppState
 import com.android.launcher3.LauncherPrefs
 import com.android.launcher3.graphics.IconShape
 import com.android.launcher3.icons.IconCache
+import com.android.launcher3.util.Executors
 import org.hermeslauncher.app.icons.IconPackId
 import org.hermeslauncher.app.icons.IconPackResources
 import org.hermeslauncher.app.icons.IconPlate
@@ -16,12 +17,16 @@ import org.hermeslauncher.app.widgets.WidgetGridSpec
 object L3Look {
     fun applyGrid(launcher: Launcher, spec: WidgetGridSpec) {
         val grid = spec.clamped()
+        HermesGridPin.write(launcher, grid)
         InvariantDeviceProfile.setHermesGrid(grid.columns, grid.rows)
         val idp = InvariantDeviceProfile.INSTANCE.get(launcher)
         if (!L3Grid.shouldReapply(idp.numColumns, idp.numRows, grid)) {
             return
         }
-        idp.reapplyGrid(launcher)
+        Executors.MODEL_EXECUTOR.execute {
+            runCatching { DesktopReflowDb.applyToDb(launcher, grid) }
+            idp.reapplyGrid(launcher)
+        }
     }
 
     fun applyShape(launcher: Launcher, shape: HermesShape) {

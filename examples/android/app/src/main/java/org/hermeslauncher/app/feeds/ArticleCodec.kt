@@ -17,7 +17,7 @@ object ArticleCodec {
                     .put("publishedAt", item.publishedAt)
                     .put("enclosureUrl", item.enclosureUrl ?: JSONObject.NULL)
                     .put("enclosureMime", item.enclosureMime ?: JSONObject.NULL)
-                    .put("html", item.html?.take(20_000) ?: JSONObject.NULL)
+                    // Full HTML lives in FeedFull files — never inflate DataStore.
                     .put("imageUrl", item.imageUrl ?: JSONObject.NULL)
                     .put("sourceUrl", item.sourceUrl ?: JSONObject.NULL)
                     .put("starred", rec.starred)
@@ -48,7 +48,7 @@ object ArticleCodec {
                                 publishedAt = obj.optLong("publishedAt"),
                                 enclosureUrl = obj.stringOrNull("enclosureUrl"),
                                 enclosureMime = obj.stringOrNull("enclosureMime"),
-                                html = obj.stringOrNull("html"),
+                                html = null,
                                 imageUrl = obj.stringOrNull("imageUrl"),
                                 sourceUrl = obj.stringOrNull("sourceUrl"),
                             ),

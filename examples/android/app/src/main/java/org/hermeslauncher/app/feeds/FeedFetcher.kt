@@ -14,7 +14,7 @@ object FeedFetcher {
         return (scheme == "http" || scheme == "https") && !uri.host.isNullOrBlank()
     }
 
-    fun fetchXml(url: String): String {
+    fun fetchXml(url: String, maxBytes: Int = FeedPersistPolicy.MAX_XML_BYTES): String {
         require(isHttpUrl(url)) { "not_http" }
         val connection = URI(url.trim()).toURL().openConnection() as HttpURLConnection
         return try {
@@ -28,12 +28,18 @@ object FeedFetcher {
                 "application/rss+xml, application/atom+xml, application/feed+json, application/json, application/xml, text/xml, text/html;q=0.8,*/*;q=0.5",
             )
             val code = connection.responseCode
-            val stream = if (code in 200..299) connection.inputStream else connection.errorStream
-            val body = stream?.bufferedReader()?.use { it.readText() }.orEmpty()
             if (code !in 200..299) {
                 throw java.io.IOException("http_$code")
             }
-            body
+            val length = connection.contentLength
+            if (length > maxBytes) {
+                throw java.io.IOException("too_large")
+            }
+            val bytes = connection.inputStream.use { it.readBytes() }
+            if (bytes.size > maxBytes) {
+                throw java.io.IOException("too_large")
+            }
+            bytes.toString(Charsets.UTF_8)
         } finally {
             connection.disconnect()
         }
