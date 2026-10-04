@@ -7,7 +7,7 @@
 
 | Layer | Technology | Version | Notes |
 |-------|-----------|---------|-------|
-| Platform | Android (min 26, target 37), Kotlin, Jetpack Compose Material 3 | 1.0.1 | Child of agent-project-bootstrap 1.4.0; APK versionName 1.0.1 / versionCode 101 |
+| Platform | Android (min 26, target 37), Kotlin, Jetpack Compose Material 3 | 1.0.2 | Child of agent-project-bootstrap 1.4.0; APK versionName 1.0.2 / versionCode 102 |
 | License | MIT | - | Pure FOSS |
 | Persistence | Room + SQLCipher (`hermes-vault-cipher.db`) + Android Keystore | 4.16.0 | Plaintext vault migrates; rebuild-required copy on failure |
 | Distribution | GitHub Releases + F-Droid | - | Reproducible APKs (`SOURCE_DATE_EPOCH`) |
@@ -40,7 +40,7 @@ Hermes Launcher: FOSS Android home-screen inbox for notifications, news, and pod
 
 ## Session Retrospectives
 
-| 2026-10-04 | /ship Sprint 50 | Feed OOM fix; grid pin + reflow; inbox jank; OP12/OP13 `install -r`; crash-stability spec | Never uninstall Hermes HOME; skip bogus CodeQL bundle tags from upd; APK versionName still 1.0.1 until next product bump |
+| 2026-10-04 | /ship Sprint 50 | APK 1.0.2; feed OOM fix; grid pin + reflow; inbox jank; OP12/OP13 `install -r`; crash-stability spec | Never uninstall Hermes HOME; skip bogus CodeQL bundle tags from upd |
 | 2026-09-15 | /ship v1.6.2 | Tag [v1.6.2](https://github.com/edwardlthompson/HermesLauncher/releases/tag/v1.6.2); RP [#20](https://github.com/edwardlthompson/HermesLauncher/pull/20); Home from apps restores last page; OP12+OP13 signed sideload. | Snap only when Hermes has window focus (KB-027); leave Dependabot #17/#18 unmerged |
 | 2026-09-15 | /ship v1.6.1 | Tag [v1.6.1](https://github.com/edwardlthompson/HermesLauncher/releases/tag/v1.6.1); RP [#19](https://github.com/edwardlthompson/HermesLauncher/pull/19); Home from News/desktop snaps to Inbox; OP12+OP13 signed sideload. | Do not merge Dependabot Android group #17 (Kotlin cap); leave `codeql-action@v4` |
 | 2026-09-15 | /ship v1.6.0 | Tag [v1.6.0](https://github.com/edwardlthompson/HermesLauncher/releases/tag/v1.6.0); RP [#16](https://github.com/edwardlthompson/HermesLauncher/pull/16); Inbox calm + grant CTA; OP12+OP13 signed sideload. | Pin `setup-android@v4` `packages: platform-tools` (KB-026); do not apply `upd` CodeQL tag `vcodeql-bundle-*`; APK versionName still 1.0.1 |
