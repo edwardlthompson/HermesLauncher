@@ -1,0 +1,1 @@
+1.0.2: Feed refresh no longer crashes with OutOfMemoryError. Desktop widgets survive process death (grid pin + safe reflow). Inbox scroll and image decode are smoother. Install with adb install -r; keep Hermes as HOME.
