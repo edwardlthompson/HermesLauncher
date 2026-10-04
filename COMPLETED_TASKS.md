@@ -2,6 +2,14 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## Crash stability ship — APK 1.0.2 / tag v1.6.3 (2026-10-04)
+
+- ✅ [AGENT] Feed persist omit html, single-flight refresh, IO, caps, CoroutineWorker (`docs/features/crash-stability.md`)
+- ✅ [AGENT] Grid pin, DesktopReflow, LoaderCursor APPWIDGET no-delete, Compose host 2048
+- ✅ [AGENT] Inbox async decode, stick-while-scroll, flatten expanded groups
+- ✅ [AGENT] Unit tests + `watch-agent-gates --once --autofix --scope auto`
+- ✅ [ADB] OP13/OP12: signed `install -r`; dropbox quiet; widgets survive `force-stop`
+
 ## Sprint 54 — Home snap (2026-09-15)
 
 - ✅ [AGENT] Home on any workspace page snaps to Inbox
