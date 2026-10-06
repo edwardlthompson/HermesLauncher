@@ -28,6 +28,15 @@ class HermesScreensTest {
     }
 
     @Test
+    fun newsIndexIsAfterPodcasts() {
+        assertEquals(0, HermesScreens.newsPageIndex(0))
+        assertEquals(0, HermesScreens.newsPageIndex(1))
+        assertEquals(1, HermesScreens.newsPageIndex(2))
+        assertEquals(1, HermesScreens.newsPageIndex(3))
+        assertEquals(1, HermesScreens.newsPageIndex(5))
+    }
+
+    @Test
     fun reservedPagesRejectDrops() {
         assertFalse(HermesScreens.canDrop(HermesScreens.PODCASTS))
         assertFalse(HermesScreens.canDrop(HermesScreens.NEWS))

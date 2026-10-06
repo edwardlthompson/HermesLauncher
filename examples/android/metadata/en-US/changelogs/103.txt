@@ -1,0 +1,1 @@
+1.0.3: Feed notification taps open the News page (not Podcasts). Install with adb install -r; keep Hermes as HOME.

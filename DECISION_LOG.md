@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-10-06 — Feed notify deep-link snaps to News
+- **Status:** Accepted
+- **Context:** RSS feed notifications opened Podcasts (workspace page 0) instead of News when carrying `EXTRA_ARTICLE_ID`.
+- **Decision:** Add `newsIndex` / `newsPageIndex`; `handleArticleExtra` and `finishBindingItems` snap to News when an article id is pending.
+- **Alternatives considered:** Hardcode page index 1 (rejected: reserved-page order can shift). Leave bind race to later UI tick only (rejected: finishBindingItems was snapping home/podcasts after pending set).
+- **Consequences:** APK 1.0.3 / versionCode 103; unit tests on drag/screens news index.
+
 ### 2026-10-04 — Crash stability: omit HTML persist, pin grid, no widget delete
 - **Status:** Accepted
 - **Context:** OP13 dropbox showed `OutOfMemoryError` in `ArticleCodec.encode` during News `refreshOnOpen`. Process death reset IDP to the XML profile; Compose then applied 4×5 and LoaderCursor deleted out-of-bounds APPWIDGET favorites.

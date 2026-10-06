@@ -23,4 +23,12 @@ object HermesScreens {
         }
         return 2
     }
+
+    /** News is index 1 when Podcasts+News(+Inbox) are present; else 0. */
+    fun newsPageIndex(pageCount: Int): Int {
+        if (pageCount <= 1) {
+            return 0
+        }
+        return 1
+    }
 }

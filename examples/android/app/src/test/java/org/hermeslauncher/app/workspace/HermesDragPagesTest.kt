@@ -27,4 +27,17 @@ class HermesDragPagesTest {
         assertEquals(3, HermesDragPages.droppable(true, afterRemove, 0, extra))
         assertEquals(3, HermesDragPages.droppable(false, afterRemove, 4, extra))
     }
+
+    @Test
+    fun newsIndexIsNewsScreenNotPodcasts() {
+        assertEquals(1, HermesDragPages.newsIndex(screens))
+        assertEquals(
+            1,
+            HermesDragPages.newsIndex(
+                listOf(HermesScreens.PODCASTS, HermesScreens.NEWS, HermesScreens.INBOX),
+            ),
+        )
+        assertEquals(0, HermesDragPages.newsIndex(emptyList()))
+        assertEquals(0, HermesDragPages.newsIndex(listOf(0)))
+    }
 }

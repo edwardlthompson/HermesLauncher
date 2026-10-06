@@ -73,7 +73,8 @@ class HermesLauncherActivity : Launcher() {
     private fun handleArticleExtra(intent: Intent?) {
         val id = intent?.getStringExtra(org.hermeslauncher.app.feeds.FeedNotify.EXTRA_ARTICLE_ID) ?: return
         (application as HermesApplication).pendingArticleId.value = id
-        runCatching { workspace.snapToPage(0) }
+        val news = (workspace as? HermesWorkspace)?.newsIndex() ?: 1
+        runCatching { workspace.snapToPage(news) }
     }
 
     override fun getDefaultOverlay(): LauncherOverlayManager {
@@ -88,8 +89,14 @@ class HermesLauncherActivity : Launcher() {
     override fun finishBindingItems(pagesBoundFirst: IntSet) {
         super.finishBindingItems(pagesBoundFirst)
         (workspace as HermesWorkspace).keepDroppableEmpty()
-        val home = (workspace as? HermesWorkspace)?.homeIndex() ?: 0
-        workspace.setCurrentPage(home)
+        val ws = workspace as? HermesWorkspace
+        val pending = (application as HermesApplication).pendingArticleId.value
+        val page = if (pending != null) {
+            ws?.newsIndex() ?: 1
+        } else {
+            ws?.homeIndex() ?: 0
+        }
+        workspace.setCurrentPage(page)
         L3WidgetTick.poke(this)
     }
 
