@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.4](https://github.com/edwardlthompson/HermesLauncher/compare/v1.6.3...v1.6.4) (2026-10-06)
+
+
+### Fixed
+
+* **android:** open News page from feed notifications ([4ff508a](https://github.com/edwardlthompson/HermesLauncher/commit/4ff508a93ba5c39d286e8492a5fab35bb35ba314))
+
 ## [1.6.3](https://github.com/edwardlthompson/HermesLauncher/compare/v1.6.2...v1.6.3) (2026-10-04)
 
 
