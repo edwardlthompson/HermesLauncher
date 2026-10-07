@@ -31,4 +31,12 @@ object HermesScreens {
         }
         return 1
     }
+
+    /** Podcasts is index 0 when reserved pages are present. */
+    fun podcastPageIndex(pageCount: Int): Int {
+        if (pageCount <= 0) {
+            return 0
+        }
+        return 0
+    }
 }

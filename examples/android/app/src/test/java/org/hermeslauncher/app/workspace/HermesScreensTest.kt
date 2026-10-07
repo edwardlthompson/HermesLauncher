@@ -37,6 +37,14 @@ class HermesScreensTest {
     }
 
     @Test
+    fun podcastIndexIsLeftmostReserved() {
+        assertEquals(0, HermesScreens.podcastPageIndex(0))
+        assertEquals(0, HermesScreens.podcastPageIndex(1))
+        assertEquals(0, HermesScreens.podcastPageIndex(3))
+        assertEquals(0, HermesScreens.podcastPageIndex(5))
+    }
+
+    @Test
     fun reservedPagesRejectDrops() {
         assertFalse(HermesScreens.canDrop(HermesScreens.PODCASTS))
         assertFalse(HermesScreens.canDrop(HermesScreens.NEWS))

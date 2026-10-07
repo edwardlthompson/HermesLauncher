@@ -61,6 +61,17 @@ object HermesDragPages {
         return if (idx >= 0) idx else HermesScreens.newsPageIndex(screenIds.size)
     }
 
+    fun podcastIndex(ws: Workspace<*>): Int {
+        val pods = ws.getPageIndexForScreenId(HermesScreens.PODCASTS)
+        return if (pods >= 0) pods else HermesScreens.podcastPageIndex(ws.pageCount)
+    }
+
+    /** Pure index of Podcasts in a screen-id list (for tests + offline resolve). */
+    fun podcastIndex(screenIds: List<Int>): Int {
+        val idx = screenIds.indexOf(HermesScreens.PODCASTS)
+        return if (idx >= 0) idx else HermesScreens.podcastPageIndex(screenIds.size)
+    }
+
     fun pageDescription(ctx: Context, screenId: Int, fallback: String): String {
         val res = when (screenId) {
             HermesScreens.PODCASTS -> R.string.launcher_page_podcasts

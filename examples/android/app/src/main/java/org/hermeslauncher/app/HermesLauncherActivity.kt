@@ -14,6 +14,7 @@ import com.android.launcher3.util.IntArray
 import com.android.launcher3.util.IntSet
 import com.android.launcher3.views.OptionsPopupView
 import com.android.systemui.plugins.shared.LauncherOverlayManager
+import org.hermeslauncher.app.feeds.FeedOpenRoute
 import org.hermeslauncher.app.l3.HermesSwipeController
 import org.hermeslauncher.app.l3.L3InstantSwipe
 import org.hermeslauncher.app.l3.HomeAgainSearch
@@ -71,10 +72,9 @@ class HermesLauncherActivity : Launcher() {
     }
 
     private fun handleArticleExtra(intent: Intent?) {
-        val id = intent?.getStringExtra(org.hermeslauncher.app.feeds.FeedNotify.EXTRA_ARTICLE_ID) ?: return
-        (application as HermesApplication).pendingArticleId.value = id
-        val news = (workspace as? HermesWorkspace)?.newsIndex() ?: 1
-        runCatching { workspace.snapToPage(news) }
+        val kind = FeedOpenRoute.accept(application as HermesApplication, intent) ?: return
+        val page = FeedOpenRoute.pageIndex(workspace as? HermesWorkspace, kind)
+        runCatching { workspace.snapToPage(page) }
     }
 
     override fun getDefaultOverlay(): LauncherOverlayManager {
@@ -89,14 +89,8 @@ class HermesLauncherActivity : Launcher() {
     override fun finishBindingItems(pagesBoundFirst: IntSet) {
         super.finishBindingItems(pagesBoundFirst)
         (workspace as HermesWorkspace).keepDroppableEmpty()
-        val ws = workspace as? HermesWorkspace
-        val pending = (application as HermesApplication).pendingArticleId.value
-        val page = if (pending != null) {
-            ws?.newsIndex() ?: 1
-        } else {
-            ws?.homeIndex() ?: 0
-        }
-        workspace.setCurrentPage(page)
+        val pending = (application as HermesApplication).pendingFeedOpen.value
+        workspace.setCurrentPage(FeedOpenRoute.pageIndex(workspace as? HermesWorkspace, pending?.kind))
         L3WidgetTick.poke(this)
     }
 

@@ -17,6 +17,7 @@ import org.hermeslauncher.app.R
 object FeedNotify {
     const val CHANNEL: String = "hermes_feeds"
     const val EXTRA_ARTICLE_ID: String = "extra_article_id"
+    const val EXTRA_SUB_KIND: String = "extra_sub_kind"
 
     fun canPost(context: Context): Boolean {
         if (Build.VERSION.SDK_INT < 33) {
@@ -39,6 +40,26 @@ object FeedNotify {
         )
     }
 
+    fun kindFor(rec: ArticleRecord, subs: List<FeedSub>): SubKind {
+        val fromSub = subs.firstOrNull { it.url == rec.item.sourceUrl }?.kind
+        if (fromSub != null) {
+            return fromSub
+        }
+        return if (PodcastDetect.audioItem(rec.item)) SubKind.PODCAST else SubKind.NEWS
+    }
+
+    fun inboxLabelRes(kind: SubKind): Int {
+        return if (kind == SubKind.PODCAST) {
+            R.string.launcher_page_podcasts
+        } else {
+            R.string.launcher_page_news
+        }
+    }
+
+    fun parseKind(raw: String?): SubKind {
+        return runCatching { SubKind.valueOf(raw.orEmpty()) }.getOrDefault(SubKind.NEWS)
+    }
+
     fun newUnread(before: List<ArticleRecord>, after: List<ArticleRecord>, notifyUrls: Set<String>): List<ArticleRecord> {
         val oldIds = before.map { it.item.id }.toSet()
         return after.filter { rec ->
@@ -47,7 +68,7 @@ object FeedNotify {
         }.take(5)
     }
 
-    fun post(context: Context, rows: List<ArticleRecord>): Boolean {
+    fun post(context: Context, rows: List<ArticleRecord>, subs: List<FeedSub>): Boolean {
         if (rows.isEmpty() || !canPost(context)) {
             return false
         }
@@ -55,8 +76,10 @@ object FeedNotify {
             ensureChannel(context)
             val mgr = NotificationManagerCompat.from(context)
             rows.forEachIndexed { index, rec ->
+                val kind = kindFor(rec, subs)
                 val open = Intent(context, HermesLauncherActivity::class.java)
                     .putExtra(EXTRA_ARTICLE_ID, rec.item.id)
+                    .putExtra(EXTRA_SUB_KIND, kind.name)
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP)
                 val pending = PendingIntent.getActivity(
                     context,
@@ -66,8 +89,9 @@ object FeedNotify {
                 )
                 val note = NotificationCompat.Builder(context, CHANNEL)
                     .setSmallIcon(R.mipmap.ic_launcher)
-                    .setContentTitle(rec.item.feedTitle.ifBlank { context.getString(R.string.app_name) })
-                    .setContentText(rec.item.title)
+                    .setContentTitle(rec.item.title)
+                    .setContentText(rec.item.feedTitle.ifBlank { context.getString(R.string.app_name) })
+                    .setSubText(context.getString(inboxLabelRes(kind)))
                     .setContentIntent(pending)
                     .setAutoCancel(true)
                     .build()

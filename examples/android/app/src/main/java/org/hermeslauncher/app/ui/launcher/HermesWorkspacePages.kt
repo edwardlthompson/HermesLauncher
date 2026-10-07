@@ -54,7 +54,7 @@ fun HermesNewsPage(
     val refreshing by app.feeds.refreshing.collectAsStateWithLifecycle(false)
     val prefs by app.readerPrefs.settings.collectAsStateWithLifecycle(ReaderSettings())
     val subs by app.feedStore.subs.collectAsStateWithLifecycle(emptyList())
-    val pending by app.pendingArticleId.collectAsStateWithLifecycle(null)
+    val pending by app.pendingFeedOpen.collectAsStateWithLifecycle(null)
     LaunchedEffect(app, prefs.refreshOnOpen, prefs.scanMinutes) {
         if (!prefs.refreshOnOpen || !FeedSync.allowAuto(context, prefs)) {
             return@LaunchedEffect
@@ -82,11 +82,14 @@ fun HermesNewsPage(
     var trail by remember { mutableStateOf<List<String>>(emptyList()) }
     val newsRecords = remember(records, subs) { SubKindFilter.records(records, subs, SubKind.NEWS) }
     LaunchedEffect(pending, newsRecords) {
-        val id = pending ?: return@LaunchedEffect
-        if (newsRecords.any { it.item.id == id }) {
-            readingId = id
+        val open = pending ?: return@LaunchedEffect
+        if (open.kind != SubKind.NEWS) {
+            return@LaunchedEffect
         }
-        app.pendingArticleId.value = null
+        if (newsRecords.any { it.item.id == open.id }) {
+            readingId = open.id
+        }
+        app.pendingFeedOpen.value = null
     }
     val reading = newsRecords.firstOrNull { it.item.id == readingId }
     val (prevId, nextId) = remember(trail, readingId) {

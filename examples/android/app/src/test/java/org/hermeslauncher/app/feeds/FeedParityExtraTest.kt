@@ -1,5 +1,6 @@
 package org.hermeslauncher.app.feeds
 
+import org.hermeslauncher.app.R
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
@@ -93,7 +94,64 @@ class FeedNotifyTest {
         assertEquals(listOf("b"), fresh.map { it.item.id })
     }
 
-    private fun item(id: String, read: Boolean, source: String? = "https://n.example/f"): ArticleRecord {
+    @Test
+    fun kindForUsesSubscriptionThenAudioFallback() {
+        val newsUrl = "https://n.example/news"
+        val podUrl = "https://n.example/pod"
+        val subs = listOf(
+            FeedSub(url = newsUrl, kind = SubKind.NEWS),
+            FeedSub(url = podUrl, kind = SubKind.PODCAST),
+        )
+        assertEquals(SubKind.NEWS, FeedNotify.kindFor(item("n", source = newsUrl), subs))
+        assertEquals(SubKind.PODCAST, FeedNotify.kindFor(item("p", source = podUrl), subs))
+        val audio = ArticleRecord(
+            item = FeedItem(
+                id = "a",
+                feedTitle = "F",
+                title = "ep",
+                sourceUrl = "https://unknown.example/x",
+                enclosureUrl = "https://cdn.example/ep.mp3",
+                enclosureMime = "audio/mpeg",
+            ),
+        )
+        assertEquals(SubKind.PODCAST, FeedNotify.kindFor(audio, emptyList()))
+        assertEquals(SubKind.NEWS, FeedNotify.kindFor(item("plain", source = "https://unknown.example/y"), emptyList()))
+    }
+
+    @Test
+    fun parseKindDefaultsToNews() {
+        assertEquals(SubKind.NEWS, FeedNotify.parseKind(null))
+        assertEquals(SubKind.NEWS, FeedNotify.parseKind(""))
+        assertEquals(SubKind.NEWS, FeedNotify.parseKind("nope"))
+        assertEquals(SubKind.PODCAST, FeedNotify.parseKind("PODCAST"))
+        assertEquals(SubKind.NEWS, FeedNotify.parseKind("NEWS"))
+    }
+
+    @Test
+    fun inboxLabelResMapsKind() {
+        assertEquals(R.string.launcher_page_news, FeedNotify.inboxLabelRes(SubKind.NEWS))
+        assertEquals(R.string.launcher_page_podcasts, FeedNotify.inboxLabelRes(SubKind.PODCAST))
+    }
+
+    @Test
+    fun newsPendingDoesNotMatchPodcastKind() {
+        val open = PendingFeedOpen("ep1", SubKind.PODCAST)
+        assertFalse(open.kind == SubKind.NEWS)
+        assertEquals(SubKind.PODCAST, open.kind)
+    }
+
+    @Test
+    fun openRoutePageIndexDefaultsWithoutWorkspace() {
+        assertEquals(0, FeedOpenRoute.pageIndex(null, SubKind.PODCAST))
+        assertEquals(1, FeedOpenRoute.pageIndex(null, SubKind.NEWS))
+        assertEquals(0, FeedOpenRoute.pageIndex(null, null))
+    }
+
+    private fun item(
+        id: String,
+        read: Boolean = false,
+        source: String? = "https://n.example/f",
+    ): ArticleRecord {
         return ArticleRecord(
             item = FeedItem(id = id, feedTitle = "F", title = id, sourceUrl = source),
             read = read,

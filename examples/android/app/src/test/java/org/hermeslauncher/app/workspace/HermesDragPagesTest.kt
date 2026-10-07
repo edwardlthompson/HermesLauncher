@@ -40,4 +40,17 @@ class HermesDragPagesTest {
         assertEquals(0, HermesDragPages.newsIndex(emptyList()))
         assertEquals(0, HermesDragPages.newsIndex(listOf(0)))
     }
+
+    @Test
+    fun podcastIndexIsPodcastsScreen() {
+        assertEquals(0, HermesDragPages.podcastIndex(screens))
+        assertEquals(
+            0,
+            HermesDragPages.podcastIndex(
+                listOf(HermesScreens.PODCASTS, HermesScreens.NEWS, HermesScreens.INBOX),
+            ),
+        )
+        assertEquals(0, HermesDragPages.podcastIndex(emptyList()))
+        assertEquals(0, HermesDragPages.podcastIndex(listOf(0)))
+    }
 }

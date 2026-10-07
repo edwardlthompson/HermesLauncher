@@ -137,8 +137,8 @@ class HermesWorkspace @JvmOverloads constructor(
         HermesDragPages.pageDescription(context, getScreenIdForPageIndex(page), super.getPageDescription(page))
 
     fun homeIndex() = HermesDragPages.homeIndex(this)
-
     fun newsIndex() = HermesDragPages.newsIndex(this)
+    fun podcastIndex() = HermesDragPages.podcastIndex(this)
 
     private fun pageLock() = HermesDragPages.pageLock(dragLock, Launcher.getLauncher(context))
     private fun droppable(page: Int) = HermesDragPages.droppable(pageLock(), this, page)

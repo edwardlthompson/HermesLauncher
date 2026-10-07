@@ -7,7 +7,7 @@
 
 | Layer | Technology | Version | Notes |
 |-------|-----------|---------|-------|
-| Platform | Android (min 26, target 37), Kotlin, Jetpack Compose Material 3 | 1.0.3 | Child of agent-project-bootstrap 1.4.0; APK versionName 1.0.3 / versionCode 103 |
+| Platform | Android (min 26, target 37), Kotlin, Jetpack Compose Material 3 | 1.0.4 | Child of agent-project-bootstrap 1.4.0; APK versionName 1.0.4 / versionCode 104 |
 | License | MIT | - | Pure FOSS |
 | Persistence | Room + SQLCipher (`hermes-vault-cipher.db`) + Android Keystore | 4.16.0 | Plaintext vault migrates; rebuild-required copy on failure |
 | Distribution | GitHub Releases + F-Droid | - | Reproducible APKs (`SOURCE_DATE_EPOCH`) |

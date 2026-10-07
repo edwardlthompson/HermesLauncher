@@ -100,6 +100,7 @@ object FeedRefresh {
         FeedNotify.post(
             context,
             FeedNotify.newUnread(before, slim, live.filter { it.notify }.map { it.url }.toSet()),
+            live,
         )
     }
 }

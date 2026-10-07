@@ -53,6 +53,16 @@ fun HermesPodcastsPage(
     var positionMs by remember { mutableStateOf(0L) }
     var durationMs by remember { mutableStateOf(0L) }
     val pageRecords = remember(records, subs) { SubKindFilter.records(records, subs, SubKind.PODCAST) }
+    val pending by app.pendingFeedOpen.collectAsStateWithLifecycle(null)
+    LaunchedEffect(pending, pageRecords) {
+        val open = pending ?: return@LaunchedEffect
+        if (open.kind != SubKind.PODCAST) {
+            return@LaunchedEffect
+        }
+        val item = pageRecords.firstOrNull { it.item.id == open.id }?.item ?: return@LaunchedEffect
+        app.pendingFeedOpen.value = null
+        scope.launch { PodcastPlayback.play(app, item) }
+    }
     val notes = pageRecords.firstOrNull { it.item.id == notesId }
     val barItem = episode ?: notes?.item
     LaunchedEffect(barItem?.id, playing) {

@@ -15,6 +15,7 @@ import org.hermeslauncher.app.feeds.FeedStore
 import org.hermeslauncher.app.feeds.FeedSync
 import org.hermeslauncher.app.feeds.ArticleStore
 import org.hermeslauncher.app.feeds.HermesPlayer
+import org.hermeslauncher.app.feeds.PendingFeedOpen
 import org.hermeslauncher.app.feeds.PodcastPlayback
 import org.hermeslauncher.app.feeds.PodcastPlayerStore
 import org.hermeslauncher.app.feeds.ReaderPrefs
@@ -72,7 +73,7 @@ class HermesApplication : Application() {
         private set
     lateinit var readerPrefs: ReaderPrefs
         private set
-    val pendingArticleId = MutableStateFlow<String?>(null)
+    val pendingFeedOpen = MutableStateFlow<PendingFeedOpen?>(null)
     val player: HermesPlayer by lazy { HermesPlayer(this) }
     lateinit var podcastStore: PodcastPlayerStore
         private set

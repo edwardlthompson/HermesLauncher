@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-10-07 — Feed notify inbox label + podcast play deep-link
+- **Status:** Accepted
+- **Context:** Notifications did not say News vs Podcasts; podcast taps still snapped to News and never started playback.
+- **Decision:** `FeedNotify` sets `setSubText` + `EXTRA_SUB_KIND`; `PendingFeedOpen` + `FeedOpenRoute` snap by kind; News opens reader; Podcasts calls `PodcastPlayback.play`.
+- **Alternatives considered:** Single pending id without kind (rejected: News page cleared podcast pending). Hardcode page 0 for podcasts (rejected: use `podcastIndex`).
+- **Consequences:** APK 1.0.4 / versionCode 104; unit tests for kindFor/route/indexes.
+
 ### 2026-10-06 — Feed notify deep-link snaps to News
 - **Status:** Accepted
 - **Context:** RSS feed notifications opened Podcasts (workspace page 0) instead of News when carrying `EXTRA_ARTICLE_ID`.
