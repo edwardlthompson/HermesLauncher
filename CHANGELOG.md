@@ -6,14 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
 ## [1.6.5](https://github.com/edwardlthompson/HermesLauncher/compare/v1.6.4...v1.6.5) (2026-10-07)
 
 
 ### Fixed
 
 * **android:** label feed alerts and play podcasts on tap ([f15fe26](https://github.com/edwardlthompson/HermesLauncher/commit/f15fe2648bc609561689877b83b65fe2ab97972e))
-
-## [Unreleased]
 
 ## [1.6.4](https://github.com/edwardlthompson/HermesLauncher/compare/v1.6.3...v1.6.4) (2026-10-06)
 
