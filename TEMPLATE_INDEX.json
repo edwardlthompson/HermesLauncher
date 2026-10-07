@@ -1,5 +1,5 @@
 {
-  "template_version": "1.6.4",
+  "template_version": "1.6.5",
   "entry_points": {
     "bootstrap": "docs/START_HERE.md",
     "reference": "docs/FOR_AGENTS.md",
