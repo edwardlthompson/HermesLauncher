@@ -23,7 +23,7 @@ Theme/scaffold names: `HermesTheme`, `HermesScaffold`.
 ## Alternatives Considered
 
 | Pattern | Rejected because |
-|---------|------------------|
+| --------- | ------------------ |
 | Fork Lawnchair / KISS / other FOSS launchers | Not inbox-first; license and architecture entanglement |
 | Copy AetherFeed domain / SqlCipher | Wrong product; news/booru client, not a launcher |
 | Hilt in Sprint 1 | Extra graph for a stub shell; template has no Hilt |

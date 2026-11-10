@@ -31,7 +31,7 @@ SQLCipher / at-rest encryption is a tracked follow-up after this schema locks. S
 ## Alternatives Considered
 
 | Pattern | Rejected because |
-|---------|------------------|
+| --------- | ------------------ |
 | Persist after UI bind | Source app can cancel first |
 | Store all apps by default | Violates the grant/revoke non-goal |
 | SQLCipher in this ADR | Extra native dep before the schema is proven |

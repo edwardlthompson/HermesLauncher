@@ -1,5 +1,5 @@
 {
-  "template_version": "1.6.5",
+  "template_version": "1.13.0",
   "entry_points": {
     "bootstrap": "docs/START_HERE.md",
     "reference": "docs/FOR_AGENTS.md",
@@ -824,7 +824,7 @@
       "owner": "maintainer"
     },
     {
-      "path": "AGENT_MEMORY.md",
+      "path": ".agent/AGENT_MEMORY.md",
       "purpose": "Tech stack, threat model, retrospectives index",
       "read_when": "session_start",
       "update_when": "milestone_boundary",
@@ -2488,6 +2488,31 @@
       "read_when": "reference",
       "update_when": "milestone_boundary",
       "owner": "maintainer"
+    },
+    {
+      "path": ".github/workflows/argus-remote-stub.yml",
+      "purpose": "CI remote status no-op when disabled",
+      "status": "not_started"
+    },
+    {
+      "path": ".github/workflows/argus-rules-manifest.yml",
+      "purpose": "Publish rules.manifest.json on main",
+      "status": "not_started"
+    },
+    {
+      "path": "argus.contract.json",
+      "purpose": "Argus contract markers",
+      "status": "not_started"
+    },
+    {
+      "path": "argus.remote.json",
+      "purpose": "Argus remote off switch",
+      "status": "not_started"
+    },
+    {
+      "path": "rules.manifest.json",
+      "purpose": "Rules manifest",
+      "status": "not_started"
     }
   ],
   "modules": {
