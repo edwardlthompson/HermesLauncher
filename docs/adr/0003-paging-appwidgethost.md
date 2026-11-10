@@ -28,7 +28,7 @@ Sprint 1 ships two empty widget pages so the swipe contract is testable without 
 ## Alternatives Considered
 
 | Pattern | Rejected because |
-|---------|------------------|
+| --------- | ------------------ |
 | ViewPager2 + RecyclerView | Posidon-era crash class |
 | Per-card horizontal gesture | Steals page swipe and invites accidental dismiss |
 | Navigation Compose as the page surface | Pager is the product gesture, not a back stack |
