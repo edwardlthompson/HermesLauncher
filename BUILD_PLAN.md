@@ -71,3 +71,7 @@ If Monday cron is red: Cursor Automation `weekly-maintain`. Do not put those cho
 ## Archive
 
 Older sprints: [`COMPLETED_TASKS.md`](COMPLETED_TASKS.md).
+
+## News inbox (synced)
+
+- 🔲 [AGENT] Bump Media3 1.11.0 to 1.11.1 — scope: examples/android/ (news P2, 2026-11-13) https://developer.android.com/jetpack/androidx/releases/media3

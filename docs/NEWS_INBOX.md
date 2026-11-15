@@ -14,7 +14,7 @@ A Cursor planning agent should review these items and fold the useful ones into 
 
 **Tasks for the planning agent**
 
-- [ ] Bump Media3 1.11.0 to 1.11.1 — Picks up stable playback fixes for podcasts. Label: `[AGENT]` · Priority: P2 · https://developer.android.com/jetpack/androidx/releases/media3
+- [x] Bump Media3 1.11.0 to 1.11.1 — Picks up stable playback fixes for podcasts. Label: `[AGENT]` · Priority: P2 · https://developer.android.com/jetpack/androidx/releases/media3 (synced to BUILD_PLAN)
 - [ ] Check behavior with Android 17 QPR2 notification filters — Status-bar notification filters may change what reaches the inbox. Label: `[ADB]` · Priority: P3 · https://www.androidauthority.com/android-17-qpr2-stable-3733645/
 - [ ] Smoke-test Kotlin 2.5.0-RC and bump Gradle wrapper — Catches compiler regressions before stable. Label: `[AGENT]` · Priority: P3 · https://github.com/JetBrains/kotlin/releases/tag/v2.5.0-RC
 
