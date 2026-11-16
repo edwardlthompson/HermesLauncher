@@ -1,7 +1,7 @@
 # Build Plan
 
 <!-- remaining-tally -->
-**Remaining:** AGENT 0 · AUTO 0 · HUMAN 0 · ADB 0 · **0 open**
+**Remaining:** AGENT 1 · AUTO 0 · HUMAN 0 · ADB 0 · **1 open**
 <!-- /remaining-tally -->
 
 Live board for **Hermes Launcher**. Finished work: [`COMPLETED_TASKS.md`](COMPLETED_TASKS.md).
