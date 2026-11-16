@@ -16,7 +16,7 @@
     "Install JDK 17+ and the Android SDK (API 34+ AOSP image).",
     "From `examples/android`, run `./gradlew assembleDebug` with `SOURCE_DATE_EPOCH=1700000000`."
   ],
-  "install": "Sideload the debug APK or install a GitHub Release. F-Droid metadata lives under `examples/android/metadata/` and `examples/android/fastlane/`.",
+  "install": "Sideload the debug APK or install a GitHub Release. F-Droid scrapes `fastlane/` at the repo root (Triple-T copy under `examples/android/metadata/`).",
   "usage": "Set Hermes as the default Home app. Grant notification access when onboarding asks. Swipe horizontally for widget pages; tap X to dismiss a card. Open Settings from the gear for theme, privacy, and vault controls.",
   "urls": {
     "docs": "docs/START_HERE.md",

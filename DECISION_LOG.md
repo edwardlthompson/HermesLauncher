@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-11-16 — F-Droid source-side listing
+- **Status:** Accepted
+- **Context:** fdroiddata fork branch `fdroid/org.hermeslauncher.app` is lint-clean, but the app repo had nested fastlane, no screenshots, tag `v1.6.5` shipping APK 1.0.4/104, and a vendored AOSP Launcher3 tree without LICENSE files. F-Droid's scanner would also see unused AOSP Gradle `prebuilts/` maven URLs and `*.jar` fileTrees.
+- **Decision:** Single-source APK version from `schemas/golden-path/app-version.json` (keep 1.0.4 / 104). Copy store metadata to repo-root `fastlane/`. Use `signingConfigs.maybeCreate`/`findByName` so F-Droid can strip signing. Add Apache-2.0 LICENSE + NOTICE under `examples/android/third_party/`. Neutralize unused AOSP Gradle prebuilt repos. Do not invent UI screenshots.
+- **Alternatives considered:** Bump `versionName` to 1.6.5 to match existing git tags (rejected: user-visible APK has been 1.0.x). Leave fastlane only under `examples/android/` (rejected: F-Droid scrapes root or `app/`).
+- **Consequences:** Edward tags `v1.0.4` after merge. Fork YAML should drop any signing-config `prebuild` sed, pin that tag, and can later set `AutoUpdateMode: Version`. Phone screenshots remain `[ADB]`/`[HUMAN]`.
+
 ### 2026-10-07 — Feed notify inbox label + podcast play deep-link
 - **Status:** Accepted
 - **Context:** Notifications did not say News vs Podcasts; podcast taps still snapped to News and never started playback.

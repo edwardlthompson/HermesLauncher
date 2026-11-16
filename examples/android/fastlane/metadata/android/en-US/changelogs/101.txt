@@ -1,0 +1,1 @@
+1.0.1: Settings now has About (version, MIT blurb, Venmo tips, bug/feature feedback) and a Permissions hub to re-grant access. Inbox onboarding covers listener, battery, photos, usage, and alerts. Empty Inbox/News/Podcasts rotate congratulations. HOME grant overlay no longer crash-loops. Desktop clock/weather widgets tick on Hermes HOME.

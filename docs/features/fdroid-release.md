@@ -11,7 +11,7 @@
 
 ## Smoke scenario
 
-1. Given `examples/android/fastlane/metadata/android/en-US/` and `examples/android/metadata/en-US/`
+1. Given root `fastlane/metadata/android/en-US/` (F-Droid scrape path) plus `examples/android/metadata/en-US/`
 2. When a reviewer reads title and descriptions
 3. Then they describe Hermes, not the Golden Path stub, and About unit tests still pass
 
@@ -53,4 +53,5 @@ Metadata is Hermes-branded. About tests remain green. `watch-agent-gates.sh --on
 ## Notes
 
 - Reproducible APK / `SOURCE_DATE_EPOCH` stays a pre-release AUTO row
-- Screenshots are still a later ADB/HUMAN item
+- Phone screenshots are still a later ADB/HUMAN item (`fastlane/metadata/android/en-US/images/phoneScreenshots/README.md`)
+- APK version is single-sourced from `schemas/golden-path/app-version.json` (1.0.4 / 104). Git tags `v1.6.x` are template/Release Please tags and do not match `versionName`.

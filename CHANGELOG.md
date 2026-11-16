@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+* **android:** F-Droid source readiness — root fastlane, single-sourced APK 1.0.4 / 104, strip-tolerant release signing, Apache NOTICE/LICENSE on vendored Launcher3
+
 ## [1.6.5](https://github.com/edwardlthompson/HermesLauncher/compare/v1.6.4...v1.6.5) (2026-10-07)
 
 

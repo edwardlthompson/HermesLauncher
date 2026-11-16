@@ -6,7 +6,9 @@ from pathlib import Path
 
 DUMMY_NAME = ("dummy", "placeholder", "sample", "lorem")
 SCREEN_DIRS = ("phoneScreenshots", "sevenInchScreenshots", "tenInchScreenshots")
+SKIP_SUFFIXES = {".md", ".txt"}
 ROOTS = (
+    Path("fastlane") / "metadata" / "android",
     Path("examples") / "android" / "metadata",
     Path("examples") / "android" / "fastlane" / "metadata" / "android",
 )
@@ -36,6 +38,8 @@ def check_tree(root: Path) -> list[str]:
                 continue
             for shot in folder.iterdir():
                 if not shot.is_file() or shot.name.startswith("."):
+                    continue
+                if shot.suffix.lower() in SKIP_SUFFIXES:
                     continue
                 rel = shot.relative_to(root).as_posix()
                 if _is_dummy_name(shot.name):
