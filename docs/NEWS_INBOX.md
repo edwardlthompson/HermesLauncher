@@ -27,3 +27,13 @@ A Cursor planning agent should review these items and fold the useful ones into 
 **Tasks for the planning agent**
 
 - [ ] Show a clear 'outdated TLS' error for failing feeds and podcasts — Old TLS servers will fail on newer target SDKs and the user should know why. Label: `[AGENT]` · Priority: P3 · https://developer.android.com/about/versions/17/qpr3/release-notes
+
+## 2026-11-16
+
+**News and updates**
+
+- A foreground Android app can read the clipboard and hide the Android 12+ "pasted from clipboard" toast with two of its own toasts; Google closed it Won't Fix, so set ClipDescription.EXTRA_IS_SENSITIVE on clips that hold private data. [source](https://www.navsplace.net/android-clipboard-toast-bypass-20261114/)
+
+**Tasks for the planning agent**
+
+- [ ] Mark the feedback-screen clipboard copy sensitive and clear it after use — The feedback preview is the app's only clipboard write, and flagging it keeps any notification or vault text out of clipboard previews and other apps. Label: `[AGENT]` · Priority: P3 · https://www.navsplace.net/android-clipboard-toast-bypass-20261114/
