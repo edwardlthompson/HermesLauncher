@@ -26,7 +26,7 @@ Notification access is a high-privilege trust boundary. The vault can contain ch
 ## Alternatives Considered
 
 | Pattern | Rejected because |
-|---------|------------------|
+| --------- | ------------------ |
 | Cloud vault sync | Explicit non-goal |
 | Store everything, hide later | Violates grant/revoke rule |
 | allowBackup=true with exclude only | OEM backup agents still leak |

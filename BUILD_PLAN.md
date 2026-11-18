@@ -71,3 +71,19 @@ If Monday cron is red: Cursor Automation `weekly-maintain`. Do not put those cho
 ## Archive
 
 Older sprints: [`COMPLETED_TASKS.md`](COMPLETED_TASKS.md).
+### Local agent (This Computer)
+
+Standing queue for This Computer. Rows: `🔲 [AGENT][LOCAL] … — scope: path`.
+
+<!-- local-agent-lane:begin -->
+- 🔲 [AGENT][LOCAL] Bump Media3 1.11.0 to 1.11.1 — scope: examples/android/ (news P2, 2026-11-13) https://developer.android.com/jetpack/androidx/releases/media3
+<!-- local-agent-lane:end -->
+
+### Cloud agent (Cursor Cloud)
+
+Standing queue for Cursor Cloud. Rows: `🔲 [AGENT][CLOUD] … — scope: path`.
+
+<!-- cloud-agent-lane:begin -->
+_No cloud agent items._
+<!-- cloud-agent-lane:end -->
+
