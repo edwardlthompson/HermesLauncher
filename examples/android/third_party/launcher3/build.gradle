@@ -9,8 +9,8 @@ buildscript {
     }
 }
 
-final String ANDROID_TOP = "${rootDir}/../../.."
-final String FRAMEWORK_PREBUILTS_DIR = "${ANDROID_TOP}/prebuilts/framework_intermediates/"
+// Unused AOSP Studio recipe. Hermes compiles this tree via
+// examples/android/launcher3/build.gradle.kts (no AOSP prebuilt jars).
 
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.protobuf'
@@ -134,9 +134,7 @@ android {
 
 allprojects {
     repositories {
-        maven { url "../../../prebuilts/sdk/current/androidx/m2repository" }
-        maven { url "../../../prebuilts/fullsdk-darwin/extras/android/m2repository" }
-        maven { url "../../../prebuilts/fullsdk-linux/extras/android/m2repository" }
+        // Local AOSP prebuilt maven URLs removed so F-Droid's scanner is not tripped.
         mavenCentral()
         google()
     }
@@ -150,11 +148,7 @@ dependencies {
     implementation project(':UiTestsLibLauncher')
     withQuickstepImplementation project(':SharedLibWrapper')
 
-    // Recents lib dependency
-    withQuickstepImplementation fileTree(dir: "${FRAMEWORK_PREBUILTS_DIR}/quickstep/libs", include: 'sysui_shared.jar')
-
-    // Required for AOSP to compile. This is already included in the sysui_shared.jar
-    withoutQuickstepImplementation fileTree(dir: "${FRAMEWORK_PREBUILTS_DIR}/libs", include: 'plugin_core.jar')
+    // Recents / plugin_core AOSP prebuilt jars are not vendored and are not used by Hermes.
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation "org.mockito:mockito-core:1.9.5"

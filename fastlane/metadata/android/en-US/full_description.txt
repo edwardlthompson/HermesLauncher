@@ -1,0 +1,5 @@
+Hermes Launcher is a FOSS Android home-screen replacement.
+
+Page 0 is a persistent notification inbox that can mix news and podcasts. Cards dismiss only with an explicit X — never a swipe. Horizontal swipes move between extra widget pages.
+
+The vault stays on-device. No Play Services, Firebase, or cloud sync.

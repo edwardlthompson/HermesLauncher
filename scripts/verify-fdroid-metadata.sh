@@ -6,7 +6,9 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
+FASTLANE="$ROOT/fastlane/metadata/android/en-US"
 META="$ROOT/examples/android/metadata/en-US"
+VERSION_JSON="$ROOT/schemas/golden-path/app-version.json"
 GRADLE="$ROOT/examples/android/app/build.gradle.kts"
 ERRORS=0
 
@@ -18,6 +20,32 @@ fail() {
 ok() {
   echo "OK   $1"
 }
+
+if [ ! -d "$FASTLANE" ]; then
+  fail "missing $FASTLANE (F-Droid scrapes repo-root fastlane/)"
+else
+  ok "root fastlane metadata directory present"
+fi
+
+for f in title.txt short_description.txt full_description.txt; do
+  if [ ! -s "$FASTLANE/$f" ]; then
+    fail "missing or empty $FASTLANE/$f"
+  else
+    ok "fastlane $f present"
+  fi
+done
+
+if [ ! -s "$FASTLANE/images/icon.png" ]; then
+  fail "missing $FASTLANE/images/icon.png"
+else
+  ok "fastlane icon.png present"
+fi
+
+if [ ! -d "$FASTLANE/images/phoneScreenshots" ]; then
+  fail "missing $FASTLANE/images/phoneScreenshots/"
+else
+  ok "fastlane phoneScreenshots directory present"
+fi
 
 if [ ! -d "$META" ]; then
   fail "missing $META"
@@ -33,16 +61,20 @@ for f in title.txt short_description.txt full_description.txt; do
   fi
 done
 
-if [ ! -f "$GRADLE" ]; then
-  fail "missing $GRADLE"
+if [ ! -f "$VERSION_JSON" ]; then
+  fail "missing $VERSION_JSON"
 else
-  VERSION_CODE="$(grep -E 'versionCode\s*=' "$GRADLE" | head -1 | sed -E 's/.*=\s*([0-9]+).*/\1/')"
-  if [ -z "${VERSION_CODE:-}" ]; then
-    fail "could not parse versionCode from build.gradle.kts"
-  elif [ ! -s "$META/changelogs/${VERSION_CODE}.txt" ]; then
-    fail "missing changelog $META/changelogs/${VERSION_CODE}.txt"
+  VERSION_CODE="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["versionCode"])' "$VERSION_JSON")"
+  VERSION_NAME="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["versionName"])' "$VERSION_JSON")"
+  if [ -z "${VERSION_CODE:-}" ] || [ -z "${VERSION_NAME:-}" ]; then
+    fail "could not parse version from app-version.json"
+  elif [ ! -s "$FASTLANE/changelogs/${VERSION_CODE}.txt" ]; then
+    fail "missing changelog $FASTLANE/changelogs/${VERSION_CODE}.txt"
   else
-    ok "changelog for versionCode ${VERSION_CODE}"
+    ok "changelog for versionCode ${VERSION_CODE} (${VERSION_NAME})"
+  fi
+  if [ -f "$GRADLE" ] && ! grep -q 'loadAppVersion' "$GRADLE"; then
+    fail "app/build.gradle.kts must read schemas/golden-path/app-version.json"
   fi
 fi
 

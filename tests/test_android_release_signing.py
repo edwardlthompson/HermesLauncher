@@ -42,6 +42,16 @@ class AndroidReleaseSigningTests(unittest.TestCase):
         self.assertTrue(helper.is_file())
         self.assertIn("set_android_signing_secrets.py", helper.read_text(encoding="utf-8"))
 
+    def test_release_signing_tolerates_fdroid_strip(self) -> None:
+        gradle = ROOT / "examples" / "android" / "app" / "build.gradle.kts"
+        if not gradle.is_file():
+            self.skipTest("android example pruned")
+        text = gradle.read_text(encoding="utf-8")
+        self.assertIn('maybeCreate("release")', text)
+        self.assertIn('findByName("release")', text)
+        self.assertNotIn("getByName(\"release\")", text)
+        self.assertNotIn("signingConfigs.create(\"release\")", text)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -4,10 +4,21 @@ Provenance:
 
 - `launcher3/` from `platform/packages/apps/Launcher3` tag `android-14.0.0_r28` (Apache-2.0)
 - `systemui/iconloaderlib` from `platform/frameworks/libs/systemui` same tag (Apache-2.0)
+- `systemui/animationlib`, `motiontoollib`, and `viewcapturelib` are unused AOSP leftovers kept for tag provenance; Hermes does not compile them
+
+License files:
+
+- `LICENSE` (Apache-2.0) at this directory, `launcher3/LICENSE`, and `systemui/LICENSE`
+- `NOTICE` — attribution required by Apache-2.0
 
 Hermes compiles the **without Quickstep** source set as a user-installable library.
 Quickstep/recents stays in-tree but is not built: it requires a privileged system image.
-Do not edit files under these trees except via AOSP tag upgrades.
+Do not edit files under these trees except via AOSP tag upgrades, license/NOTICE
+packaging, or F-Droid scanner cleanups of unused AOSP Gradle recipes.
+
+The unused AOSP `build.gradle` files no longer point at missing `prebuilts/`
+maven repos or `*.jar` fileTrees. There are no prebuilt jars or native
+libraries in this drop.
 
 User-app shims (not upstream):
 

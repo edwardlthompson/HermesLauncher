@@ -297,7 +297,7 @@ jobs:
             echo "FAIL: no release APK produced"
             exit 1
           fi
-          APP_VERSION=$(sed -n 's/.*versionName = "\([^"]*\)".*/\1/p' examples/android/app/build.gradle.kts | head -1)
+          APP_VERSION=$(python3 -c 'import json; print(json.load(open("schemas/golden-path/app-version.json"))["versionName"])')
           NAME="hermes-launcher-${APP_VERSION}-foss.apk"
           cp "$APK" "$NAME"
           gh release upload "$TAG" "$NAME" --clobber

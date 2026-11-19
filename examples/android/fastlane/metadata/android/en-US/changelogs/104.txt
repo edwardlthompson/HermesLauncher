@@ -1,0 +1,1 @@
+1.0.4: Feed alerts show News or Podcasts. Tapping a podcast alert opens Podcasts and starts that episode. Install with adb install -r; keep Hermes as HOME.

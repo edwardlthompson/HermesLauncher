@@ -6,6 +6,19 @@ plugins {
     id("com.google.devtools.ksp")
 }
 
+data class AppVersion(val code: Int, val name: String)
+
+fun loadAppVersion(): AppVersion {
+    val file = rootProject.file("../../schemas/golden-path/app-version.json")
+    require(file.isFile) { "Missing app version file: ${file.invariantSeparatorsPath}" }
+    val text = file.readText()
+    val name = Regex(""""versionName"\s*:\s*"([^"]+)"""").find(text)?.groupValues?.get(1)
+        ?: error("versionName missing in ${file.name}")
+    val code = Regex(""""versionCode"\s*:\s*(\d+)""").find(text)?.groupValues?.get(1)?.toInt()
+        ?: error("versionCode missing in ${file.name}")
+    return AppVersion(code = code, name = name)
+}
+
 kotlin {
     compilerOptions {
         jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
@@ -16,12 +29,13 @@ android {
     namespace = "org.hermeslauncher.app"
     compileSdk = 37
 
+    val appVersion = loadAppVersion()
     defaultConfig {
         applicationId = "org.hermeslauncher.app"
         minSdk = 26
         targetSdk = 37
-        versionCode = 104
-        versionName = "1.0.4"
+        versionCode = appVersion.code
+        versionName = appVersion.name
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -30,7 +44,8 @@ android {
         val props = Properties().apply {
             keystorePropsFile.inputStream().use { load(it) }
         }
-        signingConfigs.create("release") {
+        // maybeCreate + findByName: F-Droid may strip or inject signingConfigs.release.
+        signingConfigs.maybeCreate("release").apply {
             keyAlias = props.getProperty("keyAlias")
             keyPassword = props.getProperty("keyPassword")
             storePassword = props.getProperty("storePassword")
