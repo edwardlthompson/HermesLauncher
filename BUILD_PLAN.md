@@ -87,3 +87,18 @@ Standing queue for Cursor Cloud. Rows: `🔲 [AGENT][CLOUD] … — scope: path`
 _No cloud agent items._
 <!-- cloud-agent-lane:end -->
 
+<!-- argus-portfolio-chores:start -->
+## Argus portfolio chores
+
+Synced from argus-runner (2026-11-18). Prefer YOLO maintain on the runner; keep these until cleared.
+
+| Status | Venue | Task |
+|--------|-------|------|
+| 🔲 | `[HUMAN][PC]` | Publish Android release asset (APK or AAB) |
+
+```text
+Repo: edwardlthompson/HermesLauncher
+Build signed APK/AAB; attach to GitHub Release for the ship tag. Optional store sync is out of band.
+Gate: gh release view shows .apk or .aab.
+```
+<!-- argus-portfolio-chores:end -->
