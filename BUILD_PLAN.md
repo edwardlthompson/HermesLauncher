@@ -1,7 +1,7 @@
 # Build Plan
 
 <!-- remaining-tally -->
-**Remaining:** AGENT 2 · AUTO 0 · HUMAN 0 · ADB 0 · **2 open**
+**Remaining:** AGENT 3 · AUTO 0 · HUMAN 0 · ADB 0 · **3 open**
 <!-- /remaining-tally -->
 
 Live board for **Hermes Launcher**. Finished work: [`COMPLETED_TASKS.md`](COMPLETED_TASKS.md).
@@ -102,7 +102,7 @@ Releases: https://github.com/edwardlthompson/HermesLauncher/releases
 Standing queue for This Computer. Rows: `🔲 [AGENT][LOCAL] … — scope: path`.
 
 <!-- local-agent-lane:begin -->
-_No local agent items._
+- 🔲 [AGENT] Bump Compose BOM 2026.09.00 → 2026.11.01 (Compose 1.13 / Material3 1.5.0; needs Kotlin 2.2+ and compileSdk 37.1, check AGP) and fix Slider/RangeSlider call sites (`onValueChange` now required); fix 1 Slider/RangeSlider file(s) — scope: examples/android/ (news P2, 2026-11-19) https://developer.android.com/blog/posts/jetpack-compose-november-2026-release
 <!-- local-agent-lane:end -->
 
 ### Cloud agent (Cursor Cloud)
