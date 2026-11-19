@@ -63,8 +63,8 @@ Done on this board: **Sprints 0–50** · **51** inbox feel · **52** inbox calm
 
 Numbered rows so child `/build` (parse_board_queue) picks them up. **Not** under Archive lanes.
 
-1. 🔲 [AGENT][LOCAL] Bump Media3 1.11.0 to 1.11.1 — scope: examples/android/ (news P2) https://developer.android.com/jetpack/androidx/releases/media3
-2. 🔲 [AGENT][LOCAL] Cut/update GitHub Release with signed Android APK/AAB — scope: examples/android/
+1. 🔲 [AGENT] Bump Media3 1.11.0 to 1.11.1 — scope: examples/android/ (news P2) https://developer.android.com/jetpack/androidx/releases/media3
+2. 🔲 [AGENT] Cut/update GitHub Release with signed Android APK/AAB — scope: examples/android/
 
 #### Agent instructions (release row)
 
@@ -97,19 +97,6 @@ No force-push to main. No committing binaries into git.
 Releases: https://github.com/edwardlthompson/HermesLauncher/releases
 <!-- argus-android-release-sprint:end -->
 
-## Ongoing Maintenance
-
-Not a checklist. GitHub Monday cron (`.github/workflows/weekly-health-check.yml`) already runs CI wait, security triage, parent template-gap BUILD_PLAN sync (this child board), open-PR BUILD_PLAN sync, radar, `update-deps` dry-run, Dependabot leftover list, and latest-release SBOM. Upgrade-sim stays on the template maintainer repo. `/ship` owns pre-release and the release tag.
-
-Open Dependabot / Release Please PRs are mirrored into **Open PRs (synced)** above; child catch-up rows land in **Template gaps (synced)** — allowed board automation, not standing chore rows.
-
-If Monday cron is red: Cursor Automation `weekly-maintain`. Do not put those chores back on this board. [`docs/CURSOR_AUTOMATIONS.commercial.md`](docs/CURSOR_AUTOMATIONS.commercial.md)
-
----
-
-## Archive
-
-Older sprints: [`COMPLETED_TASKS.md`](COMPLETED_TASKS.md).
 ### Local agent (This Computer)
 
 Standing queue for This Computer. Rows: `🔲 [AGENT][LOCAL] … — scope: path`.
@@ -125,5 +112,20 @@ Standing queue for Cursor Cloud. Rows: `🔲 [AGENT][CLOUD] … — scope: path`
 <!-- cloud-agent-lane:begin -->
 _No cloud agent items._
 <!-- cloud-agent-lane:end -->
+
+
+## Ongoing Maintenance
+
+Not a checklist. GitHub Monday cron (`.github/workflows/weekly-health-check.yml`) already runs CI wait, security triage, parent template-gap BUILD_PLAN sync (this child board), open-PR BUILD_PLAN sync, radar, `update-deps` dry-run, Dependabot leftover list, and latest-release SBOM. Upgrade-sim stays on the template maintainer repo. `/ship` owns pre-release and the release tag.
+
+Open Dependabot / Release Please PRs are mirrored into **Open PRs (synced)** above; child catch-up rows land in **Template gaps (synced)** — allowed board automation, not standing chore rows.
+
+If Monday cron is red: Cursor Automation `weekly-maintain`. Do not put those chores back on this board. [`docs/CURSOR_AUTOMATIONS.commercial.md`](docs/CURSOR_AUTOMATIONS.commercial.md)
+
+---
+
+## Archive
+
+Older sprints: [`COMPLETED_TASKS.md`](COMPLETED_TASKS.md).
 
 
