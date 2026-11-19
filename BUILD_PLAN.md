@@ -77,6 +77,7 @@ Standing queue for This Computer. Rows: `🔲 [AGENT][LOCAL] … — scope: path
 
 <!-- local-agent-lane:begin -->
 - 🔲 [AGENT][LOCAL] Bump Media3 1.11.0 to 1.11.1 — scope: examples/android/ (news P2, 2026-11-13) https://developer.android.com/jetpack/androidx/releases/media3
+- 🔲 [AGENT][LOCAL] Cut/update GitHub Release with signed Android APK/AAB — scope: examples/android/
 <!-- local-agent-lane:end -->
 
 ### Cloud agent (Cursor Cloud)
@@ -87,3 +88,44 @@ Standing queue for Cursor Cloud. Rows: `🔲 [AGENT][CLOUD] … — scope: path`
 _No cloud agent items._
 <!-- cloud-agent-lane:end -->
 
+<!-- argus-portfolio-chores:start -->
+## Argus portfolio chores — Android release
+
+Synced from argus-runner. **Agent must ship binaries**, not only docs.
+
+| Status | Venue | Task |
+|--------|-------|------|
+| 🔲 | `[AGENT][LOCAL]` — scope: `examples/android/` | **Cut/update GitHub Release with signed Android APK/AAB** |
+
+### Agent instructions (paste / follow)
+
+```text
+Repo: edwardlthompson/HermesLauncher
+Goal: Latest GitHub Release must include a real Android binary (.apk and/or .aab).
+
+Why: Latest tag may already have an older-named APK — rebuild from current main and attach assets that match the release version.
+
+Steps:
+1) Read AGENT.md + docs for the Android ship path. Prefer gradle under `examples/android/`.
+2) Ensure signing is available (local keystore / CI secrets already used by this repo). Do not invent a new Play upload.
+3) From `examples/android` (or repo root if that is the documented path):
+     ./gradlew assembleRelease
+     # and if the project ships bundles:
+     ./gradlew bundleRelease
+4) Locate outputs under app/build/outputs/apk/ and app/build/outputs/bundle/.
+5) Create a new tag/release OR update the latest release:
+     gh release list -R edwardlthompson/HermesLauncher --limit 3
+     # Prefer the repo's normal /ship or Release Please flow if documented; otherwise:
+     gh release create <TAG> --generate-notes -R edwardlthompson/HermesLauncher
+     gh release upload <TAG> <path-to.apk> [<path-to.aab>] -R edwardlthompson/HermesLauncher --clobber
+6) Expected artifact names: hermes-launcher-*-foss.apk (and .aab if assembleRelease produces one)
+7) Verify:
+     gh release view <TAG> -R edwardlthompson/HermesLauncher --json assets --jq ".assets[].name"
+   Gate: at least one asset ends with .apk or .aab.
+8) Mark this BUILD_PLAN row ✅ and note the tag + asset names in the commit/PR body.
+
+Do not force-push main. Do not delete the repo. Prefer PR + release assets over committing binaries to git.
+```
+
+Releases page: https://github.com/edwardlthompson/HermesLauncher/releases
+<!-- argus-portfolio-chores:end -->
