@@ -139,7 +139,7 @@ Override gate worker count with `BOOTSTRAP_CHECK_JOBS` (see `scripts/lib/run_che
 |------|-------|
 | Web bundle + snapshots | `examples/web/**`, `scripts/check-bundle-size.sh` |
 | Python pyright | `examples/python/**` |
-| Android metadata | `examples/android/fastlane/**`, `examples/android/README.md` |
+| Android metadata | `fastlane/**`, `examples/android/fastlane/**`, `examples/android/README.md` |
 | Cursor rules | `.cursor/rules/testing.mdc`, `.cursor/rules/ci-gates.mdc` |
 | Scorecard | `.github/workflows/scorecard.yml` |
 | Parallel checker | `scripts/check-parallel-scope.sh`, `docs/PARALLEL_AGENT_SCOPES.md` |

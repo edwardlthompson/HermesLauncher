@@ -1,5 +1,21 @@
-Android Launcher3, iconloaderlib
+Android Open Source Project — Launcher3 and System UI libraries
 Copyright (C) The Android Open Source Project
-Licensed under the Apache License, Version 2.0
-https://android.googlesource.com/platform/packages/apps/Launcher3
-Tag: android-14.0.0_r28
+
+This directory vendors source (not prebuilt binaries) from:
+
+- platform/packages/apps/Launcher3
+  https://android.googlesource.com/platform/packages/apps/Launcher3
+- platform/frameworks/libs/systemui (iconloaderlib, plus unused
+  animationlib / motiontoollib / viewcapturelib kept for tag provenance)
+  https://android.googlesource.com/platform/frameworks/libs/systemui
+
+AOSP tag: android-14.0.0_r28
+License: Apache License, Version 2.0 (see LICENSE in this directory and
+in launcher3/ and systemui/)
+
+Hermes compiles Launcher3 without Quickstep via
+examples/android/launcher3/build.gradle.kts and iconloaderlib via
+examples/android/iconloader/build.gradle.kts. The AOSP Gradle files
+under this tree are not part of the Hermes build graph.
+
+Hermes user-app shims (not upstream) are listed in README.md.

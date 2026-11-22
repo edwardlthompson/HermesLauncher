@@ -86,7 +86,7 @@ Requires `JAVA_HOME` locally; gate exits `2` when Java is missing.
 | CI Gradle compile / structure validation | AUTO |
 ## F-Droid Submission Dry-Run Checklist
 
-`[ADB]` dry-run before first F-Droid release. Full metadata lives under `examples/android/metadata/` when present.
+`[ADB]` dry-run before first F-Droid release. F-Droid scrapes repo-root `fastlane/`; Triple-T copy lives under `examples/android/metadata/`.
 
 ### Build reproducibility
 
@@ -112,6 +112,6 @@ Requires `JAVA_HOME` locally; gate exits `2` when Java is missing.
 ### Submission dry-run
 
 - 🔲 Open draft merge request to [fdroiddata](https://gitlab.com/fdroid/fdroiddata) or run `fdroid lint` locally if using repomaker workflow
-- 🔲 Child repos: copy `examples/android/metadata/` text blocks; add `build` recipe YAML in fdroiddata MR (template documents handoff only)
+- 🔲 Child repos: keep root `fastlane/` listing files; add `build` recipe YAML in fdroiddata MR (template documents handoff only)
 - 🔲 Record maintainer notes in `BUILD_PLAN.md`; mark blockers ❌ [ADB] with reason
 - 🔲 `[HUMAN]` sign off before tagging store release

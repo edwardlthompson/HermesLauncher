@@ -1,7 +1,7 @@
 # Build Plan
 
 <!-- remaining-tally -->
-**Remaining:** AGENT 0 · AUTO 0 · HUMAN 0 · ADB 0 · **0 open**
+**Remaining:** AGENT 4 · AUTO 0 · HUMAN 0 · ADB 0 · **4 open**
 <!-- /remaining-tally -->
 
 Live board for **Hermes Launcher**. Finished work: [`COMPLETED_TASKS.md`](COMPLETED_TASKS.md).
@@ -28,7 +28,7 @@ That command re-smokes **every** ✅ row: no errors or crashes, plus startup tim
 
 ## Product
 
-**Now:** AGENT/AUTO board empty. Next product work is a new sprint.
+**Now:** Sprint 55 (Android GitHub Release) is open for `/build`.
 
 > **Sprint 54** archived in COMPLETED_TASKS.md @ `37225b4`.
 > **Sprint 53** archived in COMPLETED_TASKS.md @ `ccd382d`.
@@ -58,6 +58,63 @@ Done on this board: **Sprints 0–50** · **51** inbox feel · **52** inbox calm
 
 ---
 
+<!-- argus-android-release-sprint:begin -->
+### Sprint 55 — Ship Android GitHub Release
+
+Numbered rows so child `/build` (parse_board_queue) picks them up. **Not** under Archive lanes.
+
+1. 🔲 [AGENT] Bump Media3 1.11.0 to 1.11.1 — scope: examples/android/ (news P2) https://developer.android.com/jetpack/androidx/releases/media3
+2. 🔲 [AGENT] Cut/update GitHub Release with signed Android APK/AAB — scope: examples/android/
+
+#### Agent instructions (release row)
+
+```text
+Repo: edwardlthompson/HermesLauncher
+Goal: Latest GitHub Release must include a real Android binary (.apk and/or .aab).
+
+Why: Rebuild from current main; attach APK/AAB that match the release version (do not leave an outdated APK name as the only binary).
+
+Steps:
+1) Read AGENT.md + Android docs. Prefer gradle under `examples/android/`.
+2) Use existing signing (local keystore / repo CI secrets). Do not invent Play Store upload.
+3) From `examples/android` (or documented root):
+     ./gradlew assembleRelease
+     ./gradlew bundleRelease
+4) Outputs: app/build/outputs/apk/ and app/build/outputs/bundle/.
+5) Prefer this repo's /ship or Release Please flow if documented; else:
+     gh release list -R edwardlthompson/HermesLauncher --limit 3
+     gh release create <TAG> --generate-notes -R edwardlthompson/HermesLauncher
+     gh release upload <TAG> <apk> [<aab>] -R edwardlthompson/HermesLauncher --clobber
+6) Expected names: hermes-launcher-*-foss.apk (and .aab if produced)
+7) Gate:
+     gh release view <TAG> -R edwardlthompson/HermesLauncher --json assets --jq ".assets[].name"
+   At least one asset must end with .apk or .aab.
+8) Mark the BUILD_PLAN release row ✅; note tag + asset names.
+
+No force-push to main. No committing binaries into git.
+```
+
+Releases: https://github.com/edwardlthompson/HermesLauncher/releases
+<!-- argus-android-release-sprint:end -->
+
+### Local agent (This Computer)
+
+Standing queue for This Computer. Rows: `🔲 [AGENT][LOCAL] … — scope: path`.
+
+<!-- local-agent-lane:begin -->
+- 🔲 [AGENT] Bump Compose BOM 2026.09.00 → 2026.11.01 (Compose 1.13 / Material3 1.5.0; needs Kotlin 2.2+ and compileSdk 37.1, check AGP) and fix Slider/RangeSlider call sites (`onValueChange` now required); fix 1 Slider/RangeSlider file(s) — scope: examples/android/ (news P2, 2026-11-19) https://developer.android.com/blog/posts/jetpack-compose-november-2026-release
+- 🔲 [AGENT] Bump the Gradle wrapper 9.9.1 → 9.9.2 and commit the regenerated wrapper jar and distributionSha256Sum (4 High security fixes: SFTP host keys, snapshot dependency verification, TestKit temp dir, daemon registry) — scope: examples/android/gradle/wrapper/ (news P2, 2026-11-20) https://docs.gradle.org/9.9.2/release-notes.html
+<!-- local-agent-lane:end -->
+
+### Cloud agent (Cursor Cloud)
+
+Standing queue for Cursor Cloud. Rows: `🔲 [AGENT][CLOUD] … — scope: path`.
+
+<!-- cloud-agent-lane:begin -->
+_No cloud agent items._
+<!-- cloud-agent-lane:end -->
+
+
 ## Ongoing Maintenance
 
 Not a checklist. GitHub Monday cron (`.github/workflows/weekly-health-check.yml`) already runs CI wait, security triage, parent template-gap BUILD_PLAN sync (this child board), open-PR BUILD_PLAN sync, radar, `update-deps` dry-run, Dependabot leftover list, and latest-release SBOM. Upgrade-sim stays on the template maintainer repo. `/ship` owns pre-release and the release tag.
@@ -71,3 +128,5 @@ If Monday cron is red: Cursor Automation `weekly-maintain`. Do not put those cho
 ## Archive
 
 Older sprints: [`COMPLETED_TASKS.md`](COMPLETED_TASKS.md).
+
+

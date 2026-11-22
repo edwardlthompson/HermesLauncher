@@ -11,3 +11,9 @@ path = ["templates/licenses/Apache-2.0.txt"]
 precedence = "override"
 SPDX-FileCopyrightText = "Apache Software Foundation and contributors"
 SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["examples/android/third_party/**"]
+precedence = "override"
+SPDX-FileCopyrightText = "The Android Open Source Project"
+SPDX-License-Identifier = "Apache-2.0"

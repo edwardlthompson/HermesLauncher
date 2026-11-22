@@ -42,11 +42,20 @@ class FdroidScreenshotsTests(unittest.TestCase):
             errors = check_tree(root)
             self.assertTrue(any("1x1" in item for item in errors), errors)
 
+    def test_readme_in_screenshots_is_ignored(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            folder = root / "fastlane/metadata/android/en-US/images/phoneScreenshots"
+            folder.mkdir(parents=True)
+            (folder / "README.md").write_text("pending captures\n", encoding="utf-8")
+            self.assertEqual(check_tree(root), [])
+
     def test_wired(self) -> None:
         text = (ROOT / "scripts" / "validate-bootstrap.sh").read_text(encoding="utf-8")
         self.assertIn("check-fdroid-screenshots.sh", text)
         verify = (ROOT / "scripts" / "verify-fdroid-metadata.sh").read_text(encoding="utf-8")
         self.assertIn("check-fdroid-screenshots.sh", verify)
+        self.assertIn("fastlane/metadata/android/en-US", verify)
 
 
 if __name__ == "__main__":

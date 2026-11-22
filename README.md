@@ -9,7 +9,7 @@
 <p align="center"><strong>Your notifications, news, and podcasts — as home.</strong></p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/template-1.6.5-656d76?style=flat-square" alt="template-1.6.5" />
+  <img src="https://img.shields.io/badge/template-1.13.0-656d76?style=flat-square" alt="template-1.13.0" />
   <img src="https://img.shields.io/badge/license-MIT-2ea043?style=flat-square" alt="MIT" />
   <img src="https://img.shields.io/badge/FOSS-no_tracking-656d76?style=flat-square" alt="FOSS" />
   <img src="https://img.shields.io/badge/status-active-e94560?style=flat-square" alt="status" />
@@ -70,7 +70,7 @@ flowchart TD
 
 ## Install
 
-Sideload the debug APK or install a GitHub Release. F-Droid metadata lives under `examples/android/metadata/` and `examples/android/fastlane/`.
+Sideload the debug APK or install a GitHub Release. F-Droid scrapes `fastlane/` at the repo root (Triple-T copy under `examples/android/metadata/`).
 
 ## Usage
 
@@ -95,3 +95,10 @@ See [`SECURITY.md`](SECURITY.md). Enable Dependabot alerts and follow [`docs/SEC
 ## Acknowledgments
 
 Scaffolded with [agent-project-bootstrap](https://github.com/edwardlthompson/agent-project-bootstrap). Brand assets: [`branding/BRANDING.md`](branding/BRANDING.md). Design system: [`docs/DESIGN_GUIDE.md`](docs/DESIGN_GUIDE.md).
+
+## What this is not
+
+- A finished commercial product promise
+- A place for secrets or production credentials
+- An unbounded scope — see README goals above
+

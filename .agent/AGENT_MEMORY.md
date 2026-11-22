@@ -8,9 +8,9 @@
 | Layer | Technology | Version | Notes |
 |-------|-----------|---------|-------|
 | Platform | Android (min 26, target 37), Kotlin, Jetpack Compose Material 3 | 1.0.4 | Child of agent-project-bootstrap 1.4.0; APK versionName 1.0.4 / versionCode 104 |
-| License | MIT | - | Pure FOSS |
+| License | MIT + Apache-2.0 (vendored AOSP Launcher3) | - | Pure FOSS; AOSP drop under examples/android/third_party/ |
 | Persistence | Room + SQLCipher (`hermes-vault-cipher.db`) + Android Keystore | 4.16.0 | Plaintext vault migrates; rebuild-required copy on failure |
-| Distribution | GitHub Releases + F-Droid | - | Reproducible APKs (`SOURCE_DATE_EPOCH`) |
+| Distribution | GitHub Releases + F-Droid | 1.0.4 / 104 | Root `fastlane/`; tags `v1.6.x` are template tags, not APK versionName |
 ## Active Modules
 
 - ✅ Android / F-Droid (`modules/android/MODULE.md`)
@@ -40,6 +40,7 @@ Hermes Launcher: FOSS Android home-screen inbox for notifications, news, and pod
 
 ## Session Retrospectives
 
+| 2026-11-16 | F-Droid source readiness | Root fastlane, app-version.json 1.0.4/104, strip-tolerant signing, Apache LICENSE/NOTICE on AOSP tree | Do not tag v1.6.6 for the APK; Edward tags `v1.0.4` to match versionName. Phone screenshots still ADB |
 | 2026-10-04 | /ship Sprint 50 | APK 1.0.2; feed OOM fix; grid pin + reflow; inbox jank; OP12/OP13 `install -r`; crash-stability spec | Never uninstall Hermes HOME; skip bogus CodeQL bundle tags from upd |
 | 2026-09-15 | /ship v1.6.2 | Tag [v1.6.2](https://github.com/edwardlthompson/HermesLauncher/releases/tag/v1.6.2); RP [#20](https://github.com/edwardlthompson/HermesLauncher/pull/20); Home from apps restores last page; OP12+OP13 signed sideload. | Snap only when Hermes has window focus (KB-027); leave Dependabot #17/#18 unmerged |
 | 2026-09-15 | /ship v1.6.1 | Tag [v1.6.1](https://github.com/edwardlthompson/HermesLauncher/releases/tag/v1.6.1); RP [#19](https://github.com/edwardlthompson/HermesLauncher/pull/19); Home from News/desktop snaps to Inbox; OP12+OP13 signed sideload. | Do not merge Dependabot Android group #17 (Kotlin cap); leave `codeql-action@v4` |
